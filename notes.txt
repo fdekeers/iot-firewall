@@ -1,0 +1,20 @@
+MATCHING
+
+- Layer 2 (Datalink)
+    - "protocol"
+- Layer 3 (Network)
+    - "nfproto"
+- Layer 4 (Transport)
+    - "l4proto"
+- Application layer
+    - Use addresses and ports to detect protocol
+    - Variables for readability
+
+
+STATE
+- Connection information
+    - "conntrack"
+- Count number of packets
+    - Stateful objects: counters and quotas
+
+I can also send the packet to a user-space program with NFQUEUE, if needed.
