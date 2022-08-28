@@ -14,6 +14,7 @@ dns_message dns_parse_message(size_t length, unsigned char **data) {
     dns_message message;
     // Parse DNS header
     message.header = dns_parse_header(data);
+
     // If present, parse DNS Question section
     if (message.header.qdcount > 0) {
         message.questions = dns_parse_questions(message.header.qdcount, data);
@@ -66,15 +67,16 @@ dns_header dns_parse_header(unsigned char **data) {
  */
 char* dns_parse_domain_name(unsigned char **data) {
     char* domain_name = (char*) malloc(DNS_DOMAIN_NAME_SIZE);
+    char* domain_name_ptr = domain_name;
     do {
         uint8_t label_length = **data;
         for (int i = 1; i <= label_length; i++) {
-            *(domain_name++) = **(data + i);
+            *(domain_name_ptr++) = *((*data) + i);
         }
-        *(domain_name++) = '.';
+        *(domain_name_ptr++) = '.';
         *data += label_length + 1;
     } while (**data != '\0');
-    *domain_name = '\0';
+    *(--domain_name_ptr) = '\0';  // Overwrite last '.' that was written
     (*data)++;
     return domain_name;
 }
@@ -88,7 +90,6 @@ char* dns_parse_domain_name(unsigned char **data) {
  */
 dns_question* dns_parse_questions(size_t qdcount, unsigned char **data) {
     // Init
-    printf("Here");
     dns_question *questions = (dns_question *) malloc(qdcount * sizeof(dns_question));
     // Iterate over all questions
     for (size_t i = 0; i < qdcount; i++) {
@@ -137,7 +138,10 @@ void dns_print_header(dns_header header) {
  * @param questions the list of DNS Questions
  */
 void dns_print_questions(dns_question *questions) {
-    printf("Question section\n");
+    printf("DNS Question section:\n");
+    printf("  Domain name: %s\n", questions->qname);
+    printf("  Type: %hd\n", questions->qtype);
+    printf("  Class: %hd\n", questions->qclass);
 }
 
 /**
