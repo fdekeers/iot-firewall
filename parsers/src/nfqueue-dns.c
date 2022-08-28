@@ -8,6 +8,7 @@
 #include <errno.h>
 #include <libnetfilter_queue/libnetfilter_queue.h>
 #include <hashmap.h>
+#include "dns.h"
 
 
 /* returns packet id */
@@ -69,6 +70,10 @@ static uint32_t print_pkt (struct nfq_data *tb)
 	ret = nfq_get_payload(tb, &data);
 	if (ret >= 0)
 		printf("payload_len=%d ", ret);
+		printf("Payload:\n");
+		for (int i = 0; i < ret; i++) {
+			printf("%02x ", data[i]);
+		}
 
 	fputc('\n', stdout);
 

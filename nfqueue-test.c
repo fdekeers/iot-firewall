@@ -66,8 +66,10 @@ static uint32_t print_pkt (struct nfq_data *tb)
 		printf("secctx=\"%.*s\" ", ret, secdata);
 
 	ret = nfq_get_payload(tb, &data);
-	if (ret >= 0)
-		printf("payload_len=%d ", ret);
+	if (ret >= 0) {
+		printf("payload_len=%d\n", ret);
+		printf("Payload: %s", data);
+	}
 
 	fputc('\n', stdout);
 
