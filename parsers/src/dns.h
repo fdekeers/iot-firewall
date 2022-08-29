@@ -4,14 +4,36 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <stdint.h>
+#include <string.h>
 #include <arpa/inet.h>
 #include <hashmap.h>
 
 #define DNS_HEADER_SIZE 12
 #define DNS_DOMAIN_NAME_SIZE 100
+#define DNS_COMPRESSION_MASK 0x3fff
 
 
 ////////// TYPE DEFINITIONS //////////
+
+typedef enum {
+    A     =  1,
+    NS    =  2,
+    MD    =  3,
+    MF    =  4,
+    CNAME =  5,
+    SOA   =  6,
+    MB    =  7,
+    MG    =  8,
+    MR    =  9,
+    NULL_ = 10,
+    WKS   = 11,
+    PTR   = 12,
+    HINFO = 13,
+    MINFO = 14,
+    MX    = 15,
+    TXT   = 16,
+    AAAA  = 28
+} dns_rr_type;
 
 /**
  * DNS Header
@@ -74,7 +96,8 @@ typedef struct dns_parsing_state {
  * Parse a DNS header.
  * A DNS header is always 12 bytes.
  * 
- * @param data a double pointer pointing to the start of the header
+ * @param data a pointer pointing to the start of the DNS message
+ * @param state a pointer to the current parsing state
  * @return the parsed header
  */
 dns_header dns_parse_header(unsigned char *data, dns_parsing_state *state);
@@ -83,25 +106,28 @@ dns_header dns_parse_header(unsigned char *data, dns_parsing_state *state);
  * Parse a DNS question section.
  * 
  * @param qdcount the number of questions present in the question section
- * @param data a double pointer pointing to the start of the question section
+ * @param data a pointer pointing to the start of the DNS message
+ * @param state a pointer to the current parsing state
  * @return the parsed question section
  */
-dns_question* dns_parse_questions(size_t qdcount, unsigned char *data, dns_parsing_state *state);
+dns_question* dns_parse_questions(uint16_t qdcount, unsigned char *data, dns_parsing_state *state);
 
 /**
  * Parse a DNS resource record list.
  * 
  * @param count the number of resource records present in the section
- * @param data @param data a double pointer pointing to the start of the resource record section
+ * @param data a pointer pointing to the start of the DNS message
+ * @param state a pointer to the current parsing state
  * @return the parsed resource records list
  */
-dns_resource_record* dns_parse_rrs(size_t count, unsigned char *data, dns_parsing_state *state);
+dns_resource_record* dns_parse_rrs(uint16_t count, unsigned char *data, dns_parsing_state *state);
 
 /**
  * Parse a DNS message.
  * 
  * @param length the length of the message
- * @param message a double pointer pointing to the start of the message
+ * @param data a pointer pointing to the start of the DNS message
+ * @param state a pointer to the current parsing state
  * @return the parsed message
  */
 dns_message dns_parse_message(size_t length, unsigned char *data);
@@ -121,14 +147,14 @@ void dns_print_header(dns_header header);
  * 
  * @param questions the list of DNS Questions
  */
-void dns_print_questions(dns_question *questions);
+void dns_print_questions(uint16_t qdcount, dns_question *questions);
 
 /**
  * Print a DNS Resource Records section.
  * 
  * @param rrs the list of DNS Resource Records
  */
-void dns_print_rrs(dns_resource_record *rrs);
+void dns_print_rrs(char* section_name, uint16_t count, dns_resource_record *rrs);
 
 /**
  * Print a DNS message.
