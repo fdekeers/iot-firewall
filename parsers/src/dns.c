@@ -15,7 +15,7 @@ dns_message dns_parse_message(size_t length, unsigned char *data) {
     dns_message message;
     dns_parsing_state *state = (dns_parsing_state *) malloc(sizeof(dns_parsing_state));  // Keep track of current parsing state
     state->offset = 0;
-    state->parsed_domain_names = (char **) malloc(length);
+    state->parsed_domain_names = (parsed_domain_name *) malloc(sizeof(parsed_domain_name) * length);
     // Parse DNS header
     message.header = dns_parse_header(data, state);
     // If present, parse DNS Question section
@@ -73,6 +73,7 @@ dns_header dns_parse_header(unsigned char *data, dns_parsing_state *state) {
  */
 char* dns_parse_domain_name(unsigned char *data, dns_parsing_state *state) {
     uint16_t start = state->offset;
+    uint16_t domain_name_length = 0;
     char* domain_name = (char*) malloc(DNS_DOMAIN_NAME_SIZE);
     char* domain_name_ptr = domain_name;
     do {
@@ -80,7 +81,8 @@ char* dns_parse_domain_name(unsigned char *data, dns_parsing_state *state) {
         if (length_byte >> 6 == 3) {  // First byte starts with 0b11
             // Compressed domain name, retrieve already parsed name with offset
             uint16_t offset = ntohs(*((uint16_t *) (data + state->offset))) & DNS_COMPRESSION_MASK;
-            strcpy(domain_name_ptr, *(state->parsed_domain_names + offset));
+            parsed_domain_name* base_domain_name = state->parsed_domain_names + offset;
+            memcpy(domain_name_ptr, base_domain_name->domain_name, base_domain_name->length);
             state->offset += 2;
             return domain_name;
         } else {
@@ -89,11 +91,14 @@ char* dns_parse_domain_name(unsigned char *data, dns_parsing_state *state) {
                     *(domain_name_ptr++) = *(data + state->offset + i);
                 }
                 *(domain_name_ptr++) = '.';
+                domain_name_length += length_byte + 1;
                 state->offset += length_byte + 1;
         }
     } while (*(data + state->offset) != '\0');
     *(--domain_name_ptr) = '\0';  // Overwrite last '.' that was written
-    *(state->parsed_domain_names + start) = domain_name;  // Store parsed domain name
+    // Store parsed domain name
+    (state->parsed_domain_names + start)->length = domain_name_length;
+    (state->parsed_domain_names + start)->domain_name = domain_name;
     state->offset++;
     return domain_name;
 }

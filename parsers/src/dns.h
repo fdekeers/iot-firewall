@@ -6,7 +6,6 @@
 #include <stdint.h>
 #include <string.h>
 #include <arpa/inet.h>
-#include <hashmap.h>
 
 #define DNS_HEADER_SIZE 12
 #define DNS_DOMAIN_NAME_SIZE 100
@@ -15,6 +14,9 @@
 
 ////////// TYPE DEFINITIONS //////////
 
+/**
+ * DNS types
+ */
 typedef enum {
     A     =  1,
     NS    =  2,
@@ -80,11 +82,21 @@ typedef struct dns_message {
 } dns_message;
 
 /**
- * Used to keep track of current state of parsed DNS message.
+ * Used to keep track of already parsed domain names.
+ * Stores the domain name and its length.
+ * Used for DNS name compression.
+ */
+typedef struct parsed_domain_name {
+    uint16_t length;
+    char *domain_name;
+} parsed_domain_name;
+
+/**
+ * Used to keep track of current state of the parsed DNS message.
  */
 typedef struct dns_parsing_state {
     uint16_t offset;
-    char **parsed_domain_names;
+    parsed_domain_name *parsed_domain_names;
 } dns_parsing_state;
 
 
