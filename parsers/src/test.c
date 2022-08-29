@@ -23,7 +23,7 @@ int main(int argc, char **argv) {
     printf("\n");
     */
 
-    dns_message message = dns_parse_message(length, &val);
+    dns_message message = dns_parse_message(length, val);
     dns_print_message(message);
 
     return 0;

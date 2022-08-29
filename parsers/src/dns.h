@@ -5,6 +5,7 @@
 #include <stdio.h>
 #include <stdint.h>
 #include <arpa/inet.h>
+#include <hashmap.h>
 
 #define DNS_HEADER_SIZE 12
 #define DNS_DOMAIN_NAME_SIZE 100
@@ -56,6 +57,14 @@ typedef struct dns_message {
     dns_resource_record *additionals;
 } dns_message;
 
+/**
+ * Used to keep track of current state of parsed DNS message.
+ */
+typedef struct dns_parsing_state {
+    uint16_t offset;
+    char **parsed_domain_names;
+} dns_parsing_state;
+
 
 ////////// FUNCTIONS //////////
 
@@ -68,7 +77,7 @@ typedef struct dns_message {
  * @param data a double pointer pointing to the start of the header
  * @return the parsed header
  */
-dns_header dns_parse_header(unsigned char **data);
+dns_header dns_parse_header(unsigned char *data, dns_parsing_state *state);
 
 /**
  * Parse a DNS question section.
@@ -77,7 +86,7 @@ dns_header dns_parse_header(unsigned char **data);
  * @param data a double pointer pointing to the start of the question section
  * @return the parsed question section
  */
-dns_question* dns_parse_questions(size_t qdcount, unsigned char **data);
+dns_question* dns_parse_questions(size_t qdcount, unsigned char *data, dns_parsing_state *state);
 
 /**
  * Parse a DNS resource record list.
@@ -86,7 +95,7 @@ dns_question* dns_parse_questions(size_t qdcount, unsigned char **data);
  * @param data @param data a double pointer pointing to the start of the resource record section
  * @return the parsed resource records list
  */
-dns_resource_record* dns_parse_rrs(size_t count, unsigned char **data);
+dns_resource_record* dns_parse_rrs(size_t count, unsigned char *data, dns_parsing_state *state);
 
 /**
  * Parse a DNS message.
@@ -95,7 +104,7 @@ dns_resource_record* dns_parse_rrs(size_t count, unsigned char **data);
  * @param message a double pointer pointing to the start of the message
  * @return the parsed message
  */
-dns_message dns_parse_message(size_t length, unsigned char **data);
+dns_message dns_parse_message(size_t length, unsigned char *data);
 
 
 ///// PRINT FUNCTIONS /////

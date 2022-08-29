@@ -10,26 +10,29 @@
  * @param message the DNS message to parse
  * @return the parsed message
  */
-dns_message dns_parse_message(size_t length, unsigned char **data) {
+dns_message dns_parse_message(size_t length, unsigned char *data) {
+    // Init
     dns_message message;
+    dns_parsing_state *state = (dns_parsing_state *) malloc(sizeof(dns_parsing_state));  // Keep track of current parsing state
+    state->offset = 0;
+    state->parsed_domain_names = (char **) malloc(length);
     // Parse DNS header
-    message.header = dns_parse_header(data);
-
+    message.header = dns_parse_header(data, state);
     // If present, parse DNS Question section
     if (message.header.qdcount > 0) {
-        message.questions = dns_parse_questions(message.header.qdcount, data);
+        message.questions = dns_parse_questions(message.header.qdcount, data, state);
     }
     // If present, parse DNS Answer section
     if (message.header.ancount > 0) {
-        message.answers = dns_parse_rrs(message.header.ancount, data);
+        message.answers = dns_parse_rrs(message.header.ancount, data, state);
     }
     // If present, parse DNS Authority section
     if (message.header.nscount > 0) {
-        message.authorities = dns_parse_rrs(message.header.nscount, data);
+        message.authorities = dns_parse_rrs(message.header.nscount, data, state);
     }
     // If present, parse DNS Additional section
     if (message.header.arcount > 0) {
-        message.additionals = dns_parse_rrs(message.header.arcount, data);
+        message.additionals = dns_parse_rrs(message.header.arcount, data, state);
     }
     return message;
 }
@@ -41,21 +44,20 @@ dns_message dns_parse_message(size_t length, unsigned char **data) {
  * @param data a double pointer pointing to the start of the header
  * @return the parsed header
  */
-dns_header dns_parse_header(unsigned char **data) {
+dns_header dns_parse_header(unsigned char *data, dns_parsing_state *state) {
     // Init
-    uint16_t *fields = (uint16_t *) *data;
     dns_header header;
 
     // Parse fields
-    header.id = ntohs(*fields);
-    header.flags = ntohs(*(fields + 1));
-    header.qdcount = ntohs(*(fields + 2));
-    header.ancount = ntohs(*(fields + 3));
-    header.nscount = ntohs(*(fields + 4));
-    header.arcount = ntohs(*(fields + 5));
+    header.id = ntohs((*((uint16_t *) (data + state->offset))));
+    header.flags = ntohs((*((uint16_t *) (data + state->offset + 2))));
+    header.qdcount = ntohs((*((uint16_t *) (data + state->offset + 4))));
+    header.ancount = ntohs((*((uint16_t *) (data + state->offset + 6))));
+    header.nscount = ntohs((*((uint16_t *) (data + state->offset + 8))));
+    header.arcount = ntohs((*((uint16_t *) (data + state->offset + 10))));
+    // Update offset to point after header
+    state->offset += 12;
 
-    // Update message pointer for next section
-    *data += DNS_HEADER_SIZE;
     return header;
 }
 
@@ -64,20 +66,32 @@ dns_header dns_parse_header(unsigned char **data) {
  * 
  * @param data a double pointer pointing to the start of the domain name
  * @return the parsed domain name
+ * 
+ * TODO: realloc buffer if domain name too long
  */
-char* dns_parse_domain_name(unsigned char **data) {
+char* dns_parse_domain_name(unsigned char *data, dns_parsing_state *state) {
+    uint16_t start = state->offset;
     char* domain_name = (char*) malloc(DNS_DOMAIN_NAME_SIZE);
     char* domain_name_ptr = domain_name;
     do {
-        uint8_t label_length = **data;
-        for (int i = 1; i <= label_length; i++) {
-            *(domain_name_ptr++) = *((*data) + i);
+        uint8_t length_byte = *((uint8_t *) (data + state->offset));
+        if (length_byte >> 6 == 3) {  // First byte starts with 0b11
+            // TODO: domain name compression
+            // Offset is from start of DNS message
+            //uint16_t offset = ntohs(*((uint16_t *) *data));
+            return NULL;
+        } else {
+            // Fully written domain name
+                for (int i = 1; i <= length_byte; i++) {
+                    *(domain_name_ptr++) = *(data + state->offset + i);
+                }
+                *(domain_name_ptr++) = '.';
+                state->offset += length_byte + 1;
         }
-        *(domain_name_ptr++) = '.';
-        *data += label_length + 1;
-    } while (**data != '\0');
+    } while (*(data + state->offset) != '\0');
     *(--domain_name_ptr) = '\0';  // Overwrite last '.' that was written
-    (*data)++;
+    *(state->parsed_domain_names + start) = domain_name;  // Store parsed domain name
+    state->offset++;
     return domain_name;
 }
 
@@ -88,29 +102,28 @@ char* dns_parse_domain_name(unsigned char **data) {
  * @param data a double pointer pointing to the start of the question section
  * @return the parsed question section
  */
-dns_question* dns_parse_questions(size_t qdcount, unsigned char **data) {
+dns_question* dns_parse_questions(size_t qdcount, unsigned char *data, dns_parsing_state *state) {
     // Init
     dns_question *questions = (dns_question *) malloc(qdcount * sizeof(dns_question));
     // Iterate over all questions
     for (size_t i = 0; i < qdcount; i++) {
         // Parse domain name
-        (questions + i)->qname = dns_parse_domain_name(data);
+        (questions + i)->qname = dns_parse_domain_name(data, state);
         // Parse type and class
-        uint16_t *fields = (uint16_t *) *data;
-        (questions + i)->qtype = ntohs(*fields);
-        (questions + i)->qclass = ntohs(*(fields+1));
-        *data += 4;
+        (questions + i)->qtype = ntohs(*((uint16_t *) (data + state->offset)));
+        (questions + i)->qclass = ntohs(*((uint16_t *) (data + state->offset + 2)));
+        state->offset += 4;
     }
     return questions;
 }
 
 /**
  * Parse a DNS Resource Record list.
- * @param length the number of resource records present in the section
- * @param data @param data a double pointer pointing to the start of the resource record section
+ * @param count the number of resource records present in the section
+ * @param data a double pointer pointing to the start of the resource record section
  * @return the parsed resource records list
  */
-dns_resource_record* dns_parse_rrs(size_t length, unsigned char **data) {
+dns_resource_record* dns_parse_rrs(size_t count, unsigned char *data, dns_parsing_state *state) {
     return NULL;
 }
 
