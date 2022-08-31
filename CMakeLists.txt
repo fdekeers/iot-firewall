@@ -2,7 +2,7 @@
 cmake_minimum_required(VERSION 3.2)
 
 # Project name
-project(iot-firewall)
+project(iot-firewall C)
 
 # Set project directories 
 set(CMAKE_INSTALL_PREFIX ${PROJECT_SOURCE_DIR})
@@ -11,7 +11,5 @@ set(BIN_DIR ${PROJECT_SOURCE_DIR}/bin)
 set(LIB_DIR ${PROJECT_SOURCE_DIR}/lib)
 set(EXECUTABLE_OUTPUT_PATH ${BIN_DIR})
 
-include_directories(${INCLUDE_DIR})
-
-add_executable(iot-firewall src/main.c)
-
+# Subdirectories containing code
+add_subdirectory(src)
