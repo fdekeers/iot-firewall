@@ -1,6 +1,5 @@
 #include "dns.h"
 
-
 ///// PARSE FUNCTIONS /////
 
 /**
