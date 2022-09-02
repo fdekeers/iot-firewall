@@ -13,3 +13,4 @@ set(EXECUTABLE_OUTPUT_PATH ${BIN_DIR})
 
 # Subdirectories containing code
 add_subdirectory(src)
+add_subdirectory(test)
