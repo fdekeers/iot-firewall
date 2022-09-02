@@ -49,12 +49,12 @@ dns_header dns_parse_header(unsigned char *data, dns_parsing_state *state) {
     dns_header header;
 
     // Parse fields
-    header.id = ntohs((*((uint16_t *) (data + state->offset))));
-    header.flags = ntohs((*((uint16_t *) (data + state->offset + 2))));
-    header.qdcount = ntohs((*((uint16_t *) (data + state->offset + 4))));
-    header.ancount = ntohs((*((uint16_t *) (data + state->offset + 6))));
-    header.nscount = ntohs((*((uint16_t *) (data + state->offset + 8))));
-    header.arcount = ntohs((*((uint16_t *) (data + state->offset + 10))));
+    header.id = ntohs(*((uint16_t *) (data + state->offset)));
+    header.flags = ntohs(*((uint16_t *) (data + state->offset + 2)));
+    header.qdcount = ntohs(*((uint16_t *) (data + state->offset + 4)));
+    header.ancount = ntohs(*((uint16_t *) (data + state->offset + 6)));
+    header.nscount = ntohs(*((uint16_t *) (data + state->offset + 8)));
+    header.arcount = ntohs(*((uint16_t *) (data + state->offset + 10)));
     // Update offset to point after header
     state->offset += 12;
 
