@@ -1,6 +1,7 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <hashmap.h>
+#include <nfqueue.h>
 #include "parsers/dns.h"
 
 int main(int argc, char const *argv[])
