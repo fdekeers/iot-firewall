@@ -133,7 +133,7 @@ dns_question* dns_parse_questions(uint16_t qdcount, unsigned char *data, dns_par
  * @param state a pointer to the current parsing state
  * @return the parsed RDATA field
  */
-char* dns_parse_rdata(uint16_t type, uint16_t rdlength, unsigned char *data, dns_parsing_state *state) {
+char* dns_parse_rdata(dns_rr_type type, uint16_t rdlength, unsigned char *data, dns_parsing_state *state) {
     char *rdata;
     switch (type) {
         case CNAME:
@@ -161,7 +161,7 @@ dns_resource_record* dns_parse_rrs(uint16_t count, unsigned char *data, dns_pars
         // Parse domain name
         (rrs + i)->name = dns_parse_domain_name(data, state);
         // Parse type, class and TTL
-        uint16_t type = ntohs(*((uint16_t *) (data + state->offset)));
+        dns_rr_type type = ntohs(*((uint16_t *) (data + state->offset)));
         (rrs + i)->type = type;
         (rrs + i)->class = ntohs(*((uint16_t *) (data + state->offset + 2)));
         (rrs + i)->ttl = ntohl(*((uint32_t *) (data + state->offset + 4)));
@@ -214,7 +214,7 @@ void dns_print_questions(uint16_t qdcount, dns_question *questions) {
  * @param rdata a pointer to the start of buffer containing the RDATA value
  * @return a string representation of the RDATA value
  */
-char* rdata_to_str(uint16_t type, char *rdata) {
+char* rdata_to_str(dns_rr_type type, char *rdata) {
     switch (type) {
     case A:
         // RDATA is an IPv4 address
