@@ -6,6 +6,7 @@
 #include <stdint.h>
 #include <string.h>
 #include <arpa/inet.h>
+#include "packet-utils.h"
 
 #define DNS_HEADER_SIZE 12
 #define DNS_DOMAIN_NAME_SIZE 100

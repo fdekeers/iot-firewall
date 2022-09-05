@@ -208,6 +208,25 @@ void dns_print_questions(uint16_t qdcount, dns_question *questions) {
 }
 
 /**
+ * Return a string representation of the given RDATA value.
+ * 
+ * @param type the type corresponding to the RDATA value
+ * @param rdata a pointer to the start of buffer containing the RDATA value
+ * @return a string representation of the RDATA value
+ */
+char* rdata_to_str(uint16_t type, char *rdata) {
+    switch (type) {
+    case A:
+        // RDATA is an IPv4 address
+        return ipv4_hex_to_str(rdata);
+        break;
+    default:
+        // Default case, simply return RDATA itself
+        return rdata;
+    }
+}
+
+/**
  * Print a DNS Resource Records section.
  * 
  * @param rrs the list of DNS Resource Records
@@ -221,7 +240,7 @@ void dns_print_rrs(char* section_name, uint16_t count, dns_resource_record *rrs)
         printf("    Class: %hd\n", (rrs + i)->class);
         printf("    TTL [s]: %d\n", (rrs + i)->ttl);
         printf("    Data length: %hd\n", (rrs + i)->rdlength);
-        printf("    RDATA: %s\n", (rrs + i)->rdata);
+        printf("    RDATA: %s\n", rdata_to_str((rrs + i)->type, (rrs + i)->rdata));
     }
 }
 

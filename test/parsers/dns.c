@@ -46,8 +46,6 @@ void compare_rrs(uint16_t count, dns_resource_record *actual, dns_resource_recor
         CU_ASSERT_EQUAL((actual + i)->class, (expected + i)->class);
         CU_ASSERT_EQUAL((actual + i)->ttl, (expected + i)->ttl);
         CU_ASSERT_EQUAL((actual + i)->rdlength, (expected + i)->rdlength);
-        printf("RDATA actual: %s\n", (actual + i)->rdata);
-        printf("RDATA expected: %s\n", (expected + i)->rdata);
         CU_ASSERT_STRING_EQUAL((actual + i)->rdata, (expected + i)->rdata);
     }
 }
