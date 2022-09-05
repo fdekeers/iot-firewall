@@ -13,6 +13,8 @@
  * 
  * @param queue_num the number of the queue to bind to
  * @param callback the callback funtion, called upon packet reception
+ * The callback function must have the following signature:
+ *     int callback(struct nfq_q_handle *qh, struct nfgenmsg *nfmsg, struct nfq_data *nfa, void *data)
  */
 void bind_queue(uint16_t queue_num, nfq_callback *callback)
 {
@@ -104,4 +106,19 @@ void bind_queue(uint16_t queue_num, nfq_callback *callback)
 
 	printf("closing library handle\n");
 	nfq_close(h);
+}
+
+/**
+ * Retrieve the packet id from a nfq_data struct,
+ * or -1 in case of error.
+ * 
+ * @param nfa the given nfq_data struct
+ * @return the packet id, or -1 in case of error
+ */
+int get_pkt_id(struct nfq_data *nfa) {
+	struct nfqnl_msg_packet_hdr *ph = nfq_get_msg_packet_hdr(nfa);
+	if (ph) {
+		return ntohl(ph->packet_id);
+	}
+	return -1;
 }

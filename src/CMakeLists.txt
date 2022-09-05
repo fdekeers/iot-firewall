@@ -20,6 +20,7 @@ install(FILES ${INCLUDE_PARSERS_DIR}/packet-utils.h DESTINATION ${INCLUDE_DIR})
 
 # Build executable
 add_executable(iot-firewall main.c)
+target_link_libraries(iot-firewall netfilter_queue)
 target_link_libraries(iot-firewall ${LIB_DIR}/libhashmap.a)
 target_link_libraries(iot-firewall nfqueue packet-utils)
 target_link_libraries(iot-firewall ${PARSERS})
