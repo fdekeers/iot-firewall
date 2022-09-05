@@ -54,6 +54,7 @@ size_t hexstr_to_payload(char *hexstring, unsigned char **payload) {
 char* ipv4_hex_to_str(unsigned char* ipv4_hex) {
     char* ipv4_str = (char *) malloc(16 * sizeof(char));  // A string representation of an IPv4 address is at most 15 characters long + null terminator
     int ret = snprintf(ipv4_str, 15, "%hhu.%hhu.%hhu.%hhu", *ipv4_hex, *(ipv4_hex + 1), *(ipv4_hex + 2), *(ipv4_hex + 3));
+    // Error handling
     if (ret < 0) {
         fprintf(stderr, "Error converting IPv4 address \\x%2x\\x%2x\\x%2x\\x%2x to string representation.\n", *ipv4_hex, *(ipv4_hex + 1), *(ipv4_hex + 2), *(ipv4_hex + 3));
         exit(EXIT_FAILURE);
