@@ -59,20 +59,19 @@ static uint32_t print_pkt (struct nfq_data *tb)
 	ret = nfq_get_payload(tb, &data);
 	if (ret >= 0) {
 		printf("payload_len=%d\n", ret);
-		printf("Payload: %s", data);
+		print_payload(ret, data);
 	}
 
 	fputc('\n', stdout);
 
 	return id;
 }
-	
 
 static int cb(struct nfq_q_handle *qh, struct nfgenmsg *nfmsg,
 	      struct nfq_data *nfa, void *data)
 {
-	uint32_t id = print_pkt(nfa);
 	printf("entering callback\n");
+	uint32_t id = print_pkt(nfa);
 	return nfq_set_verdict(qh, id, NF_ACCEPT, 0, NULL);
 }
 

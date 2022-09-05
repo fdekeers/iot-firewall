@@ -16,3 +16,11 @@
  * @param callback the callback funtion, called upon packet reception
  */
 void bind_queue(uint16_t queue_num, nfq_callback *callback);
+
+/**
+ * Print the payload.
+ * 
+ * @param length length of the payload in bytes
+ * @param data pointer to the start of the payload
+ */
+void print_payload(int length, unsigned char *data);
