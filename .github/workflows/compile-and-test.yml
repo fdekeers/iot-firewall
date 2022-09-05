@@ -1,0 +1,19 @@
+name: compile-and-test
+on: [push]
+
+jobs:
+
+  # Compile project
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Install required packages
+        run: sudo $GITHUB_WORKSPACE/.ci_scripts/install_packages.sh
+
+      - name: Build project
+        run: $GITHUB_WORKSPACE/.ci_scripts/build_project.sh
+
+      - name: Run CUnit tests
+        run: $GITHUB_WORKSPACE/bin/test/test-dns
