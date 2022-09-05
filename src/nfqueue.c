@@ -105,27 +105,3 @@ void bind_queue(uint16_t queue_num, nfq_callback *callback)
 	printf("closing library handle\n");
 	nfq_close(h);
 }
-
-/**
- * Print the payload.
- * 
- * @param length length of the payload in bytes
- * @param data pointer to the start of the payload
- */
-void print_payload(int length, unsigned char *data) {
-	// If length is 0 or negative, do nothing
-	if (length <= 0) {
-		return;
-	}
-	// Print first character
-	printf("%#.2x", *data);
-	// Iterate on the whole payload
-	for (int i = 1; i < length; i++) {
-		unsigned char c = *(data + i);
-		if (c == 0) {
-			printf(" 0x00");
-		} else {
-			printf(" %#.2x", c);
-		}
-	}
-}
