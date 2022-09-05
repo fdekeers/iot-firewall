@@ -1,3 +1,6 @@
+#ifndef _IOTFIREWALL_NFQUEUE_
+#define _IOTFIREWALL_NFQUEUE_
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <unistd.h>
@@ -16,3 +19,6 @@
  * @param callback the callback funtion, called upon packet reception
  */
 void bind_queue(uint16_t queue_num, nfq_callback *callback);
+
+
+#endif
