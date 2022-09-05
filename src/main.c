@@ -19,6 +19,14 @@ static int callback(struct nfq_q_handle *qh, struct nfgenmsg *nfmsg, struct nfq_
         size_t skipped = skip_ip_header(&payload);
         skipped += skip_udp_header(&payload);
         // Parse DNS message
+        dns_message message = dns_parse_message(length - skipped, payload);
+        // Print IP address in answer
+        for (int i = 0; i < message.header.ancount; i++) {
+            dns_resource_record rr = *(message.answers + i);
+            if (rr.type == A) {
+                printf("IP address for domain name %s: %s\n", rr.name, ipv4_hex_to_str(rr.rdata));
+            }
+        }
     }
 
     return nfq_set_verdict(qh, pkt_id, NF_ACCEPT, 0, NULL);
