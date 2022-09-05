@@ -1,4 +1,4 @@
 for file in $GITHUB_WORKSPACE/bin/test/*
 do
-    ./"$file"
+    "$file"
 done
