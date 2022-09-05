@@ -63,8 +63,8 @@ void test_dns() {
     size_t length = hexstr_to_payload(hexstring, &payload);
     CU_ASSERT_EQUAL(length, strlen(hexstring) / 2);  // Verify message length
 
-    payload = skip_headers(payload);
-    dns_message message = dns_parse_message(length, payload);
+    size_t skipped = skip_headers(&payload);
+    dns_message message = dns_parse_message(length - skipped, payload);
     dns_print_message(message);
 
     // Test different sections of the DNS message
