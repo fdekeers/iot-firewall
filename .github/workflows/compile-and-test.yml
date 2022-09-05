@@ -16,4 +16,4 @@ jobs:
         run: $GITHUB_WORKSPACE/.ci_scripts/build_project.sh
 
       - name: Run CUnit tests
-        run: $GITHUB_WORKSPACE/bin/test/test-dns
+        run: $GITHUB_WORKSPACE/.ci_scripts/run-tests.sh
