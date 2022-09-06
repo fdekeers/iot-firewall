@@ -52,4 +52,4 @@ uint64_t hashmap_murmur(const void *data, size_t len,
 // DEPRECATED: use `hashmap_new_with_allocator`
 void hashmap_set_allocator(void *(*malloc)(size_t), void (*free)(void*));
 
-#endif
+#endif /* HASHMAP_H */

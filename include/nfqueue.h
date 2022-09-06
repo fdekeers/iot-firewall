@@ -31,4 +31,4 @@ void bind_queue(uint16_t queue_num, nfq_callback *callback, void *arg);
 int get_pkt_id(struct nfq_data *nfa);
 
 
-#endif
+#endif /* _IOTFIREWALL_NFQUEUE_ */

@@ -177,4 +177,4 @@ void dns_print_rrs(char* section_name, uint16_t count, dns_resource_record *rrs)
 void dns_print_message(dns_message message);
 
 
-#endif
+#endif /* _IOTFIREWALL_DNS_ */

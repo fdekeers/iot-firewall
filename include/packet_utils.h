@@ -42,4 +42,4 @@ char* ipv4_hex_to_str(unsigned char* ipv4_hex);
 unsigned char* ipv4_str_to_hex(char* ipv4_str);
 
 
-#endif
+#endif /* _IOTFIREWALL_PACKET_UTILS_ */

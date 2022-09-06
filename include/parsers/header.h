@@ -50,4 +50,4 @@ size_t skip_tcp_header(unsigned char** data);
 size_t skip_headers(unsigned char** data);
 
 
-#endif
+#endif /* _IOTFIREWALL_HEADER_ */
