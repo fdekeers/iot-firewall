@@ -15,8 +15,9 @@
  * @param callback the callback funtion, called upon packet reception
  * The callback function must have the following signature:
  *     int callback(struct nfq_q_handle *qh, struct nfgenmsg *nfmsg, struct nfq_data *nfa, void *data)
+ * @param arg the argument to pass to the callback function
  */
-void bind_queue(uint16_t queue_num, nfq_callback *callback)
+void bind_queue(uint16_t queue_num, nfq_callback *callback, void *arg)
 {
 	struct nfq_handle *h;
 	struct nfq_q_handle *qh;
@@ -45,7 +46,7 @@ void bind_queue(uint16_t queue_num, nfq_callback *callback)
 	}
 
 	printf("binding this socket to queue '%d'\n", queue_num);
-	qh = nfq_create_queue(h, queue_num, callback, NULL);
+	qh = nfq_create_queue(h, queue_num, callback, arg);
 	if (!qh) {
 		fprintf(stderr, "error during nfq_create_queue()\n");
 		exit(1);
@@ -75,7 +76,7 @@ void bind_queue(uint16_t queue_num, nfq_callback *callback)
 
 	while (1) {
 		if ((rv = recv(fd, buf, sizeof(buf), 0)) >= 0) {
-			printf("pkt received\n");
+			//printf("pkt received\n");
 			nfq_handle_packet(h, buf, rv);
 			continue;
 		}

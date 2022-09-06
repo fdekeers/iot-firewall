@@ -36,7 +36,7 @@ static int callback(struct nfq_q_handle *qh, struct nfgenmsg *nfmsg, struct nfq_
 int main(int argc, char const *argv[])
 {
     // Bind to nfqueue queue 0
-    bind_queue(0, &callback);
+    bind_queue(0, &callback, NULL);
 
     return EXIT_SUCCESS;
 }

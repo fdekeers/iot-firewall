@@ -20,7 +20,7 @@
  * The callback function must have the following signature:
  *     int callback(struct nfq_q_handle *qh, struct nfgenmsg *nfmsg, struct nfq_data *nfa, void *data)
  */
-void bind_queue(uint16_t queue_num, nfq_callback *callback);
+void bind_queue(uint16_t queue_num, nfq_callback *callback, void *arg);
 
 /**
  * Retrieve the packet id from a nfq_data struct.
