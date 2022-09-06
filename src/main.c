@@ -1,20 +1,27 @@
+/**
+ * @file src/main.c
+ * @author François De Keersmaeker (francois.dekeersmaeker@uclouvain.be)
+ * @brief Program entry point
+ * @date 2022-09-06
+ * 
+ * @copyright Copyright (c) 2022
+ * 
+ */
+
+// Standard libraries
 #include <stdlib.h>
 #include <stdio.h>
 // Custom libraries
-#include "hashmap.h"
 #include "nfqueue.h"
+#include "dns_table.h"
 // Parsers
 #include "parsers/header.h"
 #include "parsers/dns.h"
 
 
-typedef struct dns_table_entry {
-    char *domain_name;
-    char *ip;
-} dns_table_entry;
-
-
 static int callback(struct nfq_q_handle *qh, struct nfgenmsg *nfmsg, struct nfq_data *nfa, void *data) {
+    // Cast DNS table
+    dns_table *table = (dns_table*) data;
     // Get packet id
     int pkt_id = get_pkt_id(nfa);
     // Get packet payload
@@ -30,7 +37,8 @@ static int callback(struct nfq_q_handle *qh, struct nfgenmsg *nfmsg, struct nfq_
         for (int i = 0; i < message.header.ancount; i++) {
             dns_resource_record rr = *(message.answers + i);
             if (rr.type == A) {
-                printf("IP address for domain name %s: %s\n", rr.name, ipv4_hex_to_str(rr.rdata));
+                dns_print_rr("Answer", rr);
+                dns_table_add(table, rr.name, rr.rdata);
             }
         }
     }
@@ -41,11 +49,14 @@ static int callback(struct nfq_q_handle *qh, struct nfgenmsg *nfmsg, struct nfq_
 
 int main(int argc, char const *argv[])
 {
-    // Initialize hashmap
-    
+    // Initialize DNS table
+    dns_table *table = dns_table_create();
 
     // Bind to nfqueue queue 0
-    bind_queue(0, &callback, NULL);
+    bind_queue(0, &callback, table);
 
+    // Destroy DNS table
+    dns_table_destroy(table);
+    
     return EXIT_SUCCESS;
 }

@@ -156,15 +156,33 @@ dns_message dns_parse_message(size_t length, unsigned char *data);
 void dns_print_header(dns_header header);
 
 /**
+ * Print a DNS Question
+ * 
+ * @param question the DNS Question
+ */
+void dns_print_question(dns_question question);
+
+/**
  * Print a DNS Question section.
  * 
+ * @param qdcount the number of Questions in the Question section
  * @param questions the list of DNS Questions
  */
 void dns_print_questions(uint16_t qdcount, dns_question *questions);
 
 /**
+ * Print a DNS Resource Record.
+ * 
+ * @param section_name the name of the Resource Record section
+ * @param rr the DNS Resource Record
+ */
+void dns_print_rr(char* section_name, dns_resource_record rr);
+
+/**
  * Print a DNS Resource Records section.
  * 
+ * @param section_name the name of the Resource Record section
+ * @param count the number of Resource Records in the section
  * @param rrs the list of DNS Resource Records
  */
 void dns_print_rrs(char* section_name, uint16_t count, dns_resource_record *rrs);
@@ -175,6 +193,5 @@ void dns_print_rrs(char* section_name, uint16_t count, dns_resource_record *rrs)
  * @param message the DNS message
  */
 void dns_print_message(dns_message message);
-
 
 #endif /* _IOTFIREWALL_DNS_ */

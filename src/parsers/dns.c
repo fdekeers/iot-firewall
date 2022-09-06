@@ -193,17 +193,27 @@ void dns_print_header(dns_header header) {
 }
 
 /**
+ * Print a DNS Question
+ * 
+ * @param question the DNS Question
+ */
+void dns_print_question(dns_question question) {
+    printf("  Question:\n");
+    printf("    Domain name: %s\n", question.qname);
+    printf("    Type: %hd\n", question.qtype);
+    printf("    Class: %hd\n", question.qclass);
+}
+
+/**
  * Print a DNS Question section.
  * 
+ * @param qdcount the number of Questions in the Question section
  * @param questions the list of DNS Questions
  */
 void dns_print_questions(uint16_t qdcount, dns_question *questions) {
     printf("DNS Question section:\n");
     for (uint16_t i = 0; i < qdcount; i++) {
-        printf("  Question n°%hd:\n", i);
-        printf("    Domain name: %s\n", (questions + i)->qname);
-        printf("    Type: %hd\n", (questions + i)->qtype);
-        printf("    Class: %hd\n", (questions + i)->qclass);
+        dns_print_question(*(questions + i));
     }
 }
 
@@ -227,20 +237,32 @@ char* rdata_to_str(dns_rr_type type, char *rdata) {
 }
 
 /**
+ * Print a DNS Resource Record.
+ * 
+ * @param section_name the name of the Resource Record section
+ * @param rr the DNS Resource Record
+ */
+void dns_print_rr(char* section_name, dns_resource_record rr) {
+    printf("  %s RR:\n", section_name);
+    printf("    Name: %s\n", rr.name);
+    printf("    Type: %hd\n", rr.type);
+    printf("    Class: %hd\n", rr.class);
+    printf("    TTL [s]: %d\n", rr.ttl);
+    printf("    Data length: %hd\n", rr.rdlength);
+    printf("    RDATA: %s\n", rdata_to_str(rr.type, rr.rdata));
+}
+
+/**
  * Print a DNS Resource Records section.
  * 
+ * @param section_name the name of the Resource Record section
+ * @param count the number of Resource Records in the section
  * @param rrs the list of DNS Resource Records
  */
 void dns_print_rrs(char* section_name, uint16_t count, dns_resource_record *rrs) {
     printf("%s RRs:\n", section_name);
     for (uint16_t i = 0; i < count; i++) {
-        printf("  %s RR n°%hd:\n", section_name, i);
-        printf("    Name: %s\n", (rrs + i)->name);
-        printf("    Type: %hd\n", (rrs + i)->type);
-        printf("    Class: %hd\n", (rrs + i)->class);
-        printf("    TTL [s]: %d\n", (rrs + i)->ttl);
-        printf("    Data length: %hd\n", (rrs + i)->rdlength);
-        printf("    RDATA: %s\n", rdata_to_str((rrs + i)->type, (rrs + i)->rdata));
+        dns_print_rr(section_name, *(rrs + i));
     }
 }
 
