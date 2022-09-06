@@ -42,8 +42,8 @@ void compare_questions(uint16_t qdcount, dns_question *actual, dns_question *exp
 void compare_rrs(uint16_t count, dns_resource_record *actual, dns_resource_record *expected) {
     for (int i = 0; i < count; i++) {
         CU_ASSERT_STRING_EQUAL((actual + i)->name, (expected + i)->name);
-        CU_ASSERT_EQUAL((actual + i)->type, (expected + i)->type);
-        CU_ASSERT_EQUAL((actual + i)->class, (expected + i)->class);
+        CU_ASSERT_EQUAL((actual + i)->rtype, (expected + i)->rtype);
+        CU_ASSERT_EQUAL((actual + i)->rclass, (expected + i)->rclass);
         CU_ASSERT_EQUAL((actual + i)->ttl, (expected + i)->ttl);
         CU_ASSERT_EQUAL((actual + i)->rdlength, (expected + i)->rdlength);
         CU_ASSERT_STRING_EQUAL((actual + i)->rdata, (expected + i)->rdata);
@@ -93,15 +93,15 @@ void test_dns() {
     expected_answer = malloc(sizeof(dns_resource_record) * message.header.ancount);
     // Answer n°0
     expected_answer->name = "business.smartcamera.api.io.mi.com";
-    expected_answer->type = 5;
-    expected_answer->class = 1;
+    expected_answer->rtype = 5;
+    expected_answer->rclass = 1;
     expected_answer->ttl = 600;
     expected_answer->rdlength = 37;
     expected_answer->rdata = "cname-app-com-amsproxy.w.mi-dun.com";
     // Answer n°1
     (expected_answer + 1)->name = "cname-app-com-amsproxy.w.mi-dun.com";
-    (expected_answer + 1)->type = 1;
-    (expected_answer + 1)->class = 1;
+    (expected_answer + 1)->rtype = 1;
+    (expected_answer + 1)->rclass = 1;
     (expected_answer + 1)->ttl = 147;
     (expected_answer + 1)->rdlength = 4;
     (expected_answer + 1)->rdata = ipv4_str_to_hex("20.47.97.231");

@@ -117,7 +117,7 @@ dns_question* dns_parse_questions(uint16_t qdcount, unsigned char *data, dns_par
     for (uint16_t i = 0; i < qdcount; i++) {
         // Parse domain name
         (questions + i)->qname = dns_parse_domain_name(data, state);
-        // Parse type and class
+        // Parse rtype and rclass
         (questions + i)->qtype = ntohs(*((uint16_t *) (data + state->offset)));
         (questions + i)->qclass = ntohs(*((uint16_t *) (data + state->offset + 2)));
         state->offset += 4;
@@ -133,9 +133,9 @@ dns_question* dns_parse_questions(uint16_t qdcount, unsigned char *data, dns_par
  * @param state a pointer to the current parsing state
  * @return the parsed RDATA field
  */
-char* dns_parse_rdata(dns_rr_type type, uint16_t rdlength, unsigned char *data, dns_parsing_state *state) {
+char* dns_parse_rdata(dns_rr_type rtype, uint16_t rdlength, unsigned char *data, dns_parsing_state *state) {
     char *rdata;
-    switch (type) {
+    switch (rtype) {
         case CNAME:
             rdata = dns_parse_domain_name(data, state);
             break;
@@ -160,16 +160,16 @@ dns_resource_record* dns_parse_rrs(uint16_t count, unsigned char *data, dns_pars
     for (uint16_t i = 0; i < count; i++) {
         // Parse domain name
         (rrs + i)->name = dns_parse_domain_name(data, state);
-        // Parse type, class and TTL
-        dns_rr_type type = ntohs(*((uint16_t *) (data + state->offset)));
-        (rrs + i)->type = type;
-        (rrs + i)->class = ntohs(*((uint16_t *) (data + state->offset + 2)));
+        // Parse rtype, rclass and TTL
+        dns_rr_type rtype = ntohs(*((uint16_t *) (data + state->offset)));
+        (rrs + i)->rtype = rtype;
+        (rrs + i)->rclass = ntohs(*((uint16_t *) (data + state->offset + 2)));
         (rrs + i)->ttl = ntohl(*((uint32_t *) (data + state->offset + 4)));
         // Parse rdata
         uint16_t rdlength = ntohs(*((uint16_t *) (data + state->offset + 8)));
         (rrs + i)->rdlength = rdlength;
         state->offset += 10;
-        (rrs + i)->rdata = dns_parse_rdata(type, rdlength, data, state);
+        (rrs + i)->rdata = dns_parse_rdata(rtype, rdlength, data, state);
     }
     return rrs;
 }
@@ -220,12 +220,12 @@ void dns_print_questions(uint16_t qdcount, dns_question *questions) {
 /**
  * Return a string representation of the given RDATA value.
  * 
- * @param type the type corresponding to the RDATA value
+ * @param rtype the type corresponding to the RDATA value
  * @param rdata a pointer to the start of buffer containing the RDATA value
  * @return a string representation of the RDATA value
  */
-char* rdata_to_str(dns_rr_type type, char *rdata) {
-    switch (type) {
+char* rdata_to_str(dns_rr_type rtype, char *rdata) {
+    switch (rtype) {
     case A:
         // RDATA is an IPv4 address
         return ipv4_hex_to_str(rdata);
@@ -245,11 +245,11 @@ char* rdata_to_str(dns_rr_type type, char *rdata) {
 void dns_print_rr(char* section_name, dns_resource_record rr) {
     printf("  %s RR:\n", section_name);
     printf("    Name: %s\n", rr.name);
-    printf("    Type: %hd\n", rr.type);
-    printf("    Class: %hd\n", rr.class);
+    printf("    Type: %hd\n", rr.rtype);
+    printf("    Class: %hd\n", rr.rclass);
     printf("    TTL [s]: %d\n", rr.ttl);
     printf("    Data length: %hd\n", rr.rdlength);
-    printf("    RDATA: %s\n", rdata_to_str(rr.type, rr.rdata));
+    printf("    RDATA: %s\n", rdata_to_str(rr.rtype, rr.rdata));
 }
 
 /**

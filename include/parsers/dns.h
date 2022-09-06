@@ -64,8 +64,8 @@ typedef struct dns_question {
  */
 typedef struct dns_resource_record {
     char *name;
-    dns_rr_type type;
-    uint16_t class;
+    dns_rr_type rtype;
+    uint16_t rclass;
     uint32_t ttl;
     uint16_t rdlength;
     char *rdata;

@@ -36,7 +36,7 @@ static int callback(struct nfq_q_handle *qh, struct nfgenmsg *nfmsg, struct nfq_
         // Print IP address in answer
         for (int i = 0; i < message.header.ancount; i++) {
             dns_resource_record rr = *(message.answers + i);
-            if (rr.type == A) {
+            if (rr.rtype == A) {
                 dns_print_rr("Answer", rr);
                 dns_table_add(table, rr.name, rr.rdata);
             }
