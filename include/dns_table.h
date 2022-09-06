@@ -11,7 +11,12 @@
 #ifndef _IOTFIREWALL_DNS_TABLE_
 #define _IOTFIREWALL_DNS_TABLE_
 
+#include <stdlib.h>
+#include <stdint.h>
+#include <string.h>
 #include "hashmap.h"
+
+#define DNS_TABLE_INIT_SIZE 1  // Initial size of the DNS table
 
 
 ////////// TYPE DEFINITIONS //////////
@@ -25,6 +30,9 @@ typedef struct dns_entry {
     char *ip_address;
 } dns_entry;
 
+/**
+ * Alias for the hashmap structure.
+ */
 typedef struct hashmap dns_table;
 
 
@@ -35,7 +43,7 @@ typedef struct hashmap dns_table;
  * 
  * @return the newly created DNS table 
  */
-dns_table *dns_table_create();
+dns_table* dns_table_create();
 
 /**
  * Destroy (free) a DNS table.
@@ -68,7 +76,7 @@ void dns_table_remove(dns_table *table, char *domain_name);
  * @param domain_name the domain name of the entry to retrieve
  * @return the IP address corresponding to the domain name, or NULL if the domain name is not in the DNS table
  */
-char *dns_table_get(dns_table *table, char *domain_name);
+char* dns_table_get(dns_table *table, char *domain_name);
 
 /**
  * Retrieve and removes an entry from a DNS table.
@@ -77,7 +85,7 @@ char *dns_table_get(dns_table *table, char *domain_name);
  * @param domain_name the domain name of the entry to retrieve
  * @return the IP address corresponding to the domain name, or NULL if the domain name is not in the DNS table
  */
-char *dns_table_pop(dns_table *table, char *domain_name);
+char* dns_table_pop(dns_table *table, char *domain_name);
 
 
 #endif /* _IOTFIREWALL_DNS_TABLE_ */
