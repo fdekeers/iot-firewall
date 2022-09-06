@@ -9,7 +9,7 @@
 #include <stddef.h>
 #include <stdint.h>
 
-struct hashmap;
+typedef struct hashmap hashmap;
 
 struct hashmap *hashmap_new(size_t elsize, size_t cap, 
                             uint64_t seed0, uint64_t seed1,

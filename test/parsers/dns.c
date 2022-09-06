@@ -2,7 +2,7 @@
 #include <stdlib.h>
 #include <string.h>
 // Custom libraries
-#include "packet-utils.h"
+#include "packet_utils.h"
 #include "parsers/header.h"
 #include "parsers/dns.h"
 // CUnit

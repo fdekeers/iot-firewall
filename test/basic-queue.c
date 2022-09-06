@@ -1,5 +1,5 @@
 #include <nfqueue.h>
-#include <packet-utils.h>
+#include <packet_utils.h>
 
 /* returns packet id */
 static uint32_t print_pkt (struct nfq_data *tb)

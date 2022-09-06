@@ -8,6 +8,12 @@
 #include "parsers/dns.h"
 
 
+typedef struct dns_table_entry {
+    char *domain_name;
+    char *ip;
+} dns_table_entry;
+
+
 static int callback(struct nfq_q_handle *qh, struct nfgenmsg *nfmsg, struct nfq_data *nfa, void *data) {
     // Get packet id
     int pkt_id = get_pkt_id(nfa);
@@ -35,6 +41,9 @@ static int callback(struct nfq_q_handle *qh, struct nfgenmsg *nfmsg, struct nfq_
 
 int main(int argc, char const *argv[])
 {
+    // Initialize hashmap
+    
+
     // Bind to nfqueue queue 0
     bind_queue(0, &callback, NULL);
 

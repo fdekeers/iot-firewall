@@ -8,7 +8,7 @@ set(EXECUTABLE_OUTPUT_PATH ${TEST_BIN_DIR})
 # Compile base nfqueue test
 #[[
 set(SOURCE_FILES basic-queue.c)
-set(LIBRARIES nfqueue packet-utils)
+set(LIBRARIES nfqueue packet_utils)
 add_executable(basic-queue ${SOURCE_FILES})
 target_include_directories(basic-queue PRIVATE ${INCLUDE_DIR} ${INCLUDE_PARSERS_DIR})
 target_link_libraries(basic-queue netfilter_queue ${LIBRARIES})
