@@ -1,5 +1,5 @@
 /**
- * @file dns_table.h
+ * @file include/dns_table.h
  * @author François De Keersmaeker (francois.dekeersmaeker@uclouvain.be)
  * @brief Implementation of a DNS table, using Joshua J Baker's hashmap.c (https://github.com/tidwall/hashmap.c)
  * @date 2022-09-06
@@ -16,7 +16,9 @@
 #include <string.h>
 #include "hashmap.h"
 
-#define DNS_TABLE_INIT_SIZE 1  // Initial size of the DNS table
+// Initial size of the DNS table
+// If set to 0, the default size will be 16
+#define DNS_TABLE_INIT_SIZE 0
 
 
 ////////// TYPE DEFINITIONS //////////

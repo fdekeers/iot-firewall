@@ -128,7 +128,8 @@ void test_dns() {
 int main(int argc, char const *argv[])
 {
     // Initialize registry and suite
-    CU_initialize_registry();
+    if (CU_initialize_registry() != CUE_SUCCESS)
+        return CU_get_error();
     CU_pSuite suite = CU_add_suite("dns", NULL, NULL);
     // Run tests
     CU_add_test(suite, "dns", test_dns);

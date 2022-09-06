@@ -1,5 +1,5 @@
 /**
- * @file dns_table.c
+ * @file src/dns_table.c
  * @author François De Keersmaeker (francois.dekeersmaeker@uclouvain.be)
  * @brief Implementation of a DNS table, using Joshua J Baker's hashmap.c (https://github.com/tidwall/hashmap.c)
  * @date 2022-09-06
@@ -45,7 +45,7 @@ int dns_compare(const void *a, const void *b, void *udata) {
  * Create a new DNS table.
  * Uses random seeds for the hash function.
  * 
- * @return the newly created DNS table 
+ * @return the newly created DNS table, or NULL if creation failed
  */
 dns_table* dns_table_create() {
     return hashmap_new(
