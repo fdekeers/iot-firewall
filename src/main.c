@@ -13,15 +13,15 @@
 #include <stdio.h>
 // Custom libraries
 #include "nfqueue.h"
-#include "dns_table.h"
+#include "map_domain_ip.h"
 // Parsers
 #include "parsers/header.h"
 #include "parsers/dns.h"
 
 
 static int callback(struct nfq_q_handle *qh, struct nfgenmsg *nfmsg, struct nfq_data *nfa, void *data) {
-    // Cast DNS table
-    dns_table *table = (dns_table*) data;
+    // Cast DNS map
+    map_domain_ip *map = (map_domain_ip*) data;
     // Get packet id
     int pkt_id = get_pkt_id(nfa);
     // Get packet payload
@@ -33,14 +33,18 @@ static int callback(struct nfq_q_handle *qh, struct nfgenmsg *nfmsg, struct nfq_
         skipped += skip_udp_header(&payload);
         // Parse DNS message
         dns_message message = dns_parse_message(length - skipped, payload);
-        // Print IP address in answer
+        // Add domain names and IP addresses to DNS map
+        char** ip_addresses = (char **) malloc(sizeof(char *) * message.header.ancount);
+        char* domain_name;
         for (int i = 0; i < message.header.ancount; i++) {
             dns_resource_record rr = *(message.answers + i);
             if (rr.rtype == A) {
+                domain_name = rr.name;
                 dns_print_rr("Answer", rr);
-                dns_table_add(table, rr.name, rr.rdata);
+                *(ip_addresses + i) = rr.rdata;
             }
         }
+        map_domain_ip_add(map, domain_name, message.header.ancount, ip_addresses);
     }
 
     return nfq_set_verdict(qh, pkt_id, NF_ACCEPT, 0, NULL);
@@ -49,14 +53,14 @@ static int callback(struct nfq_q_handle *qh, struct nfgenmsg *nfmsg, struct nfq_
 
 int main(int argc, char const *argv[])
 {
-    // Initialize DNS table
-    dns_table *table = dns_table_create();
+    // Initialize DNS map
+    map_domain_ip *map = map_domain_ip_create();
 
     // Bind to nfqueue queue 0
-    bind_queue(0, &callback, table);
+    bind_queue(0, &callback, map);
 
-    // Destroy DNS table
-    dns_table_destroy(table);
+    // Destroy DNS map
+    map_domain_ip_destroy(map);
     
     return EXIT_SUCCESS;
 }
