@@ -1,4 +1,4 @@
-name: compile-and-test
+name: Compile and run unit tests
 on: [push]
 
 
@@ -8,13 +8,14 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
+      - name: Checkout repository
+        uses: actions/checkout@v3
 
       - name: Install required packages
-        run: sudo $GITHUB_WORKSPACE/.ci_scripts/install_packages.sh
+        run: sudo $GITHUB_WORKSPACE/.ci_scripts/compile-and-test/install_packages.sh
 
       - name: Build project
-        run: $GITHUB_WORKSPACE/.ci_scripts/build_project.sh
+        run: $GITHUB_WORKSPACE/.ci_scripts/compile-and-test/build_project.sh
 
       - name: Run CUnit tests
-        run: $GITHUB_WORKSPACE/.ci_scripts/run-tests.sh
+        run: $GITHUB_WORKSPACE/.ci_scripts/compile-and-test/run_tests.sh
