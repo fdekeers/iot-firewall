@@ -30,7 +30,7 @@ size_t hexstr_to_payload(char *hexstring, unsigned char **payload);
  * @param ipv4_hex IPv4 address in hexadecimal representation
  * @return the same IPv4 address in string representation
  */
-char* ipv4_hex_to_str(unsigned char* ipv4_hex);
+char* ipv4_hex_to_str(char* ipv4_hex);
 
 /**
  * Converts an IPv4 addres from its string representation
@@ -39,7 +39,7 @@ char* ipv4_hex_to_str(unsigned char* ipv4_hex);
  * @param ipv4_str IPv4 address in string representation
  * @return the same IPv4 address in hexadecimal representation
  */
-unsigned char* ipv4_str_to_hex(char* ipv4_str);
+char* ipv4_str_to_hex(char* ipv4_str);
 
 
 #endif /* _IOTFIREWALL_PACKET_UTILS_ */

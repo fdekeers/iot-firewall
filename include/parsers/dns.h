@@ -4,6 +4,7 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <stdint.h>
+#include <stdbool.h>
 #include <string.h>
 #include <arpa/inet.h>
 #include "packet_utils.h"
@@ -35,7 +36,8 @@ typedef enum {
     MINFO = 14,
     MX    = 15,
     TXT   = 16,
-    AAAA  = 28
+    AAAA  = 28,
+    OPT   = 41   // Used to specify extensions
 } dns_rr_type;
 
 /**
@@ -82,24 +84,6 @@ typedef struct dns_message {
     dns_resource_record *additionals;
 } dns_message;
 
-/**
- * Used to keep track of already parsed domain names.
- * Stores the domain name and its length.
- * Used for DNS name compression.
- */
-typedef struct parsed_domain_name {
-    uint16_t length;
-    char *domain_name;
-} parsed_domain_name;
-
-/**
- * Used to keep track of current state of the parsed DNS message.
- */
-typedef struct dns_parsing_state {
-    uint16_t offset;
-    parsed_domain_name *parsed_domain_names;
-} dns_parsing_state;
-
 
 ////////// FUNCTIONS //////////
 
@@ -110,37 +94,36 @@ typedef struct dns_parsing_state {
  * A DNS header is always 12 bytes.
  * 
  * @param data a pointer pointing to the start of the DNS message
- * @param state a pointer to the current parsing state
+ * @param offset a pointer to the current parsing offset
  * @return the parsed header
  */
-dns_header dns_parse_header(unsigned char *data, dns_parsing_state *state);
+dns_header dns_parse_header(unsigned char *data, uint16_t *offset);
 
 /**
  * Parse a DNS question section.
  * 
  * @param qdcount the number of questions present in the question section
  * @param data a pointer pointing to the start of the DNS message
- * @param state a pointer to the current parsing state
+ * @param offset a pointer to the current parsing offset
  * @return the parsed question section
  */
-dns_question* dns_parse_questions(uint16_t qdcount, unsigned char *data, dns_parsing_state *state);
+dns_question* dns_parse_questions(uint16_t qdcount, unsigned char *data, uint16_t *offset);
 
 /**
  * Parse a DNS resource record list.
  * 
  * @param count the number of resource records present in the section
  * @param data a pointer pointing to the start of the DNS message
- * @param state a pointer to the current parsing state
+ * @param offset a pointer to the current parsing offset
  * @return the parsed resource records list
  */
-dns_resource_record* dns_parse_rrs(uint16_t count, unsigned char *data, dns_parsing_state *state);
+dns_resource_record* dns_parse_rrs(uint16_t count, unsigned char *data, uint16_t *offset);
 
 /**
  * Parse a DNS message.
  * 
  * @param length the length of the message
  * @param data a pointer pointing to the start of the DNS message
- * @param state a pointer to the current parsing state
  * @return the parsed message
  */
 dns_message dns_parse_message(size_t length, unsigned char *data);

@@ -62,7 +62,7 @@ size_t skip_headers(unsigned char** data) {
             length += skip_udp_header(data);
             break;
         default:
-            // Do not skip header
-            return length;
+            break;
     }
+    return length;
 }

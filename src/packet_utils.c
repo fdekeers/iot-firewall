@@ -51,7 +51,7 @@ size_t hexstr_to_payload(char *hexstring, unsigned char **payload) {
  * @param ipv4_hex IPv4 address in hexadecimal representation
  * @return the same IPv4 address in string representation
  */
-char* ipv4_hex_to_str(unsigned char* ipv4_hex) {
+char* ipv4_hex_to_str(char* ipv4_hex) {
     char* ipv4_str = (char *) malloc(16 * sizeof(char));  // A string representation of an IPv4 address is at most 15 characters long + null terminator
     int ret = snprintf(ipv4_str, 15, "%hhu.%hhu.%hhu.%hhu", *ipv4_hex, *(ipv4_hex + 1), *(ipv4_hex + 2), *(ipv4_hex + 3));
     // Error handling
@@ -69,8 +69,8 @@ char* ipv4_hex_to_str(unsigned char* ipv4_hex) {
  * @param ipv4_str IPv4 address in string representation
  * @return the same IPv4 address in hexadecimal representation
  */
-unsigned char* ipv4_str_to_hex(char* ipv4_str) {
-    unsigned char* ipv4_hex = (unsigned char *) malloc(4 * sizeof(unsigned char));  // An IPv4 address is 4 bytes long 
+char* ipv4_str_to_hex(char* ipv4_str) {
+    char* ipv4_hex = (char *) malloc(4 * sizeof(char));  // An IPv4 address is 4 bytes long 
     int ret = sscanf(ipv4_str, "%hhu.%hhu.%hhu.%hhu", ipv4_hex, ipv4_hex + 1, ipv4_hex + 2, ipv4_hex + 3);
     // Error handling
     if (ret != 4) {

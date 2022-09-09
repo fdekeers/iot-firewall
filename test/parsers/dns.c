@@ -46,7 +46,9 @@ void compare_rrs(uint16_t count, dns_resource_record *actual, dns_resource_recor
         CU_ASSERT_EQUAL((actual + i)->rclass, (expected + i)->rclass);
         CU_ASSERT_EQUAL((actual + i)->ttl, (expected + i)->ttl);
         CU_ASSERT_EQUAL((actual + i)->rdlength, (expected + i)->rdlength);
-        CU_ASSERT_STRING_EQUAL((actual + i)->rdata, (expected + i)->rdata);
+        if ((actual + i)->rdata != NULL) {
+            CU_ASSERT_STRING_EQUAL((actual + i)->rdata, (expected + i)->rdata);
+        }
     }
 }
 
@@ -124,6 +126,126 @@ void test_dns_xiaomi() {
 
 void test_dns_office() {
     char *hexstring = "4500012a4aa900003e114737826801018268e4110035d7550116a82b3ebf81800001000900000001076f75746c6f6f6b066f666669636503636f6d0000010001c00c0005000100000007000c09737562737472617465c014c03000050001000000500017076f75746c6f6f6b096f666669636533363503636f6d00c0480005000100000093001a076f75746c6f6f6b026861096f666669636533363503636f6d00c06b000500010000000b001c076f75746c6f6f6b076d732d61636463066f666669636503636f6d00c091000500010000001b000a07414d532d65667ac099c0b90001000100000004000434619ea2c0b90001000100000004000428650c62c0b9000100010000000400042863cc22c0b9000100010000000400042865791200002904d0000000000000";
+
+    // Create payload from hexstring
+    unsigned char *payload;
+    size_t length = hexstr_to_payload(hexstring, &payload);
+    CU_ASSERT_EQUAL(length, strlen(hexstring) / 2);  // Verify message length
+    size_t skipped = skip_headers(&payload);
+    dns_message message = dns_parse_message(length - skipped, payload);
+    dns_print_message(message);
+
+    // Test different sections of the DNS message
+
+    // Header
+    dns_header expected_header;
+    expected_header.id = 0x3ebf;
+    expected_header.flags = 0x8180;
+    expected_header.qdcount = 1;
+    expected_header.ancount = 9;
+    expected_header.nscount = 0;
+    expected_header.arcount = 1;
+    compare_headers(message.header, expected_header);
+
+    // Questions
+    dns_question *expected_question;
+    expected_question = malloc(sizeof(dns_question) * message.header.qdcount);
+    expected_question->qname = "outlook.office.com";
+    expected_question->qtype = 1;
+    expected_question->qclass = 1;
+    compare_questions(message.header.qdcount, message.questions, expected_question);
+    free(expected_question);
+
+    // Answer resource records
+    dns_resource_record *expected_answer;
+    expected_answer = malloc(sizeof(dns_resource_record) * message.header.ancount);
+    // Answer n°0
+    expected_answer->name = "outlook.office.com";
+    expected_answer->rtype = 5;
+    expected_answer->rclass = 1;
+    expected_answer->ttl = 7;
+    expected_answer->rdlength = 12;
+    expected_answer->rdata = "substrate.office.com";
+    // Answer n°1
+    (expected_answer + 1)->name = "substrate.office.com";
+    (expected_answer + 1)->rtype = 5;
+    (expected_answer + 1)->rclass = 1;
+    (expected_answer + 1)->ttl = 80;
+    (expected_answer + 1)->rdlength = 23;
+    (expected_answer + 1)->rdata = "outlook.office365.com";
+    // Answer n°2
+    (expected_answer + 2)->name = "outlook.office365.com";
+    (expected_answer + 2)->rtype = 5;
+    (expected_answer + 2)->rclass = 1;
+    (expected_answer + 2)->ttl = 147;
+    (expected_answer + 2)->rdlength = 26;
+    (expected_answer + 2)->rdata = "outlook.ha.office365.com";
+    // Answer n°3
+    (expected_answer + 3)->name = "outlook.ha.office365.com";
+    (expected_answer + 3)->rtype = 5;
+    (expected_answer + 3)->rclass = 1;
+    (expected_answer + 3)->ttl = 11;
+    (expected_answer + 3)->rdlength = 28;
+    (expected_answer + 3)->rdata = "outlook.ms-acdc.office.com";
+    // Answer n°4
+    (expected_answer + 4)->name = "outlook.ms-acdc.office.com";
+    (expected_answer + 4)->rtype = CNAME;
+    (expected_answer + 4)->rclass = 1;
+    (expected_answer + 4)->ttl = 27;
+    (expected_answer + 4)->rdlength = 10;
+    (expected_answer + 4)->rdata = "AMS-efz.ms-acdc.office.com";
+    // Answer n°5
+    (expected_answer + 5)->name = "AMS-efz.ms-acdc.office.com";
+    (expected_answer + 5)->rtype = A;
+    (expected_answer + 5)->rclass = 1;
+    (expected_answer + 5)->ttl = 4;
+    (expected_answer + 5)->rdlength = 4;
+    (expected_answer + 5)->rdata = ipv4_str_to_hex("52.97.158.162");
+    // Answer n°6
+    (expected_answer + 6)->name = "AMS-efz.ms-acdc.office.com";
+    (expected_answer + 6)->rtype = A;
+    (expected_answer + 6)->rclass = 1;
+    (expected_answer + 6)->ttl = 4;
+    (expected_answer + 6)->rdlength = 4;
+    (expected_answer + 6)->rdata = ipv4_str_to_hex("40.101.12.98");
+    // Answer n°7
+    (expected_answer + 7)->name = "AMS-efz.ms-acdc.office.com";
+    (expected_answer + 7)->rtype = A;
+    (expected_answer + 7)->rclass = 1;
+    (expected_answer + 7)->ttl = 4;
+    (expected_answer + 7)->rdlength = 4;
+    (expected_answer + 7)->rdata = ipv4_str_to_hex("40.99.204.34");
+    // Answer n°8
+    (expected_answer + 8)->name = "AMS-efz.ms-acdc.office.com";
+    (expected_answer + 8)->rtype = A;
+    (expected_answer + 8)->rclass = 1;
+    (expected_answer + 8)->ttl = 4;
+    (expected_answer + 8)->rdlength = 4;
+    (expected_answer + 8)->rdata = ipv4_str_to_hex("40.101.121.18");
+    // Compare and free answer
+    compare_rrs(message.header.ancount, message.answers, expected_answer);
+    free(expected_answer);
+
+    // Authority resource records
+    dns_resource_record *expected_authority;
+    expected_authority = malloc(sizeof(dns_resource_record) * message.header.nscount);
+    compare_rrs(message.header.nscount, message.authorities, expected_authority);
+    free(expected_authority);
+
+    // Additional resource records
+    dns_resource_record *expected_additional;
+    expected_additional = malloc(sizeof(dns_resource_record) * message.header.arcount);
+    // Additional n°0
+    expected_additional->name = "";
+    expected_additional->rtype = OPT;
+    expected_additional->rclass = 0x04d0;
+    expected_additional->ttl = 0x00000000;
+    expected_additional->rdlength = 0;
+    expected_additional->rdata = NULL;
+    // Compare and free additional
+    compare_rrs(message.header.arcount, message.additionals, expected_additional);
+    free(expected_additional);
+
 }
 
 /**
@@ -136,8 +258,8 @@ int main(int argc, char const *argv[])
         return CU_get_error();
     CU_pSuite suite = CU_add_suite("dns", NULL, NULL);
     // Run tests
-    CU_add_test(suite, "dns", test_dns_xiaomi);
-    CU_add_test(suite, "dns", test_dns_office);
+    CU_add_test(suite, "dns-xiaomi", test_dns_xiaomi);
+    CU_add_test(suite, "dns-office", test_dns_office);
     CU_basic_run_tests();
     return 0;
 }

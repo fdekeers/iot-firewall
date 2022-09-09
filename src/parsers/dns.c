@@ -12,51 +12,49 @@
 dns_message dns_parse_message(size_t length, unsigned char *data) {
     // Init
     dns_message message;
-    dns_parsing_state *state = (dns_parsing_state *) malloc(sizeof(dns_parsing_state));  // Keep track of current parsing state
-    state->offset = 0;
-    state->parsed_domain_names = (parsed_domain_name *) malloc(sizeof(parsed_domain_name) * length);
+    uint16_t offset = 0;
     // Parse DNS header
-    message.header = dns_parse_header(data, state);
+    message.header = dns_parse_header(data, &offset);
     // If present, parse DNS Question section
     if (message.header.qdcount > 0) {
-        message.questions = dns_parse_questions(message.header.qdcount, data, state);
+        message.questions = dns_parse_questions(message.header.qdcount, data, &offset);
     }
     // If present, parse DNS Answer section
     if (message.header.ancount > 0) {
-        message.answers = dns_parse_rrs(message.header.ancount, data, state);
+        message.answers = dns_parse_rrs(message.header.ancount, data, &offset);
     }
     // If present, parse DNS Authority section
     if (message.header.nscount > 0) {
-        message.authorities = dns_parse_rrs(message.header.nscount, data, state);
+        message.authorities = dns_parse_rrs(message.header.nscount, data, &offset);
     }
     // If present, parse DNS Additional section
     if (message.header.arcount > 0) {
-        message.additionals = dns_parse_rrs(message.header.arcount, data, state);
+        message.additionals = dns_parse_rrs(message.header.arcount, data, &offset);
     }
     return message;
 }
 
 /**
  * Parse a DNS header.
- * 
  * A DNS header is always 12 bytes.
+ * 
  * @param data a pointer pointing to the start of the DNS message
- * @param state a pointer to the current parsing state
+ * @param offset a pointer to the current parsing offset
  * @return the parsed header
  */
-dns_header dns_parse_header(unsigned char *data, dns_parsing_state *state) {
+dns_header dns_parse_header(unsigned char *data, uint16_t *offset) {
     // Init
     dns_header header;
 
     // Parse fields
-    header.id = ntohs(*((uint16_t *) (data + state->offset)));
-    header.flags = ntohs(*((uint16_t *) (data + state->offset + 2)));
-    header.qdcount = ntohs(*((uint16_t *) (data + state->offset + 4)));
-    header.ancount = ntohs(*((uint16_t *) (data + state->offset + 6)));
-    header.nscount = ntohs(*((uint16_t *) (data + state->offset + 8)));
-    header.arcount = ntohs(*((uint16_t *) (data + state->offset + 10)));
+    header.id = ntohs(*((uint16_t *) (data + *offset)));
+    header.flags = ntohs(*((uint16_t *) (data + *offset + 2)));
+    header.qdcount = ntohs(*((uint16_t *) (data + *offset + 4)));
+    header.ancount = ntohs(*((uint16_t *) (data + *offset + 6)));
+    header.nscount = ntohs(*((uint16_t *) (data + *offset + 8)));
+    header.arcount = ntohs(*((uint16_t *) (data + *offset + 10)));
     // Update offset to point after header
-    state->offset += 12;
+    *offset += 12;
 
     return header;
 }
@@ -65,40 +63,56 @@ dns_header dns_parse_header(unsigned char *data, dns_parsing_state *state) {
  * Parse a DNS Domain Name.
  * 
  * @param data a pointer pointing to the start of the DNS message
- * @param state a pointer to the current parsing state
+ * @param offset a pointer to the current parsing offset
+ * @param domain_name accumulator for the parsed domain name
  * @return the parsed domain name
  * 
  * TODO: realloc buffer if domain name too long
  */
-char* dns_parse_domain_name(unsigned char *data, dns_parsing_state *state) {
-    uint16_t start = state->offset;
-    uint16_t domain_name_length = 0;
+char* dns_parse_domain_name(unsigned char *data, uint16_t *offset) {
+    if (*(data + *offset) == '\0') {
+        // Domain name is ROOT
+        (*offset)++;
+        return "";
+    }
     char* domain_name = (char*) malloc(DNS_DOMAIN_NAME_SIZE);
     char* domain_name_ptr = domain_name;
-    do {
-        uint8_t length_byte = *((uint8_t *) (data + state->offset));
-        if (length_byte >> 6 == 3) {  // First byte starts with 0b11
-            // Compressed domain name, retrieve already parsed name with offset
-            uint16_t offset = ntohs(*((uint16_t *) (data + state->offset))) & DNS_COMPRESSION_MASK;
-            parsed_domain_name* base_domain_name = state->parsed_domain_names + offset;
-            memcpy(domain_name_ptr, base_domain_name->domain_name, base_domain_name->length);
-            state->offset += 2;
-            return domain_name;
+    bool compression = false;
+    uint16_t domain_name_offset = *offset;  // Other offset, might be useful for domain name compression
+    while (*(data + domain_name_offset) != '\0') {
+        uint8_t length_byte = *((uint8_t *) (data + domain_name_offset));
+        if (length_byte >> 6 == 3) {  // Length byte starts with 0b11
+            // Domain name compression
+            // Advance offset by 2 bytes, and do not update it again
+            if(!compression) {
+                *offset += 2;
+            }
+            compression = true;
+            // Retrieve new offset to parse domain name from
+            domain_name_offset = ntohs(*((uint16_t *) (data + domain_name_offset))) & DNS_COMPRESSION_MASK;
+            printf("Offset: %d\n", domain_name_offset);
         } else {
-            // Fully written domain name, parse it
-                for (int i = 1; i <= length_byte; i++) {
-                    *(domain_name_ptr++) = *(data + state->offset + i);
-                }
-                *(domain_name_ptr++) = '.';
-                domain_name_length += length_byte + 1;
-                state->offset += length_byte + 1;
+            // Fully written label, parse it
+            int i;
+            for (i = 1; i <= length_byte; i++) {
+                char c = *(data + domain_name_offset + i);
+                *(domain_name_ptr++) = c;
+            }
+            *(domain_name_ptr++) = '.';
+            domain_name_offset += length_byte + 1;
+            if (!compression) {
+                *offset = domain_name_offset;
+            }
         }
-    } while (*(data + state->offset) != '\0');
-    *(--domain_name_ptr) = '\0';  // Overwrite last '.' that was written
-    // Store parsed domain name
-    (state->parsed_domain_names + start)->length = domain_name_length;
-    (state->parsed_domain_names + start)->domain_name = domain_name;
-    state->offset++;
+    }
+    // Domain name was fully parsed
+    // Overwrite last '.' written with NULL byte
+    *(--domain_name_ptr) = '\0';
+    // Advance offset after NULL terminator, if domain name compression was not used
+    if (!compression) {
+        (*offset)++;
+    }
+    printf("Parsed domain name: %s\n", domain_name);
     return domain_name;
 }
 
@@ -107,20 +121,20 @@ char* dns_parse_domain_name(unsigned char *data, dns_parsing_state *state) {
  * 
  * @param length the number of questions present in the question section
  * @param data a pointer pointing to the start of the DNS message
- * @param state a pointer to the current parsing state
+ * @param offset a pointer to the current parsing offset
  * @return the parsed question section
  */
-dns_question* dns_parse_questions(uint16_t qdcount, unsigned char *data, dns_parsing_state *state) {
+dns_question* dns_parse_questions(uint16_t qdcount, unsigned char *data, uint16_t *offset) {
     // Init
     dns_question *questions = (dns_question *) malloc(qdcount * sizeof(dns_question));
     // Iterate over all questions
     for (uint16_t i = 0; i < qdcount; i++) {
         // Parse domain name
-        (questions + i)->qname = dns_parse_domain_name(data, state);
+        (questions + i)->qname = dns_parse_domain_name(data, offset);
         // Parse rtype and rclass
-        (questions + i)->qtype = ntohs(*((uint16_t *) (data + state->offset)));
-        (questions + i)->qclass = ntohs(*((uint16_t *) (data + state->offset + 2)));
-        state->offset += 4;
+        (questions + i)->qtype = ntohs(*((uint16_t *) (data + *offset)));
+        (questions + i)->qclass = ntohs(*((uint16_t *) (data + *offset + 2)));
+        *offset += 4;
     }
     return questions;
 }
@@ -130,46 +144,50 @@ dns_question* dns_parse_questions(uint16_t qdcount, unsigned char *data, dns_par
  * 
  * @param rdlength the length, in bytes, of the RDATA field
  * @param data a pointer pointing to the start of the DNS message
- * @param state a pointer to the current parsing state
+ * @param offset a pointer to the current parsing offset
  * @return the parsed RDATA field
  */
-char* dns_parse_rdata(dns_rr_type rtype, uint16_t rdlength, unsigned char *data, dns_parsing_state *state) {
+char* dns_parse_rdata(dns_rr_type rtype, uint16_t rdlength, unsigned char *data, uint16_t *offset) {
+    if (rdlength == 0) {
+        // RDATA field is empty
+        return NULL;
+    }
+    // RDATA field is not empty
     char *rdata;
     switch (rtype) {
         case CNAME:
-            rdata = dns_parse_domain_name(data, state);
+            rdata = dns_parse_domain_name(data, offset);
             break;
         default:
             rdata = (char *) malloc(sizeof(char) * rdlength);
-            memcpy(rdata, data + state->offset, rdlength);
-            state->offset += rdlength;
+            memcpy(rdata, data + *offset, rdlength);
+            *offset += rdlength;
     }
     return rdata;
 }
-
 
 /**
  * Parse a DNS Resource Record list.
  * @param count the number of resource records present in the section
  * @param data a pointer pointing to the start of the DNS message
- * @param state a pointer to the current parsing state
+ * @param offset a pointer to the current parsing offset
  * @return the parsed resource records list
  */
-dns_resource_record* dns_parse_rrs(uint16_t count, unsigned char *data, dns_parsing_state *state) {
+dns_resource_record* dns_parse_rrs(uint16_t count, unsigned char *data, uint16_t *offset) {
     dns_resource_record *rrs = (dns_resource_record *) malloc(count * sizeof(dns_resource_record));
     for (uint16_t i = 0; i < count; i++) {
         // Parse domain name
-        (rrs + i)->name = dns_parse_domain_name(data, state);
+        (rrs + i)->name = dns_parse_domain_name(data, offset);
         // Parse rtype, rclass and TTL
-        dns_rr_type rtype = ntohs(*((uint16_t *) (data + state->offset)));
+        dns_rr_type rtype = ntohs(*((uint16_t *) (data + *offset)));
         (rrs + i)->rtype = rtype;
-        (rrs + i)->rclass = ntohs(*((uint16_t *) (data + state->offset + 2)));
-        (rrs + i)->ttl = ntohl(*((uint32_t *) (data + state->offset + 4)));
+        (rrs + i)->rclass = ntohs(*((uint16_t *) (data + *offset + 2)));
+        (rrs + i)->ttl = ntohl(*((uint32_t *) (data + *offset + 4)));
         // Parse rdata
-        uint16_t rdlength = ntohs(*((uint16_t *) (data + state->offset + 8)));
+        uint16_t rdlength = ntohs(*((uint16_t *) (data + *offset + 8)));
         (rrs + i)->rdlength = rdlength;
-        state->offset += 10;
-        (rrs + i)->rdata = dns_parse_rdata(rtype, rdlength, data, state);
+        *offset += 10;
+        (rrs + i)->rdata = dns_parse_rdata(rtype, rdlength, data, offset);
     }
     return rrs;
 }
