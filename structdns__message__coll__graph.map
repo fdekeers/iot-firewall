@@ -1,0 +1,6 @@
+<map id="dns_message" name="dns_message">
+<area shape="rect" id="node1" title=" " alt="" coords="179,124,289,151"/>
+<area shape="rect" id="node2" href="$structdns__resource__record.html" title=" " alt="" coords="5,5,161,32"/>
+<area shape="rect" id="node3" href="$structdns__header.html" title=" " alt="" coords="185,5,283,32"/>
+<area shape="rect" id="node4" href="$structdns__question.html" title=" " alt="" coords="307,5,415,32"/>
+</map>
