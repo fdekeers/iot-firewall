@@ -100,7 +100,6 @@ char* dns_parse_domain_name(unsigned char *data, uint16_t *offset) {
             compression = true;
             // Retrieve new offset to parse domain name from
             domain_name_offset = ntohs(*((uint16_t *) (data + domain_name_offset))) & DNS_COMPRESSION_MASK;
-            printf("Offset: %d\n", domain_name_offset);
         } else {
             // Fully written label, parse it
             int i;
@@ -122,7 +121,6 @@ char* dns_parse_domain_name(unsigned char *data, uint16_t *offset) {
     if (!compression) {
         (*offset)++;
     }
-    printf("Parsed domain name: %s\n", domain_name);
     return domain_name;
 }
 
