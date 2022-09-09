@@ -1,7 +1,7 @@
 /**
  * @file include/parsers/dns.h
  * @author François De Keersmaeker (francois.dekeersmaeker@uclouvain.be)
- * @brief DNS message parser
+ * @brief DNS message parse
  * @date 2022-09-09
  * 
  * @copyright Copyright (c) 2022
