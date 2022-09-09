@@ -1,0 +1,17 @@
+name: Publish Doxygen to GitHub Pages
+
+on:
+  push:
+    branches:
+      - main
+
+
+jobs:
+
+  publish:
+    runs-on: ubuntu/latest
+    steps:
+      - uses: DenverCoder1/doxygen-github-pages-action@v1.1.0
+        with:
+          branch: main
+          github_token: ${{ secrets.GITHUB_TOKEN }}
