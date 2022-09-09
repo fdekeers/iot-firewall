@@ -1,9 +1,0 @@
-.vscode
-build
-bin
-doc
-docs
-CMakeFiles
-CMakeCache.txt
-cmake_install.cmake
-Makefile
