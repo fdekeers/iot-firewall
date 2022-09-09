@@ -1,7 +1,7 @@
 /**
  * @file test/map_domain_ip.c
  * @author François De Keersmaeker (francois.dekeersmaeker@uclouvain.be)
- * @brief Unit tests for the DNS table
+ * @brief Unit tests for the mapping structure from DNS domain names to IP addresses
  * @date 2022-09-06
  * 
  * @copyright Copyright (c) 2022

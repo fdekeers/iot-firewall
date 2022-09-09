@@ -1,3 +1,13 @@
+/**
+ * @file src/packet_utils.c
+ * @author François De Keersmaeker (francois.dekeersmaeker@uclouvain.be)
+ * @brief Utilitaries for payload manipulation and display
+ * @date 2022-09-09
+ * 
+ * @copyright Copyright (c) 2022
+ * 
+ */
+
 #include "packet_utils.h"
 
 

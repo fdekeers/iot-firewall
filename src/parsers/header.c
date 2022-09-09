@@ -1,3 +1,22 @@
+/**
+ * @file src/parsers/header.c
+ * @author François De Keersmaeker (francois.dekeersmaeker@uclouvain.be)
+ * @brief Parser for layer 3 and 4 headers (currently only IP, UDP and TCP)
+ * 
+ * Parser for layer 3 and 4 headers.
+ * Currently supported protocols:
+ *   - Layer 3:
+ *     - IP
+ *   - Layer 4:
+ *     - UDP
+ *     - TCP
+ * 
+ * @date 2022-09-09
+ * 
+ * @copyright Copyright (c) 2022
+ * 
+ */
+
 #include "header.h"
 
 /**

@@ -1,11 +1,14 @@
-#include <stdio.h>
-#include <stdlib.h>
-#include <unistd.h>
-#include <netinet/in.h>
-#include <linux/types.h>
-#include <linux/netfilter.h>
-#include <errno.h>
-#include <libnetfilter_queue/libnetfilter_queue.h>
+/**
+ * @file src/nfqueue.c
+ * @author François De Keersmaeker (francois.dekeersmaeker@uclouvain.be)
+ * @brief Wrapper for the netfilter_queue library
+ * @date 2022-09-09
+ * 
+ * @copyright Copyright (c) 2022
+ * 
+ */
+
+#include "nfqueue.h"
 
 /**
  * Bind queue to callback function,

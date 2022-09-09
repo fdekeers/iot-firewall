@@ -1,3 +1,13 @@
+/**
+ * @file src/parsers/dns.c
+ * @author François De Keersmaeker (francois.dekeersmaeker@uclouvain.be)
+ * @brief DNS message parser
+ * @date 2022-09-09
+ * 
+ * @copyright Copyright (c) 2022
+ * 
+ */
+
 #include "dns.h"
 
 ///// PARSE FUNCTIONS /////

@@ -1,7 +1,7 @@
 /**
  * @file src/map_domain_ip.c
  * @author François De Keersmaeker (francois.dekeersmaeker@uclouvain.be)
- * @brief Implementation of a DNS table, using Joshua J Baker's hashmap.c (https://github.com/tidwall/hashmap.c)
+ * @brief Implementation of a DNS domain name to IP addresses mapping, using Joshua J Baker's hashmap.c (https://github.com/tidwall/hashmap.c)
  * @date 2022-09-06
  * 
  * @copyright Copyright (c) 2022

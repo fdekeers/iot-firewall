@@ -1,3 +1,13 @@
+/**
+ * @file include/parsers/dns.h
+ * @author François De Keersmaeker (francois.dekeersmaeker@uclouvain.be)
+ * @brief DNS message parser
+ * @date 2022-09-09
+ * 
+ * @copyright Copyright (c) 2022
+ * 
+ */
+
 #ifndef _IOTFIREWALL_DNS_
 #define _IOTFIREWALL_DNS_
 

@@ -1,3 +1,13 @@
+/**
+ * @file include/nfqueue.h
+ * @author François De Keersmaeker (francois.dekeersmaeker@uclouvain.be)
+ * @brief Wrapper for the netfilter_queue library
+ * @date 2022-09-09
+ * 
+ * @copyright Copyright (c) 2022
+ * 
+ */
+
 #ifndef _IOTFIREWALL_NFQUEUE_
 #define _IOTFIREWALL_NFQUEUE_
 
@@ -19,14 +29,16 @@
  * @param callback the callback funtion, called upon packet reception
  * The callback function must have the following signature:
  *     int callback(struct nfq_q_handle *qh, struct nfgenmsg *nfmsg, struct nfq_data *nfa, void *data)
+ * @param arg the argument to pass to the callback function
  */
 void bind_queue(uint16_t queue_num, nfq_callback *callback, void *arg);
 
 /**
- * Retrieve the packet id from a nfq_data struct.
+ * Retrieve the packet id from a nfq_data struct,
+ * or -1 in case of error.
  * 
  * @param nfa the given nfq_data struct
- * @return the packet id
+ * @return the packet id, or -1 in case of error
  */
 int get_pkt_id(struct nfq_data *nfa);
 

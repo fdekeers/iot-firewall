@@ -1,3 +1,13 @@
+/**
+ * @file include/packet_utils.h
+ * @author François De Keersmaeker (francois.dekeersmaeker@uclouvain.be)
+ * @brief Utilitaries for payload manipulation and display
+ * @date 2022-09-09
+ * 
+ * @copyright Copyright (c) 2022
+ * 
+ */
+
 #ifndef _IOTFIREWALL_PACKET_UTILS_
 #define _IOTFIREWALL_PACKET_UTILS_
 
