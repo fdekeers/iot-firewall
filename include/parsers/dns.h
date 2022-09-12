@@ -97,7 +97,7 @@ typedef struct dns_message {
 
 ////////// FUNCTIONS //////////
 
-///// PARSE FUNCTIONS /////
+///// PARSING /////
 
 /**
  * Parse a DNS header.
@@ -139,7 +139,7 @@ dns_resource_record* dns_parse_rrs(uint16_t count, unsigned char *data, uint16_t
 dns_message dns_parse_message(size_t length, unsigned char *data);
 
 
-///// PRINT FUNCTIONS /////
+///// PRINTING /////
 
 /**
  * Print a DNS header.

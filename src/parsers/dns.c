@@ -10,7 +10,7 @@
 
 #include "dns.h"
 
-///// PARSE FUNCTIONS /////
+///// PARSING /////
 
 /**
  * Parse a DNS message.
@@ -201,7 +201,7 @@ dns_resource_record* dns_parse_rrs(uint16_t count, unsigned char *data, uint16_t
 }
 
 
-///// PRINT FUNCTIONS /////
+///// PRINTING /////
 
 /**
  * Print a DNS header.
