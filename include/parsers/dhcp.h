@@ -14,9 +14,12 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <stdint.h>
+#include <string.h>
+#include <arpa/inet.h>
 
 #define DHCP_HEADER_SIZE 236
 #define DHCP_MAX_OPTION_COUNT 20
+#define MAC_ADDRESS_SIZE 6
 
 
 ////////// TYPE DEFINITIONS //////////
@@ -33,6 +36,23 @@ typedef enum {
     PAD = 0,
     END = 255
 } dhcp_option_code;
+
+/**
+ * DHCP Option
+ */
+typedef struct dhcp_option {
+    uint8_t code;
+    uint8_t length;
+    uint8_t *value;
+} dhcp_option;
+
+/**
+ * DHCP Options
+ */
+typedef struct dhcp_options {
+    uint8_t count;         // Number of options
+    dhcp_option *options;  // List of options
+} dhcp_options;
 
 /**
  * DHCP Message
@@ -55,23 +75,6 @@ typedef struct dhcp_message {
     dhcp_options options;  // DHCP options
 } dhcp_message;
 
-/**
- * DHCP Option
- */
-typedef struct dhcp_option {
-    uint8_t code;
-    uint8_t length;
-    uint8_t *value;
-} dhcp_option;
-
-/**
- * DHCP Options
- */
-typedef struct dhcp_options {
-    uint8_t count;         // Number of options
-    dhcp_option *options;  // List of options
-} dhcp_options;
-
 
 ////////// FUNCTIONS //////////
 
@@ -89,9 +92,11 @@ dhcp_message dhcp_parse_header(uint8_t *data);
  * @brief Parse a DHCP option
  * 
  * @param data a pointer to the start of the DHCP option
+ * @param offset a pointer to the current offset inside the DHCP message
+ *               Its value will be updated to point to the next option
  * @return the parsed DHCP option
  */
-dhcp_option dhcp_parse_option(uint8_t *data);
+dhcp_option dhcp_parse_option(uint8_t *data, uint16_t *offset);
 
 /**
  * @brief Parse DHCP options
@@ -113,11 +118,11 @@ dhcp_message dhcp_parse_message(uint8_t *data);
 ///// PRINTING /////
 
 /**
- * @brief Print a DHCP message
+ * @brief Print the header of a DHCP message
  * 
- * @param message the DHCP message to print
+ * @param message the DHCP message to print the header of
  */
-void dhcp_print_message(dhcp_message message);
+void dhcp_print_header(dhcp_message message);
 
 /**
  * @brief Print a DHCP option
@@ -127,11 +132,11 @@ void dhcp_print_message(dhcp_message message);
 void dhcp_print_option(dhcp_option option);
 
 /**
- * @brief Print DHCP options
+ * @brief Print a DHCP message
  * 
- * @param options the DHCP options to print
+ * @param message the DHCP message to print
  */
-void dhcp_print_options(dhcp_options options);
+void dhcp_print_message(dhcp_message message);
 
 
 #endif /* _IOTFIREWALL_DHCP_ */
