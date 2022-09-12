@@ -81,11 +81,13 @@ Include dependency graph for dhcp.c:</div>
 <div class="dyncontent">
 <div class="center"><img src="dhcp_8c__incl.png" border="0" usemap="#src_2parsers_2dhcp_8c" alt=""/></div>
 <map name="src_2parsers_2dhcp_8c" id="src_2parsers_2dhcp_8c">
-<area shape="rect" title="DHCP message parser." alt="" coords="65,5,203,32"/>
-<area shape="rect" href="dhcp_8h.html" title="DHCP message parser." alt="" coords="75,80,193,107"/>
+<area shape="rect" title="DHCP message parser." alt="" coords="158,5,297,32"/>
+<area shape="rect" href="dhcp_8h.html" title="DHCP message parser." alt="" coords="169,80,286,107"/>
 <area shape="rect" title=" " alt="" coords="5,155,76,181"/>
 <area shape="rect" title=" " alt="" coords="101,155,167,181"/>
 <area shape="rect" title=" " alt="" coords="192,155,263,181"/>
+<area shape="rect" title=" " alt="" coords="287,155,357,181"/>
+<area shape="rect" title=" " alt="" coords="381,155,473,181"/>
 </map>
 </div>
 </div><table class="memberdecls">
@@ -100,12 +102,18 @@ Functions</h2></td></tr>
 <tr class="memitem:a8d0d705dbd3cef7e5077f841259a8d84"><td class="memItemLeft" align="right" valign="top"><a class="el" href="structdhcp__options.html">dhcp_options</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="dhcp_8c.html#a8d0d705dbd3cef7e5077f841259a8d84">dhcp_parse_options</a> (uint8_t *data)</td></tr>
 <tr class="memdesc:a8d0d705dbd3cef7e5077f841259a8d84"><td class="mdescLeft">&#160;</td><td class="mdescRight">Parse DHCP options.  <a href="dhcp_8c.html#a8d0d705dbd3cef7e5077f841259a8d84">More...</a><br /></td></tr>
 <tr class="separator:a8d0d705dbd3cef7e5077f841259a8d84"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aaf25752832dc391105f6b3b3ff73075d"><td class="memItemLeft" align="right" valign="top"><a class="el" href="structdhcp__option.html">dhcp_option</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="dhcp_8c.html#aaf25752832dc391105f6b3b3ff73075d">dhcp_parse_option</a> (uint8_t *data)</td></tr>
-<tr class="memdesc:aaf25752832dc391105f6b3b3ff73075d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Parse a DHCP option.  <a href="dhcp_8c.html#aaf25752832dc391105f6b3b3ff73075d">More...</a><br /></td></tr>
-<tr class="separator:aaf25752832dc391105f6b3b3ff73075d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af949917604770c8411dae06b82e3d63f"><td class="memItemLeft" align="right" valign="top"><a class="el" href="structdhcp__option.html">dhcp_option</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="dhcp_8c.html#af949917604770c8411dae06b82e3d63f">dhcp_parse_option</a> (uint8_t *data, uint16_t *offset)</td></tr>
+<tr class="memdesc:af949917604770c8411dae06b82e3d63f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Parse a DHCP option.  <a href="dhcp_8c.html#af949917604770c8411dae06b82e3d63f">More...</a><br /></td></tr>
+<tr class="separator:af949917604770c8411dae06b82e3d63f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a29f528299cc2f7451480accad3c96846"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="dhcp_8c.html#a29f528299cc2f7451480accad3c96846">dhcp_print_message</a> (<a class="el" href="structdhcp__message.html">dhcp_message</a> message)</td></tr>
 <tr class="memdesc:a29f528299cc2f7451480accad3c96846"><td class="mdescLeft">&#160;</td><td class="mdescRight">Print a DHCP message.  <a href="dhcp_8c.html#a29f528299cc2f7451480accad3c96846">More...</a><br /></td></tr>
 <tr class="separator:a29f528299cc2f7451480accad3c96846"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab0784fe8169001c686fd0e479b3e7d0a"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="dhcp_8c.html#ab0784fe8169001c686fd0e479b3e7d0a">dhcp_print_chaddr</a> (uint8_t htype, uint8_t chaddr[])</td></tr>
+<tr class="memdesc:ab0784fe8169001c686fd0e479b3e7d0a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Print a hardware address.  <a href="dhcp_8c.html#ab0784fe8169001c686fd0e479b3e7d0a">More...</a><br /></td></tr>
+<tr class="separator:ab0784fe8169001c686fd0e479b3e7d0a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ada02cb6320785d9f94349d59db3f5ba9"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="dhcp_8c.html#ada02cb6320785d9f94349d59db3f5ba9">dhcp_print_header</a> (<a class="el" href="structdhcp__message.html">dhcp_message</a> message)</td></tr>
+<tr class="memdesc:ada02cb6320785d9f94349d59db3f5ba9"><td class="mdescLeft">&#160;</td><td class="mdescRight">Print the header of a DHCP message.  <a href="dhcp_8c.html#ada02cb6320785d9f94349d59db3f5ba9">More...</a><br /></td></tr>
+<tr class="separator:ada02cb6320785d9f94349d59db3f5ba9"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a9e9d9a2711bca943d379787e7634b653"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="dhcp_8c.html#a9e9d9a2711bca943d379787e7634b653">dhcp_print_option</a> (<a class="el" href="structdhcp__option.html">dhcp_option</a> option)</td></tr>
 <tr class="memdesc:a9e9d9a2711bca943d379787e7634b653"><td class="mdescLeft">&#160;</td><td class="mdescRight">Print a DHCP option.  <a href="dhcp_8c.html#a9e9d9a2711bca943d379787e7634b653">More...</a><br /></td></tr>
 <tr class="separator:a9e9d9a2711bca943d379787e7634b653"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -170,8 +178,8 @@ Functions</h2></td></tr>
 
 </div>
 </div>
-<a id="aaf25752832dc391105f6b3b3ff73075d"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aaf25752832dc391105f6b3b3ff73075d">&#9670;&nbsp;</a></span>dhcp_parse_option()</h2>
+<a id="af949917604770c8411dae06b82e3d63f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#af949917604770c8411dae06b82e3d63f">&#9670;&nbsp;</a></span>dhcp_parse_option()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -180,8 +188,18 @@ Functions</h2></td></tr>
           <td class="memname"><a class="el" href="structdhcp__option.html">dhcp_option</a> dhcp_parse_option </td>
           <td>(</td>
           <td class="paramtype">uint8_t *&#160;</td>
-          <td class="paramname"><em>data</em></td><td>)</td>
+          <td class="paramname"><em>data</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
           <td></td>
+          <td class="paramtype">uint16_t *&#160;</td>
+          <td class="paramname"><em>offset</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
         </tr>
       </table>
 </div><div class="memdoc">
@@ -190,6 +208,7 @@ Functions</h2></td></tr>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">data</td><td>a pointer to the start of the DHCP option </td></tr>
+    <tr><td class="paramname">offset</td><td>a pointer to the current offset inside the DHCP message Its value will be updated to point to the next option </td></tr>
   </table>
   </dd>
 </dl>
@@ -222,6 +241,69 @@ Functions</h2></td></tr>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>a pointer to the start of the parsed DHCP options</dd></dl>
 <p>TODO: realloc if too many options </p>
+
+</div>
+</div>
+<a id="ab0784fe8169001c686fd0e479b3e7d0a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ab0784fe8169001c686fd0e479b3e7d0a">&#9670;&nbsp;</a></span>dhcp_print_chaddr()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void dhcp_print_chaddr </td>
+          <td>(</td>
+          <td class="paramtype">uint8_t&#160;</td>
+          <td class="paramname"><em>htype</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">uint8_t&#160;</td>
+          <td class="paramname"><em>chaddr</em>[]&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Print a hardware address. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">htype</td><td>hardware type </td></tr>
+    <tr><td class="paramname">chaddr</td><td>the hardware address to print </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="ada02cb6320785d9f94349d59db3f5ba9"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ada02cb6320785d9f94349d59db3f5ba9">&#9670;&nbsp;</a></span>dhcp_print_header()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void dhcp_print_header </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="structdhcp__message.html">dhcp_message</a>&#160;</td>
+          <td class="paramname"><em>message</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Print the header of a DHCP message. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">message</td><td>the DHCP message to print the header of </td></tr>
+  </table>
+  </dd>
+</dl>
 
 </div>
 </div>

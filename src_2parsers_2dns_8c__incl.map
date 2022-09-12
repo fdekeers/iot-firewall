@@ -1,11 +1,11 @@
 <map id="src/parsers/dns.c" name="src/parsers/dns.c">
-<area shape="rect" id="node1" title="DNS message parser." alt="" coords="187,5,318,32"/>
-<area shape="rect" id="node2" href="$dns_8h.html" title="DNS message parser." alt="" coords="224,80,281,107"/>
+<area shape="rect" id="node1" title="DNS message parser." alt="" coords="210,5,341,32"/>
+<area shape="rect" id="node2" href="$dns_8h.html" title="DNS message parser." alt="" coords="247,80,304,107"/>
 <area shape="rect" id="node3" title=" " alt="" coords="5,229,76,256"/>
-<area shape="rect" id="node4" title=" " alt="" coords="113,229,179,256"/>
-<area shape="rect" id="node5" title=" " alt="" coords="291,155,361,181"/>
-<area shape="rect" id="node6" title=" " alt="" coords="386,155,469,181"/>
-<area shape="rect" id="node7" title=" " alt="" coords="211,229,281,256"/>
-<area shape="rect" id="node8" title=" " alt="" coords="493,155,585,181"/>
-<area shape="rect" id="node9" href="$packet__utils_8h.html" title="Utilitaries for payload manipulation and display." alt="" coords="103,155,215,181"/>
+<area shape="rect" id="node4" title=" " alt="" coords="102,229,169,256"/>
+<area shape="rect" id="node5" title=" " alt="" coords="195,229,265,256"/>
+<area shape="rect" id="node6" title=" " alt="" coords="363,155,446,181"/>
+<area shape="rect" id="node7" title=" " alt="" coords="289,229,360,256"/>
+<area shape="rect" id="node8" title=" " alt="" coords="471,155,563,181"/>
+<area shape="rect" id="node9" href="$packet__utils_8h.html" title="Utilitaries for payload manipulation and display." alt="" coords="126,155,238,181"/>
 </map>

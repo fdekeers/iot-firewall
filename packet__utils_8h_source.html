@@ -76,19 +76,20 @@ $(function() {
 <div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160; </div>
 <div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;<span class="preprocessor">#include &lt;stdlib.h&gt;</span></div>
 <div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;<span class="preprocessor">#include &lt;stdio.h&gt;</span></div>
-<div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;<span class="preprocessor">#include &lt;string.h&gt;</span></div>
-<div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160; </div>
+<div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;<span class="preprocessor">#include &lt;stdint.h&gt;</span></div>
+<div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;<span class="preprocessor">#include &lt;string.h&gt;</span></div>
 <div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160; </div>
-<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;<span class="keywordtype">void</span> <a class="code" href="packet__utils_8h.html#ac707a0204887a4618d63520b64839b1a">print_payload</a>(<span class="keywordtype">int</span> length, <span class="keywordtype">unsigned</span> <span class="keywordtype">char</span> *data);</div>
-<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160; </div>
-<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;<span class="keywordtype">size_t</span> <a class="code" href="packet__utils_8h.html#a553e11c2b859ed6059fb0fe22b0f2e8f">hexstr_to_payload</a>(<span class="keywordtype">char</span> *hexstring, <span class="keywordtype">unsigned</span> <span class="keywordtype">char</span> **payload);</div>
-<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160; </div>
-<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;<span class="keywordtype">char</span>* <a class="code" href="packet__utils_8h.html#a90d164aab89bcf655c38eabac718ab42">ipv4_hex_to_str</a>(<span class="keywordtype">char</span>* ipv4_hex);</div>
-<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160; </div>
-<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;<span class="keywordtype">char</span>* <a class="code" href="packet__utils_8h.html#afd0359feacd077ae779461e98139e299">ipv4_str_to_hex</a>(<span class="keywordtype">char</span>* ipv4_str);</div>
-<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160; </div>
+<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160; </div>
+<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;<span class="keywordtype">void</span> <a class="code" href="packet__utils_8h.html#ac707a0204887a4618d63520b64839b1a">print_payload</a>(<span class="keywordtype">int</span> length, <span class="keywordtype">unsigned</span> <span class="keywordtype">char</span> *data);</div>
+<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160; </div>
+<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;<span class="keywordtype">size_t</span> <a class="code" href="packet__utils_8h.html#a553e11c2b859ed6059fb0fe22b0f2e8f">hexstr_to_payload</a>(<span class="keywordtype">char</span> *hexstring, <span class="keywordtype">unsigned</span> <span class="keywordtype">char</span> **payload);</div>
+<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160; </div>
+<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;<span class="keywordtype">char</span>* <a class="code" href="packet__utils_8h.html#a90d164aab89bcf655c38eabac718ab42">ipv4_hex_to_str</a>(<span class="keywordtype">char</span>* ipv4_hex);</div>
+<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160; </div>
+<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;<span class="keywordtype">char</span>* <a class="code" href="packet__utils_8h.html#afd0359feacd077ae779461e98139e299">ipv4_str_to_hex</a>(<span class="keywordtype">char</span>* ipv4_str);</div>
 <div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160; </div>
-<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;<span class="preprocessor">#endif </span><span class="comment">/* _IOTFIREWALL_PACKET_UTILS_ */</span><span class="preprocessor"></span></div>
+<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160; </div>
+<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;<span class="preprocessor">#endif </span><span class="comment">/* _IOTFIREWALL_PACKET_UTILS_ */</span><span class="preprocessor"></span></div>
 </div><!-- fragment --></div><!-- contents -->
 <div class="ttc" id="apacket__utils_8h_html_a553e11c2b859ed6059fb0fe22b0f2e8f"><div class="ttname"><a href="packet__utils_8h.html#a553e11c2b859ed6059fb0fe22b0f2e8f">hexstr_to_payload</a></div><div class="ttdeci">size_t hexstr_to_payload(char *hexstring, unsigned char **payload)</div><div class="ttdef"><b>Definition:</b> packet_utils.c:45</div></div>
 <div class="ttc" id="apacket__utils_8h_html_a90d164aab89bcf655c38eabac718ab42"><div class="ttname"><a href="packet__utils_8h.html#a90d164aab89bcf655c38eabac718ab42">ipv4_hex_to_str</a></div><div class="ttdeci">char * ipv4_hex_to_str(char *ipv4_hex)</div><div class="ttdef"><b>Definition:</b> packet_utils.c:64</div></div>
