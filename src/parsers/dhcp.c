@@ -74,8 +74,6 @@ dhcp_message dhcp_parse_header(uint8_t *data) {
  * 
  * @param data a pointer to the start of the DHCP options list
  * @return a pointer to the start of the parsed DHCP options
- * 
- * TODO: realloc if too many options
  */
 dhcp_options dhcp_parse_options(uint8_t *data) {
     // Init
@@ -83,9 +81,15 @@ dhcp_options dhcp_parse_options(uint8_t *data) {
     dhcp_options options;
     options.count = 0;
     options.options = (dhcp_option *) malloc(sizeof(dhcp_option) * max_option_count);
+    // Check magic cookie is equal to 0x63825363
+    uint32_t magic_cookie = ntohl(*((uint32_t *) data));
+    if (magic_cookie != DHCP_MAGIC_COOKIE) {
+        fprintf(stderr, "Error: DHCP magic cookie is %#x, which is not equal to %#x\n", magic_cookie, DHCP_MAGIC_COOKIE);
+        exit(EXIT_FAILURE);
+    }
     // Parse options
     uint8_t i = 0;
-    uint16_t offset = 0;
+    uint16_t offset = 4;
     uint8_t code;
     do {
         if (options.count == max_option_count) {
