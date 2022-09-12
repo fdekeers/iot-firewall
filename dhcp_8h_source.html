@@ -78,41 +78,86 @@ $(function() {
 <div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;<span class="preprocessor">#include &lt;stdio.h&gt;</span></div>
 <div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;<span class="preprocessor">#include &lt;stdint.h&gt;</span></div>
 <div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160; </div>
-<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160; </div>
+<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;<span class="preprocessor">#define DHCP_HEADER_SIZE 236</span></div>
+<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;<span class="preprocessor">#define DHCP_MAX_OPTION_COUNT 20</span></div>
 <div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160; </div>
-<div class="line"><a name="l00024"></a><span class="lineno"><a class="line" href="structdhcp__message.html">   24</a></span>&#160;<span class="keyword">typedef</span> <span class="keyword">struct </span><a class="code" href="structdhcp__message.html">dhcp_message</a> {</div>
-<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;    uint8_t op;</div>
-<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;    uint8_t htype;</div>
-<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;    uint8_t hlen;</div>
-<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;    uint8_t hops;</div>
-<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;    uint32_t xid;</div>
-<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;    uint16_t secs;</div>
-<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;    uint16_t flags;</div>
-<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;    uint32_t ciaddr;</div>
-<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;    uint32_t yiaddr;</div>
-<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;    uint32_t siaddr;</div>
-<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;    uint32_t giaddr;</div>
-<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;    uint8_t chaddr[16];</div>
-<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;    uint8_t sname[64];</div>
-<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;    uint8_t file[128];</div>
-<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;    uint32_t magic_cookie;</div>
-<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;    uint8_t options[308];</div>
-<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;} <a class="code" href="dhcp_8h.html#a90aba9d65e4f4e7e1e41a98bb63bcd8b">dhcp_message</a>;</div>
-<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160; </div>
-<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160; </div>
-<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160; </div>
-<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160; </div>
-<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160; </div>
-<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160; </div>
-<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160; </div>
-<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160; </div>
-<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160; </div>
-<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160; </div>
-<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160; </div>
-<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;<span class="preprocessor">#endif </span><span class="comment">/* _IOTFIREWALL_DHCP_ */</span><span class="preprocessor"></span></div>
+<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160; </div>
+<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160; </div>
+<div class="line"><a name="l00027"></a><span class="lineno"><a class="line" href="dhcp_8h.html#a7a3056db28eee6275fc5cd35d1a99aa4">   27</a></span>&#160;<span class="keyword">typedef</span> <span class="keyword">enum</span> {</div>
+<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;    BOOTREQUEST = 1,</div>
+<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;    BOOTREPLY = 2</div>
+<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;} <a class="code" href="dhcp_8h.html#a7a3056db28eee6275fc5cd35d1a99aa4">dhcp_opcode</a>;</div>
+<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160; </div>
+<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;<span class="keyword">typedef</span> <span class="keyword">enum</span> {</div>
+<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;    PAD = 0,</div>
+<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;    END = 255</div>
+<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;} dhcp_option_code;</div>
+<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160; </div>
+<div class="line"><a name="l00040"></a><span class="lineno"><a class="line" href="structdhcp__message.html">   40</a></span>&#160;<span class="keyword">typedef</span> <span class="keyword">struct </span><a class="code" href="structdhcp__message.html">dhcp_message</a> {</div>
+<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;    uint8_t op;            <span class="comment">// DHCP opcode</span></div>
+<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;    uint8_t htype;         <span class="comment">// Hardware address type</span></div>
+<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;    uint8_t hlen;          <span class="comment">// Hardware address length</span></div>
+<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;    uint8_t hops;          <span class="comment">// Number of hops</span></div>
+<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;    uint32_t xid;          <span class="comment">// Transaction ID</span></div>
+<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;    uint16_t secs;         <span class="comment">// Seconds elapsed since client began address acquisition or renewal process</span></div>
+<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;    uint16_t flags;        <span class="comment">// DHCP flags</span></div>
+<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;    uint32_t ciaddr;       <span class="comment">// Client IP address</span></div>
+<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;    uint32_t yiaddr;       <span class="comment">// Your (client) IP address</span></div>
+<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;    uint32_t siaddr;       <span class="comment">// Next server IP address</span></div>
+<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;    uint32_t giaddr;       <span class="comment">// Relay agent IP address</span></div>
+<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;    uint8_t chaddr[16];    <span class="comment">// Client hardware address</span></div>
+<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;    uint8_t sname[64];     <span class="comment">// Optional server host name</span></div>
+<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;    uint8_t file[128];     <span class="comment">// Boot file name</span></div>
+<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;    <a class="code" href="structdhcp__options.html">dhcp_options</a> options;  <span class="comment">// DHCP options</span></div>
+<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;} <a class="code" href="dhcp_8h.html#a90aba9d65e4f4e7e1e41a98bb63bcd8b">dhcp_message</a>;</div>
+<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160; </div>
+<div class="line"><a name="l00061"></a><span class="lineno"><a class="line" href="structdhcp__option.html">   61</a></span>&#160;<span class="keyword">typedef</span> <span class="keyword">struct </span><a class="code" href="structdhcp__option.html">dhcp_option</a> {</div>
+<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;    uint8_t code;</div>
+<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;    uint8_t length;</div>
+<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;    uint8_t *value;</div>
+<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;} <a class="code" href="dhcp_8h.html#af405be3b2333f8f24d056b4972cab758">dhcp_option</a>;</div>
+<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160; </div>
+<div class="line"><a name="l00070"></a><span class="lineno"><a class="line" href="structdhcp__options.html">   70</a></span>&#160;<span class="keyword">typedef</span> <span class="keyword">struct </span><a class="code" href="structdhcp__options.html">dhcp_options</a> {</div>
+<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;    uint8_t count;         <span class="comment">// Number of options</span></div>
+<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;    <a class="code" href="structdhcp__option.html">dhcp_option</a> *options;  <span class="comment">// List of options</span></div>
+<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;} <a class="code" href="dhcp_8h.html#af09262ddf5f3ea28dcba7ad141b78d96">dhcp_options</a>;</div>
+<div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160; </div>
+<div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160; </div>
+<div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160; </div>
+<div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160; </div>
+<div class="line"><a name="l00086"></a><span class="lineno">   86</span>&#160;<a class="code" href="structdhcp__message.html">dhcp_message</a> <a class="code" href="dhcp_8h.html#a9d9f2b1cca42bac1987e97ccc4bd65ab">dhcp_parse_header</a>(uint8_t *data);</div>
+<div class="line"><a name="l00087"></a><span class="lineno">   87</span>&#160; </div>
+<div class="line"><a name="l00094"></a><span class="lineno">   94</span>&#160;<a class="code" href="structdhcp__option.html">dhcp_option</a> <a class="code" href="dhcp_8h.html#aaf25752832dc391105f6b3b3ff73075d">dhcp_parse_option</a>(uint8_t *data);</div>
+<div class="line"><a name="l00095"></a><span class="lineno">   95</span>&#160; </div>
+<div class="line"><a name="l00102"></a><span class="lineno">  102</span>&#160;<a class="code" href="structdhcp__options.html">dhcp_options</a> <a class="code" href="dhcp_8h.html#a8d0d705dbd3cef7e5077f841259a8d84">dhcp_parse_options</a>(uint8_t *data);</div>
+<div class="line"><a name="l00103"></a><span class="lineno">  103</span>&#160; </div>
+<div class="line"><a name="l00110"></a><span class="lineno">  110</span>&#160;<a class="code" href="structdhcp__message.html">dhcp_message</a> <a class="code" href="dhcp_8h.html#a47fa4c68040ab09cfe900cec51045c6d">dhcp_parse_message</a>(uint8_t *data);</div>
+<div class="line"><a name="l00111"></a><span class="lineno">  111</span>&#160; </div>
+<div class="line"><a name="l00112"></a><span class="lineno">  112</span>&#160; </div>
+<div class="line"><a name="l00114"></a><span class="lineno">  114</span>&#160; </div>
+<div class="line"><a name="l00120"></a><span class="lineno">  120</span>&#160;<span class="keywordtype">void</span> <a class="code" href="dhcp_8h.html#a29f528299cc2f7451480accad3c96846">dhcp_print_message</a>(<a class="code" href="structdhcp__message.html">dhcp_message</a> message);</div>
+<div class="line"><a name="l00121"></a><span class="lineno">  121</span>&#160; </div>
+<div class="line"><a name="l00127"></a><span class="lineno">  127</span>&#160;<span class="keywordtype">void</span> <a class="code" href="dhcp_8h.html#a9e9d9a2711bca943d379787e7634b653">dhcp_print_option</a>(<a class="code" href="structdhcp__option.html">dhcp_option</a> option);</div>
+<div class="line"><a name="l00128"></a><span class="lineno">  128</span>&#160; </div>
+<div class="line"><a name="l00134"></a><span class="lineno">  134</span>&#160;<span class="keywordtype">void</span> <a class="code" href="dhcp_8h.html#a0859c3609d5ff516e41b8878d4b8b104">dhcp_print_options</a>(<a class="code" href="structdhcp__options.html">dhcp_options</a> options);</div>
+<div class="line"><a name="l00135"></a><span class="lineno">  135</span>&#160; </div>
+<div class="line"><a name="l00136"></a><span class="lineno">  136</span>&#160; </div>
+<div class="line"><a name="l00137"></a><span class="lineno">  137</span>&#160;<span class="preprocessor">#endif </span><span class="comment">/* _IOTFIREWALL_DHCP_ */</span><span class="preprocessor"></span></div>
 </div><!-- fragment --></div><!-- contents -->
+<div class="ttc" id="adhcp_8h_html_a47fa4c68040ab09cfe900cec51045c6d"><div class="ttname"><a href="dhcp_8h.html#a47fa4c68040ab09cfe900cec51045c6d">dhcp_parse_message</a></div><div class="ttdeci">dhcp_message dhcp_parse_message(uint8_t *data)</div><div class="ttdoc">Parse a DHCP message.</div><div class="ttdef"><b>Definition:</b> dhcp.c:21</div></div>
+<div class="ttc" id="adhcp_8h_html_a7a3056db28eee6275fc5cd35d1a99aa4"><div class="ttname"><a href="dhcp_8h.html#a7a3056db28eee6275fc5cd35d1a99aa4">dhcp_opcode</a></div><div class="ttdeci">dhcp_opcode</div><div class="ttdef"><b>Definition:</b> dhcp.h:27</div></div>
+<div class="ttc" id="adhcp_8h_html_a9d9f2b1cca42bac1987e97ccc4bd65ab"><div class="ttname"><a href="dhcp_8h.html#a9d9f2b1cca42bac1987e97ccc4bd65ab">dhcp_parse_header</a></div><div class="ttdeci">dhcp_message dhcp_parse_header(uint8_t *data)</div><div class="ttdoc">Parse the header of a DHCP message (not including options)</div><div class="ttdef"><b>Definition:</b> dhcp.c:36</div></div>
+<div class="ttc" id="adhcp_8h_html_a9e9d9a2711bca943d379787e7634b653"><div class="ttname"><a href="dhcp_8h.html#a9e9d9a2711bca943d379787e7634b653">dhcp_print_option</a></div><div class="ttdeci">void dhcp_print_option(dhcp_option option)</div><div class="ttdoc">Print a DHCP option.</div></div>
+<div class="ttc" id="adhcp_8h_html_a29f528299cc2f7451480accad3c96846"><div class="ttname"><a href="dhcp_8h.html#a29f528299cc2f7451480accad3c96846">dhcp_print_message</a></div><div class="ttdeci">void dhcp_print_message(dhcp_message message)</div><div class="ttdoc">Print a DHCP message.</div></div>
+<div class="ttc" id="adhcp_8h_html_a0859c3609d5ff516e41b8878d4b8b104"><div class="ttname"><a href="dhcp_8h.html#a0859c3609d5ff516e41b8878d4b8b104">dhcp_print_options</a></div><div class="ttdeci">void dhcp_print_options(dhcp_options options)</div><div class="ttdoc">Print DHCP options.</div></div>
+<div class="ttc" id="astructdhcp__options_html"><div class="ttname"><a href="structdhcp__options.html">dhcp_options</a></div><div class="ttdef"><b>Definition:</b> dhcp.h:70</div></div>
+<div class="ttc" id="adhcp_8h_html_af405be3b2333f8f24d056b4972cab758"><div class="ttname"><a href="dhcp_8h.html#af405be3b2333f8f24d056b4972cab758">dhcp_option</a></div><div class="ttdeci">struct dhcp_option dhcp_option</div></div>
+<div class="ttc" id="astructdhcp__option_html"><div class="ttname"><a href="structdhcp__option.html">dhcp_option</a></div><div class="ttdef"><b>Definition:</b> dhcp.h:61</div></div>
 <div class="ttc" id="adhcp_8h_html_a90aba9d65e4f4e7e1e41a98bb63bcd8b"><div class="ttname"><a href="dhcp_8h.html#a90aba9d65e4f4e7e1e41a98bb63bcd8b">dhcp_message</a></div><div class="ttdeci">struct dhcp_message dhcp_message</div></div>
-<div class="ttc" id="astructdhcp__message_html"><div class="ttname"><a href="structdhcp__message.html">dhcp_message</a></div><div class="ttdef"><b>Definition:</b> dhcp.h:24</div></div>
+<div class="ttc" id="adhcp_8h_html_a8d0d705dbd3cef7e5077f841259a8d84"><div class="ttname"><a href="dhcp_8h.html#a8d0d705dbd3cef7e5077f841259a8d84">dhcp_parse_options</a></div><div class="ttdeci">dhcp_options dhcp_parse_options(uint8_t *data)</div><div class="ttdoc">Parse DHCP options.</div><div class="ttdef"><b>Definition:</b> dhcp.c:79</div></div>
+<div class="ttc" id="adhcp_8h_html_af09262ddf5f3ea28dcba7ad141b78d96"><div class="ttname"><a href="dhcp_8h.html#af09262ddf5f3ea28dcba7ad141b78d96">dhcp_options</a></div><div class="ttdeci">struct dhcp_options dhcp_options</div></div>
+<div class="ttc" id="adhcp_8h_html_aaf25752832dc391105f6b3b3ff73075d"><div class="ttname"><a href="dhcp_8h.html#aaf25752832dc391105f6b3b3ff73075d">dhcp_parse_option</a></div><div class="ttdeci">dhcp_option dhcp_parse_option(uint8_t *data)</div><div class="ttdoc">Parse a DHCP option.</div><div class="ttdef"><b>Definition:</b> dhcp.c:93</div></div>
+<div class="ttc" id="astructdhcp__message_html"><div class="ttname"><a href="structdhcp__message.html">dhcp_message</a></div><div class="ttdef"><b>Definition:</b> dhcp.h:40</div></div>
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
 Generated by &#160;<a href="http://www.doxygen.org/index.html">
