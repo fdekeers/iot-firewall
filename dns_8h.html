@@ -186,8 +186,8 @@ Functions</h2></td></tr>
 <tr class="separator:a6423030e0f9f85c31e09ddb69642d04b"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a0634d89c1f11f6f46fe620348d1598c1"><td class="memItemLeft" align="right" valign="top"><a class="el" href="structdns__resource__record.html">dns_resource_record</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="dns_8h.html#a0634d89c1f11f6f46fe620348d1598c1">dns_parse_rrs</a> (uint16_t count, unsigned char *data, uint16_t *offset)</td></tr>
 <tr class="separator:a0634d89c1f11f6f46fe620348d1598c1"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a4baf27600af0e0b7b069de0fd5cfd1ef"><td class="memItemLeft" align="right" valign="top"><a class="el" href="structdns__message.html">dns_message</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="dns_8h.html#a4baf27600af0e0b7b069de0fd5cfd1ef">dns_parse_message</a> (size_t length, unsigned char *data)</td></tr>
-<tr class="separator:a4baf27600af0e0b7b069de0fd5cfd1ef"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa1cab92ff10a5da9edd2e6aea7c8ed34"><td class="memItemLeft" align="right" valign="top"><a class="el" href="structdns__message.html">dns_message</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="dns_8h.html#aa1cab92ff10a5da9edd2e6aea7c8ed34">dns_parse_message</a> (unsigned char *data)</td></tr>
+<tr class="separator:aa1cab92ff10a5da9edd2e6aea7c8ed34"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a5984f1fc9cb757af97486861b33b5f85"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="dns_8h.html#a5984f1fc9cb757af97486861b33b5f85">dns_print_header</a> (<a class="el" href="structdns__header.html">dns_header</a> header)</td></tr>
 <tr class="separator:a5984f1fc9cb757af97486861b33b5f85"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a91cd5ec5039e9c569199b5dc92f16005"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="dns_8h.html#a91cd5ec5039e9c569199b5dc92f16005">dns_print_question</a> (<a class="el" href="structdns__question.html">dns_question</a> question)</td></tr>
@@ -321,8 +321,8 @@ Functions</h2></td></tr>
 
 </div>
 </div>
-<a id="a4baf27600af0e0b7b069de0fd5cfd1ef"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a4baf27600af0e0b7b069de0fd5cfd1ef">&#9670;&nbsp;</a></span>dns_parse_message()</h2>
+<a id="aa1cab92ff10a5da9edd2e6aea7c8ed34"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa1cab92ff10a5da9edd2e6aea7c8ed34">&#9670;&nbsp;</a></span>dns_parse_message()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -330,31 +330,20 @@ Functions</h2></td></tr>
         <tr>
           <td class="memname"><a class="el" href="structdns__message.html">dns_message</a> dns_parse_message </td>
           <td>(</td>
-          <td class="paramtype">size_t&#160;</td>
-          <td class="paramname"><em>length</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
           <td class="paramtype">unsigned char *&#160;</td>
-          <td class="paramname"><em>data</em>&#160;</td>
-        </tr>
-        <tr>
+          <td class="paramname"><em>data</em></td><td>)</td>
           <td></td>
-          <td>)</td>
-          <td></td><td></td>
         </tr>
       </table>
 </div><div class="memdoc">
 <p>Parse a DNS message.</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">length</td><td>the length of the message </td></tr>
-    <tr><td class="paramname">data</td><td>a pointer pointing to the start of the DNS message </td></tr>
+    <tr><td class="paramname">data</td><td>a pointer to the start of the DNS message </td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd>the parsed message </dd></dl>
+<dl class="section return"><dt>Returns</dt><dd>the parsed DNS message </dd></dl>
 
 </div>
 </div>
@@ -402,7 +391,7 @@ Functions</h2></td></tr>
 <p>Parse a DNS Question section.</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">length</td><td>the number of questions present in the question section </td></tr>
+    <tr><td class="paramname">qdcount</td><td>the number of questions present in the question section </td></tr>
     <tr><td class="paramname">data</td><td>a pointer pointing to the start of the DNS message </td></tr>
     <tr><td class="paramname">offset</td><td>a pointer to the current parsing offset </td></tr>
   </table>

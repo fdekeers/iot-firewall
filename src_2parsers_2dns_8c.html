@@ -95,8 +95,8 @@ Include dependency graph for dns.c:</div>
 </div><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="func-members"></a>
 Functions</h2></td></tr>
-<tr class="memitem:a4baf27600af0e0b7b069de0fd5cfd1ef"><td class="memItemLeft" align="right" valign="top"><a class="el" href="structdns__message.html">dns_message</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="src_2parsers_2dns_8c.html#a4baf27600af0e0b7b069de0fd5cfd1ef">dns_parse_message</a> (size_t length, unsigned char *data)</td></tr>
-<tr class="separator:a4baf27600af0e0b7b069de0fd5cfd1ef"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa1cab92ff10a5da9edd2e6aea7c8ed34"><td class="memItemLeft" align="right" valign="top"><a class="el" href="structdns__message.html">dns_message</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="src_2parsers_2dns_8c.html#aa1cab92ff10a5da9edd2e6aea7c8ed34">dns_parse_message</a> (unsigned char *data)</td></tr>
+<tr class="separator:aa1cab92ff10a5da9edd2e6aea7c8ed34"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a2f548c8d6a3c75bdbaf67111875c5522"><td class="memItemLeft" align="right" valign="top"><a class="el" href="structdns__header.html">dns_header</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="src_2parsers_2dns_8c.html#a2f548c8d6a3c75bdbaf67111875c5522">dns_parse_header</a> (unsigned char *data, uint16_t *offset)</td></tr>
 <tr class="separator:a2f548c8d6a3c75bdbaf67111875c5522"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a6680577f73412bb40945d07162dfb5d6"><td class="memItemLeft" align="right" valign="top">char *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="src_2parsers_2dns_8c.html#a6680577f73412bb40945d07162dfb5d6">dns_parse_domain_name</a> (unsigned char *data, uint16_t *offset)</td></tr>
@@ -158,7 +158,6 @@ Functions</h2></td></tr>
   <table class="params">
     <tr><td class="paramname">data</td><td>a pointer pointing to the start of the DNS message </td></tr>
     <tr><td class="paramname">offset</td><td>a pointer to the current parsing offset </td></tr>
-    <tr><td class="paramname">domain_name</td><td>accumulator for the parsed domain name </td></tr>
   </table>
   </dd>
 </dl>
@@ -204,8 +203,8 @@ Functions</h2></td></tr>
 
 </div>
 </div>
-<a id="a4baf27600af0e0b7b069de0fd5cfd1ef"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a4baf27600af0e0b7b069de0fd5cfd1ef">&#9670;&nbsp;</a></span>dns_parse_message()</h2>
+<a id="aa1cab92ff10a5da9edd2e6aea7c8ed34"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa1cab92ff10a5da9edd2e6aea7c8ed34">&#9670;&nbsp;</a></span>dns_parse_message()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -213,31 +212,20 @@ Functions</h2></td></tr>
         <tr>
           <td class="memname"><a class="el" href="structdns__message.html">dns_message</a> dns_parse_message </td>
           <td>(</td>
-          <td class="paramtype">size_t&#160;</td>
-          <td class="paramname"><em>length</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
           <td class="paramtype">unsigned char *&#160;</td>
-          <td class="paramname"><em>data</em>&#160;</td>
-        </tr>
-        <tr>
+          <td class="paramname"><em>data</em></td><td>)</td>
           <td></td>
-          <td>)</td>
-          <td></td><td></td>
         </tr>
       </table>
 </div><div class="memdoc">
 <p>Parse a DNS message.</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">length</td><td>the length of the message </td></tr>
-    <tr><td class="paramname">data</td><td>a pointer pointing to the start of the DNS message </td></tr>
+    <tr><td class="paramname">data</td><td>a pointer to the start of the DNS message </td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd>the parsed message </dd></dl>
+<dl class="section return"><dt>Returns</dt><dd>the parsed DNS message </dd></dl>
 
 </div>
 </div>
@@ -275,7 +263,7 @@ Functions</h2></td></tr>
 <p>Parse a DNS Question section.</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">length</td><td>the number of questions present in the question section </td></tr>
+    <tr><td class="paramname">qdcount</td><td>the number of questions present in the question section </td></tr>
     <tr><td class="paramname">data</td><td>a pointer pointing to the start of the DNS message </td></tr>
     <tr><td class="paramname">offset</td><td>a pointer to the current parsing offset </td></tr>
   </table>
