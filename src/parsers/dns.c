@@ -15,11 +15,10 @@
 /**
  * Parse a DNS message.
  * 
- * @param length the length of the message
- * @param data a pointer pointing to the start of the DNS message
- * @return the parsed message
+ * @param data a pointer to the start of the DNS message
+ * @return the parsed DNS message
  */
-dns_message dns_parse_message(size_t length, unsigned char *data) {
+dns_message dns_parse_message(unsigned char *data) {
     // Init
     dns_message message;
     uint16_t offset = 0;
@@ -74,7 +73,6 @@ dns_header dns_parse_header(unsigned char *data, uint16_t *offset) {
  * 
  * @param data a pointer pointing to the start of the DNS message
  * @param offset a pointer to the current parsing offset
- * @param domain_name accumulator for the parsed domain name
  * @return the parsed domain name
  * 
  * TODO: realloc buffer if domain name too long
@@ -127,7 +125,7 @@ char* dns_parse_domain_name(unsigned char *data, uint16_t *offset) {
 /**
  * Parse a DNS Question section.
  * 
- * @param length the number of questions present in the question section
+ * @param qdcount the number of questions present in the question section
  * @param data a pointer pointing to the start of the DNS message
  * @param offset a pointer to the current parsing offset
  * @return the parsed question section

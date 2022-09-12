@@ -32,7 +32,7 @@ static int callback(struct nfq_q_handle *qh, struct nfgenmsg *nfmsg, struct nfq_
         size_t skipped = skip_ip_header(&payload);
         skipped += skip_udp_header(&payload);
         // Parse DNS message
-        dns_message message = dns_parse_message(length - skipped, payload);
+        dns_message message = dns_parse_message(payload);
         // Add domain names and IP addresses to DNS map
         char** ip_addresses = (char **) malloc(sizeof(char *) * message.header.ancount);
         char* domain_name;

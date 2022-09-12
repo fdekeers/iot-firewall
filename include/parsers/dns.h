@@ -132,11 +132,10 @@ dns_resource_record* dns_parse_rrs(uint16_t count, unsigned char *data, uint16_t
 /**
  * Parse a DNS message.
  * 
- * @param length the length of the message
- * @param data a pointer pointing to the start of the DNS message
- * @return the parsed message
+ * @param data a pointer to the start of the DNS message
+ * @return the parsed DNS message
  */
-dns_message dns_parse_message(size_t length, unsigned char *data);
+dns_message dns_parse_message(unsigned char *data);
 
 
 ///// PRINTING /////
