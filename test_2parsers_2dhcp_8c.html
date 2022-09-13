@@ -104,9 +104,12 @@ Include dependency graph for dhcp.c:</div>
 </div><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="func-members"></a>
 Functions</h2></td></tr>
-<tr class="memitem:a26c22dfe29b917bbe15ccdb249b2921f"><td class="memItemLeft" align="right" valign="top"><a id="a26c22dfe29b917bbe15ccdb249b2921f"></a>
-void&#160;</td><td class="memItemRight" valign="bottom"><b>set_mac_addr</b> (char dest[], char src[])</td></tr>
-<tr class="separator:a26c22dfe29b917bbe15ccdb249b2921f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:abe3311ada930373a1cd45a1075fc42d2"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="test_2parsers_2dhcp_8c.html#abe3311ada930373a1cd45a1075fc42d2">compare_headers</a> (<a class="el" href="structdhcp__message.html">dhcp_message</a> actual, <a class="el" href="structdhcp__message.html">dhcp_message</a> expected)</td></tr>
+<tr class="memdesc:abe3311ada930373a1cd45a1075fc42d2"><td class="mdescLeft">&#160;</td><td class="mdescRight">Compare the headers of two DHCP messages.  <a href="test_2parsers_2dhcp_8c.html#abe3311ada930373a1cd45a1075fc42d2">More...</a><br /></td></tr>
+<tr class="separator:abe3311ada930373a1cd45a1075fc42d2"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae9c77f3ad7516fba4db784e6c567b0d9"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="test_2parsers_2dhcp_8c.html#ae9c77f3ad7516fba4db784e6c567b0d9">compare_options</a> (<a class="el" href="structdhcp__options.html">dhcp_options</a> actual, <a class="el" href="structdhcp__options.html">dhcp_options</a> expected)</td></tr>
+<tr class="memdesc:ae9c77f3ad7516fba4db784e6c567b0d9"><td class="mdescLeft">&#160;</td><td class="mdescRight">Compare two DHCP options lists.  <a href="test_2parsers_2dhcp_8c.html#ae9c77f3ad7516fba4db784e6c567b0d9">More...</a><br /></td></tr>
+<tr class="separator:ae9c77f3ad7516fba4db784e6c567b0d9"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a8bb62150e013f9a151ac6655c024a16c"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="test_2parsers_2dhcp_8c.html#a8bb62150e013f9a151ac6655c024a16c">test_dhcp_discover</a> ()</td></tr>
 <tr class="separator:a8bb62150e013f9a151ac6655c024a16c"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a1cafc96d00474e8e9c2782dbae503264"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="test_2parsers_2dhcp_8c.html#a1cafc96d00474e8e9c2782dbae503264">test_dhcp_offer</a> ()</td></tr>
@@ -120,6 +123,80 @@ void&#160;</td><td class="memItemRight" valign="bottom"><b>set_mac_addr</b> (cha
 <dl class="section date"><dt>Date</dt><dd>2022-09-12</dd></dl>
 <dl class="section copyright"><dt>Copyright</dt><dd>Copyright (c) 2022 </dd></dl>
 </div><h2 class="groupheader">Function Documentation</h2>
+<a id="abe3311ada930373a1cd45a1075fc42d2"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#abe3311ada930373a1cd45a1075fc42d2">&#9670;&nbsp;</a></span>compare_headers()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void compare_headers </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="structdhcp__message.html">dhcp_message</a>&#160;</td>
+          <td class="paramname"><em>actual</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="structdhcp__message.html">dhcp_message</a>&#160;</td>
+          <td class="paramname"><em>expected</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Compare the headers of two DHCP messages. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">actual</td><td>actual DHCP message </td></tr>
+    <tr><td class="paramname">expected</td><td>expected DHCP message </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="ae9c77f3ad7516fba4db784e6c567b0d9"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae9c77f3ad7516fba4db784e6c567b0d9">&#9670;&nbsp;</a></span>compare_options()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void compare_options </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="structdhcp__options.html">dhcp_options</a>&#160;</td>
+          <td class="paramname"><em>actual</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="structdhcp__options.html">dhcp_options</a>&#160;</td>
+          <td class="paramname"><em>expected</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Compare two DHCP options lists. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">actual</td><td>actual DHCP options list </td></tr>
+    <tr><td class="paramname">expected</td><td>expected DHCP options list </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
 <a id="abf9e6b7e6f15df4b525a2e7705ba3089"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#abf9e6b7e6f15df4b525a2e7705ba3089">&#9670;&nbsp;</a></span>main()</h2>
 
