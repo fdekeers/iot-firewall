@@ -22,7 +22,7 @@ dhcp_message dhcp_parse_message(uint8_t *data) {
     // Parse constant fields
     dhcp_message message = dhcp_parse_header(data);
     // Parse DHCP options
-    message.options = dhcp_parse_options(data + DHCP_HEADER_SIZE);
+    message.options = dhcp_parse_options(data + DHCP_HEADER_LEN);
     // Return
     return message;
 }

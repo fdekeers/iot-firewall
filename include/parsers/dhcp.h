@@ -17,10 +17,11 @@
 #include <string.h>
 #include <arpa/inet.h>
 
-#define MAC_ADDRESS_SIZE 6
-#define DHCP_HEADER_SIZE 236
+#define MAC_ADDRESS_LEN       6
+#define MAX_HW_LEN            16
+#define DHCP_HEADER_LEN       236
 #define DHCP_MAX_OPTION_COUNT 20
-#define DHCP_MAGIC_COOKIE 0x63825363
+#define DHCP_MAGIC_COOKIE     0x63825363
 
 
 ////////// TYPE DEFINITIONS //////////
