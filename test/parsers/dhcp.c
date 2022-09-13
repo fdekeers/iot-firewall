@@ -249,5 +249,5 @@ int main(int argc, char const *argv[])
     CU_add_test(suite, "dhcp-discover", test_dhcp_discover);
     CU_add_test(suite, "dhcp-offer", test_dhcp_offer);
     CU_basic_run_tests();
-    return EXIT_SUCCESS;
+    return 0;
 }
