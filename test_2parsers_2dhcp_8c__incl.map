@@ -1,13 +1,13 @@
 <map id="test/parsers/dhcp.c" name="test/parsers/dhcp.c">
-<area shape="rect" id="node1" title="Unit tests for the DHCP parser." alt="" coords="275,5,420,32"/>
-<area shape="rect" id="node2" title=" " alt="" coords="290,155,357,181"/>
-<area shape="rect" id="node3" title=" " alt="" coords="5,155,76,181"/>
-<area shape="rect" id="node4" title=" " alt="" coords="100,155,171,181"/>
-<area shape="rect" id="node5" href="$packet__utils_8h.html" title="Utilitaries for payload manipulation and display." alt="" coords="79,80,191,107"/>
-<area shape="rect" id="node7" href="$header_8h.html" title="Parser for layer 3 and 4 headers (currently only IP, UDP and TCP)" alt="" coords="357,80,487,107"/>
-<area shape="rect" id="node9" href="$dhcp_8h.html" title="DHCP message parser." alt="" coords="215,80,333,107"/>
-<area shape="rect" id="node10" title=" " alt="" coords="563,80,673,107"/>
-<area shape="rect" id="node11" title=" " alt="" coords="698,80,807,107"/>
+<area shape="rect" id="node1" title="Unit tests for the DHCP parser." alt="" coords="284,5,429,32"/>
+<area shape="rect" id="node2" title=" " alt="" coords="406,155,473,181"/>
+<area shape="rect" id="node3" title=" " alt="" coords="100,155,171,181"/>
+<area shape="rect" id="node4" title=" " alt="" coords="5,155,76,181"/>
+<area shape="rect" id="node5" href="$packet__utils_8h.html" title="Utilitaries for payload manipulation and display." alt="" coords="89,80,201,107"/>
+<area shape="rect" id="node8" href="$header_8h.html" title="Parser for layer 3 and 4 headers (currently only IP, UDP and TCP)" alt="" coords="366,80,497,107"/>
+<area shape="rect" id="node9" href="$dhcp_8h.html" title="DHCP message parser." alt="" coords="225,80,342,107"/>
+<area shape="rect" id="node10" title=" " alt="" coords="572,80,683,107"/>
+<area shape="rect" id="node11" title=" " alt="" coords="707,80,817,107"/>
 <area shape="rect" id="node6" title=" " alt="" coords="195,155,265,181"/>
-<area shape="rect" id="node8" title=" " alt="" coords="381,155,473,181"/>
+<area shape="rect" id="node7" title=" " alt="" coords="289,155,381,181"/>
 </map>

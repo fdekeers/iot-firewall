@@ -79,16 +79,18 @@ $(function() {
 <code>#include &lt;stdio.h&gt;</code><br />
 <code>#include &lt;stdint.h&gt;</code><br />
 <code>#include &lt;string.h&gt;</code><br />
+<code>#include &lt;arpa/inet.h&gt;</code><br />
 </div><div class="textblock"><div class="dynheader">
 Include dependency graph for packet_utils.h:</div>
 <div class="dyncontent">
 <div class="center"><img src="packet__utils_8h__incl.png" border="0" usemap="#include_2packet__utils_8h" alt=""/></div>
 <map name="include_2packet__utils_8h" id="include_2packet__utils_8h">
-<area shape="rect" title="Utilitaries for payload manipulation and display." alt="" coords="99,5,262,32"/>
+<area shape="rect" title="Utilitaries for payload manipulation and display." alt="" coords="146,5,309,32"/>
 <area shape="rect" title=" " alt="" coords="5,80,76,107"/>
 <area shape="rect" title=" " alt="" coords="101,80,167,107"/>
 <area shape="rect" title=" " alt="" coords="192,80,263,107"/>
 <area shape="rect" title=" " alt="" coords="287,80,357,107"/>
+<area shape="rect" title=" " alt="" coords="381,80,473,107"/>
 </map>
 </div>
 </div><div class="textblock"><div class="dynheader">
@@ -114,6 +116,10 @@ Functions</h2></td></tr>
 <tr class="separator:a44979aeba5fa3cf09da9824d06258026"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ab0f4188fc72640915610c4bdc6c1076a"><td class="memItemLeft" align="right" valign="top">size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="packet__utils_8h.html#ab0f4188fc72640915610c4bdc6c1076a">hexstr_to_payload</a> (char *hexstring, uint8_t **payload)</td></tr>
 <tr class="separator:ab0f4188fc72640915610c4bdc6c1076a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aca3b03cddf39c462412cf8381f94d67b"><td class="memItemLeft" align="right" valign="top">char *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="packet__utils_8h.html#aca3b03cddf39c462412cf8381f94d67b">ipv4_net_to_str</a> (uint32_t ipv4_net)</td></tr>
+<tr class="separator:aca3b03cddf39c462412cf8381f94d67b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aec0c4e58ea5ce2049aba406624fe88ba"><td class="memItemLeft" align="right" valign="top">uint32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="packet__utils_8h.html#aec0c4e58ea5ce2049aba406624fe88ba">ipv4_str_to_net</a> (char *ipv4_str)</td></tr>
+<tr class="separator:aec0c4e58ea5ce2049aba406624fe88ba"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a90d164aab89bcf655c38eabac718ab42"><td class="memItemLeft" align="right" valign="top">char *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="packet__utils_8h.html#a90d164aab89bcf655c38eabac718ab42">ipv4_hex_to_str</a> (char *ipv4_hex)</td></tr>
 <tr class="separator:a90d164aab89bcf655c38eabac718ab42"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:afd0359feacd077ae779461e98139e299"><td class="memItemLeft" align="right" valign="top">char *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="packet__utils_8h.html#afd0359feacd077ae779461e98139e299">ipv4_str_to_hex</a> (char *ipv4_str)</td></tr>
@@ -188,6 +194,32 @@ Functions</h2></td></tr>
 
 </div>
 </div>
+<a id="aca3b03cddf39c462412cf8381f94d67b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aca3b03cddf39c462412cf8381f94d67b">&#9670;&nbsp;</a></span>ipv4_net_to_str()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">char* ipv4_net_to_str </td>
+          <td>(</td>
+          <td class="paramtype">uint32_t&#160;</td>
+          <td class="paramname"><em>ipv4_net</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Converts an IPv4 address from its network order numerical representation to its string representation. (Wrapper arount inet_ntoa)</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">ipv4_net</td><td>IPv4 address in hexadecimal representation </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>the same IPv4 address in string representation </dd></dl>
+
+</div>
+</div>
 <a id="afd0359feacd077ae779461e98139e299"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#afd0359feacd077ae779461e98139e299">&#9670;&nbsp;</a></span>ipv4_str_to_hex()</h2>
 
@@ -203,7 +235,7 @@ Functions</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-<p>Converts an IPv4 addres from its string representation to its hexadecimal representation.</p>
+<p>Converts an IPv4 address from its string representation to its hexadecimal representation.</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">ipv4_str</td><td>IPv4 address in string representation </td></tr>
@@ -211,6 +243,32 @@ Functions</h2></td></tr>
   </dd>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>the same IPv4 address in hexadecimal representation </dd></dl>
+
+</div>
+</div>
+<a id="aec0c4e58ea5ce2049aba406624fe88ba"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aec0c4e58ea5ce2049aba406624fe88ba">&#9670;&nbsp;</a></span>ipv4_str_to_net()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">uint32_t ipv4_str_to_net </td>
+          <td>(</td>
+          <td class="paramtype">char *&#160;</td>
+          <td class="paramname"><em>ipv4_str</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Converts an IPv4 address from its string representation to its network order numerical representation. (Wrapper arount inet_aton)</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">ipv4_str</td><td>IPv4 address in string representation </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>the same IPv4 address in network order numerical representation </dd></dl>
 
 </div>
 </div>
