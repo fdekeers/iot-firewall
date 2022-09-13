@@ -107,7 +107,7 @@ typedef struct dns_message {
  * @param offset a pointer to the current parsing offset
  * @return the parsed header
  */
-dns_header dns_parse_header(unsigned char *data, uint16_t *offset);
+dns_header dns_parse_header(uint8_t *data, uint16_t *offset);
 
 /**
  * Parse a DNS question section.
@@ -117,7 +117,7 @@ dns_header dns_parse_header(unsigned char *data, uint16_t *offset);
  * @param offset a pointer to the current parsing offset
  * @return the parsed question section
  */
-dns_question* dns_parse_questions(uint16_t qdcount, unsigned char *data, uint16_t *offset);
+dns_question* dns_parse_questions(uint16_t qdcount, uint8_t *data, uint16_t *offset);
 
 /**
  * Parse a DNS resource record list.
@@ -127,7 +127,7 @@ dns_question* dns_parse_questions(uint16_t qdcount, unsigned char *data, uint16_
  * @param offset a pointer to the current parsing offset
  * @return the parsed resource records list
  */
-dns_resource_record* dns_parse_rrs(uint16_t count, unsigned char *data, uint16_t *offset);
+dns_resource_record* dns_parse_rrs(uint16_t count, uint8_t *data, uint16_t *offset);
 
 /**
  * Parse a DNS message.
@@ -135,7 +135,7 @@ dns_resource_record* dns_parse_rrs(uint16_t count, unsigned char *data, uint16_t
  * @param data a pointer to the start of the DNS message
  * @return the parsed DNS message
  */
-dns_message dns_parse_message(unsigned char *data);
+dns_message dns_parse_message(uint8_t *data);
 
 
 ///// PRINTING /////

@@ -42,7 +42,7 @@ typedef enum {
  * @param data a double pointer to the start of the packet's IP (layer 3) header, which will be updated to point to the start of the layer-4 header
  * @return the number of bytes skipped
  */
-size_t skip_ip_header(unsigned char** data);
+size_t skip_ip_header(uint8_t** data);
 
 /**
  * Skip a UDP packet header.
@@ -50,7 +50,7 @@ size_t skip_ip_header(unsigned char** data);
  * @param data a double pointer to the start of the packet's UDP (layer 4) header, which will be updated to point to the start of the application payload
  * @return the number of bytes skipped
  */
-size_t skip_udp_header(unsigned char** data);
+size_t skip_udp_header(uint8_t** data);
 
 /**
  * Skip a TCP packet header.
@@ -58,7 +58,7 @@ size_t skip_udp_header(unsigned char** data);
  * @param data a double pointer to the start of the packet's TCP (layer 4) header, which will be updated to point to the start of the application payload
  * @return the number of bytes skipped
  */
-size_t skip_tcp_header(unsigned char** data);
+size_t skip_tcp_header(uint8_t** data);
 
 /**
  * Skip the layer-3 and layer-4 packet headers.
@@ -66,7 +66,7 @@ size_t skip_tcp_header(unsigned char** data);
  * @param data a double pointer to the start of the packet's layer-3 header, which will be updated to point to the start of the application payload
  * @return the number of bytes skipped
  */
-size_t skip_headers(unsigned char** data);
+size_t skip_headers(uint8_t** data);
 
 
 #endif /* _IOTFIREWALL_HEADER_ */

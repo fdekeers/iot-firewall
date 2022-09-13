@@ -8,3 +8,11 @@ target_link_libraries(dns-test cunit)
 target_link_libraries(dns-test packet_utils)
 target_link_libraries(dns-test header dns)
 install(TARGETS dns-test DESTINATION ${TEST_BIN_DIR})
+
+# DHCP
+add_executable(dhcp-test dhcp.c)
+target_include_directories(dhcp-test PRIVATE ${INCLUDE_DIR})
+target_link_libraries(dhcp-test cunit)
+target_link_libraries(dhcp-test packet_utils)
+target_link_libraries(dhcp-test header dhcp)
+install(TARGETS dhcp-test DESTINATION ${TEST_BIN_DIR})

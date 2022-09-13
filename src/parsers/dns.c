@@ -18,7 +18,7 @@
  * @param data a pointer to the start of the DNS message
  * @return the parsed DNS message
  */
-dns_message dns_parse_message(unsigned char *data) {
+dns_message dns_parse_message(uint8_t *data) {
     // Init
     dns_message message;
     uint16_t offset = 0;
@@ -51,7 +51,7 @@ dns_message dns_parse_message(unsigned char *data) {
  * @param offset a pointer to the current parsing offset
  * @return the parsed header
  */
-dns_header dns_parse_header(unsigned char *data, uint16_t *offset) {
+dns_header dns_parse_header(uint8_t *data, uint16_t *offset) {
     // Init
     dns_header header;
 
@@ -77,7 +77,7 @@ dns_header dns_parse_header(unsigned char *data, uint16_t *offset) {
  * 
  * TODO: realloc buffer if domain name too long
  */
-char* dns_parse_domain_name(unsigned char *data, uint16_t *offset) {
+char* dns_parse_domain_name(uint8_t *data, uint16_t *offset) {
     if (*(data + *offset) == '\0') {
         // Domain name is ROOT
         (*offset)++;
@@ -130,7 +130,7 @@ char* dns_parse_domain_name(unsigned char *data, uint16_t *offset) {
  * @param offset a pointer to the current parsing offset
  * @return the parsed question section
  */
-dns_question* dns_parse_questions(uint16_t qdcount, unsigned char *data, uint16_t *offset) {
+dns_question* dns_parse_questions(uint16_t qdcount, uint8_t *data, uint16_t *offset) {
     // Init
     dns_question *questions = (dns_question *) malloc(qdcount * sizeof(dns_question));
     // Iterate over all questions
@@ -153,7 +153,7 @@ dns_question* dns_parse_questions(uint16_t qdcount, unsigned char *data, uint16_
  * @param offset a pointer to the current parsing offset
  * @return the parsed RDATA field
  */
-char* dns_parse_rdata(dns_rr_type rtype, uint16_t rdlength, unsigned char *data, uint16_t *offset) {
+char* dns_parse_rdata(dns_rr_type rtype, uint16_t rdlength, uint8_t *data, uint16_t *offset) {
     if (rdlength == 0) {
         // RDATA field is empty
         return NULL;
@@ -179,7 +179,7 @@ char* dns_parse_rdata(dns_rr_type rtype, uint16_t rdlength, unsigned char *data,
  * @param offset a pointer to the current parsing offset
  * @return the parsed resource records list
  */
-dns_resource_record* dns_parse_rrs(uint16_t count, unsigned char *data, uint16_t *offset) {
+dns_resource_record* dns_parse_rrs(uint16_t count, uint8_t *data, uint16_t *offset) {
     dns_resource_record *rrs = (dns_resource_record *) malloc(count * sizeof(dns_resource_record));
     for (uint16_t i = 0; i < count; i++) {
         // Parse domain name

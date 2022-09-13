@@ -25,7 +25,7 @@ static int callback(struct nfq_q_handle *qh, struct nfgenmsg *nfmsg, struct nfq_
     // Get packet id
     int pkt_id = get_pkt_id(nfa);
     // Get packet payload
-    unsigned char *payload;
+    uint8_t *payload;
     int length = nfq_get_payload(nfa, &payload);
     if (length >= 0) {
         // Skip layer 3 and 4 headers

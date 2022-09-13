@@ -13,7 +13,7 @@
 ///// PARSING /////
 
 /**
- * @brief Parse a DHCP message
+ * @brief Parse a DHCP message.
  * 
  * @param data a pointer to the start of the DHCP message
  * @return the parsed DHCP message
@@ -22,13 +22,13 @@ dhcp_message dhcp_parse_message(uint8_t *data) {
     // Parse constant fields
     dhcp_message message = dhcp_parse_header(data);
     // Parse DHCP options
-    message.options = dhcp_parse_options(data);
+    message.options = dhcp_parse_options(data + DHCP_HEADER_SIZE);
     // Return
     return message;
 }
 
 /**
- * @brief Parse the header of a DHCP message (not including options)
+ * @brief Parse the header of a DHCP message (not including options).
  * 
  * @param data a pointer to the start of the DHCP message
  * @return the parsed DHCP message with the header fields filled in
@@ -64,13 +64,11 @@ dhcp_message dhcp_parse_header(uint8_t *data) {
     memcpy(message.sname, data + 44, sizeof(uint8_t) * 64);
     // file: 128 bytes
     memcpy(message.file, data + 108, sizeof(uint8_t) * 128);
-    // DHCP options
-    message.options = dhcp_parse_options(data + DHCP_HEADER_SIZE);
     return message;
 }
 
 /**
- * @brief Parse DHCP options
+ * @brief Parse DHCP options.
  * 
  * @param data a pointer to the start of the DHCP options list
  * @return a pointer to the start of the parsed DHCP options
@@ -80,14 +78,14 @@ dhcp_options dhcp_parse_options(uint8_t *data) {
     uint8_t max_option_count = DHCP_MAX_OPTION_COUNT;
     dhcp_options options;
     options.count = 0;
-    options.options = (dhcp_option *) malloc(sizeof(dhcp_option) * max_option_count);
     // Check magic cookie is equal to 0x63825363
     uint32_t magic_cookie = ntohl(*((uint32_t *) data));
     if (magic_cookie != DHCP_MAGIC_COOKIE) {
         fprintf(stderr, "Error: DHCP magic cookie is %#x, which is not equal to %#x\n", magic_cookie, DHCP_MAGIC_COOKIE);
-        exit(EXIT_FAILURE);
+        return options;
     }
     // Parse options
+    options.options = (dhcp_option *) malloc(sizeof(dhcp_option) * max_option_count);
     uint8_t i = 0;
     uint16_t offset = 4;
     uint8_t code;
@@ -107,7 +105,7 @@ dhcp_options dhcp_parse_options(uint8_t *data) {
 }
 
 /**
- * @brief Parse a DHCP option
+ * @brief Parse a DHCP option.
  * 
  * @param data a pointer to the start of the DHCP option
  * @param offset a pointer to the current offset inside the DHCP message
@@ -116,14 +114,14 @@ dhcp_options dhcp_parse_options(uint8_t *data) {
  */
 dhcp_option dhcp_parse_option(uint8_t *data, uint16_t *offset) {
     dhcp_option option;
-    option.code = *data;
+    option.code = *(data + *offset);
     if (option.code == PAD || option.code == END) {
         option.length = 0;
         option.value = NULL;
         *offset += 1;
     } else {
-        option.length = *(data + 1);
-        option.value = data + 2;
+        option.length = *(data + *offset + 1);
+        option.value = data  + *offset + 2;
         *offset += 2 + option.length;
     }
     return option;
@@ -133,7 +131,7 @@ dhcp_option dhcp_parse_option(uint8_t *data, uint16_t *offset) {
 ///// PRINTING /////
 
 /**
- * @brief Print a DHCP message
+ * @brief Print a DHCP message.
  * 
  * @param message the DHCP message to print
  */
@@ -149,7 +147,7 @@ void dhcp_print_message(dhcp_message message) {
 }
 
 /**
- * @brief Print a hardware address
+ * @brief Print a hardware address.
  * 
  * @param htype hardware type
  * @param chaddr the hardware address to print
@@ -165,7 +163,7 @@ void dhcp_print_chaddr(uint8_t htype, uint8_t chaddr[]) {
 }
 
 /**
- * @brief Print the header of a DHCP message
+ * @brief Print the header of a DHCP message.
  * 
  * @param message the DHCP message to print the header of
  */
@@ -183,7 +181,7 @@ void dhcp_print_header(dhcp_message message) {
     // secs
     printf("  Seconds elapsed: %hu\n", message.secs);
     // flags
-    printf("  Flags: %#hx\n", message.flags);
+    printf("  Flags: 0x%04x\n", message.flags);
     // ciaddr
     printf("  Client IP address: %s\n", inet_ntoa((struct in_addr) {message.ciaddr}));
     // yiaddr
@@ -205,13 +203,14 @@ void dhcp_print_header(dhcp_message message) {
 }
 
 /**
- * @brief Print a DHCP option
+ * @brief Print a DHCP option.
  * 
  * @param option the DHCP option to print
  */
 void dhcp_print_option(dhcp_option option) {
-    printf("   Code: %hhu;  Length: %hhu;  Value: ", option.code, option.length);
+    printf("    Code: %hhu;  Length: %hhu;  Value: ", option.code, option.length);
     for (uint8_t i = 0; i < option.length; i++) {
         printf("%02hhx ", *(option.value + i));
     }
+    printf("\n");
 }
