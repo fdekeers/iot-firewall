@@ -1,3 +1,13 @@
+/**
+ * @file include/hashmap.h
+ * @author Joshua J Baker
+ * @brief Hashmap implementation in C
+ * @date 2022-09-13
+ * 
+ * @copyright Copyright (c) 2020
+ * 
+ */
+
 // Copyright 2020 Joshua J Baker. All rights reserved.
 // Use of this source code is governed by an MIT-style
 // license that can be found in the LICENSE file.
