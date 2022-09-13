@@ -96,10 +96,11 @@ This graph shows which files directly or indirectly include this file:</div>
 <div class="dyncontent">
 <div class="center"><img src="packet__utils_8h__dep__incl.png" border="0" usemap="#include_2packet__utils_8hdep" alt=""/></div>
 <map name="include_2packet__utils_8hdep" id="include_2packet__utils_8hdep">
-<area shape="rect" title="Utilitaries for payload manipulation and display." alt="" coords="251,5,414,32"/>
+<area shape="rect" title="Utilitaries for payload manipulation and display." alt="" coords="303,5,466,32"/>
 <area shape="rect" href="dns_8h.html" title="DNS message parser." alt="" coords="125,80,285,107"/>
 <area shape="rect" href="test_2parsers_2dns_8c.html" title="Unit tests for the DNS parser." alt="" coords="275,155,412,181"/>
 <area shape="rect" href="packet__utils_8c.html" title="Utilitaries for payload manipulation and display." alt="" coords="371,80,505,107"/>
+<area shape="rect" href="test_2parsers_2dhcp_8c.html" title="Unit tests for the DHCP parser." alt="" coords="529,80,675,107"/>
 <area shape="rect" href="main_8c.html" title="Program entry point." alt="" coords="5,155,95,181"/>
 <area shape="rect" href="src_2parsers_2dns_8c.html" title="DNS message parser." alt="" coords="119,155,250,181"/>
 </map>
@@ -109,10 +110,10 @@ This graph shows which files directly or indirectly include this file:</div>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="func-members"></a>
 Functions</h2></td></tr>
-<tr class="memitem:ac707a0204887a4618d63520b64839b1a"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="packet__utils_8h.html#ac707a0204887a4618d63520b64839b1a">print_payload</a> (int length, unsigned char *data)</td></tr>
-<tr class="separator:ac707a0204887a4618d63520b64839b1a"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a553e11c2b859ed6059fb0fe22b0f2e8f"><td class="memItemLeft" align="right" valign="top">size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="packet__utils_8h.html#a553e11c2b859ed6059fb0fe22b0f2e8f">hexstr_to_payload</a> (char *hexstring, unsigned char **payload)</td></tr>
-<tr class="separator:a553e11c2b859ed6059fb0fe22b0f2e8f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a44979aeba5fa3cf09da9824d06258026"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="packet__utils_8h.html#a44979aeba5fa3cf09da9824d06258026">print_payload</a> (int length, uint8_t *data)</td></tr>
+<tr class="separator:a44979aeba5fa3cf09da9824d06258026"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab0f4188fc72640915610c4bdc6c1076a"><td class="memItemLeft" align="right" valign="top">size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="packet__utils_8h.html#ab0f4188fc72640915610c4bdc6c1076a">hexstr_to_payload</a> (char *hexstring, uint8_t **payload)</td></tr>
+<tr class="separator:ab0f4188fc72640915610c4bdc6c1076a"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a90d164aab89bcf655c38eabac718ab42"><td class="memItemLeft" align="right" valign="top">char *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="packet__utils_8h.html#a90d164aab89bcf655c38eabac718ab42">ipv4_hex_to_str</a> (char *ipv4_hex)</td></tr>
 <tr class="separator:a90d164aab89bcf655c38eabac718ab42"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:afd0359feacd077ae779461e98139e299"><td class="memItemLeft" align="right" valign="top">char *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="packet__utils_8h.html#afd0359feacd077ae779461e98139e299">ipv4_str_to_hex</a> (char *ipv4_str)</td></tr>
@@ -124,8 +125,8 @@ Functions</h2></td></tr>
 <dl class="section date"><dt>Date</dt><dd>2022-09-09</dd></dl>
 <dl class="section copyright"><dt>Copyright</dt><dd>Copyright (c) 2022 </dd></dl>
 </div><h2 class="groupheader">Function Documentation</h2>
-<a id="a553e11c2b859ed6059fb0fe22b0f2e8f"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a553e11c2b859ed6059fb0fe22b0f2e8f">&#9670;&nbsp;</a></span>hexstr_to_payload()</h2>
+<a id="ab0f4188fc72640915610c4bdc6c1076a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ab0f4188fc72640915610c4bdc6c1076a">&#9670;&nbsp;</a></span>hexstr_to_payload()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -139,7 +140,7 @@ Functions</h2></td></tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">unsigned char **&#160;</td>
+          <td class="paramtype">uint8_t **&#160;</td>
           <td class="paramname"><em>payload</em>&#160;</td>
         </tr>
         <tr>
@@ -213,8 +214,8 @@ Functions</h2></td></tr>
 
 </div>
 </div>
-<a id="ac707a0204887a4618d63520b64839b1a"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ac707a0204887a4618d63520b64839b1a">&#9670;&nbsp;</a></span>print_payload()</h2>
+<a id="a44979aeba5fa3cf09da9824d06258026"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a44979aeba5fa3cf09da9824d06258026">&#9670;&nbsp;</a></span>print_payload()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -228,7 +229,7 @@ Functions</h2></td></tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">unsigned char *&#160;</td>
+          <td class="paramtype">uint8_t *&#160;</td>
           <td class="paramname"><em>data</em>&#160;</td>
         </tr>
         <tr>

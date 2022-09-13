@@ -87,22 +87,22 @@ $(function() {
 <div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;    UDP  = 17</div>
 <div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;} <a class="code" href="header_8h.html#a9f6fce7b399281de4dcea280aec62f12">ip_protocol</a>;</div>
 <div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160; </div>
-<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;<span class="keywordtype">size_t</span> <a class="code" href="header_8h.html#abb940888b6e376c850df8b239b73a11e">skip_ip_header</a>(<span class="keywordtype">unsigned</span> <span class="keywordtype">char</span>** data);</div>
+<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;<span class="keywordtype">size_t</span> <a class="code" href="header_8h.html#ac762e8603f95cf6c3da104fe286483bb">skip_ip_header</a>(uint8_t** data);</div>
 <div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160; </div>
-<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;<span class="keywordtype">size_t</span> <a class="code" href="header_8h.html#a08ca62966cfd2921f331bf7504e24abb">skip_udp_header</a>(<span class="keywordtype">unsigned</span> <span class="keywordtype">char</span>** data);</div>
+<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;<span class="keywordtype">size_t</span> <a class="code" href="header_8h.html#ae6f4aa7b59e2aa56e957f66ccd9b8083">skip_udp_header</a>(uint8_t** data);</div>
 <div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160; </div>
-<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;<span class="keywordtype">size_t</span> <a class="code" href="header_8h.html#a865c8b8b09d0b57e54533c95a44004e2">skip_tcp_header</a>(<span class="keywordtype">unsigned</span> <span class="keywordtype">char</span>** data);</div>
+<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;<span class="keywordtype">size_t</span> <a class="code" href="header_8h.html#aedf3c40828e17858feecb4f5d31d8c75">skip_tcp_header</a>(uint8_t** data);</div>
 <div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160; </div>
-<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;<span class="keywordtype">size_t</span> <a class="code" href="header_8h.html#abdb0a9f1c8a6274e818c2a2e5944d094">skip_headers</a>(<span class="keywordtype">unsigned</span> <span class="keywordtype">char</span>** data);</div>
+<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;<span class="keywordtype">size_t</span> <a class="code" href="header_8h.html#a71a07c1f3e8ff686d4a84207158f1c95">skip_headers</a>(uint8_t** data);</div>
 <div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160; </div>
 <div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160; </div>
 <div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;<span class="preprocessor">#endif </span><span class="comment">/* _IOTFIREWALL_HEADER_ */</span><span class="preprocessor"></span></div>
 </div><!-- fragment --></div><!-- contents -->
+<div class="ttc" id="aheader_8h_html_ae6f4aa7b59e2aa56e957f66ccd9b8083"><div class="ttname"><a href="header_8h.html#ae6f4aa7b59e2aa56e957f66ccd9b8083">skip_udp_header</a></div><div class="ttdeci">size_t skip_udp_header(uint8_t **data)</div><div class="ttdef"><b>Definition:</b> header.c:43</div></div>
 <div class="ttc" id="aheader_8h_html_a9f6fce7b399281de4dcea280aec62f12"><div class="ttname"><a href="header_8h.html#a9f6fce7b399281de4dcea280aec62f12">ip_protocol</a></div><div class="ttdeci">ip_protocol</div><div class="ttdef"><b>Definition:</b> header.h:32</div></div>
-<div class="ttc" id="aheader_8h_html_a08ca62966cfd2921f331bf7504e24abb"><div class="ttname"><a href="header_8h.html#a08ca62966cfd2921f331bf7504e24abb">skip_udp_header</a></div><div class="ttdeci">size_t skip_udp_header(unsigned char **data)</div><div class="ttdef"><b>Definition:</b> header.c:43</div></div>
-<div class="ttc" id="aheader_8h_html_abb940888b6e376c850df8b239b73a11e"><div class="ttname"><a href="header_8h.html#abb940888b6e376c850df8b239b73a11e">skip_ip_header</a></div><div class="ttdeci">size_t skip_ip_header(unsigned char **data)</div><div class="ttdef"><b>Definition:</b> header.c:28</div></div>
-<div class="ttc" id="aheader_8h_html_abdb0a9f1c8a6274e818c2a2e5944d094"><div class="ttname"><a href="header_8h.html#abdb0a9f1c8a6274e818c2a2e5944d094">skip_headers</a></div><div class="ttdeci">size_t skip_headers(unsigned char **data)</div><div class="ttdef"><b>Definition:</b> header.c:70</div></div>
-<div class="ttc" id="aheader_8h_html_a865c8b8b09d0b57e54533c95a44004e2"><div class="ttname"><a href="header_8h.html#a865c8b8b09d0b57e54533c95a44004e2">skip_tcp_header</a></div><div class="ttdeci">size_t skip_tcp_header(unsigned char **data)</div><div class="ttdef"><b>Definition:</b> header.c:55</div></div>
+<div class="ttc" id="aheader_8h_html_a71a07c1f3e8ff686d4a84207158f1c95"><div class="ttname"><a href="header_8h.html#a71a07c1f3e8ff686d4a84207158f1c95">skip_headers</a></div><div class="ttdeci">size_t skip_headers(uint8_t **data)</div><div class="ttdef"><b>Definition:</b> header.c:70</div></div>
+<div class="ttc" id="aheader_8h_html_aedf3c40828e17858feecb4f5d31d8c75"><div class="ttname"><a href="header_8h.html#aedf3c40828e17858feecb4f5d31d8c75">skip_tcp_header</a></div><div class="ttdeci">size_t skip_tcp_header(uint8_t **data)</div><div class="ttdef"><b>Definition:</b> header.c:55</div></div>
+<div class="ttc" id="aheader_8h_html_ac762e8603f95cf6c3da104fe286483bb"><div class="ttname"><a href="header_8h.html#ac762e8603f95cf6c3da104fe286483bb">skip_ip_header</a></div><div class="ttdeci">size_t skip_ip_header(uint8_t **data)</div><div class="ttdef"><b>Definition:</b> header.c:28</div></div>
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
 Generated by &#160;<a href="http://www.doxygen.org/index.html">

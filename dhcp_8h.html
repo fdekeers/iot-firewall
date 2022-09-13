@@ -102,8 +102,9 @@ This graph shows which files directly or indirectly include this file:</div>
 <div class="dyncontent">
 <div class="center"><img src="dhcp_8h__dep__incl.png" border="0" usemap="#include_2parsers_2dhcp_8hdep" alt=""/></div>
 <map name="include_2parsers_2dhcp_8hdep" id="include_2parsers_2dhcp_8hdep">
-<area shape="rect" title="DHCP message parser." alt="" coords="5,5,173,32"/>
-<area shape="rect" href="dhcp_8c.html" title="DHCP message parser." alt="" coords="20,80,159,107"/>
+<area shape="rect" title="DHCP message parser." alt="" coords="73,5,241,32"/>
+<area shape="rect" href="src_2parsers_2dhcp_8c.html" title="DHCP message parser." alt="" coords="5,80,144,107"/>
+<area shape="rect" href="test_2parsers_2dhcp_8c.html" title="Unit tests for the DHCP parser." alt="" coords="169,80,314,107"/>
 </map>
 </div>
 </div>
@@ -262,6 +263,14 @@ Functions</h2></td></tr>
 </div><div class="memdoc">
 
 <p>Parse the header of a DHCP message (not including options) </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">data</td><td>a pointer to the start of the DHCP message </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>the parsed DHCP message with the header fields filled in</dd></dl>
+<p>Parse the header of a DHCP message (not including options)</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">data</td><td>a pointer to the start of the DHCP message </td></tr>
