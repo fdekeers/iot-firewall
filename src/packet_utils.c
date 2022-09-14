@@ -74,7 +74,7 @@ char* ipv4_net_to_str(uint32_t ipv4_net) {
  * @param ipv4_str IPv4 address in string representation
  * @return the same IPv4 address in network order numerical representation
  */
-uint32_t ipv4_str_to_net(char* ipv4_str) {
+uint32_t ipv4_str_to_net(char *ipv4_str) {
     struct in_addr ipv4_addr;
     inet_aton(ipv4_str, &ipv4_addr);
     return ipv4_addr.s_addr;
@@ -87,7 +87,7 @@ uint32_t ipv4_str_to_net(char* ipv4_str) {
  * @param ipv4_hex IPv4 address in hexadecimal representation
  * @return the same IPv4 address in string representation
  */
-char* ipv4_hex_to_str(char* ipv4_hex) {
+char* ipv4_hex_to_str(char *ipv4_hex) {
     char* ipv4_str = (char *) malloc(16 * sizeof(char));  // A string representation of an IPv4 address is at most 15 characters long + null terminator
     int ret = snprintf(ipv4_str, 15, "%hhu.%hhu.%hhu.%hhu", *ipv4_hex, *(ipv4_hex + 1), *(ipv4_hex + 2), *(ipv4_hex + 3));
     // Error handling
@@ -105,7 +105,7 @@ char* ipv4_hex_to_str(char* ipv4_hex) {
  * @param ipv4_str IPv4 address in string representation
  * @return the same IPv4 address in hexadecimal representation
  */
-char* ipv4_str_to_hex(char* ipv4_str) {
+char* ipv4_str_to_hex(char *ipv4_str) {
     char* ipv4_hex = (char *) malloc(4 * sizeof(char));  // An IPv4 address is 4 bytes long 
     int ret = sscanf(ipv4_str, "%hhu.%hhu.%hhu.%hhu", ipv4_hex, ipv4_hex + 1, ipv4_hex + 2, ipv4_hex + 3);
     // Error handling
@@ -114,4 +114,40 @@ char* ipv4_str_to_hex(char* ipv4_str) {
         return NULL;
     }
     return ipv4_hex;
+}
+
+/**
+ * Converts a MAC address from its hexadecimal representation
+ * to its string representation.
+ * 
+ * @param mac_hex MAC address in hexadecimal representation
+ * @return the same MAC address in string representation
+ */
+char* mac_hex_to_str(uint8_t *mac_hex) {
+    char* mac_str = (char *) malloc(18 * sizeof(char));  // A string representation of a MAC address is 17 characters long + null terminator
+    int ret = snprintf(mac_str, 18, "%02hhx:%02hhx:%02hhx:%02hhx:%02hhx:%02hhx", *mac_hex, *(mac_hex + 1), *(mac_hex + 2), *(mac_hex + 3), *(mac_hex + 4), *(mac_hex + 5));
+    // Error handling
+    if (ret != 17) {
+        fprintf(stderr, "Error converting MAC address \\x%2x\\x%2x\\x%2x\\x%2x\\x%2x\\x%2x to string representation.\n", *mac_hex, *(mac_hex + 1), *(mac_hex + 2), *(mac_hex + 3), *(mac_hex + 4), *(mac_hex + 5));
+        return NULL;
+    }
+    return mac_str;
+}
+
+/**
+ * Converts a MAC address from its string representation
+ * to its hexadecimal representation.
+ * 
+ * @param mac_str MAC address in string representation
+ * @return the same MAC address in hexadecimal representation
+ */
+uint8_t* mac_str_to_hex(char *mac_str) {
+    uint8_t* mac_hex = (uint8_t *) malloc(6 * sizeof(uint8_t));  // A MAC address is 6 bytes long
+    int ret = sscanf(mac_str, "%hhx:%hhx:%hhx:%hhx:%hhx:%hhx", mac_hex, mac_hex + 1, mac_hex + 2, mac_hex + 3, mac_hex + 4, mac_hex + 5);
+    // Error handling
+    if (ret != 6) {
+        fprintf(stderr, "Error converting MAC address %s to hexadecimal representation.\n", mac_str);
+        return NULL;
+    }
+    return mac_hex;
 }

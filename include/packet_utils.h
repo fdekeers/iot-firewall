@@ -53,7 +53,7 @@ char* ipv4_net_to_str(uint32_t ipv4_net);
  * @param ipv4_str IPv4 address in string representation
  * @return the same IPv4 address in network order numerical representation
  */
-uint32_t ipv4_str_to_net(char* ipv4_str);
+uint32_t ipv4_str_to_net(char *ipv4_str);
 
 /**
  * Converts an IPv4 addres from its hexadecimal representation
@@ -62,7 +62,7 @@ uint32_t ipv4_str_to_net(char* ipv4_str);
  * @param ipv4_hex IPv4 address in hexadecimal representation
  * @return the same IPv4 address in string representation
  */
-char* ipv4_hex_to_str(char* ipv4_hex);
+char* ipv4_hex_to_str(char *ipv4_hex);
 
 /**
  * Converts an IPv4 address from its string representation
@@ -71,7 +71,25 @@ char* ipv4_hex_to_str(char* ipv4_hex);
  * @param ipv4_str IPv4 address in string representation
  * @return the same IPv4 address in hexadecimal representation
  */
-char* ipv4_str_to_hex(char* ipv4_str);
+char* ipv4_str_to_hex(char *ipv4_str);
+
+/**
+ * Converts a MAC address from its hexadecimal representation
+ * to its string representation.
+ * 
+ * @param mac_hex MAC address in hexadecimal representation
+ * @return the same MAC address in string representation
+ */
+char* mac_hex_to_str(uint8_t *mac_hex);
+
+/**
+ * Converts a MAC address from its string representation
+ * to its hexadecimal representation.
+ * 
+ * @param mac_str MAC address in string representation
+ * @return the same MAC address in hexadecimal representation
+ */
+uint8_t* mac_str_to_hex(char *mac_str);
 
 
 #endif /* _IOTFIREWALL_PACKET_UTILS_ */

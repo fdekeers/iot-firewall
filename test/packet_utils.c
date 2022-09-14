@@ -76,6 +76,32 @@ void test_ipv4_str_to_hex() {
 }
 
 /**
+ * @brief Unit test for the function mac_hex_to_str.
+ */
+void test_mac_hex_to_str() {
+    uint8_t *mac_hex = (uint8_t *) malloc(sizeof(uint8_t) * 6);
+    memcpy(mac_hex, "\x00\x0c\x29\x6b\x9f\x5a", 6);
+    char *expected = "00:0c:29:6b:9f:5a";
+    char *actual = mac_hex_to_str(mac_hex);
+    CU_ASSERT_STRING_EQUAL(actual, expected);
+    free(mac_hex);
+}
+
+/**
+ * @brief Unit test for the function mac_str_to_hex.
+ */
+void test_mac_str_to_hex() {
+    char *mac_str = "00:0c:29:6b:9f:5a";
+    uint8_t *expected = (uint8_t *) malloc(sizeof(uint8_t) * 6);
+    memcpy(expected, "\x00\x0c\x29\x6b\x9f\x5a", 6);
+    uint8_t *actual = mac_str_to_hex(mac_str);
+    for (uint8_t i = 0; i < 6; i++) {
+        CU_ASSERT_EQUAL(*(actual + i), *(expected + i))
+    }
+    free(expected);
+}
+
+/**
  * Test suite entry point.
  */
 int main(int argc, char const *argv[])
@@ -90,6 +116,8 @@ int main(int argc, char const *argv[])
     CU_add_test(suite, "ipv4_str_to_net", test_ipv4_str_to_net);
     CU_add_test(suite, "ipv4_hex_to_str", test_ipv4_hex_to_str);
     CU_add_test(suite, "ipv4_str_to_hex", test_ipv4_str_to_hex);
+    CU_add_test(suite, "mac_hex_to_str", test_mac_hex_to_str);
+    CU_add_test(suite, "mac_str_to_hex", test_mac_str_to_hex);
     CU_basic_run_tests();
     return 0;
 }
