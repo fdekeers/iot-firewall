@@ -53,12 +53,9 @@ void compare_options(dhcp_options actual, dhcp_options expected) {
     for (uint8_t i = 0; i < expected.count; i++) {
         CU_ASSERT_EQUAL((actual.options + i)->code, (expected.options + i)->code);
         CU_ASSERT_EQUAL((actual.options + i)->length, (expected.options + i)->length);
-        printf("Option code: %hhu\n", (actual.options + i)->code);
         for (uint8_t j = 0; j < (actual.options + i)->length; j++) {
-            printf("%hhx:%hhx  ", *((actual.options + i)->value + j), *((expected.options + i)->value + j));
             CU_ASSERT_EQUAL(*(((actual.options + i)->value) + j), *(((expected.options + i)->value) + j));
         }
-        printf("\n");
     }
 }
 
@@ -101,7 +98,8 @@ void test_dhcp_discover() {
     expected.options.options->code = 53;
     expected.options.options->length = 1;
     expected.options.options->value = (uint8_t *) malloc(sizeof(uint8_t) * expected.options.options->length);
-    *(expected.options.options->value) = 1;
+    *(expected.options.options->value) = DISCOVER;
+    CU_ASSERT_EQUAL(message.options.message_type, DISCOVER);
     // Option 61: Client Identifier
     (expected.options.options + 1)->code = 61;
     (expected.options.options + 1)->length = 7;
@@ -178,7 +176,8 @@ void test_dhcp_offer() {
     expected.options.options->code = 53;
     expected.options.options->length = 1;
     expected.options.options->value = (uint8_t *) malloc(sizeof(uint8_t) * expected.options.options->length);
-    *(expected.options.options->value) = 2;
+    *(expected.options.options->value) = OFFER;
+    CU_ASSERT_EQUAL(message.options.message_type, OFFER);
     // Option 54: Server Identifier
     (expected.options.options + 1)->code = 54;
     (expected.options.options + 1)->length = 4;

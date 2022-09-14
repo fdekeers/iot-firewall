@@ -34,10 +34,28 @@ typedef enum {
     BOOTREPLY = 2
 } dhcp_opcode;
 
+/**
+ * Useful DHCP option codes
+ */
 typedef enum {
-    PAD = 0,
-    END = 255
+    PAD               = 0,
+    DHCP_MESSAGE_TYPE = 53,
+    END               = 255
 } dhcp_option_code;
+
+/**
+ * DHCP message type
+ */
+typedef enum {
+    DISCOVER = 1,
+    OFFER    = 2,
+    REQUEST  = 3,
+    DECLINE  = 4,
+    ACK      = 5,
+    NAK      = 6,
+    RELEASE  = 7,
+    INFORM   = 8
+} dhcp_message_type;
 
 /**
  * DHCP Option
@@ -52,8 +70,9 @@ typedef struct dhcp_option {
  * DHCP Options
  */
 typedef struct dhcp_options {
-    uint8_t count;         // Number of options
-    dhcp_option *options;  // List of options
+    uint8_t count;                   // Number of options
+    dhcp_message_type message_type;  // DHCP Message type (stored for convenience)
+    dhcp_option *options;            // List of options
 } dhcp_options;
 
 /**

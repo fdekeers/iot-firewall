@@ -96,6 +96,10 @@ dhcp_options dhcp_parse_options(uint8_t *data) {
         }
         dhcp_option option = dhcp_parse_option(data, &offset);
         code = option.code;
+        if (code == DHCP_MESSAGE_TYPE) {
+            // Store DHCP message type
+            options.message_type = *option.value;
+        }
         *(options.options + (options.count++)) = option;
     } while (code != END);
     // Shrink allocated memory to the actual number of options, if needed
