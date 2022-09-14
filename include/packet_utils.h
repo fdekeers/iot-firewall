@@ -80,7 +80,7 @@ char* ipv4_str_to_hex(char *ipv4_str);
  * @param mac_hex MAC address in hexadecimal representation
  * @return the same MAC address in string representation
  */
-char* mac_hex_to_str(uint8_t *mac_hex);
+char* mac_hex_to_str(uint8_t mac_hex[]);
 
 /**
  * Converts a MAC address from its string representation

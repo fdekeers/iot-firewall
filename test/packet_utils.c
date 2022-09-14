@@ -79,12 +79,10 @@ void test_ipv4_str_to_hex() {
  * @brief Unit test for the function mac_hex_to_str.
  */
 void test_mac_hex_to_str() {
-    uint8_t *mac_hex = (uint8_t *) malloc(sizeof(uint8_t) * 6);
-    memcpy(mac_hex, "\x00\x0c\x29\x6b\x9f\x5a", 6);
+    uint8_t mac_hex[] = {0x00, 0x0c, 0x29, 0x6b, 0x9f, 0x5a};
     char *expected = "00:0c:29:6b:9f:5a";
     char *actual = mac_hex_to_str(mac_hex);
     CU_ASSERT_STRING_EQUAL(actual, expected);
-    free(mac_hex);
 }
 
 /**

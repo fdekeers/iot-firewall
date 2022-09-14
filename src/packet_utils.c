@@ -123,12 +123,12 @@ char* ipv4_str_to_hex(char *ipv4_str) {
  * @param mac_hex MAC address in hexadecimal representation
  * @return the same MAC address in string representation
  */
-char* mac_hex_to_str(uint8_t *mac_hex) {
+char* mac_hex_to_str(uint8_t mac_hex[]) {
     char* mac_str = (char *) malloc(18 * sizeof(char));  // A string representation of a MAC address is 17 characters long + null terminator
-    int ret = snprintf(mac_str, 18, "%02hhx:%02hhx:%02hhx:%02hhx:%02hhx:%02hhx", *mac_hex, *(mac_hex + 1), *(mac_hex + 2), *(mac_hex + 3), *(mac_hex + 4), *(mac_hex + 5));
+    int ret = snprintf(mac_str, 18, "%02hhx:%02hhx:%02hhx:%02hhx:%02hhx:%02hhx", mac_hex[0], mac_hex[1], mac_hex[2], mac_hex[3], mac_hex[4], mac_hex[5]);
     // Error handling
     if (ret != 17) {
-        fprintf(stderr, "Error converting MAC address \\x%2x\\x%2x\\x%2x\\x%2x\\x%2x\\x%2x to string representation.\n", *mac_hex, *(mac_hex + 1), *(mac_hex + 2), *(mac_hex + 3), *(mac_hex + 4), *(mac_hex + 5));
+        fprintf(stderr, "Error converting MAC address \\x%2x\\x%2x\\x%2x\\x%2x\\x%2x\\x%2x to string representation.\n", mac_hex[0], mac_hex[1], mac_hex[2], mac_hex[3], mac_hex[4], mac_hex[5]);
         return NULL;
     }
     return mac_str;
