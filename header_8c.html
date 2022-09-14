@@ -91,14 +91,14 @@ Include dependency graph for header.c:</div>
 </div><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="func-members"></a>
 Functions</h2></td></tr>
-<tr class="memitem:ac762e8603f95cf6c3da104fe286483bb"><td class="memItemLeft" align="right" valign="top">size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="header_8c.html#ac762e8603f95cf6c3da104fe286483bb">skip_ip_header</a> (uint8_t **data)</td></tr>
-<tr class="separator:ac762e8603f95cf6c3da104fe286483bb"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ae6f4aa7b59e2aa56e957f66ccd9b8083"><td class="memItemLeft" align="right" valign="top">size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="header_8c.html#ae6f4aa7b59e2aa56e957f66ccd9b8083">skip_udp_header</a> (uint8_t **data)</td></tr>
-<tr class="separator:ae6f4aa7b59e2aa56e957f66ccd9b8083"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aedf3c40828e17858feecb4f5d31d8c75"><td class="memItemLeft" align="right" valign="top">size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="header_8c.html#aedf3c40828e17858feecb4f5d31d8c75">skip_tcp_header</a> (uint8_t **data)</td></tr>
-<tr class="separator:aedf3c40828e17858feecb4f5d31d8c75"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a71a07c1f3e8ff686d4a84207158f1c95"><td class="memItemLeft" align="right" valign="top">size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="header_8c.html#a71a07c1f3e8ff686d4a84207158f1c95">skip_headers</a> (uint8_t **data)</td></tr>
-<tr class="separator:a71a07c1f3e8ff686d4a84207158f1c95"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aec0858aa33957b4af310b5fd4926b1d6"><td class="memItemLeft" align="right" valign="top">size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="header_8c.html#aec0858aa33957b4af310b5fd4926b1d6">get_ip_header_length</a> (uint8_t *data)</td></tr>
+<tr class="separator:aec0858aa33957b4af310b5fd4926b1d6"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a92340a38e51458b30d481b7867cb4273"><td class="memItemLeft" align="right" valign="top">size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="header_8c.html#a92340a38e51458b30d481b7867cb4273">get_udp_header_length</a> (uint8_t *data)</td></tr>
+<tr class="separator:a92340a38e51458b30d481b7867cb4273"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad9f5cf0d8e9b470adcc5701472178b07"><td class="memItemLeft" align="right" valign="top">size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="header_8c.html#ad9f5cf0d8e9b470adcc5701472178b07">get_tcp_header_length</a> (uint8_t *data)</td></tr>
+<tr class="separator:ad9f5cf0d8e9b470adcc5701472178b07"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab8b6a2141761f749c749e3e62e0dbbd9"><td class="memItemLeft" align="right" valign="top">size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="header_8c.html#ab8b6a2141761f749c749e3e62e0dbbd9">get_headers_length</a> (uint8_t *data)</td></tr>
+<tr class="separator:ab8b6a2141761f749c749e3e62e0dbbd9"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Parser for layer 3 and 4 headers (currently only IP, UDP and TCP) </p>
@@ -117,107 +117,107 @@ Functions</h2></td></tr>
 <dl class="section date"><dt>Date</dt><dd>2022-09-09</dd></dl>
 <dl class="section copyright"><dt>Copyright</dt><dd>Copyright (c) 2022 </dd></dl>
 </div><h2 class="groupheader">Function Documentation</h2>
-<a id="a71a07c1f3e8ff686d4a84207158f1c95"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a71a07c1f3e8ff686d4a84207158f1c95">&#9670;&nbsp;</a></span>skip_headers()</h2>
+<a id="ab8b6a2141761f749c749e3e62e0dbbd9"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ab8b6a2141761f749c749e3e62e0dbbd9">&#9670;&nbsp;</a></span>get_headers_length()</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">size_t skip_headers </td>
+          <td class="memname">size_t get_headers_length </td>
           <td>(</td>
-          <td class="paramtype">uint8_t **&#160;</td>
+          <td class="paramtype">uint8_t *&#160;</td>
           <td class="paramname"><em>data</em></td><td>)</td>
           <td></td>
         </tr>
       </table>
 </div><div class="memdoc">
-<p>Skip the layer-3 and layer-4 packet headers.</p>
+<p>Retrieve the length of a packet's layer-3 and layer-4 headers.</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">data</td><td>a double pointer to the start of the packet's layer-3 header, which will be updated to point to the start of the application payload </td></tr>
+    <tr><td class="paramname">data</td><td>a pointer to the start of the packet's layer-3 header </td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd>the number of bytes skipped </dd></dl>
+<dl class="section return"><dt>Returns</dt><dd>the size, in bytes, of the UDP header </dd></dl>
 
 </div>
 </div>
-<a id="ac762e8603f95cf6c3da104fe286483bb"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ac762e8603f95cf6c3da104fe286483bb">&#9670;&nbsp;</a></span>skip_ip_header()</h2>
+<a id="aec0858aa33957b4af310b5fd4926b1d6"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aec0858aa33957b4af310b5fd4926b1d6">&#9670;&nbsp;</a></span>get_ip_header_length()</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">size_t skip_ip_header </td>
+          <td class="memname">size_t get_ip_header_length </td>
           <td>(</td>
-          <td class="paramtype">uint8_t **&#160;</td>
+          <td class="paramtype">uint8_t *&#160;</td>
           <td class="paramname"><em>data</em></td><td>)</td>
           <td></td>
         </tr>
       </table>
 </div><div class="memdoc">
-<p>Skip a IP packet header.</p>
+<p>Retrieve the length of a packet's IP header.</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">data</td><td>a double pointer to the start of the packet's IP (layer 3) header, which will be updated to point to the start of the layer-4 header </td></tr>
+    <tr><td class="paramname">data</td><td>a pointer to the start of the packet's IP (layer 3) header </td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd>the number of bytes skipped </dd></dl>
+<dl class="section return"><dt>Returns</dt><dd>the size, in bytes, of the IP header </dd></dl>
 
 </div>
 </div>
-<a id="aedf3c40828e17858feecb4f5d31d8c75"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aedf3c40828e17858feecb4f5d31d8c75">&#9670;&nbsp;</a></span>skip_tcp_header()</h2>
+<a id="ad9f5cf0d8e9b470adcc5701472178b07"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ad9f5cf0d8e9b470adcc5701472178b07">&#9670;&nbsp;</a></span>get_tcp_header_length()</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">size_t skip_tcp_header </td>
+          <td class="memname">size_t get_tcp_header_length </td>
           <td>(</td>
-          <td class="paramtype">uint8_t **&#160;</td>
+          <td class="paramtype">uint8_t *&#160;</td>
           <td class="paramname"><em>data</em></td><td>)</td>
           <td></td>
         </tr>
       </table>
 </div><div class="memdoc">
-<p>Skip a TCP packet header.</p>
+<p>Retrieve the length of a packet's TCP header.</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">data</td><td>a double pointer to the start of the packet's TCP (layer 4) header, which will be updated to point to the start of the application payload </td></tr>
+    <tr><td class="paramname">data</td><td>a pointer to the start of the packet's TCP (layer 4) header </td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd>the number of bytes skipped </dd></dl>
+<dl class="section return"><dt>Returns</dt><dd>the size, in bytes, of the UDP header </dd></dl>
 
 </div>
 </div>
-<a id="ae6f4aa7b59e2aa56e957f66ccd9b8083"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ae6f4aa7b59e2aa56e957f66ccd9b8083">&#9670;&nbsp;</a></span>skip_udp_header()</h2>
+<a id="a92340a38e51458b30d481b7867cb4273"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a92340a38e51458b30d481b7867cb4273">&#9670;&nbsp;</a></span>get_udp_header_length()</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">size_t skip_udp_header </td>
+          <td class="memname">size_t get_udp_header_length </td>
           <td>(</td>
-          <td class="paramtype">uint8_t **&#160;</td>
+          <td class="paramtype">uint8_t *&#160;</td>
           <td class="paramname"><em>data</em></td><td>)</td>
           <td></td>
         </tr>
       </table>
 </div><div class="memdoc">
-<p>Skip a UDP packet header.</p>
+<p>Retrieve the length of a packet's UDP header.</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">data</td><td>a double pointer to the start of the packet's UDP (layer 4) header, which will be updated to point to the start of the application payload </td></tr>
+    <tr><td class="paramname">data</td><td>a pointer to the start of the packet's UDP (layer 4) header </td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd>the number of bytes skipped </dd></dl>
+<dl class="section return"><dt>Returns</dt><dd>the size, in bytes, of the UDP header </dd></dl>
 
 </div>
 </div>
