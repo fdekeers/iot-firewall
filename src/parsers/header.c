@@ -20,65 +20,62 @@
 #include "header.h"
 
 /**
- * Skip a IP packet header.
+ * Retrieve the length of a packet's IP header.
  * 
- * @param data a double pointer to the start of the packet's IP (layer 3) header, which will be updated to point to the start of the layer-4 header
- * @return the number of bytes skipped
+ * @param data a pointer to the start of the packet's IP (layer 3) header
+ * @return the size, in bytes, of the IP header
  */
-size_t skip_ip_header(uint8_t** data) {
+size_t get_ip_header_length(uint8_t* data) {
     // 4-bit IP header length is encoded in the last 4 bits of byte 0.
     // It indicates the number of 32-bit words.
     // It must be multiplied by 4 to obtain the header size in bytes.
-    uint8_t length = (**data & 0x0f) * 4;
-    *data += length;
+    uint8_t length = (*data & 0x0f) * 4;
     return length;
 }
 
 /**
- * Skip a UDP packet header.
+ * Retrieve the length of a packet's UDP header.
  * 
- * @param data a double pointer to the start of the packet's UDP (layer 4) header, which will be updated to point to the start of the application payload
- * @return the number of bytes skipped
+ * @param data a pointer to the start of the packet's UDP (layer 4) header
+ * @return the size, in bytes, of the UDP header
  */
-size_t skip_udp_header(uint8_t** data) {
+size_t get_udp_header_length(uint8_t* data) {
     // A UDP header has a fixed length of 8 bytes
-    *data += UDP_HEADER_LENGTH;
     return UDP_HEADER_LENGTH;
 }
 
 /**
- * Skip a TCP packet header.
+ * Retrieve the length of a packet's TCP header.
  * 
- * @param data a double pointer to the start of the packet's TCP (layer 4) header, which will be updated to point to the start of the application payload
- * @return the number of bytes skipped
+ * @param data a pointer to the start of the packet's TCP (layer 4) header
+ * @return the size, in bytes, of the UDP header
  */
-size_t skip_tcp_header(uint8_t** data) {
+size_t get_tcp_header_length(uint8_t* data) {
     // 4-bit TCP header data offset is encoded in the first 4 bits of byte 12.
     // It indicates the number of 32-bit words.
     // It must be multiplied by 4 to obtain the header size in bytes.
-    uint8_t length = (*((*data) + 12) >> 4) * 4;
-    *data += length;
+    uint8_t length = (*((data) + 12) >> 4) * 4;
     return length;
 }
 
 /**
- * Skip the layer-3 and layer-4 packet headers.
+ * Retrieve the length of a packet's layer-3 and layer-4 headers.
  * 
- * @param data a double pointer to the start of the packet's layer-3 header, which will be updated to point to the start of the application payload
- * @return the number of bytes skipped
+ * @param data a pointer to the start of the packet's layer-3 header
+ * @return the size, in bytes, of the UDP header
  */
-size_t skip_headers(uint8_t** data) {
+size_t get_headers_length(uint8_t* data) {
     // Retrieve the IP protocol number, which is encoded in byte 9 of the IP header.
-    ip_protocol protocol = *((*data) + 9);
+    ip_protocol protocol = *((data) + 9);
     // Skip IP header (layer 3)
-    size_t length = skip_ip_header(data);
+    size_t length = get_ip_header_length(data);
     // Skip layer 4 header (protocol-dependant)
     switch (protocol) {
         case TCP:
-            length += skip_tcp_header(data);
+            length += get_tcp_header_length(data);
             break;
         case UDP:
-            length += skip_udp_header(data);
+            length += get_udp_header_length(data);
             break;
         default:
             break;

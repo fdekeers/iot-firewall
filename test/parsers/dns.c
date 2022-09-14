@@ -73,8 +73,8 @@ void test_dns_xiaomi() {
     size_t length = hexstr_to_payload(hexstring, &payload);
     CU_ASSERT_EQUAL(length, strlen(hexstring) / 2);  // Verify message length
 
-    skip_headers(&payload);
-    dns_message message = dns_parse_message(payload);
+    size_t skipped = get_headers_length(payload);
+    dns_message message = dns_parse_message(payload + skipped);
     dns_print_message(message);
 
     // Test different sections of the DNS message
@@ -142,8 +142,8 @@ void test_dns_office() {
     uint8_t *payload;
     size_t length = hexstr_to_payload(hexstring, &payload);
     CU_ASSERT_EQUAL(length, strlen(hexstring) / 2);  // Verify message length
-    skip_headers(&payload);
-    dns_message message = dns_parse_message(payload);
+    size_t skipped = get_headers_length(payload);
+    dns_message message = dns_parse_message(payload + skipped);
     dns_print_message(message);
 
     // Test different sections of the DNS message

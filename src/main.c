@@ -29,10 +29,10 @@ static int callback(struct nfq_q_handle *qh, struct nfgenmsg *nfmsg, struct nfq_
     int length = nfq_get_payload(nfa, &payload);
     if (length >= 0) {
         // Skip layer 3 and 4 headers
-        size_t skipped = skip_ip_header(&payload);
-        skipped += skip_udp_header(&payload);
+        size_t skipped = get_ip_header_length(payload);
+        skipped += get_udp_header_length(payload + skipped);
         // Parse DNS message
-        dns_message message = dns_parse_message(payload);
+        dns_message message = dns_parse_message(payload + skipped);
         // Add domain names and IP addresses to DNS map
         char** ip_addresses = (char **) malloc(sizeof(char *) * message.header.ancount);
         char* domain_name;

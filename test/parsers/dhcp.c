@@ -72,8 +72,8 @@ void test_dhcp_discover() {
     size_t length = hexstr_to_payload(hexstring, &payload);
     CU_ASSERT_EQUAL(length, strlen(hexstring) / 2);  // Verify message length
 
-    skip_headers(&payload);
-    dhcp_message message = dhcp_parse_message(payload);
+    size_t skipped = get_headers_length(payload);
+    dhcp_message message = dhcp_parse_message(payload + skipped);
     dhcp_print_message(message);
 
     // Test different sections of the DHCP message
@@ -149,8 +149,8 @@ void test_dhcp_offer() {
     size_t length = hexstr_to_payload(hexstring, &payload);
     CU_ASSERT_EQUAL(length, strlen(hexstring) / 2);  // Verify message length
 
-    skip_headers(&payload);
-    dhcp_message message = dhcp_parse_message(payload);
+    size_t skipped = get_headers_length(payload);
+    dhcp_message message = dhcp_parse_message(payload + skipped);
     dhcp_print_message(message);
 
     // Test different sections of the DHCP message
