@@ -1,0 +1,15 @@
+#!/usr/sbin/nft -f
+
+table xiaomi-cam {
+
+    chain dhcp-boot {
+
+        # Chain configuration
+        type filter hook prerouting priority 0;
+
+        # Match DHCP discover packets (UDP 68 -> 67)
+        ip saddr 0.0.0.0 ip daddr 255.255.255.255 udp sport 68 udp dport 67 queue num 1;
+
+    }
+
+}

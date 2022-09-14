@@ -1,0 +1,434 @@
+---
+device-info:
+  device-name: xiaomi-cam
+  mac-address: 78:8b:2a:b2:20:ea
+  mud-version: 1
+  mud-url: https://xiaomi-cam.com/xiaomi-cam
+  last-update: "2022-03-15T10:27:29.170+01:00"
+  cache-validity: 100
+  is-supported: true
+
+
+individual-policies:
+
+  ##### BOOT TRAFFIC #####
+
+  xid-broadcast:
+    protocols:
+      xid:
+      eth:
+        src: self
+        dst: broadcast  
+    direction: out
+    stats:
+      number-of-messages: 2
+
+  http-xiaomi-cloud:
+    protocols:
+      http:
+        request-type: GET
+      tcp:
+        dst-port: 80
+        initiated-by: self
+      ipv4:
+        src: self
+        dst: 110.43.0.83
+    direction: both
+
+  https-xiaomi-cloud:
+    protocols:
+      tls:
+      tcp:
+        dst-port: 443
+        initiated-by: self
+      ipv4:
+        src: self
+        dst: 120.92.133.153
+    direction: both
+
+  dns-xiaomi-api:
+    protocols:
+      dns:
+        type: A
+        domain-name: business.smartcamera.api.io.mi.com
+      udp:
+        dst-port: 53
+      ipv4:
+        src: self
+        dst: gateway
+    direction: both
+
+  https-xiaomi-api:
+    protocols:
+      tls:
+      tcp:
+        dst-port: 443
+        initiated-by: self
+      ipv4:
+        src: self
+        dst: business.smartcamera.api.io.mi.com
+    direction: both
+
+
+  ##### IDLE TRAFFIC #####
+
+  arp-request-from-gateway:
+    protocols:
+      arp:
+        ip: self
+      eth:
+        src: gateway
+        dst: self
+    direction: both
+
+  udp-xiaomi-cloud:
+    protocols:
+      udp:
+      ipv4:
+        src: self
+        dst:
+          - 36.156.49.100
+          - 42.157.165.140
+          - 45.124.124.68
+          - 110.43.39.29
+          - 110.43.68.58
+          - 120.92.133.153
+          - 120.92.162.194
+    direction: both
+
+  # TODO: maybe remove it from here
+  udp-xiaomi-phone:
+    protocols:
+      udp:
+        src-port: 12257
+        dst-port: 23207
+      ipv4:
+        src: self
+        dst: local
+    direction: both
+    local-network: true
+    stats:
+      rate: 10/s
+      packet-size: 46 - 200
+
+  ping-quad8:
+    protocols:
+      icmp:
+        type: echo
+      ipv4:
+        src: self
+        dst: 8.8.8.8
+    direction: both
+    stats:
+      number-of-packets:
+        out: 1
+        in: 1
+
+
+interaction-policies:
+
+  ######### LOCAL NETWORK ##########
+
+  ##### GET IP ADDRESS AT BOOT #####
+  get-ip-address:
+
+    parent-pattern:
+      dhcp-discover:
+        protocols:
+          dhcp:
+            type: discover
+            client-mac: self
+          udp:
+            src-port: 68
+            dst-port: 67
+          ipv4:
+            src: 0.0.0.0
+            dst: broadcast
+        direction: out
+
+    child-pattern:
+      dhcp-offer:
+        protocols:
+          dhcp:
+            type: offer
+            client-mac: self
+          udp:
+            src-port: 67
+            dst-port: 68
+          ipv4:
+            src: gateway
+            dst: self
+        direction: in
+      dhcp-request:
+        protocols:
+          dhcp:
+            type: request
+            client-mac: self
+          udp:
+            src-port: 68
+            dst-port: 67
+          ipv4:
+            src: 0.0.0.0
+            dst: broadcast
+        direction: out
+      dhcp-ack:
+        protocols:
+          dhcp:
+            type: ack
+            client-mac: self
+          udp:
+            src-port: 67
+            dst-port: 68
+          ipv4:
+            src: gateway
+            dst: self
+        direction: in
+
+
+  ##### DISCOVER GATEWAY AT BOOT #####
+  discover-gateway:
+
+    parent-pattern:
+      arp-request:
+        protocols:
+          arp:
+            type: request
+            ip: 192.168.1.1
+          eth:
+            src: self
+            dst: broadcast
+        direction: out
+    
+    child-pattern:
+      arp-reply:
+        protocols:
+          arp:
+            type: reply
+            ip: 192.168.1.1
+          eth:
+            src: gateway
+            dst: self
+        direction: in
+      
+
+  ##### OPEN XIAOMI APP #####
+  open-app-local:
+
+    parent-pattern:
+      igmp-phone:
+        protocols:
+          igmp:
+            type: membership report
+            group: mdns
+          ipv4:
+            src: local
+            dst: mdns
+        direction: out
+        local-network: true
+      mdns-phone:
+        protocols:
+          mdns:
+            type: query
+          udp:
+            src-port: 5353
+            dst-port: 5353
+          ipv4:
+            src: local
+        direction: out
+        local-network: true
+      udp-phone-broadcast:
+        protocols:
+          udp:
+            dst-port:
+              - 54321
+              - 32108
+          ipv4:
+            src: local
+            dst: broadcast
+        direction: out
+        local-network: true
+      arp-xiaomi-phone-request:
+        protocols:
+          arp:
+            type: request
+            ip: local
+          eth:
+            src: self
+            dst: broadcast
+        direction: out
+    
+    child-pattern:
+      arp-xiaomi-phone-reply:
+        protocols:
+          arp:
+            type: reply
+            ip: local
+          eth:
+            src: phone
+            dst: self
+        direction: in
+      udp-xiaomi-phone-burst-open:
+        protocols:
+          udp:
+          ipv4:
+            src: self
+            dst: local
+        direction: both
+        local-network: true
+        stats:
+          duration: 1 s
+          number-of-packets: 20
+          payload-size: 4 - 250
+      udp-xiaomi-phone-background:
+        protocols:
+          udp:
+          ipv4:
+            src: self
+            dst: local
+        direction: both
+        local-network: true
+        stats:
+          rate: 10/s
+          payload-size: 4 - 150
+  
+
+  ##### STREAM CAMERA #####
+  stream-local:
+
+    parent-pattern:
+      udp-xiaomi-phone-start:
+        protocols:
+          udp:
+            dst-port: 54321
+          ipv4:
+            src: local
+            dst: self
+        direction: both
+        local-network: true
+        stats:
+          number-of-packets: 6
+      https-xiaomi-cloud-start:
+        protocols:
+          tls:
+          tcp:
+            src-port: 50228
+            dst-port: 443
+          ipv4:
+            src: self
+            dst: 120.92.133.153
+        direction: both
+        stats:
+          number-of-packets: 3
+    
+    child-pattern:
+      udp-stream:
+        protocols:
+          udp:
+            src-port: 12257
+            dst-port: 23207
+          ipv4:
+            src: self
+            dst: local
+        direction: both
+        local-network: true
+        stats:
+          rate: 300/s
+          packet-size:
+            out: 46 - 1074
+            in: 46 - 734
+      https-xiaomi-cloud-stop:
+        protocols:
+          tls:
+          tcp:
+            src-port: 50228
+            dst-port: 443
+          ipv4:
+            src: self
+            dst: 120.92.133.153
+        direction: both
+        stats:
+          number-of-packets: <= 10
+
+
+
+  ########## EXTERNAL NETWORK ##########
+
+  ##### OPEN XIAOMI APP #####
+  open-app-external:
+
+    parent-pattern:
+      udp-xiaomi-cloud-burst-open:
+        protocols:
+          udp:
+            src-port: 12375
+            dst-port: 19600
+          ipv4:
+            src: self
+            dst: 130.104.94.185
+        direction: both
+        stats:
+          duration: 1 s
+          number-of-packets: 40
+          packet-size: 46 - 300
+    
+    child-pattern:
+      udp-xiaomi-cloud-background:
+        protocols:
+          udp:
+            src-port: 12375
+            dst-port: 19600
+          ipv4:
+            src: self
+            dst: 130.104.94.185
+        direction: both
+        stats:
+          rate: 5/s
+          packet-size: 46
+
+
+  ##### STREAM CAMERA #####
+  stream-external:
+
+    parent-pattern:
+      https-cloud-xiaomi-start:
+        protocols:
+          tls:
+          tcp:
+            src-port: 443
+            dst-port: 50228
+          ipv4:
+            src: 120.92.133.153
+            dst: self
+        direction: both
+        stats:
+          number-of-packets: <= 10
+    
+    child-pattern:
+      udp-stream:
+        protocols:
+          udp:
+            src-port: 12375
+            dst-port: 19600
+          ipv4:
+            src: self
+            dst: 130.104.94.185
+        direction: both
+        stats:
+          rate: 300/s
+          packet-size:
+            out: 46 - 1074
+            in: 46 - 734
+      https-cloud-xiaomi-stop:
+        protocols:
+          tls:
+          tcp:
+            src-port: 443
+            dst-port: 50228
+          ipv4:
+            src: 120.92.133.153
+            dst: self
+        direction: both
+        stats:
+          number-of-packets: <= 10
+    delay: 1 s
+...
