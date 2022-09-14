@@ -8,6 +8,9 @@
  * 
  */
 
+// Standard libraries
+#include <stdio.h>
+#include <string.h>
 // Custom libraries
 #include "nfqueue.h"
 #include "map_domain_ip.h"
@@ -34,9 +37,12 @@ static int callback(struct nfq_q_handle *qh, struct nfgenmsg *nfmsg, struct nfq_
         skipped += get_udp_header_length(payload + skipped);
         // Parse DHCP message
         dhcp_message message = dhcp_parse_message(payload + skipped);
-        // Print DHCP message
-        dhcp_print_message(message);
         // Add nftables rules
+        if (message.options.message_type == DISCOVER &&
+            strcmp(mac_hex_to_str(message.chaddr), "78:8b:2a:b2:20:ea") == 0) {
+            dhcp_print_message(message);
+            // TODO : add nftables rules
+        }
     }
 
     return nfq_set_verdict(qh, pkt_id, NF_ACCEPT, length, payload);
