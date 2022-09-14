@@ -152,10 +152,24 @@ Enumerations</h2></td></tr>
 <b>BOOTREPLY</b> = 2
  }</td></tr>
 <tr class="separator:a7a3056db28eee6275fc5cd35d1a99aa4"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ac25c315113121dbd546add435dd1e18e"><td class="memItemLeft" align="right" valign="top"><a id="ac25c315113121dbd546add435dd1e18e"></a>enum &#160;</td><td class="memItemRight" valign="bottom"><b>dhcp_option_code</b> { <b>PAD</b> = 0, 
+<tr class="memitem:ac25c315113121dbd546add435dd1e18e"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="dhcp_8h.html#ac25c315113121dbd546add435dd1e18e">dhcp_option_code</a> { <b>PAD</b> = 0, 
+<b>DHCP_MESSAGE_TYPE</b> = 53, 
 <b>END</b> = 255
  }</td></tr>
 <tr class="separator:ac25c315113121dbd546add435dd1e18e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0011318888d649bb9dd7679d38fc6a89"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="dhcp_8h.html#a0011318888d649bb9dd7679d38fc6a89">dhcp_message_type</a> { <br />
+&#160;&#160;<b>DISCOVER</b> = 1, 
+<b>OFFER</b> = 2, 
+<b>REQUEST</b> = 3, 
+<b>DECLINE</b> = 4, 
+<br />
+&#160;&#160;<b>ACK</b> = 5, 
+<b>NAK</b> = 6, 
+<b>RELEASE</b> = 7, 
+<b>INFORM</b> = 8
+<br />
+ }</td></tr>
+<tr class="separator:a0011318888d649bb9dd7679d38fc6a89"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="func-members"></a>
 Functions</h2></td></tr>
@@ -233,6 +247,21 @@ Functions</h2></td></tr>
 </div>
 </div>
 <h2 class="groupheader">Enumeration Type Documentation</h2>
+<a id="a0011318888d649bb9dd7679d38fc6a89"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a0011318888d649bb9dd7679d38fc6a89">&#9670;&nbsp;</a></span>dhcp_message_type</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">enum <a class="el" href="dhcp_8h.html#a0011318888d649bb9dd7679d38fc6a89">dhcp_message_type</a></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>DHCP message type </p>
+
+</div>
+</div>
 <a id="a7a3056db28eee6275fc5cd35d1a99aa4"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a7a3056db28eee6275fc5cd35d1a99aa4">&#9670;&nbsp;</a></span>dhcp_opcode</h2>
 
@@ -245,6 +274,21 @@ Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 <p>DHCP opcode </p>
+
+</div>
+</div>
+<a id="ac25c315113121dbd546add435dd1e18e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ac25c315113121dbd546add435dd1e18e">&#9670;&nbsp;</a></span>dhcp_option_code</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">enum <a class="el" href="dhcp_8h.html#ac25c315113121dbd546add435dd1e18e">dhcp_option_code</a></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Useful DHCP option codes </p>
 
 </div>
 </div>
