@@ -125,6 +125,10 @@ Functions</h2></td></tr>
 <tr class="separator:a90d164aab89bcf655c38eabac718ab42"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:afd0359feacd077ae779461e98139e299"><td class="memItemLeft" align="right" valign="top">char *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="packet__utils_8h.html#afd0359feacd077ae779461e98139e299">ipv4_str_to_hex</a> (char *ipv4_str)</td></tr>
 <tr class="separator:afd0359feacd077ae779461e98139e299"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af2bc4f9540717776743c3d1dcdc8cb87"><td class="memItemLeft" align="right" valign="top">char *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="packet__utils_8h.html#af2bc4f9540717776743c3d1dcdc8cb87">mac_hex_to_str</a> (uint8_t *mac_hex)</td></tr>
+<tr class="separator:af2bc4f9540717776743c3d1dcdc8cb87"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae5b6a442f62576acfc01ccdc17d1202e"><td class="memItemLeft" align="right" valign="top">uint8_t *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="packet__utils_8h.html#ae5b6a442f62576acfc01ccdc17d1202e">mac_str_to_hex</a> (char *mac_str)</td></tr>
+<tr class="separator:ae5b6a442f62576acfc01ccdc17d1202e"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Utilitaries for payload manipulation and display. </p>
@@ -270,6 +274,58 @@ Functions</h2></td></tr>
   </dd>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>the same IPv4 address in network order numerical representation </dd></dl>
+
+</div>
+</div>
+<a id="af2bc4f9540717776743c3d1dcdc8cb87"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#af2bc4f9540717776743c3d1dcdc8cb87">&#9670;&nbsp;</a></span>mac_hex_to_str()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">char* mac_hex_to_str </td>
+          <td>(</td>
+          <td class="paramtype">uint8_t *&#160;</td>
+          <td class="paramname"><em>mac_hex</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Converts a MAC address from its hexadecimal representation to its string representation.</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">mac_hex</td><td>MAC address in hexadecimal representation </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>the same MAC address in string representation </dd></dl>
+
+</div>
+</div>
+<a id="ae5b6a442f62576acfc01ccdc17d1202e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae5b6a442f62576acfc01ccdc17d1202e">&#9670;&nbsp;</a></span>mac_str_to_hex()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">uint8_t* mac_str_to_hex </td>
+          <td>(</td>
+          <td class="paramtype">char *&#160;</td>
+          <td class="paramname"><em>mac_str</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Converts a MAC address from its string representation to its hexadecimal representation.</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">mac_str</td><td>MAC address in string representation </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>the same MAC address in hexadecimal representation </dd></dl>
 
 </div>
 </div>
