@@ -86,7 +86,6 @@ dhcp_options dhcp_parse_options(uint8_t *data) {
     }
     // Parse options
     options.options = (dhcp_option *) malloc(sizeof(dhcp_option) * max_option_count);
-    uint8_t i = 0;
     uint16_t offset = 4;
     uint8_t code;
     do {
@@ -97,10 +96,12 @@ dhcp_options dhcp_parse_options(uint8_t *data) {
         }
         dhcp_option option = dhcp_parse_option(data, &offset);
         code = option.code;
-        options.count++;
-        *(options.options + i) = option;
-        i++;
+        *(options.options + (options.count++)) = option;
     } while (code != END);
+    // Shrink allocated memory to the actual number of options, if needed
+    if (options.count < max_option_count) {
+        options.options = (dhcp_option *) realloc(options.options, sizeof(dhcp_option) * options.count);
+    }
     return options;
 }
 
