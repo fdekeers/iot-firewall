@@ -20,7 +20,7 @@
 #include "packet_utils.h"
 
 #define DNS_HEADER_SIZE 12
-#define DNS_DOMAIN_NAME_SIZE 100
+#define DNS_MAX_DOMAIN_NAME_LENGTH 100
 #define DNS_COMPRESSION_MASK 0x3fff
 
 

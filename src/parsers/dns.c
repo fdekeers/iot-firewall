@@ -63,7 +63,7 @@ dns_header dns_parse_header(uint8_t *data, uint16_t *offset) {
     header.nscount = ntohs(*((uint16_t *) (data + *offset + 8)));
     header.arcount = ntohs(*((uint16_t *) (data + *offset + 10)));
     // Update offset to point after header
-    *offset += 12;
+    *offset += DNS_HEADER_SIZE;
 
     return header;
 }
@@ -74,8 +74,6 @@ dns_header dns_parse_header(uint8_t *data, uint16_t *offset) {
  * @param data a pointer pointing to the start of the DNS message
  * @param offset a pointer to the current parsing offset
  * @return the parsed domain name
- * 
- * TODO: realloc buffer if domain name too long
  */
 char* dns_parse_domain_name(uint8_t *data, uint16_t *offset) {
     if (*(data + *offset) == '\0') {
@@ -83,8 +81,9 @@ char* dns_parse_domain_name(uint8_t *data, uint16_t *offset) {
         (*offset)++;
         return "";
     }
-    char* domain_name = (char*) malloc(DNS_DOMAIN_NAME_SIZE);
-    char* domain_name_ptr = domain_name;
+    uint16_t current_length = 0;
+    uint16_t max_length = DNS_MAX_DOMAIN_NAME_LENGTH;
+    char* domain_name = (char *) malloc(sizeof(char) * max_length);
     bool compression = false;
     uint16_t domain_name_offset = *offset;  // Other offset, might be useful for domain name compression
     while (*(data + domain_name_offset) != '\0') {
@@ -100,12 +99,16 @@ char* dns_parse_domain_name(uint8_t *data, uint16_t *offset) {
             domain_name_offset = ntohs(*((uint16_t *) (data + domain_name_offset))) & DNS_COMPRESSION_MASK;
         } else {
             // Fully written label, parse it
-            int i;
-            for (i = 1; i <= length_byte; i++) {
+            for (int i = 1; i <= length_byte; i++) {
+                if (current_length == max_length) {
+                    // Realloc buffer
+                    max_length *= 2;
+                    domain_name = (char *) realloc(domain_name, sizeof(char) * max_length);
+                }
                 char c = *(data + domain_name_offset + i);
-                *(domain_name_ptr++) = c;
+                *(domain_name + (current_length++)) = c;
             }
-            *(domain_name_ptr++) = '.';
+            *(domain_name + (current_length++)) = '.';
             domain_name_offset += length_byte + 1;
             if (!compression) {
                 *offset = domain_name_offset;
@@ -114,7 +117,9 @@ char* dns_parse_domain_name(uint8_t *data, uint16_t *offset) {
     }
     // Domain name was fully parsed
     // Overwrite last '.' written with NULL byte
-    *(--domain_name_ptr) = '\0';
+    *(domain_name + (--current_length)) = '\0';
+    // Shrink allocated memory to fit domain name
+    domain_name = (char *) realloc(domain_name, sizeof(char) * (current_length + 1));
     // Advance offset after NULL terminator, if domain name compression was not used
     if (!compression) {
         (*offset)++;
