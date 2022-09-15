@@ -88,7 +88,7 @@ $(function() {
 <div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160; </div>
 <div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160; </div>
 <div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160; </div>
-<div class="line"><a name="l00032"></a><span class="lineno"><a class="line" href="dns_8h.html#a1e9e71c82bf5fd2203686355ea241faa">   32</a></span>&#160;<span class="keyword">typedef</span> <span class="keyword">enum</span> {</div>
+<div class="line"><a name="l00032"></a><span class="lineno"><a class="line" href="dns_8h.html#a3797bcb95efd17c8b0771af33d77cbb4">   32</a></span>&#160;<span class="keyword">typedef</span> <span class="keyword">enum</span> {</div>
 <div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;    A     =  1,</div>
 <div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;    NS    =  2,</div>
 <div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;    MD    =  3,</div>
@@ -107,7 +107,7 @@ $(function() {
 <div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;    TXT   = 16,</div>
 <div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;    AAAA  = 28,</div>
 <div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;    OPT   = 41   <span class="comment">// Used to specify extensions</span></div>
-<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;} <a class="code" href="dns_8h.html#a1e9e71c82bf5fd2203686355ea241faa">dns_rr_type</a>;</div>
+<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;} <a class="code" href="dns_8h.html#a3797bcb95efd17c8b0771af33d77cbb4">dns_rr_type_t</a>;</div>
 <div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160; </div>
 <div class="line"><a name="l00056"></a><span class="lineno"><a class="line" href="structdns__header.html">   56</a></span>&#160;<span class="keyword">typedef</span> <span class="keyword">struct </span><a class="code" href="structdns__header.html">dns_header</a> {</div>
 <div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;    uint16_t id;</div>
@@ -116,78 +116,78 @@ $(function() {
 <div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;    uint16_t ancount;  <span class="comment">// Number of Resource Records in Answer section</span></div>
 <div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;    uint16_t nscount;  <span class="comment">// Number of Resource Records in Authority section</span></div>
 <div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;    uint16_t arcount;  <span class="comment">// Number of Resource Records in Additional section</span></div>
-<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;} <a class="code" href="dns_8h.html#add0a2237c82835b8106dac1ff46a2ca6">dns_header</a>;</div>
+<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;} <a class="code" href="dns_8h.html#a93604ea52022d5738bc395dca0c25c0f">dns_header_t</a>;</div>
 <div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160; </div>
 <div class="line"><a name="l00068"></a><span class="lineno"><a class="line" href="structdns__question.html">   68</a></span>&#160;<span class="keyword">typedef</span> <span class="keyword">struct </span><a class="code" href="structdns__question.html">dns_question</a> {</div>
 <div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;    <span class="keywordtype">char</span> *qname;</div>
 <div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;    uint16_t qtype;</div>
 <div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;    uint16_t qclass;</div>
-<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;} <a class="code" href="dns_8h.html#aea9d9907d13d82aa55f5ec0702a4f267">dns_question</a>;</div>
+<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;} <a class="code" href="dns_8h.html#a039c55ed91b5bc337e817e219ec4b505">dns_question_t</a>;</div>
 <div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160; </div>
 <div class="line"><a name="l00077"></a><span class="lineno"><a class="line" href="structdns__resource__record.html">   77</a></span>&#160;<span class="keyword">typedef</span> <span class="keyword">struct </span><a class="code" href="structdns__resource__record.html">dns_resource_record</a> {</div>
 <div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160;    <span class="keywordtype">char</span> *name;</div>
-<div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160;    <a class="code" href="dns_8h.html#a1e9e71c82bf5fd2203686355ea241faa">dns_rr_type</a> rtype;</div>
+<div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160;    <a class="code" href="dns_8h.html#a3797bcb95efd17c8b0771af33d77cbb4">dns_rr_type_t</a> rtype;</div>
 <div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160;    uint16_t rclass;</div>
 <div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160;    uint32_t ttl;</div>
 <div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160;    uint16_t rdlength;</div>
 <div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160;    <span class="keywordtype">char</span> *rdata;</div>
-<div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160;} <a class="code" href="dns_8h.html#ade5f6e320ec69b63a9ec830897149156">dns_resource_record</a>;</div>
+<div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160;} <a class="code" href="dns_8h.html#a288ff2f9f9bc7d0d37d5b2148bcaee8f">dns_resource_record_t</a>;</div>
 <div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160; </div>
 <div class="line"><a name="l00089"></a><span class="lineno"><a class="line" href="structdns__message.html">   89</a></span>&#160;<span class="keyword">typedef</span> <span class="keyword">struct </span><a class="code" href="structdns__message.html">dns_message</a> {</div>
-<div class="line"><a name="l00090"></a><span class="lineno">   90</span>&#160;    <a class="code" href="structdns__header.html">dns_header</a> header;</div>
-<div class="line"><a name="l00091"></a><span class="lineno">   91</span>&#160;    <a class="code" href="structdns__question.html">dns_question</a> *questions;</div>
-<div class="line"><a name="l00092"></a><span class="lineno">   92</span>&#160;    <a class="code" href="structdns__resource__record.html">dns_resource_record</a> *answers;</div>
-<div class="line"><a name="l00093"></a><span class="lineno">   93</span>&#160;    <a class="code" href="structdns__resource__record.html">dns_resource_record</a> *authorities;</div>
-<div class="line"><a name="l00094"></a><span class="lineno">   94</span>&#160;    <a class="code" href="structdns__resource__record.html">dns_resource_record</a> *additionals;</div>
-<div class="line"><a name="l00095"></a><span class="lineno">   95</span>&#160;} <a class="code" href="dns_8h.html#abf08eb8eb908760e5ab7eae772d47295">dns_message</a>;</div>
+<div class="line"><a name="l00090"></a><span class="lineno">   90</span>&#160;    <a class="code" href="structdns__header.html">dns_header_t</a> header;</div>
+<div class="line"><a name="l00091"></a><span class="lineno">   91</span>&#160;    <a class="code" href="structdns__question.html">dns_question_t</a> *questions;</div>
+<div class="line"><a name="l00092"></a><span class="lineno">   92</span>&#160;    <a class="code" href="structdns__resource__record.html">dns_resource_record_t</a> *answers;</div>
+<div class="line"><a name="l00093"></a><span class="lineno">   93</span>&#160;    <a class="code" href="structdns__resource__record.html">dns_resource_record_t</a> *authorities;</div>
+<div class="line"><a name="l00094"></a><span class="lineno">   94</span>&#160;    <a class="code" href="structdns__resource__record.html">dns_resource_record_t</a> *additionals;</div>
+<div class="line"><a name="l00095"></a><span class="lineno">   95</span>&#160;} <a class="code" href="dns_8h.html#aef088f0d648543a5e8a1a9afdcf643ae">dns_message_t</a>;</div>
 <div class="line"><a name="l00096"></a><span class="lineno">   96</span>&#160; </div>
 <div class="line"><a name="l00097"></a><span class="lineno">   97</span>&#160; </div>
 <div class="line"><a name="l00099"></a><span class="lineno">   99</span>&#160; </div>
 <div class="line"><a name="l00101"></a><span class="lineno">  101</span>&#160; </div>
-<div class="line"><a name="l00110"></a><span class="lineno">  110</span>&#160;<a class="code" href="structdns__header.html">dns_header</a> <a class="code" href="dns_8h.html#af9a9256920415c0853761f5b6c14d2d7">dns_parse_header</a>(uint8_t *data, uint16_t *offset);</div>
+<div class="line"><a name="l00110"></a><span class="lineno">  110</span>&#160;<a class="code" href="structdns__header.html">dns_header_t</a> <a class="code" href="dns_8h.html#acfb00945650161d1ba64316cbb2bf4b0">dns_parse_header</a>(uint8_t *data, uint16_t *offset);</div>
 <div class="line"><a name="l00111"></a><span class="lineno">  111</span>&#160; </div>
-<div class="line"><a name="l00120"></a><span class="lineno">  120</span>&#160;<a class="code" href="structdns__question.html">dns_question</a>* <a class="code" href="dns_8h.html#aaf323d0e784fe86febc4d47eadc881d3">dns_parse_questions</a>(uint16_t qdcount, uint8_t *data, uint16_t *offset);</div>
+<div class="line"><a name="l00120"></a><span class="lineno">  120</span>&#160;<a class="code" href="structdns__question.html">dns_question_t</a>* <a class="code" href="dns_8h.html#a01af6a80cb6377466e81c351b3319d47">dns_parse_questions</a>(uint16_t qdcount, uint8_t *data, uint16_t *offset);</div>
 <div class="line"><a name="l00121"></a><span class="lineno">  121</span>&#160; </div>
-<div class="line"><a name="l00130"></a><span class="lineno">  130</span>&#160;<a class="code" href="structdns__resource__record.html">dns_resource_record</a>* <a class="code" href="dns_8h.html#adcea53983ccfff28df8379cce8893244">dns_parse_rrs</a>(uint16_t count, uint8_t *data, uint16_t *offset);</div>
+<div class="line"><a name="l00130"></a><span class="lineno">  130</span>&#160;<a class="code" href="structdns__resource__record.html">dns_resource_record_t</a>* <a class="code" href="dns_8h.html#a564a254484fd0f5ffb8da0208dafad81">dns_parse_rrs</a>(uint16_t count, uint8_t *data, uint16_t *offset);</div>
 <div class="line"><a name="l00131"></a><span class="lineno">  131</span>&#160; </div>
-<div class="line"><a name="l00138"></a><span class="lineno">  138</span>&#160;<a class="code" href="structdns__message.html">dns_message</a> <a class="code" href="dns_8h.html#aff8cf10acf0accfaf258f771bfa38682">dns_parse_message</a>(uint8_t *data);</div>
+<div class="line"><a name="l00138"></a><span class="lineno">  138</span>&#160;<a class="code" href="structdns__message.html">dns_message_t</a> <a class="code" href="dns_8h.html#a26531dfee1220d86e06fb66914df8b28">dns_parse_message</a>(uint8_t *data);</div>
 <div class="line"><a name="l00139"></a><span class="lineno">  139</span>&#160; </div>
 <div class="line"><a name="l00140"></a><span class="lineno">  140</span>&#160; </div>
 <div class="line"><a name="l00142"></a><span class="lineno">  142</span>&#160; </div>
-<div class="line"><a name="l00148"></a><span class="lineno">  148</span>&#160;<span class="keywordtype">void</span> <a class="code" href="dns_8h.html#a5984f1fc9cb757af97486861b33b5f85">dns_print_header</a>(<a class="code" href="structdns__header.html">dns_header</a> header);</div>
+<div class="line"><a name="l00148"></a><span class="lineno">  148</span>&#160;<span class="keywordtype">void</span> <a class="code" href="dns_8h.html#a19ecec468281085d5b8ff7a7fb16e8d8">dns_print_header</a>(<a class="code" href="structdns__header.html">dns_header_t</a> header);</div>
 <div class="line"><a name="l00149"></a><span class="lineno">  149</span>&#160; </div>
-<div class="line"><a name="l00155"></a><span class="lineno">  155</span>&#160;<span class="keywordtype">void</span> <a class="code" href="dns_8h.html#a91cd5ec5039e9c569199b5dc92f16005">dns_print_question</a>(<a class="code" href="structdns__question.html">dns_question</a> question);</div>
+<div class="line"><a name="l00155"></a><span class="lineno">  155</span>&#160;<span class="keywordtype">void</span> <a class="code" href="dns_8h.html#a257c54142f68b703adcd8c9470bcc260">dns_print_question</a>(<a class="code" href="structdns__question.html">dns_question_t</a> question);</div>
 <div class="line"><a name="l00156"></a><span class="lineno">  156</span>&#160; </div>
-<div class="line"><a name="l00163"></a><span class="lineno">  163</span>&#160;<span class="keywordtype">void</span> <a class="code" href="dns_8h.html#a1cf0bc3eeedb6634e4e5e17d8821a3a5">dns_print_questions</a>(uint16_t qdcount, <a class="code" href="structdns__question.html">dns_question</a> *questions);</div>
+<div class="line"><a name="l00163"></a><span class="lineno">  163</span>&#160;<span class="keywordtype">void</span> <a class="code" href="dns_8h.html#a53c3a9afafb73d80394444654db8e061">dns_print_questions</a>(uint16_t qdcount, <a class="code" href="structdns__question.html">dns_question_t</a> *questions);</div>
 <div class="line"><a name="l00164"></a><span class="lineno">  164</span>&#160; </div>
-<div class="line"><a name="l00171"></a><span class="lineno">  171</span>&#160;<span class="keywordtype">void</span> <a class="code" href="dns_8h.html#aa069756e8f36b9c3eb134b93fd0cc888">dns_print_rr</a>(<span class="keywordtype">char</span>* section_name, <a class="code" href="structdns__resource__record.html">dns_resource_record</a> rr);</div>
+<div class="line"><a name="l00171"></a><span class="lineno">  171</span>&#160;<span class="keywordtype">void</span> <a class="code" href="dns_8h.html#af104d282d7cffe3db6c462fbd9901686">dns_print_rr</a>(<span class="keywordtype">char</span>* section_name, <a class="code" href="structdns__resource__record.html">dns_resource_record_t</a> rr);</div>
 <div class="line"><a name="l00172"></a><span class="lineno">  172</span>&#160; </div>
-<div class="line"><a name="l00180"></a><span class="lineno">  180</span>&#160;<span class="keywordtype">void</span> <a class="code" href="dns_8h.html#aedf34c7586254362a3de0a29e62767a5">dns_print_rrs</a>(<span class="keywordtype">char</span>* section_name, uint16_t count, <a class="code" href="structdns__resource__record.html">dns_resource_record</a> *rrs);</div>
+<div class="line"><a name="l00180"></a><span class="lineno">  180</span>&#160;<span class="keywordtype">void</span> <a class="code" href="dns_8h.html#a22447893bf36b3685666620f48408a95">dns_print_rrs</a>(<span class="keywordtype">char</span>* section_name, uint16_t count, <a class="code" href="structdns__resource__record.html">dns_resource_record_t</a> *rrs);</div>
 <div class="line"><a name="l00181"></a><span class="lineno">  181</span>&#160; </div>
-<div class="line"><a name="l00187"></a><span class="lineno">  187</span>&#160;<span class="keywordtype">void</span> <a class="code" href="dns_8h.html#a2f1f1093abca852a567e1c6a6db354a2">dns_print_message</a>(<a class="code" href="structdns__message.html">dns_message</a> message);</div>
+<div class="line"><a name="l00187"></a><span class="lineno">  187</span>&#160;<span class="keywordtype">void</span> <a class="code" href="dns_8h.html#a10547ba66e35d219e617bebd9cef1f8b">dns_print_message</a>(<a class="code" href="structdns__message.html">dns_message_t</a> message);</div>
 <div class="line"><a name="l00188"></a><span class="lineno">  188</span>&#160; </div>
 <div class="line"><a name="l00189"></a><span class="lineno">  189</span>&#160;<span class="preprocessor">#endif </span><span class="comment">/* _IOTFIREWALL_DNS_ */</span><span class="preprocessor"></span></div>
 </div><!-- fragment --></div><!-- contents -->
-<div class="ttc" id="adns_8h_html_aedf34c7586254362a3de0a29e62767a5"><div class="ttname"><a href="dns_8h.html#aedf34c7586254362a3de0a29e62767a5">dns_print_rrs</a></div><div class="ttdeci">void dns_print_rrs(char *section_name, uint16_t count, dns_resource_record *rrs)</div><div class="ttdef"><b>Definition:</b> dns.c:294</div></div>
-<div class="ttc" id="adns_8h_html_a5984f1fc9cb757af97486861b33b5f85"><div class="ttname"><a href="dns_8h.html#a5984f1fc9cb757af97486861b33b5f85">dns_print_header</a></div><div class="ttdeci">void dns_print_header(dns_header header)</div><div class="ttdef"><b>Definition:</b> dns.c:217</div></div>
+<div class="ttc" id="adns_8h_html_a53c3a9afafb73d80394444654db8e061"><div class="ttname"><a href="dns_8h.html#a53c3a9afafb73d80394444654db8e061">dns_print_questions</a></div><div class="ttdeci">void dns_print_questions(uint16_t qdcount, dns_question_t *questions)</div><div class="ttdef"><b>Definition:</b> dns.c:245</div></div>
+<div class="ttc" id="adns_8h_html_acfb00945650161d1ba64316cbb2bf4b0"><div class="ttname"><a href="dns_8h.html#acfb00945650161d1ba64316cbb2bf4b0">dns_parse_header</a></div><div class="ttdeci">dns_header_t dns_parse_header(uint8_t *data, uint16_t *offset)</div><div class="ttdef"><b>Definition:</b> dns.c:24</div></div>
+<div class="ttc" id="adns_8h_html_af104d282d7cffe3db6c462fbd9901686"><div class="ttname"><a href="dns_8h.html#af104d282d7cffe3db6c462fbd9901686">dns_print_rr</a></div><div class="ttdeci">void dns_print_rr(char *section_name, dns_resource_record_t rr)</div><div class="ttdef"><b>Definition:</b> dns.c:277</div></div>
+<div class="ttc" id="adns_8h_html_a288ff2f9f9bc7d0d37d5b2148bcaee8f"><div class="ttname"><a href="dns_8h.html#a288ff2f9f9bc7d0d37d5b2148bcaee8f">dns_resource_record_t</a></div><div class="ttdeci">struct dns_resource_record dns_resource_record_t</div></div>
 <div class="ttc" id="astructdns__question_html"><div class="ttname"><a href="structdns__question.html">dns_question</a></div><div class="ttdef"><b>Definition:</b> dns.h:68</div></div>
 <div class="ttc" id="astructdns__message_html"><div class="ttname"><a href="structdns__message.html">dns_message</a></div><div class="ttdef"><b>Definition:</b> dns.h:89</div></div>
-<div class="ttc" id="adns_8h_html_a1cf0bc3eeedb6634e4e5e17d8821a3a5"><div class="ttname"><a href="dns_8h.html#a1cf0bc3eeedb6634e4e5e17d8821a3a5">dns_print_questions</a></div><div class="ttdeci">void dns_print_questions(uint16_t qdcount, dns_question *questions)</div><div class="ttdef"><b>Definition:</b> dns.c:245</div></div>
-<div class="ttc" id="adns_8h_html_aea9d9907d13d82aa55f5ec0702a4f267"><div class="ttname"><a href="dns_8h.html#aea9d9907d13d82aa55f5ec0702a4f267">dns_question</a></div><div class="ttdeci">struct dns_question dns_question</div></div>
-<div class="ttc" id="adns_8h_html_aa069756e8f36b9c3eb134b93fd0cc888"><div class="ttname"><a href="dns_8h.html#aa069756e8f36b9c3eb134b93fd0cc888">dns_print_rr</a></div><div class="ttdeci">void dns_print_rr(char *section_name, dns_resource_record rr)</div><div class="ttdef"><b>Definition:</b> dns.c:277</div></div>
-<div class="ttc" id="adns_8h_html_a91cd5ec5039e9c569199b5dc92f16005"><div class="ttname"><a href="dns_8h.html#a91cd5ec5039e9c569199b5dc92f16005">dns_print_question</a></div><div class="ttdeci">void dns_print_question(dns_question question)</div><div class="ttdef"><b>Definition:</b> dns.c:232</div></div>
-<div class="ttc" id="adns_8h_html_aaf323d0e784fe86febc4d47eadc881d3"><div class="ttname"><a href="dns_8h.html#aaf323d0e784fe86febc4d47eadc881d3">dns_parse_questions</a></div><div class="ttdeci">dns_question * dns_parse_questions(uint16_t qdcount, uint8_t *data, uint16_t *offset)</div><div class="ttdef"><b>Definition:</b> dns.c:110</div></div>
-<div class="ttc" id="adns_8h_html_ade5f6e320ec69b63a9ec830897149156"><div class="ttname"><a href="dns_8h.html#ade5f6e320ec69b63a9ec830897149156">dns_resource_record</a></div><div class="ttdeci">struct dns_resource_record dns_resource_record</div></div>
+<div class="ttc" id="adns_8h_html_a19ecec468281085d5b8ff7a7fb16e8d8"><div class="ttname"><a href="dns_8h.html#a19ecec468281085d5b8ff7a7fb16e8d8">dns_print_header</a></div><div class="ttdeci">void dns_print_header(dns_header_t header)</div><div class="ttdef"><b>Definition:</b> dns.c:217</div></div>
+<div class="ttc" id="adns_8h_html_a93604ea52022d5738bc395dca0c25c0f"><div class="ttname"><a href="dns_8h.html#a93604ea52022d5738bc395dca0c25c0f">dns_header_t</a></div><div class="ttdeci">struct dns_header dns_header_t</div></div>
+<div class="ttc" id="adns_8h_html_aef088f0d648543a5e8a1a9afdcf643ae"><div class="ttname"><a href="dns_8h.html#aef088f0d648543a5e8a1a9afdcf643ae">dns_message_t</a></div><div class="ttdeci">struct dns_message dns_message_t</div></div>
+<div class="ttc" id="adns_8h_html_a257c54142f68b703adcd8c9470bcc260"><div class="ttname"><a href="dns_8h.html#a257c54142f68b703adcd8c9470bcc260">dns_print_question</a></div><div class="ttdeci">void dns_print_question(dns_question_t question)</div><div class="ttdef"><b>Definition:</b> dns.c:232</div></div>
+<div class="ttc" id="adns_8h_html_a039c55ed91b5bc337e817e219ec4b505"><div class="ttname"><a href="dns_8h.html#a039c55ed91b5bc337e817e219ec4b505">dns_question_t</a></div><div class="ttdeci">struct dns_question dns_question_t</div></div>
+<div class="ttc" id="adns_8h_html_a26531dfee1220d86e06fb66914df8b28"><div class="ttname"><a href="dns_8h.html#a26531dfee1220d86e06fb66914df8b28">dns_parse_message</a></div><div class="ttdeci">dns_message_t dns_parse_message(uint8_t *data)</div><div class="ttdef"><b>Definition:</b> dns.c:184</div></div>
+<div class="ttc" id="adns_8h_html_a22447893bf36b3685666620f48408a95"><div class="ttname"><a href="dns_8h.html#a22447893bf36b3685666620f48408a95">dns_print_rrs</a></div><div class="ttdeci">void dns_print_rrs(char *section_name, uint16_t count, dns_resource_record_t *rrs)</div><div class="ttdef"><b>Definition:</b> dns.c:294</div></div>
 <div class="ttc" id="apacket__utils_8h_html"><div class="ttname"><a href="packet__utils_8h.html">packet_utils.h</a></div><div class="ttdoc">Utilitaries for payload manipulation and display.</div></div>
+<div class="ttc" id="adns_8h_html_a01af6a80cb6377466e81c351b3319d47"><div class="ttname"><a href="dns_8h.html#a01af6a80cb6377466e81c351b3319d47">dns_parse_questions</a></div><div class="ttdeci">dns_question_t * dns_parse_questions(uint16_t qdcount, uint8_t *data, uint16_t *offset)</div><div class="ttdef"><b>Definition:</b> dns.c:110</div></div>
 <div class="ttc" id="astructdns__resource__record_html"><div class="ttname"><a href="structdns__resource__record.html">dns_resource_record</a></div><div class="ttdef"><b>Definition:</b> dns.h:77</div></div>
 <div class="ttc" id="astructdns__header_html"><div class="ttname"><a href="structdns__header.html">dns_header</a></div><div class="ttdef"><b>Definition:</b> dns.h:56</div></div>
-<div class="ttc" id="adns_8h_html_add0a2237c82835b8106dac1ff46a2ca6"><div class="ttname"><a href="dns_8h.html#add0a2237c82835b8106dac1ff46a2ca6">dns_header</a></div><div class="ttdeci">struct dns_header dns_header</div></div>
-<div class="ttc" id="adns_8h_html_a2f1f1093abca852a567e1c6a6db354a2"><div class="ttname"><a href="dns_8h.html#a2f1f1093abca852a567e1c6a6db354a2">dns_print_message</a></div><div class="ttdeci">void dns_print_message(dns_message message)</div><div class="ttdef"><b>Definition:</b> dns.c:306</div></div>
-<div class="ttc" id="adns_8h_html_af9a9256920415c0853761f5b6c14d2d7"><div class="ttname"><a href="dns_8h.html#af9a9256920415c0853761f5b6c14d2d7">dns_parse_header</a></div><div class="ttdeci">dns_header dns_parse_header(uint8_t *data, uint16_t *offset)</div><div class="ttdef"><b>Definition:</b> dns.c:24</div></div>
-<div class="ttc" id="adns_8h_html_a1e9e71c82bf5fd2203686355ea241faa"><div class="ttname"><a href="dns_8h.html#a1e9e71c82bf5fd2203686355ea241faa">dns_rr_type</a></div><div class="ttdeci">dns_rr_type</div><div class="ttdef"><b>Definition:</b> dns.h:32</div></div>
-<div class="ttc" id="adns_8h_html_aff8cf10acf0accfaf258f771bfa38682"><div class="ttname"><a href="dns_8h.html#aff8cf10acf0accfaf258f771bfa38682">dns_parse_message</a></div><div class="ttdeci">dns_message dns_parse_message(uint8_t *data)</div><div class="ttdef"><b>Definition:</b> dns.c:184</div></div>
-<div class="ttc" id="adns_8h_html_adcea53983ccfff28df8379cce8893244"><div class="ttname"><a href="dns_8h.html#adcea53983ccfff28df8379cce8893244">dns_parse_rrs</a></div><div class="ttdeci">dns_resource_record * dns_parse_rrs(uint16_t count, uint8_t *data, uint16_t *offset)</div><div class="ttdef"><b>Definition:</b> dns.c:159</div></div>
-<div class="ttc" id="adns_8h_html_abf08eb8eb908760e5ab7eae772d47295"><div class="ttname"><a href="dns_8h.html#abf08eb8eb908760e5ab7eae772d47295">dns_message</a></div><div class="ttdeci">struct dns_message dns_message</div></div>
+<div class="ttc" id="adns_8h_html_a10547ba66e35d219e617bebd9cef1f8b"><div class="ttname"><a href="dns_8h.html#a10547ba66e35d219e617bebd9cef1f8b">dns_print_message</a></div><div class="ttdeci">void dns_print_message(dns_message_t message)</div><div class="ttdef"><b>Definition:</b> dns.c:306</div></div>
+<div class="ttc" id="adns_8h_html_a3797bcb95efd17c8b0771af33d77cbb4"><div class="ttname"><a href="dns_8h.html#a3797bcb95efd17c8b0771af33d77cbb4">dns_rr_type_t</a></div><div class="ttdeci">dns_rr_type_t</div><div class="ttdef"><b>Definition:</b> dns.h:32</div></div>
+<div class="ttc" id="adns_8h_html_a564a254484fd0f5ffb8da0208dafad81"><div class="ttname"><a href="dns_8h.html#a564a254484fd0f5ffb8da0208dafad81">dns_parse_rrs</a></div><div class="ttdeci">dns_resource_record_t * dns_parse_rrs(uint16_t count, uint8_t *data, uint16_t *offset)</div><div class="ttdef"><b>Definition:</b> dns.c:159</div></div>
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
 Generated by &#160;<a href="http://www.doxygen.org/index.html">

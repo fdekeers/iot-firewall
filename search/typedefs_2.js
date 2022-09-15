@@ -1,11 +1,11 @@
 var searchData=
 [
-  ['dhcp_5fmessage_175',['dhcp_message',['../dhcp_8h.html#a90aba9d65e4f4e7e1e41a98bb63bcd8b',1,'dhcp.h']]],
-  ['dhcp_5foption_176',['dhcp_option',['../dhcp_8h.html#af405be3b2333f8f24d056b4972cab758',1,'dhcp.h']]],
-  ['dhcp_5foptions_177',['dhcp_options',['../dhcp_8h.html#af09262ddf5f3ea28dcba7ad141b78d96',1,'dhcp.h']]],
-  ['dns_5fentry_178',['dns_entry',['../map__domain__ip_8h.html#a66fd941fccb32e54eb2522a5811ab75b',1,'map_domain_ip.h']]],
-  ['dns_5fheader_179',['dns_header',['../dns_8h.html#add0a2237c82835b8106dac1ff46a2ca6',1,'dns.h']]],
-  ['dns_5fmessage_180',['dns_message',['../dns_8h.html#abf08eb8eb908760e5ab7eae772d47295',1,'dns.h']]],
-  ['dns_5fquestion_181',['dns_question',['../dns_8h.html#aea9d9907d13d82aa55f5ec0702a4f267',1,'dns.h']]],
-  ['dns_5fresource_5frecord_182',['dns_resource_record',['../dns_8h.html#ade5f6e320ec69b63a9ec830897149156',1,'dns.h']]]
+  ['dhcp_5fmessage_5ft_183',['dhcp_message_t',['../dhcp_8h.html#a44863dea6839c8d44f898f28da38a972',1,'dhcp.h']]],
+  ['dhcp_5foption_5ft_184',['dhcp_option_t',['../dhcp_8h.html#aa10a38319adcbbc6cd5adf169d988403',1,'dhcp.h']]],
+  ['dhcp_5foptions_5ft_185',['dhcp_options_t',['../dhcp_8h.html#a2864132133c99eaaa1c6ff2d51e42fcd',1,'dhcp.h']]],
+  ['dns_5fentry_5ft_186',['dns_entry_t',['../map__domain__ip_8h.html#af49967b51d5078edae2ca81eb7ed6315',1,'map_domain_ip.h']]],
+  ['dns_5fheader_5ft_187',['dns_header_t',['../dns_8h.html#a93604ea52022d5738bc395dca0c25c0f',1,'dns.h']]],
+  ['dns_5fmessage_5ft_188',['dns_message_t',['../dns_8h.html#aef088f0d648543a5e8a1a9afdcf643ae',1,'dns.h']]],
+  ['dns_5fquestion_5ft_189',['dns_question_t',['../dns_8h.html#a039c55ed91b5bc337e817e219ec4b505',1,'dns.h']]],
+  ['dns_5fresource_5frecord_5ft_190',['dns_resource_record_t',['../dns_8h.html#a288ff2f9f9bc7d0d37d5b2148bcaee8f',1,'dns.h']]]
 ];

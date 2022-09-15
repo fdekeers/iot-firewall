@@ -1,7 +1,7 @@
 var searchData=
 [
-  ['dhcp_5fmessage_5ftype_184',['dhcp_message_type',['../dhcp_8h.html#a0011318888d649bb9dd7679d38fc6a89',1,'dhcp.h']]],
-  ['dhcp_5fopcode_185',['dhcp_opcode',['../dhcp_8h.html#a7a3056db28eee6275fc5cd35d1a99aa4',1,'dhcp.h']]],
-  ['dhcp_5foption_5fcode_186',['dhcp_option_code',['../dhcp_8h.html#ac25c315113121dbd546add435dd1e18e',1,'dhcp.h']]],
-  ['dns_5frr_5ftype_187',['dns_rr_type',['../dns_8h.html#a1e9e71c82bf5fd2203686355ea241faa',1,'dns.h']]]
+  ['dhcp_5fmessage_5ftype_5ft_192',['dhcp_message_type_t',['../dhcp_8h.html#a579771a82be6ae1dea3be3f1d991059e',1,'dhcp.h']]],
+  ['dhcp_5fopcode_5ft_193',['dhcp_opcode_t',['../dhcp_8h.html#abe66241d9d994aa43aab6c88d71946fa',1,'dhcp.h']]],
+  ['dhcp_5foption_5fcode_5ft_194',['dhcp_option_code_t',['../dhcp_8h.html#a503246971190cf92a8e3b54e279b8c7f',1,'dhcp.h']]],
+  ['dns_5frr_5ftype_5ft_195',['dns_rr_type_t',['../dns_8h.html#a3797bcb95efd17c8b0771af33d77cbb4',1,'dns.h']]]
 ];
