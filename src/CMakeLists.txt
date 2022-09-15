@@ -11,6 +11,7 @@ set(DEVICES xiaomi-cam)
 
 # nfqueue
 add_library(nfqueue STATIC ${INCLUDE_DIR}/nfqueue.h nfqueue.c)
+target_link_libraries(nfqueue netfilter_queue)
 target_include_directories(nfqueue PRIVATE ${INCLUDE_DIR})
 install(TARGETS nfqueue DESTINATION ${LIB_DIR})
 
@@ -24,12 +25,3 @@ add_library(map_domain_ip STATIC ${INCLUDE_DIR}/map_domain_ip.h map_domain_ip.c)
 target_include_directories(map_domain_ip PRIVATE ${INCLUDE_DIR})
 target_link_libraries(map_domain_ip ${LIB_DIR}/libhashmap.a)
 install(TARGETS map_domain_ip DESTINATION ${LIB_DIR})
-
-# Build executable
-add_executable(iot-firewall main.c)
-target_link_libraries(iot-firewall netfilter_queue)
-target_link_libraries(iot-firewall ${LIB_DIR}/libhashmap.a)
-target_link_libraries(iot-firewall nfqueue packet_utils map_domain_ip)
-target_link_libraries(iot-firewall ${PARSERS})
-target_include_directories(iot-firewall PRIVATE ${INCLUDE_DIR})
-install(TARGETS iot-firewall DESTINATION ${BIN_DIR})

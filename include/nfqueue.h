@@ -20,6 +20,27 @@
 #include <errno.h>
 #include <libnetfilter_queue/libnetfilter_queue.h>
 
+/**
+ * Alias for basic callback function.
+ */
+typedef uint32_t basic_callback(int pkt_id, uint8_t *payload, void *arg);
+
+/**
+ * Structure that stores a basic callback function and its arguments.
+ */
+typedef struct callback_struct {
+    basic_callback *func;  // Basic callback function
+    void *arg;             // Arguments to pass to the callback function
+} callback_struct_t;
+
+/**
+ * Retrieve the packet id from a nfq_data struct,
+ * or -1 in case of error.
+ * 
+ * @param nfa the given nfq_data struct
+ * @return the packet id, or -1 in case of error
+ */
+int get_pkt_id(struct nfq_data *nfad);
 
 /**
  * Bind queue to callback function,
@@ -31,16 +52,7 @@
  *     int callback(struct nfq_q_handle *qh, struct nfgenmsg *nfmsg, struct nfq_data *nfa, void *data)
  * @param arg the argument to pass to the callback function
  */
-void bind_queue(uint16_t queue_num, nfq_callback *callback, void *arg);
-
-/**
- * Retrieve the packet id from a nfq_data struct,
- * or -1 in case of error.
- * 
- * @param nfa the given nfq_data struct
- * @return the packet id, or -1 in case of error
- */
-int get_pkt_id(struct nfq_data *nfa);
+void bind_queue(uint16_t queue_num, basic_callback *callback, void *arg);
 
 
 #endif /* _IOTFIREWALL_NFQUEUE_ */

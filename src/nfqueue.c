@@ -12,16 +12,55 @@
 
 
 /**
+ * Retrieve the packet id from a nfq_data struct,
+ * or -1 in case of error.
+ * 
+ * @param nfa the given nfq_data struct
+ * @return the packet id, or -1 in case of error
+ */
+int get_pkt_id(struct nfq_data *nfad) {
+	struct nfqnl_msg_packet_hdr *ph = nfq_get_msg_packet_hdr(nfad);
+	if (ph) {
+		return ntohl(ph->packet_id);
+	}
+	return -1;
+}
+
+/**
+ * @brief Full callback function, compliant to the nfq_callback type.
+ * 
+ * @param qh queue handle
+ * @param nfmsg message object that contains the packet
+ * @param nfad Netlink packet data handle
+ * @param data data to be used by the function.
+ *             In this case, a pointer to a callback_struct_t, which contains a basic_callback function and its arguments.
+ * @return -1 on error, >= 0 otherwise
+ */
+int nfqueue_callback(struct nfq_q_handle *qh, struct nfgenmsg *nfmsg, struct nfq_data *nfad, void *data) {
+	// Verdict (will be updated by the basic callback function)
+	uint32_t verdict = NF_ACCEPT;
+	// Get packet id
+    int pkt_id = get_pkt_id(nfad);
+    // Get packet payload
+    uint8_t *payload;
+    int length = nfq_get_payload(nfad, &payload);
+    if (length >= 0) {
+		verdict = (*(((callback_struct_t *) data)->func))(pkt_id, payload, ((callback_struct_t *) data)->arg);
+	}
+	return nfq_set_verdict(qh, pkt_id, verdict, length, payload);
+}
+
+/**
  * Bind queue to callback function,
  * and wait for packets.
  * 
  * @param queue_num the number of the queue to bind to
- * @param callback the callback funtion, called upon packet reception
+ * @param callback the basic callback funtion, called upon packet reception
  * The callback function must have the following signature:
- *     int callback(struct nfq_q_handle *qh, struct nfgenmsg *nfmsg, struct nfq_data *nfa, void *data)
- * @param arg the argument to pass to the callback function
+ *     uint32_t callback(int pkt_id, uint8_t *payload, void *arg)
+ * @param arg the argument to pass to the basic callback function
  */
-void bind_queue(uint16_t queue_num, nfq_callback *callback, void *arg)
+void bind_queue(uint16_t queue_num, basic_callback *callback, void *arg)
 {
 	struct nfq_handle *h;
 	struct nfq_q_handle *qh;
@@ -50,7 +89,11 @@ void bind_queue(uint16_t queue_num, nfq_callback *callback, void *arg)
 	}
 
 	printf("binding this socket to queue '%d'\n", queue_num);
-	qh = nfq_create_queue(h, queue_num, callback, arg);
+	// Create nfqueue callback function from basic callback function
+	callback_struct_t callback_struct;
+	callback_struct.func = callback;
+	callback_struct.arg = arg;
+	qh = nfq_create_queue(h, queue_num, &nfqueue_callback, &callback_struct);
 	if (!qh) {
 		fprintf(stderr, "error during nfq_create_queue()\n");
 		exit(1);
@@ -111,19 +154,4 @@ void bind_queue(uint16_t queue_num, nfq_callback *callback, void *arg)
 
 	printf("closing library handle\n");
 	nfq_close(h);
-}
-
-/**
- * Retrieve the packet id from a nfq_data struct,
- * or -1 in case of error.
- * 
- * @param nfa the given nfq_data struct
- * @return the packet id, or -1 in case of error
- */
-int get_pkt_id(struct nfq_data *nfa) {
-	struct nfqnl_msg_packet_hdr *ph = nfq_get_msg_packet_hdr(nfa);
-	if (ph) {
-		return ntohl(ph->packet_id);
-	}
-	return -1;
 }
