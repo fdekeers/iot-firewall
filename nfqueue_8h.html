@@ -67,6 +67,8 @@ $(function() {
 </div><!-- top -->
 <div class="header">
   <div class="summary">
+<a href="#nested-classes">Classes</a> &#124;
+<a href="#typedef-members">Typedefs</a> &#124;
 <a href="#func-members">Functions</a>  </div>
   <div class="headertitle">
 <div class="title">nfqueue.h File Reference</div>  </div>
@@ -104,29 +106,71 @@ This graph shows which files directly or indirectly include this file:</div>
 <div class="dyncontent">
 <div class="center"><img src="nfqueue_8h__dep__incl.png" border="0" usemap="#include_2nfqueue_8hdep" alt=""/></div>
 <map name="include_2nfqueue_8hdep" id="include_2nfqueue_8hdep">
-<area shape="rect" title="Wrapper for the netfilter_queue library." alt="" coords="42,5,181,32"/>
-<area shape="rect" href="main_8c.html" title="Program entry point." alt="" coords="5,80,95,107"/>
-<area shape="rect" href="nfqueue_8c.html" title="Wrapper for the netfilter_queue library." alt="" coords="119,80,229,107"/>
+<area shape="rect" title="Wrapper for the netfilter_queue library." alt="" coords="5,5,144,32"/>
+<area shape="rect" href="nfqueue_8c.html" title="Wrapper for the netfilter_queue library." alt="" coords="20,80,129,107"/>
 </map>
 </div>
 </div>
 <p><a href="nfqueue_8h_source.html">Go to the source code of this file.</a></p>
 <table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="nested-classes"></a>
+Classes</h2></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structcallback__struct.html">callback_struct</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="typedef-members"></a>
+Typedefs</h2></td></tr>
+<tr class="memitem:a622f452f8e40578e1b5b826e8d83a87d"><td class="memItemLeft" align="right" valign="top">typedef uint32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="nfqueue_8h.html#a622f452f8e40578e1b5b826e8d83a87d">basic_callback</a>(int pkt_id, uint8_t *payload, void *arg)</td></tr>
+<tr class="separator:a622f452f8e40578e1b5b826e8d83a87d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aeffca4208e9e48be1ff3148e9838a672"><td class="memItemLeft" align="right" valign="top">typedef struct <a class="el" href="structcallback__struct.html">callback_struct</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="nfqueue_8h.html#aeffca4208e9e48be1ff3148e9838a672">callback_struct_t</a></td></tr>
+<tr class="separator:aeffca4208e9e48be1ff3148e9838a672"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="func-members"></a>
 Functions</h2></td></tr>
-<tr class="memitem:a017a4e37c92eed990f042b2472cb91a8"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="nfqueue_8h.html#a017a4e37c92eed990f042b2472cb91a8">bind_queue</a> (uint16_t queue_num, nfq_callback *callback, void *arg)</td></tr>
-<tr class="separator:a017a4e37c92eed990f042b2472cb91a8"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a7fbb41ad223d732989fcc26f91282fec"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="nfqueue_8h.html#a7fbb41ad223d732989fcc26f91282fec">get_pkt_id</a> (struct nfq_data *nfa)</td></tr>
-<tr class="separator:a7fbb41ad223d732989fcc26f91282fec"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad901cf897da5bb0c6ff0cb8e04ba02da"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="nfqueue_8h.html#ad901cf897da5bb0c6ff0cb8e04ba02da">get_pkt_id</a> (struct nfq_data *nfad)</td></tr>
+<tr class="separator:ad901cf897da5bb0c6ff0cb8e04ba02da"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6db79cc68cea647b5331bee9e47894da"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="nfqueue_8h.html#a6db79cc68cea647b5331bee9e47894da">bind_queue</a> (uint16_t queue_num, <a class="el" href="nfqueue_8h.html#a622f452f8e40578e1b5b826e8d83a87d">basic_callback</a> *callback, void *arg)</td></tr>
+<tr class="separator:a6db79cc68cea647b5331bee9e47894da"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Wrapper for the netfilter_queue library. </p>
 <dl class="section author"><dt>Author</dt><dd>François De Keersmaeker (<a href="#" onclick="location.href='mai'+'lto:'+'fra'+'nc'+'ois'+'.d'+'eke'+'er'+'sma'+'ek'+'er@'+'uc'+'lou'+'va'+'in.'+'be'; return false;">franc<span style="display: none;">.nosp@m.</span>ois.<span style="display: none;">.nosp@m.</span>dekee<span style="display: none;">.nosp@m.</span>rsma<span style="display: none;">.nosp@m.</span>eker@<span style="display: none;">.nosp@m.</span>uclo<span style="display: none;">.nosp@m.</span>uvain<span style="display: none;">.nosp@m.</span>.be</a>) </dd></dl>
 <dl class="section date"><dt>Date</dt><dd>2022-09-09</dd></dl>
 <dl class="section copyright"><dt>Copyright</dt><dd>Copyright (c) 2022 </dd></dl>
-</div><h2 class="groupheader">Function Documentation</h2>
-<a id="a017a4e37c92eed990f042b2472cb91a8"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a017a4e37c92eed990f042b2472cb91a8">&#9670;&nbsp;</a></span>bind_queue()</h2>
+</div><h2 class="groupheader">Typedef Documentation</h2>
+<a id="a622f452f8e40578e1b5b826e8d83a87d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a622f452f8e40578e1b5b826e8d83a87d">&#9670;&nbsp;</a></span>basic_callback</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">typedef uint32_t basic_callback(int pkt_id, uint8_t *payload, void *arg)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Alias for basic callback function. </p>
+
+</div>
+</div>
+<a id="aeffca4208e9e48be1ff3148e9838a672"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aeffca4208e9e48be1ff3148e9838a672">&#9670;&nbsp;</a></span>callback_struct_t</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">typedef struct <a class="el" href="structcallback__struct.html">callback_struct</a> <a class="el" href="nfqueue_8h.html#aeffca4208e9e48be1ff3148e9838a672">callback_struct_t</a></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Structure that stores a basic callback function and its arguments. </p>
+
+</div>
+</div>
+<h2 class="groupheader">Function Documentation</h2>
+<a id="a6db79cc68cea647b5331bee9e47894da"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a6db79cc68cea647b5331bee9e47894da">&#9670;&nbsp;</a></span>bind_queue()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -140,7 +184,7 @@ Functions</h2></td></tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">nfq_callback *&#160;</td>
+          <td class="paramtype"><a class="el" href="nfqueue_8h.html#a622f452f8e40578e1b5b826e8d83a87d">basic_callback</a> *&#160;</td>
           <td class="paramname"><em>callback</em>, </td>
         </tr>
         <tr>
@@ -161,15 +205,24 @@ Functions</h2></td></tr>
   <table class="params">
     <tr><td class="paramname">queue_num</td><td>the number of the queue to bind to </td></tr>
     <tr><td class="paramname">callback</td><td>the callback funtion, called upon packet reception The callback function must have the following signature: int callback(struct nfq_q_handle *qh, struct nfgenmsg *nfmsg, struct nfq_data *nfa, void *data) </td></tr>
-    <tr><td class="paramname">arg</td><td>the argument to pass to the callback function </td></tr>
+    <tr><td class="paramname">arg</td><td>the argument to pass to the callback function</td></tr>
+  </table>
+  </dd>
+</dl>
+<p>Bind queue to callback function, and wait for packets.</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">queue_num</td><td>the number of the queue to bind to </td></tr>
+    <tr><td class="paramname">callback</td><td>the basic callback funtion, called upon packet reception The callback function must have the following signature: uint32_t callback(int pkt_id, uint8_t *payload, void *arg) </td></tr>
+    <tr><td class="paramname">arg</td><td>the argument to pass to the basic callback function </td></tr>
   </table>
   </dd>
 </dl>
 
 </div>
 </div>
-<a id="a7fbb41ad223d732989fcc26f91282fec"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a7fbb41ad223d732989fcc26f91282fec">&#9670;&nbsp;</a></span>get_pkt_id()</h2>
+<a id="ad901cf897da5bb0c6ff0cb8e04ba02da"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ad901cf897da5bb0c6ff0cb8e04ba02da">&#9670;&nbsp;</a></span>get_pkt_id()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -178,7 +231,7 @@ Functions</h2></td></tr>
           <td class="memname">int get_pkt_id </td>
           <td>(</td>
           <td class="paramtype">struct nfq_data *&#160;</td>
-          <td class="paramname"><em>nfa</em></td><td>)</td>
+          <td class="paramname"><em>nfad</em></td><td>)</td>
           <td></td>
         </tr>
       </table>

@@ -1,7 +1,6 @@
 <map id="include/parsers/header.h" name="include/parsers/header.h">
-<area shape="rect" id="node1" title="Parser for layer 3 and 4 headers (currently only IP, UDP and TCP)" alt="" coords="191,5,373,32"/>
-<area shape="rect" id="node2" href="$main_8c.html" title="Program entry point." alt="" coords="5,80,95,107"/>
-<area shape="rect" id="node3" href="$header_8c.html" title="Parser for layer 3 and 4 headers (currently only IP, UDP and TCP)" alt="" coords="119,80,271,107"/>
-<area shape="rect" id="node4" href="$test_2parsers_2dhcp_8c.html" title="Unit tests for the DHCP parser." alt="" coords="296,80,441,107"/>
-<area shape="rect" id="node5" href="$test_2parsers_2dns_8c.html" title="Unit tests for the DNS parser." alt="" coords="465,80,603,107"/>
+<area shape="rect" id="node1" title="Parser for layer 3 and 4 headers (currently only IP, UDP and TCP)" alt="" coords="164,5,345,32"/>
+<area shape="rect" id="node2" href="$header_8c.html" title="Parser for layer 3 and 4 headers (currently only IP, UDP and TCP)" alt="" coords="5,80,157,107"/>
+<area shape="rect" id="node3" href="$test_2parsers_2dhcp_8c.html" title="Unit tests for the DHCP parser." alt="" coords="182,80,327,107"/>
+<area shape="rect" id="node4" href="$test_2parsers_2dns_8c.html" title="Unit tests for the DNS parser." alt="" coords="351,80,489,107"/>
 </map>
