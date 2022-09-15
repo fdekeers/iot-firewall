@@ -10,38 +10,8 @@
 
 #include "dns.h"
 
-///// PARSING /////
 
-/**
- * Parse a DNS message.
- * 
- * @param data a pointer to the start of the DNS message
- * @return the parsed DNS message
- */
-dns_message dns_parse_message(uint8_t *data) {
-    // Init
-    dns_message message;
-    uint16_t offset = 0;
-    // Parse DNS header
-    message.header = dns_parse_header(data, &offset);
-    // If present, parse DNS Question section
-    if (message.header.qdcount > 0) {
-        message.questions = dns_parse_questions(message.header.qdcount, data, &offset);
-    }
-    // If present, parse DNS Answer section
-    if (message.header.ancount > 0) {
-        message.answers = dns_parse_rrs(message.header.ancount, data, &offset);
-    }
-    // If present, parse DNS Authority section
-    if (message.header.nscount > 0) {
-        message.authorities = dns_parse_rrs(message.header.nscount, data, &offset);
-    }
-    // If present, parse DNS Additional section
-    if (message.header.arcount > 0) {
-        message.additionals = dns_parse_rrs(message.header.arcount, data, &offset);
-    }
-    return message;
-}
+///// PARSING /////
 
 /**
  * Parse a DNS header.
@@ -75,7 +45,7 @@ dns_header dns_parse_header(uint8_t *data, uint16_t *offset) {
  * @param offset a pointer to the current parsing offset
  * @return the parsed domain name
  */
-char* dns_parse_domain_name(uint8_t *data, uint16_t *offset) {
+static char* dns_parse_domain_name(uint8_t *data, uint16_t *offset) {
     if (*(data + *offset) == '\0') {
         // Domain name is ROOT
         (*offset)++;
@@ -160,7 +130,7 @@ dns_question* dns_parse_questions(uint16_t qdcount, uint8_t *data, uint16_t *off
  * @param offset a pointer to the current parsing offset
  * @return the parsed RDATA field
  */
-char* dns_parse_rdata(dns_rr_type rtype, uint16_t rdlength, uint8_t *data, uint16_t *offset) {
+static char* dns_parse_rdata(dns_rr_type rtype, uint16_t rdlength, uint8_t *data, uint16_t *offset) {
     if (rdlength == 0) {
         // RDATA field is empty
         return NULL;
@@ -203,6 +173,37 @@ dns_resource_record* dns_parse_rrs(uint16_t count, uint8_t *data, uint16_t *offs
         (rrs + i)->rdata = dns_parse_rdata(rtype, rdlength, data, offset);
     }
     return rrs;
+}
+
+/**
+ * Parse a DNS message.
+ * 
+ * @param data a pointer to the start of the DNS message
+ * @return the parsed DNS message
+ */
+dns_message dns_parse_message(uint8_t *data) {
+    // Init
+    dns_message message;
+    uint16_t offset = 0;
+    // Parse DNS header
+    message.header = dns_parse_header(data, &offset);
+    // If present, parse DNS Question section
+    if (message.header.qdcount > 0) {
+        message.questions = dns_parse_questions(message.header.qdcount, data, &offset);
+    }
+    // If present, parse DNS Answer section
+    if (message.header.ancount > 0) {
+        message.answers = dns_parse_rrs(message.header.ancount, data, &offset);
+    }
+    // If present, parse DNS Authority section
+    if (message.header.nscount > 0) {
+        message.authorities = dns_parse_rrs(message.header.nscount, data, &offset);
+    }
+    // If present, parse DNS Additional section
+    if (message.header.arcount > 0) {
+        message.additionals = dns_parse_rrs(message.header.arcount, data, &offset);
+    }
+    return message;
 }
 
 

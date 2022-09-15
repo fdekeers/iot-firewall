@@ -10,22 +10,8 @@
 
 #include "parsers/dhcp.h"
 
-///// PARSING /////
 
-/**
- * @brief Parse a DHCP message.
- * 
- * @param data a pointer to the start of the DHCP message
- * @return the parsed DHCP message
- */
-dhcp_message dhcp_parse_message(uint8_t *data) {
-    // Parse constant fields
-    dhcp_message message = dhcp_parse_header(data);
-    // Parse DHCP options
-    message.options = dhcp_parse_options(data + DHCP_HEADER_LEN);
-    // Return
-    return message;
-}
+///// PARSING /////
 
 /**
  * @brief Parse the header of a DHCP message (not including options).
@@ -65,6 +51,29 @@ dhcp_message dhcp_parse_header(uint8_t *data) {
     // file: 128 bytes
     memcpy(message.file, data + 108, sizeof(uint8_t) * 128);
     return message;
+}
+
+/**
+ * @brief Parse a DHCP option.
+ * 
+ * @param data a pointer to the start of the DHCP option
+ * @param offset a pointer to the current offset inside the DHCP message
+ *               Its value will be updated to point to the next option
+ * @return the parsed DHCP option
+ */
+dhcp_option dhcp_parse_option(uint8_t *data, uint16_t *offset) {
+    dhcp_option option;
+    option.code = *(data + *offset);
+    if (option.code == PAD || option.code == END) {
+        option.length = 0;
+        option.value = NULL;
+        *offset += 1;
+    } else {
+        option.length = *(data + *offset + 1);
+        option.value = data  + *offset + 2;
+        *offset += 2 + option.length;
+    }
+    return option;
 }
 
 /**
@@ -110,46 +119,22 @@ dhcp_options dhcp_parse_options(uint8_t *data) {
 }
 
 /**
- * @brief Parse a DHCP option.
+ * @brief Parse a DHCP message.
  * 
- * @param data a pointer to the start of the DHCP option
- * @param offset a pointer to the current offset inside the DHCP message
- *               Its value will be updated to point to the next option
- * @return the parsed DHCP option
+ * @param data a pointer to the start of the DHCP message
+ * @return the parsed DHCP message
  */
-dhcp_option dhcp_parse_option(uint8_t *data, uint16_t *offset) {
-    dhcp_option option;
-    option.code = *(data + *offset);
-    if (option.code == PAD || option.code == END) {
-        option.length = 0;
-        option.value = NULL;
-        *offset += 1;
-    } else {
-        option.length = *(data + *offset + 1);
-        option.value = data  + *offset + 2;
-        *offset += 2 + option.length;
-    }
-    return option;
+dhcp_message dhcp_parse_message(uint8_t *data) {
+    // Parse constant fields
+    dhcp_message message = dhcp_parse_header(data);
+    // Parse DHCP options
+    message.options = dhcp_parse_options(data + DHCP_HEADER_LEN);
+    // Return
+    return message;
 }
 
 
 ///// PRINTING /////
-
-/**
- * @brief Print a DHCP message.
- * 
- * @param message the DHCP message to print
- */
-void dhcp_print_message(dhcp_message message) {
-    printf("DHCP message\n");
-    // Print header fields
-    dhcp_print_header(message);
-    // Print DHCP options
-    printf("  DHCP options:\n");
-    for (uint8_t i = 0; i < message.options.count; i++) {
-        dhcp_print_option(*(message.options.options + i));
-    }
-}
 
 /**
  * @brief Print a hardware address.
@@ -157,7 +142,7 @@ void dhcp_print_message(dhcp_message message) {
  * @param htype hardware type
  * @param chaddr the hardware address to print
  */
-void dhcp_print_chaddr(uint8_t htype, uint8_t chaddr[]) {
+static void dhcp_print_chaddr(uint8_t htype, uint8_t chaddr[]) {
     printf("  Client hardware address: ");
     uint8_t length = (htype == 1) ? 6 : 16;
     printf("%02hhx", chaddr[0]);
@@ -218,4 +203,20 @@ void dhcp_print_option(dhcp_option option) {
         printf("%02hhx ", *(option.value + i));
     }
     printf("\n");
+}
+
+/**
+ * @brief Print a DHCP message.
+ * 
+ * @param message the DHCP message to print
+ */
+void dhcp_print_message(dhcp_message message) {
+    printf("DHCP message\n");
+    // Print header fields
+    dhcp_print_header(message);
+    // Print DHCP options
+    printf("  DHCP options:\n");
+    for (uint8_t i = 0; i < message.options.count; i++) {
+        dhcp_print_option(*(message.options.options + i));
+    }
 }
