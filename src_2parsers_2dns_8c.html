@@ -95,18 +95,14 @@ Include dependency graph for dns.c:</div>
 </div><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="func-members"></a>
 Functions</h2></td></tr>
-<tr class="memitem:aff8cf10acf0accfaf258f771bfa38682"><td class="memItemLeft" align="right" valign="top"><a class="el" href="structdns__message.html">dns_message</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="src_2parsers_2dns_8c.html#aff8cf10acf0accfaf258f771bfa38682">dns_parse_message</a> (uint8_t *data)</td></tr>
-<tr class="separator:aff8cf10acf0accfaf258f771bfa38682"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:af9a9256920415c0853761f5b6c14d2d7"><td class="memItemLeft" align="right" valign="top"><a class="el" href="structdns__header.html">dns_header</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="src_2parsers_2dns_8c.html#af9a9256920415c0853761f5b6c14d2d7">dns_parse_header</a> (uint8_t *data, uint16_t *offset)</td></tr>
 <tr class="separator:af9a9256920415c0853761f5b6c14d2d7"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a43356abefd294dc2cb699e3c8bc894bb"><td class="memItemLeft" align="right" valign="top">char *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="src_2parsers_2dns_8c.html#a43356abefd294dc2cb699e3c8bc894bb">dns_parse_domain_name</a> (uint8_t *data, uint16_t *offset)</td></tr>
-<tr class="separator:a43356abefd294dc2cb699e3c8bc894bb"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aaf323d0e784fe86febc4d47eadc881d3"><td class="memItemLeft" align="right" valign="top"><a class="el" href="structdns__question.html">dns_question</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="src_2parsers_2dns_8c.html#aaf323d0e784fe86febc4d47eadc881d3">dns_parse_questions</a> (uint16_t qdcount, uint8_t *data, uint16_t *offset)</td></tr>
 <tr class="separator:aaf323d0e784fe86febc4d47eadc881d3"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a657d6652e17128f03fbcfe45156242e4"><td class="memItemLeft" align="right" valign="top">char *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="src_2parsers_2dns_8c.html#a657d6652e17128f03fbcfe45156242e4">dns_parse_rdata</a> (<a class="el" href="dns_8h.html#a1e9e71c82bf5fd2203686355ea241faa">dns_rr_type</a> rtype, uint16_t rdlength, uint8_t *data, uint16_t *offset)</td></tr>
-<tr class="separator:a657d6652e17128f03fbcfe45156242e4"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:adcea53983ccfff28df8379cce8893244"><td class="memItemLeft" align="right" valign="top"><a class="el" href="structdns__resource__record.html">dns_resource_record</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="src_2parsers_2dns_8c.html#adcea53983ccfff28df8379cce8893244">dns_parse_rrs</a> (uint16_t count, uint8_t *data, uint16_t *offset)</td></tr>
 <tr class="separator:adcea53983ccfff28df8379cce8893244"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aff8cf10acf0accfaf258f771bfa38682"><td class="memItemLeft" align="right" valign="top"><a class="el" href="structdns__message.html">dns_message</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="src_2parsers_2dns_8c.html#aff8cf10acf0accfaf258f771bfa38682">dns_parse_message</a> (uint8_t *data)</td></tr>
+<tr class="separator:aff8cf10acf0accfaf258f771bfa38682"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a5984f1fc9cb757af97486861b33b5f85"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="src_2parsers_2dns_8c.html#a5984f1fc9cb757af97486861b33b5f85">dns_print_header</a> (<a class="el" href="structdns__header.html">dns_header</a> header)</td></tr>
 <tr class="separator:a5984f1fc9cb757af97486861b33b5f85"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a91cd5ec5039e9c569199b5dc92f16005"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="src_2parsers_2dns_8c.html#a91cd5ec5039e9c569199b5dc92f16005">dns_print_question</a> (<a class="el" href="structdns__question.html">dns_question</a> question)</td></tr>
@@ -128,43 +124,6 @@ Functions</h2></td></tr>
 <dl class="section date"><dt>Date</dt><dd>2022-09-09</dd></dl>
 <dl class="section copyright"><dt>Copyright</dt><dd>Copyright (c) 2022 </dd></dl>
 </div><h2 class="groupheader">Function Documentation</h2>
-<a id="a43356abefd294dc2cb699e3c8bc894bb"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a43356abefd294dc2cb699e3c8bc894bb">&#9670;&nbsp;</a></span>dns_parse_domain_name()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">char* dns_parse_domain_name </td>
-          <td>(</td>
-          <td class="paramtype">uint8_t *&#160;</td>
-          <td class="paramname"><em>data</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">uint16_t *&#160;</td>
-          <td class="paramname"><em>offset</em>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-<p>Parse a DNS Domain Name.</p>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">data</td><td>a pointer pointing to the start of the DNS message </td></tr>
-    <tr><td class="paramname">offset</td><td>a pointer to the current parsing offset </td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="section return"><dt>Returns</dt><dd>the parsed domain name </dd></dl>
-
-</div>
-</div>
 <a id="af9a9256920415c0853761f5b6c14d2d7"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#af9a9256920415c0853761f5b6c14d2d7">&#9670;&nbsp;</a></span>dns_parse_header()</h2>
 
@@ -269,56 +228,6 @@ Functions</h2></td></tr>
   </dd>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>the parsed question section </dd></dl>
-
-</div>
-</div>
-<a id="a657d6652e17128f03fbcfe45156242e4"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a657d6652e17128f03fbcfe45156242e4">&#9670;&nbsp;</a></span>dns_parse_rdata()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">char* dns_parse_rdata </td>
-          <td>(</td>
-          <td class="paramtype"><a class="el" href="dns_8h.html#a1e9e71c82bf5fd2203686355ea241faa">dns_rr_type</a>&#160;</td>
-          <td class="paramname"><em>rtype</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">uint16_t&#160;</td>
-          <td class="paramname"><em>rdlength</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">uint8_t *&#160;</td>
-          <td class="paramname"><em>data</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">uint16_t *&#160;</td>
-          <td class="paramname"><em>offset</em>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-<p>Parse a DNS Resource Record RDATA field.</p>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">rdlength</td><td>the length, in bytes, of the RDATA field </td></tr>
-    <tr><td class="paramname">data</td><td>a pointer pointing to the start of the DNS message </td></tr>
-    <tr><td class="paramname">offset</td><td>a pointer to the current parsing offset </td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="section return"><dt>Returns</dt><dd>the parsed RDATA field </dd></dl>
 
 </div>
 </div>
