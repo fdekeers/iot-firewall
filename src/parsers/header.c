@@ -67,7 +67,7 @@ size_t get_tcp_header_length(uint8_t* data) {
  */
 size_t get_headers_length(uint8_t* data) {
     // Retrieve the IP protocol number, which is encoded in byte 9 of the IP header.
-    ip_protocol protocol = *((data) + 9);
+    ip_protocol_t protocol = *((data) + 9);
     // Skip IP header (layer 3)
     size_t length = get_ip_header_length(data);
     // Skip layer 4 header (protocol-dependant)

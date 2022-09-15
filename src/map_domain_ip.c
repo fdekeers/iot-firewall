@@ -20,7 +20,7 @@
  * @return hash value for the given DNS table entry
  */
 static uint64_t dns_hash(const void *item, uint64_t seed0, uint64_t seed1) {
-    const dns_entry *entry = (dns_entry *) item;
+    const dns_entry_t *entry = (dns_entry_t *) item;
     return hashmap_sip(entry->domain_name, strlen(entry->domain_name), seed0, seed1);
 }
 
@@ -36,8 +36,8 @@ static uint64_t dns_hash(const void *item, uint64_t seed0, uint64_t seed1) {
  *         - greater than 0 if a is greater than b
  */
 static int dns_compare(const void *a, const void *b, void *udata) {
-    const dns_entry *entry1 = (dns_entry *) a;
-    const dns_entry *entry2 = (dns_entry *) b;
+    const dns_entry_t *entry1 = (dns_entry_t *) a;
+    const dns_entry_t *entry2 = (dns_entry_t *) b;
     return strcmp(entry1->domain_name, entry2->domain_name);
 }
 
@@ -47,7 +47,7 @@ static int dns_compare(const void *a, const void *b, void *udata) {
  * @param item the entry to free
  */
 static void dns_free(void *item) {
-    free(((dns_entry *) item)->ip_addresses);
+    free(((dns_entry_t *) item)->ip_addresses);
 }
 
 /**
@@ -56,9 +56,9 @@ static void dns_free(void *item) {
  * 
  * @return the newly created DNS table, or NULL if creation failed
  */
-map_domain_ip* map_domain_ip_create() {
+map_domain_ip_t* map_domain_ip_create() {
     return hashmap_new(
-        sizeof(dns_entry),    // Size of one entry
+        sizeof(dns_entry_t),    // Size of one entry
         MAP_DOMAIN_IP_INIT_SIZE,  // Hashmap initial size
         rand(),               // Optional seed 1
         rand(),               // Optional seed 2
@@ -74,7 +74,7 @@ map_domain_ip* map_domain_ip_create() {
  * 
  * @param table the DNS table to destroy
  */
-void map_domain_ip_destroy(map_domain_ip *table) {
+void map_domain_ip_destroy(map_domain_ip_t *table) {
     hashmap_free(table);
 }
 
@@ -87,8 +87,8 @@ void map_domain_ip_destroy(map_domain_ip *table) {
  * @param ip_count the number of IP addresses to add
  * @param ip_addresses a pointer to the IP addresses corresponding to the domain name
  */
-void map_domain_ip_add(map_domain_ip *table, char *domain_name, uint16_t ip_count, char **ip_addresses) {
-    hashmap_set(table, &(dns_entry){ .domain_name = domain_name, .ip_count = ip_count, .ip_addresses = ip_addresses });
+void map_domain_ip_add(map_domain_ip_t *table, char *domain_name, uint16_t ip_count, char **ip_addresses) {
+    hashmap_set(table, &(dns_entry_t){ .domain_name = domain_name, .ip_count = ip_count, .ip_addresses = ip_addresses });
 }
 
 /**
@@ -97,8 +97,8 @@ void map_domain_ip_add(map_domain_ip *table, char *domain_name, uint16_t ip_coun
  * @param table the DNS table to remove the entry from
  * @param domain_name the domain name of the entry to remove
  */
-void map_domain_ip_remove(map_domain_ip *table, char *domain_name) {
-    dns_entry *entry = hashmap_delete(table, &(dns_entry){ .domain_name = domain_name });
+void map_domain_ip_remove(map_domain_ip_t *table, char *domain_name) {
+    dns_entry_t *entry = hashmap_delete(table, &(dns_entry_t){ .domain_name = domain_name });
     if (entry != NULL)
         dns_free(entry);
 }
@@ -111,8 +111,8 @@ void map_domain_ip_remove(map_domain_ip *table, char *domain_name) {
  * @return a pointer to a dns_entry structure containing the IP addresses corresponding to the domain name,
  *         or NULL if the domain name was not found in the DNS table
  */
-dns_entry* map_domain_ip_get(map_domain_ip *table, char *domain_name) {
-    return (dns_entry *) hashmap_get(table, &(dns_entry){ .domain_name = domain_name });
+dns_entry_t* map_domain_ip_get(map_domain_ip_t *table, char *domain_name) {
+    return (dns_entry_t *) hashmap_get(table, &(dns_entry_t){ .domain_name = domain_name });
 }
 
 /**
@@ -124,6 +124,6 @@ dns_entry* map_domain_ip_get(map_domain_ip *table, char *domain_name) {
  * @return a pointer to a dns_entry structure containing the IP addresses corresponding to the domain name,
  *         or NULL if the domain name was not found in the DNS table
  */
-dns_entry* map_domain_ip_pop(map_domain_ip *table, char *domain_name) {
-    return (dns_entry *) hashmap_delete(table, &(dns_entry){ .domain_name = domain_name });
+dns_entry_t* map_domain_ip_pop(map_domain_ip_t *table, char *domain_name) {
+    return (dns_entry_t *) hashmap_delete(table, &(dns_entry_t){ .domain_name = domain_name });
 }

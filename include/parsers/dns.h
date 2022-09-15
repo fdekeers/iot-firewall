@@ -48,7 +48,7 @@ typedef enum {
     TXT   = 16,
     AAAA  = 28,
     OPT   = 41   // Used to specify extensions
-} dns_rr_type;
+} dns_rr_type_t;
 
 /**
  * DNS Header
@@ -60,7 +60,7 @@ typedef struct dns_header {
     uint16_t ancount;  // Number of Resource Records in Answer section
     uint16_t nscount;  // Number of Resource Records in Authority section
     uint16_t arcount;  // Number of Resource Records in Additional section
-} dns_header;
+} dns_header_t;
 
 /**
  * DNS Question
@@ -69,30 +69,30 @@ typedef struct dns_question {
     char *qname;
     uint16_t qtype;
     uint16_t qclass;
-} dns_question;
+} dns_question_t;
 
 /**
  * DNS Resource Record
  */
 typedef struct dns_resource_record {
     char *name;
-    dns_rr_type rtype;
+    dns_rr_type_t rtype;
     uint16_t rclass;
     uint32_t ttl;
     uint16_t rdlength;
     char *rdata;
-} dns_resource_record;
+} dns_resource_record_t;
 
 /**
  * DNS Message
  */
 typedef struct dns_message {
-    dns_header header;
-    dns_question *questions;
-    dns_resource_record *answers;
-    dns_resource_record *authorities;
-    dns_resource_record *additionals;
-} dns_message;
+    dns_header_t header;
+    dns_question_t *questions;
+    dns_resource_record_t *answers;
+    dns_resource_record_t *authorities;
+    dns_resource_record_t *additionals;
+} dns_message_t;
 
 
 ////////// FUNCTIONS //////////
@@ -107,7 +107,7 @@ typedef struct dns_message {
  * @param offset a pointer to the current parsing offset
  * @return the parsed header
  */
-dns_header dns_parse_header(uint8_t *data, uint16_t *offset);
+dns_header_t dns_parse_header(uint8_t *data, uint16_t *offset);
 
 /**
  * Parse a DNS question section.
@@ -117,7 +117,7 @@ dns_header dns_parse_header(uint8_t *data, uint16_t *offset);
  * @param offset a pointer to the current parsing offset
  * @return the parsed question section
  */
-dns_question* dns_parse_questions(uint16_t qdcount, uint8_t *data, uint16_t *offset);
+dns_question_t* dns_parse_questions(uint16_t qdcount, uint8_t *data, uint16_t *offset);
 
 /**
  * Parse a DNS resource record list.
@@ -127,7 +127,7 @@ dns_question* dns_parse_questions(uint16_t qdcount, uint8_t *data, uint16_t *off
  * @param offset a pointer to the current parsing offset
  * @return the parsed resource records list
  */
-dns_resource_record* dns_parse_rrs(uint16_t count, uint8_t *data, uint16_t *offset);
+dns_resource_record_t* dns_parse_rrs(uint16_t count, uint8_t *data, uint16_t *offset);
 
 /**
  * Parse a DNS message.
@@ -135,7 +135,7 @@ dns_resource_record* dns_parse_rrs(uint16_t count, uint8_t *data, uint16_t *offs
  * @param data a pointer to the start of the DNS message
  * @return the parsed DNS message
  */
-dns_message dns_parse_message(uint8_t *data);
+dns_message_t dns_parse_message(uint8_t *data);
 
 
 ///// PRINTING /////
@@ -145,14 +145,14 @@ dns_message dns_parse_message(uint8_t *data);
  * 
  * @param message the DNS header
  */
-void dns_print_header(dns_header header);
+void dns_print_header(dns_header_t header);
 
 /**
  * Print a DNS Question
  * 
  * @param question the DNS Question
  */
-void dns_print_question(dns_question question);
+void dns_print_question(dns_question_t question);
 
 /**
  * Print a DNS Question section.
@@ -160,7 +160,7 @@ void dns_print_question(dns_question question);
  * @param qdcount the number of Questions in the Question section
  * @param questions the list of DNS Questions
  */
-void dns_print_questions(uint16_t qdcount, dns_question *questions);
+void dns_print_questions(uint16_t qdcount, dns_question_t *questions);
 
 /**
  * Print a DNS Resource Record.
@@ -168,7 +168,7 @@ void dns_print_questions(uint16_t qdcount, dns_question *questions);
  * @param section_name the name of the Resource Record section
  * @param rr the DNS Resource Record
  */
-void dns_print_rr(char* section_name, dns_resource_record rr);
+void dns_print_rr(char* section_name, dns_resource_record_t rr);
 
 /**
  * Print a DNS Resource Records section.
@@ -177,13 +177,13 @@ void dns_print_rr(char* section_name, dns_resource_record rr);
  * @param count the number of Resource Records in the section
  * @param rrs the list of DNS Resource Records
  */
-void dns_print_rrs(char* section_name, uint16_t count, dns_resource_record *rrs);
+void dns_print_rrs(char* section_name, uint16_t count, dns_resource_record_t *rrs);
 
 /**
  * Print a DNS message.
  * 
  * @param message the DNS message
  */
-void dns_print_message(dns_message message);
+void dns_print_message(dns_message_t message);
 
 #endif /* _IOTFIREWALL_DNS_ */

@@ -24,7 +24,7 @@
  * Unit test for the header section of a DNS message.
  * Verify that each header field is as expected.
  */
-void compare_headers(dns_header actual, dns_header expected) {
+void compare_headers(dns_header_t actual, dns_header_t expected) {
     CU_ASSERT_EQUAL(actual.id, expected.id);
     CU_ASSERT_EQUAL(actual.flags, expected.flags);
     CU_ASSERT_EQUAL(actual.qdcount, expected.qdcount);
@@ -37,7 +37,7 @@ void compare_headers(dns_header actual, dns_header expected) {
  * Unit test for the questions section
  * of a DNS message.
  */
-void compare_questions(uint16_t qdcount, dns_question *actual, dns_question *expected) {
+void compare_questions(uint16_t qdcount, dns_question_t *actual, dns_question_t *expected) {
     for (int i = 0; i < qdcount; i++) {
         CU_ASSERT_STRING_EQUAL((actual + i)->qname, (expected + i)->qname);
         CU_ASSERT_EQUAL((actual + i)->qtype, (expected + i)->qtype);
@@ -49,7 +49,7 @@ void compare_questions(uint16_t qdcount, dns_question *actual, dns_question *exp
  * Unit test for a resource records section
  * of a DNS message.
  */
-void compare_rrs(uint16_t count, dns_resource_record *actual, dns_resource_record *expected) {
+void compare_rrs(uint16_t count, dns_resource_record_t *actual, dns_resource_record_t *expected) {
     for (int i = 0; i < count; i++) {
         CU_ASSERT_STRING_EQUAL((actual + i)->name, (expected + i)->name);
         CU_ASSERT_EQUAL((actual + i)->rtype, (expected + i)->rtype);
@@ -74,13 +74,13 @@ void test_dns_xiaomi() {
     CU_ASSERT_EQUAL(length, strlen(hexstring) / 2);  // Verify message length
 
     size_t skipped = get_headers_length(payload);
-    dns_message message = dns_parse_message(payload + skipped);
+    dns_message_t message = dns_parse_message(payload + skipped);
     dns_print_message(message);
 
     // Test different sections of the DNS message
 
     // Header
-    dns_header expected_header;
+    dns_header_t expected_header;
     expected_header.id = 0x6dca;
     expected_header.flags = 0x8180;
     expected_header.qdcount = 1;
@@ -90,8 +90,8 @@ void test_dns_xiaomi() {
     compare_headers(message.header, expected_header);
     
     // Questions
-    dns_question *expected_question;
-    expected_question = malloc(sizeof(dns_question) * message.header.qdcount);
+    dns_question_t *expected_question;
+    expected_question = malloc(sizeof(dns_question_t) * message.header.qdcount);
     expected_question->qname = "business.smartcamera.api.io.mi.com";
     expected_question->qtype = 1;
     expected_question->qclass = 1;
@@ -99,8 +99,8 @@ void test_dns_xiaomi() {
     free(expected_question);
     
     // Answer resource records
-    dns_resource_record *expected_answer;
-    expected_answer = malloc(sizeof(dns_resource_record) * message.header.ancount);
+    dns_resource_record_t *expected_answer;
+    expected_answer = malloc(sizeof(dns_resource_record_t) * message.header.ancount);
     // Answer n°0
     expected_answer->name = "business.smartcamera.api.io.mi.com";
     expected_answer->rtype = 5;
@@ -119,14 +119,14 @@ void test_dns_xiaomi() {
     free(expected_answer);
 
     // Authority resource records
-    dns_resource_record *expected_authority;
-    expected_authority = malloc(sizeof(dns_resource_record) * message.header.nscount);
+    dns_resource_record_t *expected_authority;
+    expected_authority = malloc(sizeof(dns_resource_record_t) * message.header.nscount);
     compare_rrs(message.header.nscount, message.authorities, expected_authority);
     free(expected_authority);
 
     // Additional resource records
-    dns_resource_record *expected_additional;
-    expected_additional = malloc(sizeof(dns_resource_record) * message.header.arcount);
+    dns_resource_record_t *expected_additional;
+    expected_additional = malloc(sizeof(dns_resource_record_t) * message.header.arcount);
     compare_rrs(message.header.arcount, message.additionals, expected_additional);
     free(expected_additional);
 
@@ -143,13 +143,13 @@ void test_dns_office() {
     size_t length = hexstr_to_payload(hexstring, &payload);
     CU_ASSERT_EQUAL(length, strlen(hexstring) / 2);  // Verify message length
     size_t skipped = get_headers_length(payload);
-    dns_message message = dns_parse_message(payload + skipped);
+    dns_message_t message = dns_parse_message(payload + skipped);
     dns_print_message(message);
 
     // Test different sections of the DNS message
 
     // Header
-    dns_header expected_header;
+    dns_header_t expected_header;
     expected_header.id = 0x3ebf;
     expected_header.flags = 0x8180;
     expected_header.qdcount = 1;
@@ -159,8 +159,8 @@ void test_dns_office() {
     compare_headers(message.header, expected_header);
 
     // Questions
-    dns_question *expected_question;
-    expected_question = malloc(sizeof(dns_question) * message.header.qdcount);
+    dns_question_t *expected_question;
+    expected_question = malloc(sizeof(dns_question_t) * message.header.qdcount);
     expected_question->qname = "outlook.office.com";
     expected_question->qtype = 1;
     expected_question->qclass = 1;
@@ -168,8 +168,8 @@ void test_dns_office() {
     free(expected_question);
 
     // Answer resource records
-    dns_resource_record *expected_answer;
-    expected_answer = malloc(sizeof(dns_resource_record) * message.header.ancount);
+    dns_resource_record_t *expected_answer;
+    expected_answer = malloc(sizeof(dns_resource_record_t) * message.header.ancount);
     // Answer n°0
     expected_answer->name = "outlook.office.com";
     expected_answer->rtype = 5;
@@ -238,14 +238,14 @@ void test_dns_office() {
     free(expected_answer);
 
     // Authority resource records
-    dns_resource_record *expected_authority;
-    expected_authority = malloc(sizeof(dns_resource_record) * message.header.nscount);
+    dns_resource_record_t *expected_authority;
+    expected_authority = malloc(sizeof(dns_resource_record_t) * message.header.nscount);
     compare_rrs(message.header.nscount, message.authorities, expected_authority);
     free(expected_authority);
 
     // Additional resource records
-    dns_resource_record *expected_additional;
-    expected_additional = malloc(sizeof(dns_resource_record) * message.header.arcount);
+    dns_resource_record_t *expected_additional;
+    expected_additional = malloc(sizeof(dns_resource_record_t) * message.header.arcount);
     // Additional n°0
     expected_additional->name = "";
     expected_additional->rtype = OPT;

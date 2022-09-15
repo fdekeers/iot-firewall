@@ -31,7 +31,7 @@
 typedef enum {
     BOOTREQUEST = 1,
     BOOTREPLY = 2
-} dhcp_opcode;
+} dhcp_opcode_t;
 
 /**
  * Useful DHCP option codes
@@ -40,7 +40,7 @@ typedef enum {
     PAD               = 0,
     DHCP_MESSAGE_TYPE = 53,
     END               = 255
-} dhcp_option_code;
+} dhcp_option_code_t;
 
 /**
  * DHCP message type
@@ -54,31 +54,31 @@ typedef enum {
     NAK      = 6,
     RELEASE  = 7,
     INFORM   = 8
-} dhcp_message_type;
+} dhcp_message_type_t;
 
 /**
  * DHCP Option
  */
 typedef struct dhcp_option {
-    uint8_t code;
+    dhcp_option_code_t code;
     uint8_t length;
     uint8_t *value;
-} dhcp_option;
+} dhcp_option_t;
 
 /**
  * DHCP Options
  */
 typedef struct dhcp_options {
-    uint8_t count;                   // Number of options
-    dhcp_message_type message_type;  // DHCP Message type (stored for convenience)
-    dhcp_option *options;            // List of options
-} dhcp_options;
+    uint8_t count;                     // Number of options
+    dhcp_message_type_t message_type;  // DHCP Message type (stored for convenience)
+    dhcp_option_t *options;            // List of options
+} dhcp_options_t;
 
 /**
  * DHCP Message
  */
 typedef struct dhcp_message {
-    uint8_t op;            // DHCP opcode
+    dhcp_opcode_t op;            // DHCP opcode
     uint8_t htype;         // Hardware address type
     uint8_t hlen;          // Hardware address length
     uint8_t hops;          // Number of hops
@@ -92,8 +92,8 @@ typedef struct dhcp_message {
     uint8_t chaddr[16];    // Client hardware address
     uint8_t sname[64];     // Optional server host name
     uint8_t file[128];     // Boot file name
-    dhcp_options options;  // DHCP options
-} dhcp_message;
+    dhcp_options_t options;  // DHCP options
+} dhcp_message_t;
 
 
 ////////// FUNCTIONS //////////
@@ -106,7 +106,7 @@ typedef struct dhcp_message {
  * @param data a pointer to the start of the DHCP message
  * @return the parsed DHCP message with the header fields filled in
  */
-dhcp_message dhcp_parse_header(uint8_t *data);
+dhcp_message_t dhcp_parse_header(uint8_t *data);
 
 /**
  * @brief Parse a DHCP option
@@ -116,7 +116,7 @@ dhcp_message dhcp_parse_header(uint8_t *data);
  *               Its value will be updated to point to the next option
  * @return the parsed DHCP option
  */
-dhcp_option dhcp_parse_option(uint8_t *data, uint16_t *offset);
+dhcp_option_t dhcp_parse_option(uint8_t *data, uint16_t *offset);
 
 /**
  * @brief Parse DHCP options
@@ -124,7 +124,7 @@ dhcp_option dhcp_parse_option(uint8_t *data, uint16_t *offset);
  * @param data a pointer to the start of the DHCP options list
  * @return a pointer to the start of the parsed DHCP options
  */
-dhcp_options dhcp_parse_options(uint8_t *data);
+dhcp_options_t dhcp_parse_options(uint8_t *data);
 
 /**
  * @brief Parse a DHCP message
@@ -132,7 +132,7 @@ dhcp_options dhcp_parse_options(uint8_t *data);
  * @param data a pointer to the start of the DHCP message
  * @return the parsed DHCP message
  */
-dhcp_message dhcp_parse_message(uint8_t *data);
+dhcp_message_t dhcp_parse_message(uint8_t *data);
 
 
 ///// PRINTING /////
@@ -142,21 +142,21 @@ dhcp_message dhcp_parse_message(uint8_t *data);
  * 
  * @param message the DHCP message to print the header of
  */
-void dhcp_print_header(dhcp_message message);
+void dhcp_print_header(dhcp_message_t message);
 
 /**
  * @brief Print a DHCP option
  * 
  * @param option the DHCP option to print
  */
-void dhcp_print_option(dhcp_option option);
+void dhcp_print_option(dhcp_option_t option);
 
 /**
  * @brief Print a DHCP message
  * 
  * @param message the DHCP message to print
  */
-void dhcp_print_message(dhcp_message message);
+void dhcp_print_message(dhcp_message_t message);
 
 
 #endif /* _IOTFIREWALL_DHCP_ */

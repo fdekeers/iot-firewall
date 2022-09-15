@@ -26,7 +26,7 @@
  * @param actual actual DHCP message
  * @param expected expected DHCP message
  */
-void compare_headers(dhcp_message actual, dhcp_message expected) {
+void compare_headers(dhcp_message_t actual, dhcp_message_t expected) {
     CU_ASSERT_EQUAL(actual.op, expected.op);
     CU_ASSERT_EQUAL(actual.htype, expected.htype);
     CU_ASSERT_EQUAL(actual.hlen, expected.hlen);
@@ -49,7 +49,7 @@ void compare_headers(dhcp_message actual, dhcp_message expected) {
  * @param actual actual DHCP options list
  * @param expected expected DHCP options list
  */
-void compare_options(dhcp_options actual, dhcp_options expected) {
+void compare_options(dhcp_options_t actual, dhcp_options_t expected) {
     for (uint8_t i = 0; i < expected.count; i++) {
         CU_ASSERT_EQUAL((actual.options + i)->code, (expected.options + i)->code);
         CU_ASSERT_EQUAL((actual.options + i)->length, (expected.options + i)->length);
@@ -70,13 +70,13 @@ void test_dhcp_discover() {
     CU_ASSERT_EQUAL(length, strlen(hexstring) / 2);  // Verify message length
 
     size_t skipped = get_headers_length(payload);
-    dhcp_message message = dhcp_parse_message(payload + skipped);
+    dhcp_message_t message = dhcp_parse_message(payload + skipped);
     dhcp_print_message(message);
 
     // Test different sections of the DHCP message
 
     // Header
-    dhcp_message expected;
+    dhcp_message_t expected;
     expected.op = BOOTREQUEST;
     expected.htype = 1;
     expected.hlen = 6;
@@ -93,7 +93,7 @@ void test_dhcp_discover() {
 
     // Options
     expected.options.count = 7;
-    expected.options.options = (dhcp_option *) malloc(sizeof(dhcp_option) * expected.options.count);
+    expected.options.options = (dhcp_option_t *) malloc(sizeof(dhcp_option_t) * expected.options.count);
     // Option 53: DHCP Message Type
     expected.options.options->code = 53;
     expected.options.options->length = 1;
@@ -148,13 +148,13 @@ void test_dhcp_offer() {
     CU_ASSERT_EQUAL(length, strlen(hexstring) / 2);  // Verify message length
 
     size_t skipped = get_headers_length(payload);
-    dhcp_message message = dhcp_parse_message(payload + skipped);
+    dhcp_message_t message = dhcp_parse_message(payload + skipped);
     dhcp_print_message(message);
 
     // Test different sections of the DHCP message
 
     // Header
-    dhcp_message expected;
+    dhcp_message_t expected;
     expected.op = BOOTREPLY;
     expected.htype = 1;
     expected.hlen = 6;
@@ -171,7 +171,7 @@ void test_dhcp_offer() {
 
     // Options
     expected.options.count = 11;
-    expected.options.options = (dhcp_option *) malloc(sizeof(dhcp_option) * expected.options.count);
+    expected.options.options = (dhcp_option_t *) malloc(sizeof(dhcp_option_t) * expected.options.count);
     // Option 53: DHCP Message Type
     expected.options.options->code = 53;
     expected.options.options->length = 1;

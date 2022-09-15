@@ -35,7 +35,7 @@ typedef enum {
     IGMP =  2,
     TCP  =  6,
     UDP  = 17
-} ip_protocol;
+} ip_protocol_t;
 
 /**
  * Retrieve the length of a packet's IP header.

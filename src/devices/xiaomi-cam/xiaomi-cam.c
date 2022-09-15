@@ -29,7 +29,7 @@ uint32_t callback_1(int pkt_id, uint8_t *payload, void *arg) {
     size_t skipped = get_ip_header_length(payload);
     skipped += get_udp_header_length(payload + skipped);
     // Parse DHCP message
-    dhcp_message message = dhcp_parse_message(payload + skipped);
+    dhcp_message_t message = dhcp_parse_message(payload + skipped);
     // Add nftables rules
     if (message.options.message_type == DISCOVER &&
         strcmp(mac_hex_to_str(message.chaddr), "78:8b:2a:b2:20:ea") == 0) {

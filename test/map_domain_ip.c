@@ -20,7 +20,7 @@
  * Test the creation of a DNS table.
  */
 void test_map_domain_ip_create() {
-    map_domain_ip *table = map_domain_ip_create();
+    map_domain_ip_t *table = map_domain_ip_create();
     CU_ASSERT_PTR_NOT_NULL(table);
     CU_ASSERT_EQUAL(hashmap_count(table), 0);
     map_domain_ip_destroy(table);
@@ -31,8 +31,8 @@ void test_map_domain_ip_create() {
  * Test operations on an empty DNS table.
  */
 void test_map_domain_ip_empty() {
-    map_domain_ip *table = map_domain_ip_create();
-    dns_entry* entry = map_domain_ip_get(table, "www.google.com");
+    map_domain_ip_t *table = map_domain_ip_create();
+    dns_entry_t* entry = map_domain_ip_get(table, "www.google.com");
     CU_ASSERT_PTR_NULL(entry);
     entry = map_domain_ip_pop(table, "www.google.com");
     CU_ASSERT_PTR_NULL(entry);
@@ -45,7 +45,7 @@ void test_map_domain_ip_empty() {
  * Test adding and removing entries in a DNS table.
  */
 void test_map_domain_ip_add_remove() {
-    map_domain_ip *table = map_domain_ip_create();
+    map_domain_ip_t *table = map_domain_ip_create();
 
     // Add IP addresses for www.google.com
     char **google_ips = (char **) malloc(2 * sizeof(char *));
@@ -74,7 +74,7 @@ void test_map_domain_ip_add_remove() {
  * Test retrieving entries from a DNS table.
  */
 void test_map_domain_ip_get() {
-    map_domain_ip *table = map_domain_ip_create();
+    map_domain_ip_t *table = map_domain_ip_create();
     
     // Add IP addresses for www.google.com
     char **google_ips = (char **) malloc(2 * sizeof(char *));
@@ -83,7 +83,7 @@ void test_map_domain_ip_get() {
     map_domain_ip_add(table, "www.google.com", 2, google_ips);
     
     // Verify getting IP addresses for www.google.com
-    dns_entry *actual = map_domain_ip_get(table, "www.google.com");
+    dns_entry_t *actual = map_domain_ip_get(table, "www.google.com");
     CU_ASSERT_PTR_NOT_NULL(actual);
     CU_ASSERT_EQUAL(actual->ip_count, 2);
     for (int i = 0; i < actual->ip_count; i++) {
@@ -112,7 +112,7 @@ void test_map_domain_ip_get() {
  * Test popping entries from a DNS table.
  */
 void test_map_domain_ip_pop() {
-    map_domain_ip *table = map_domain_ip_create();
+    map_domain_ip_t *table = map_domain_ip_create();
 
     // Add IP addresses for www.google.com
     char **google_ips = (char **) malloc(2 * sizeof(char *));
@@ -127,7 +127,7 @@ void test_map_domain_ip_pop() {
     map_domain_ip_add(table, "www.example.com", 2, example_ips);
 
     // Verify popping IP addresses for www.google.com
-    dns_entry *actual = map_domain_ip_pop(table, "www.google.com");
+    dns_entry_t *actual = map_domain_ip_pop(table, "www.google.com");
     CU_ASSERT_PTR_NOT_NULL(actual);
     CU_ASSERT_EQUAL(actual->ip_count, 2);
     for (int i = 0; i < actual->ip_count; i++) {
