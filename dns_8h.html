@@ -120,6 +120,8 @@ Classes</h2></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structdns__question.html">dns_question</a></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">union &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="unionrdata__t.html">rdata_t</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structdns__resource__record.html">dns_resource_record</a></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structdns__message.html">dns_message</a></td></tr>
@@ -187,12 +189,20 @@ Functions</h2></td></tr>
 <tr class="separator:a564a254484fd0f5ffb8da0208dafad81"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a26531dfee1220d86e06fb66914df8b28"><td class="memItemLeft" align="right" valign="top"><a class="el" href="dns_8h.html#aef088f0d648543a5e8a1a9afdcf643ae">dns_message_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="dns_8h.html#a26531dfee1220d86e06fb66914df8b28">dns_parse_message</a> (uint8_t *data)</td></tr>
 <tr class="separator:a26531dfee1220d86e06fb66914df8b28"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1e50c1f750637621ae34ad77d64b787f"><td class="memItemLeft" align="right" valign="top"><a class="el" href="dns_8h.html#a039c55ed91b5bc337e817e219ec4b505">dns_question_t</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="dns_8h.html#a1e50c1f750637621ae34ad77d64b787f">dns_get_question</a> (<a class="el" href="dns_8h.html#a039c55ed91b5bc337e817e219ec4b505">dns_question_t</a> *questions, uint16_t qdcount, char *domain_name)</td></tr>
+<tr class="memdesc:a1e50c1f750637621ae34ad77d64b787f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Search for a specific domain name in a DNS Questions list.  <a href="dns_8h.html#a1e50c1f750637621ae34ad77d64b787f">More...</a><br /></td></tr>
+<tr class="separator:a1e50c1f750637621ae34ad77d64b787f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2b4a114e5980f450a5abd6c100c8293f"><td class="memItemLeft" align="right" valign="top">char **&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="dns_8h.html#a2b4a114e5980f450a5abd6c100c8293f">dns_get_ip_from_name</a> (<a class="el" href="dns_8h.html#a288ff2f9f9bc7d0d37d5b2148bcaee8f">dns_resource_record_t</a> *answers, uint16_t ancount, char *domain_name)</td></tr>
+<tr class="memdesc:a2b4a114e5980f450a5abd6c100c8293f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Retrieve the IP addresses corresponding to a given domain name in a DNS Answers list.  <a href="dns_8h.html#a2b4a114e5980f450a5abd6c100c8293f">More...</a><br /></td></tr>
+<tr class="separator:a2b4a114e5980f450a5abd6c100c8293f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a19ecec468281085d5b8ff7a7fb16e8d8"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="dns_8h.html#a19ecec468281085d5b8ff7a7fb16e8d8">dns_print_header</a> (<a class="el" href="dns_8h.html#a93604ea52022d5738bc395dca0c25c0f">dns_header_t</a> header)</td></tr>
 <tr class="separator:a19ecec468281085d5b8ff7a7fb16e8d8"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a257c54142f68b703adcd8c9470bcc260"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="dns_8h.html#a257c54142f68b703adcd8c9470bcc260">dns_print_question</a> (<a class="el" href="dns_8h.html#a039c55ed91b5bc337e817e219ec4b505">dns_question_t</a> question)</td></tr>
 <tr class="separator:a257c54142f68b703adcd8c9470bcc260"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a53c3a9afafb73d80394444654db8e061"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="dns_8h.html#a53c3a9afafb73d80394444654db8e061">dns_print_questions</a> (uint16_t qdcount, <a class="el" href="dns_8h.html#a039c55ed91b5bc337e817e219ec4b505">dns_question_t</a> *questions)</td></tr>
 <tr class="separator:a53c3a9afafb73d80394444654db8e061"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa7adc0360a893f5b263b779d77798617"><td class="memItemLeft" align="right" valign="top">char *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="dns_8h.html#aa7adc0360a893f5b263b779d77798617">dns_rdata_to_str</a> (<a class="el" href="dns_8h.html#a3797bcb95efd17c8b0771af33d77cbb4">dns_rr_type_t</a> rtype, uint16_t rdlength, <a class="el" href="unionrdata__t.html">rdata_t</a> rdata)</td></tr>
+<tr class="separator:aa7adc0360a893f5b263b779d77798617"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:af104d282d7cffe3db6c462fbd9901686"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="dns_8h.html#af104d282d7cffe3db6c462fbd9901686">dns_print_rr</a> (char *section_name, <a class="el" href="dns_8h.html#a288ff2f9f9bc7d0d37d5b2148bcaee8f">dns_resource_record_t</a> rr)</td></tr>
 <tr class="separator:af104d282d7cffe3db6c462fbd9901686"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a22447893bf36b3685666620f48408a95"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="dns_8h.html#a22447893bf36b3685666620f48408a95">dns_print_rrs</a> (char *section_name, uint16_t count, <a class="el" href="dns_8h.html#a288ff2f9f9bc7d0d37d5b2148bcaee8f">dns_resource_record_t</a> *rrs)</td></tr>
@@ -283,6 +293,89 @@ Functions</h2></td></tr>
 </div>
 </div>
 <h2 class="groupheader">Function Documentation</h2>
+<a id="a2b4a114e5980f450a5abd6c100c8293f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a2b4a114e5980f450a5abd6c100c8293f">&#9670;&nbsp;</a></span>dns_get_ip_from_name()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">char** dns_get_ip_from_name </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="dns_8h.html#a288ff2f9f9bc7d0d37d5b2148bcaee8f">dns_resource_record_t</a> *&#160;</td>
+          <td class="paramname"><em>answers</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">uint16_t&#160;</td>
+          <td class="paramname"><em>ancount</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">char *&#160;</td>
+          <td class="paramname"><em>domain_name</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Retrieve the IP addresses corresponding to a given domain name in a DNS Answers list. </p>
+<p>Searches a DNS Answer list for a specific domain name and returns the corresponding IP address. Processes each Answer recursively if the Answer Type is a CNAME.</p>
+<dl class="section return"><dt>Returns</dt><dd>char* </dd></dl>
+
+</div>
+</div>
+<a id="a1e50c1f750637621ae34ad77d64b787f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a1e50c1f750637621ae34ad77d64b787f">&#9670;&nbsp;</a></span>dns_get_question()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="dns_8h.html#a039c55ed91b5bc337e817e219ec4b505">dns_question_t</a>* dns_get_question </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="dns_8h.html#a039c55ed91b5bc337e817e219ec4b505">dns_question_t</a> *&#160;</td>
+          <td class="paramname"><em>questions</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">uint16_t&#160;</td>
+          <td class="paramname"><em>qdcount</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">char *&#160;</td>
+          <td class="paramname"><em>domain_name</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Search for a specific domain name in a DNS Questions list. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">questions</td><td>DNS Questions list </td></tr>
+    <tr><td class="paramname">qdcount</td><td>number of Suestions in the list </td></tr>
+    <tr><td class="paramname">domain_name</td><td>the domain name to search for </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>the DNS Question related to the given domain name, or NULL if not found </dd></dl>
+
+</div>
+</div>
 <a id="acfb00945650161d1ba64316cbb2bf4b0"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#acfb00945650161d1ba64316cbb2bf4b0">&#9670;&nbsp;</a></span>dns_parse_header()</h2>
 
@@ -640,6 +733,50 @@ Functions</h2></td></tr>
   </table>
   </dd>
 </dl>
+
+</div>
+</div>
+<a id="aa7adc0360a893f5b263b779d77798617"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa7adc0360a893f5b263b779d77798617">&#9670;&nbsp;</a></span>dns_rdata_to_str()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">char* dns_rdata_to_str </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="dns_8h.html#a3797bcb95efd17c8b0771af33d77cbb4">dns_rr_type_t</a>&#160;</td>
+          <td class="paramname"><em>rtype</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">uint16_t&#160;</td>
+          <td class="paramname"><em>rdlength</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="unionrdata__t.html">rdata_t</a>&#160;</td>
+          <td class="paramname"><em>rdata</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Return a string representation of the given RDATA value.</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">rtype</td><td>the type corresponding to the RDATA value </td></tr>
+    <tr><td class="paramname">rdlength</td><td>the length, in bytes, of the RDATA value </td></tr>
+    <tr><td class="paramname">rdata</td><td>the RDATA value, stored as a union type </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>a string representation of the RDATA value </dd></dl>
 
 </div>
 </div>
