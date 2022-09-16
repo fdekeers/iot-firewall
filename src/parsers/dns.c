@@ -227,7 +227,14 @@ dns_message_t dns_parse_message(uint8_t *data) {
  * @param domain_name the domain name to search for
  * @return the DNS Question related to the given domain name, or NULL if not found
  */
-dns_question_t* dns_get_question(dns_question_t *questions, uint16_t qdcount, char *domain_name);
+dns_question_t* dns_get_question(dns_question_t *questions, uint16_t qdcount, char *domain_name) {
+    for (uint16_t i = 0; i < qdcount; i++) {
+        if (strcmp((questions + i)->qname, domain_name) == 0) {
+            return questions + i;
+        }
+    }
+    return NULL;
+}
 
 /**
  * @brief Retrieve the IP addresses corresponding to a given domain name in a DNS Answers list.
@@ -235,10 +242,33 @@ dns_question_t* dns_get_question(dns_question_t *questions, uint16_t qdcount, ch
  * Searches a DNS Answer list for a specific domain name and returns the corresponding IP address.
  * Processes each Answer recursively if the Answer Type is a CNAME.
  * 
- * @return char* 
+ * @param answers DNS Answers list to search in
+ * @param ancount number of Answers in the list
+ * @param domain_name domain name to search for
+ * @return struct ip_list representing the list of corresponding IP addresses
  */
-char** dns_get_ip_from_name(dns_resource_record_t *answers, uint16_t ancount, char *domain_name);
-
+ip_list_t dns_get_ip_from_name(dns_resource_record_t *answers, uint16_t ancount, char *domain_name) {
+    ip_list_t ip_list;
+    ip_list.ip_count = 0;
+    ip_list.ip_addresses = NULL;
+    char *cname = domain_name;
+    for (uint16_t i = 0; i < ancount; i++) {
+        if (strcmp((answers + i)->name, cname) == 0) {
+            if ((answers + i)->rtype == A) {
+                if (ip_list.ip_addresses == NULL) {
+                    ip_list.ip_addresses = (uint32_t*) malloc(sizeof(uint32_t));
+                } else {
+                    ip_list.ip_addresses = realloc(ip_list.ip_addresses, ip_list.ip_count + 1);
+                }
+                *(ip_list.ip_addresses + ip_list.ip_count) = (answers + i)->rdata.ipv4;
+                ip_list.ip_count++;
+            } else if ((answers + i)->rtype == CNAME) {
+                cname = (answers + i)->rdata.domain_name;
+            }
+        }
+    }
+    return ip_list;
+}
 
 
 ///// PRINTING /////

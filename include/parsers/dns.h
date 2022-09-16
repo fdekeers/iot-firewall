@@ -51,6 +51,14 @@ typedef enum {
 } dns_rr_type_t;
 
 /**
+ * List of IP addresses
+ */
+typedef struct ip_list {
+    uint8_t ip_count;       // Number of IP addresses
+    uint32_t *ip_addresses;  // List of IP addresses
+} ip_list_t;
+
+/**
  * DNS Header
  */
 typedef struct dns_header {
@@ -165,9 +173,12 @@ dns_question_t* dns_get_question(dns_question_t *questions, uint16_t qdcount, ch
  * Searches a DNS Answer list for a specific domain name and returns the corresponding IP address.
  * Processes each Answer recursively if the Answer Type is a CNAME.
  * 
- * @return char* 
+ * @param answers DNS Answers list to search in
+ * @param ancount number of Answers in the list
+ * @param domain_name domain name to search for
+ * @return struct ip_list representing the list of corresponding IP addresses
  */
-char** dns_get_ip_from_name(dns_resource_record_t *answers, uint16_t ancount, char *domain_name);
+ip_list_t dns_get_ip_from_name(dns_resource_record_t *answers, uint16_t ancount, char *domain_name);
 
 
 ///// PRINTING /////
@@ -227,5 +238,6 @@ void dns_print_rrs(char* section_name, uint16_t count, dns_resource_record_t *rr
  * @param message the DNS message
  */
 void dns_print_message(dns_message_t message);
+
 
 #endif /* _IOTFIREWALL_DNS_ */

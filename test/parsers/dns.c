@@ -131,6 +131,27 @@ void test_dns_xiaomi() {
     compare_rrs(message.header.arcount, message.additionals, expected_additional);
     free(expected_additional);
 
+    // Lookup functions
+
+    // Get question from domain name
+    char *domain_name = "business.smartcamera.api.io.mi.com";
+    dns_question_t *question_lookup = dns_get_question(message.questions, message.header.qdcount, domain_name);
+    CU_ASSERT_PTR_NOT_NULL(question_lookup);
+    domain_name = "swag.framinem.org";
+    question_lookup = dns_get_question(message.questions, message.header.qdcount, domain_name);
+    CU_ASSERT_PTR_NULL(question_lookup);
+
+    // Get IP addresses from domain name
+    domain_name = "business.smartcamera.api.io.mi.com";
+    ip_list_t ip_list = dns_get_ip_from_name(message.answers, message.header.ancount, domain_name);
+    char *ip_address = "20.47.97.231";
+    CU_ASSERT_EQUAL(ip_list.ip_count, 1);
+    CU_ASSERT_STRING_EQUAL(ipv4_net_to_str(*(ip_list.ip_addresses)), ip_address);
+    domain_name = "swag.framinem.org";
+    ip_list = dns_get_ip_from_name(message.answers, message.header.ancount, domain_name);
+    CU_ASSERT_EQUAL(ip_list.ip_count, 0);
+    CU_ASSERT_PTR_NULL(ip_list.ip_addresses);
+
 }
 
 /**
@@ -257,6 +278,34 @@ void test_dns_office() {
     // Compare and free additional
     compare_rrs(message.header.arcount, message.additionals, expected_additional);
     free(expected_additional);
+
+    // Lookup functions
+
+    // Get question from domain name
+    char *domain_name = "outlook.office.com";
+    dns_question_t *question_lookup = dns_get_question(message.questions, message.header.qdcount, domain_name);
+    CU_ASSERT_PTR_NOT_NULL(question_lookup);
+    domain_name = "swag.framinem.org";
+    question_lookup = dns_get_question(message.questions, message.header.qdcount, domain_name);
+    CU_ASSERT_PTR_NULL(question_lookup);
+
+    // Get IP addresses from domain name
+    domain_name = "outlook.office.com";
+    ip_list_t ip_list = dns_get_ip_from_name(message.answers, message.header.ancount, domain_name);
+    char* ip_addresses[] = {
+        "52.97.158.162",
+        "40.101.12.98",
+        "40.99.204.34",
+        "40.101.121.18"
+    };
+    CU_ASSERT_EQUAL(ip_list.ip_count, 4);
+    for (uint8_t i = 0; i < 4; i++) {
+        CU_ASSERT_STRING_EQUAL(ipv4_net_to_str(*(ip_list.ip_addresses + i)), ip_addresses[i]);
+    }
+    domain_name = "swag.framinem.org";
+    ip_list = dns_get_ip_from_name(message.answers, message.header.ancount, domain_name);
+    CU_ASSERT_EQUAL(ip_list.ip_count, 0);
+    CU_ASSERT_PTR_NULL(ip_list.ip_addresses);
 
 }
 
