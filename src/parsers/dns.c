@@ -130,21 +130,31 @@ dns_question_t* dns_parse_questions(uint16_t qdcount, uint8_t *data, uint16_t *o
  * @param offset a pointer to the current parsing offset
  * @return the parsed RDATA field
  */
-static char* dns_parse_rdata(dns_rr_type_t rtype, uint16_t rdlength, uint8_t *data, uint16_t *offset) {
+static rdata_t dns_parse_rdata(dns_rr_type_t rtype, uint16_t rdlength, uint8_t *data, uint16_t *offset) {
+    rdata_t rdata;
     if (rdlength == 0) {
         // RDATA field is empty
-        return NULL;
-    }
-    // RDATA field is not empty
-    char *rdata;
-    switch (rtype) {
-        case CNAME:
-            rdata = dns_parse_domain_name(data, offset);
-            break;
-        default:
-            rdata = (char *) malloc(sizeof(char) * rdlength);
-            memcpy(rdata, data + *offset, rdlength);
-            *offset += rdlength;
+        rdata.data = NULL;
+    } else {
+        // RDATA field is not empty
+        switch (rtype) {
+            case A:
+                // RDATA contains an IPv4 address
+                rdata.ipv4 = *((uint32_t *) (data + *offset));  // Stored in network byte order
+                *offset += rdlength;
+                break;
+            case NS:
+            case CNAME:
+            case PTR:
+                // RDATA contains is a domain name
+                rdata.domain_name = dns_parse_domain_name(data, offset);
+                break;
+            default:
+                // RDATA contains is generic data
+                rdata.data = (uint8_t *) malloc(sizeof(char) * rdlength);
+                memcpy(rdata.data, data + *offset, rdlength);
+                *offset += rdlength;
+        }
     }
     return rdata;
 }
@@ -207,6 +217,30 @@ dns_message_t dns_parse_message(uint8_t *data) {
 }
 
 
+///// LOOKUP /////
+
+/**
+ * @brief Search for a specific domain name in a DNS Questions list.
+ * 
+ * @param questions DNS Questions list
+ * @param qdcount number of Suestions in the list
+ * @param domain_name the domain name to search for
+ * @return the DNS Question related to the given domain name, or NULL if not found
+ */
+dns_question_t* dns_get_question(dns_question_t *questions, uint16_t qdcount, char *domain_name);
+
+/**
+ * @brief Retrieve the IP addresses corresponding to a given domain name in a DNS Answers list.
+ * 
+ * Searches a DNS Answer list for a specific domain name and returns the corresponding IP address.
+ * Processes each Answer recursively if the Answer Type is a CNAME.
+ * 
+ * @return char* 
+ */
+char** dns_get_ip_from_name(dns_resource_record_t *answers, uint16_t ancount, char *domain_name);
+
+
+
 ///// PRINTING /////
 
 /**
@@ -253,18 +287,33 @@ void dns_print_questions(uint16_t qdcount, dns_question_t *questions) {
  * Return a string representation of the given RDATA value.
  * 
  * @param rtype the type corresponding to the RDATA value
- * @param rdata a pointer to the start of buffer containing the RDATA value
+ * @param rdlength the length, in bytes, of the RDATA value
+ * @param rdata the RDATA value, stored as a union type
  * @return a string representation of the RDATA value
  */
-char* rdata_to_str(dns_rr_type_t rtype, char *rdata) {
+char* dns_rdata_to_str(dns_rr_type_t rtype, uint16_t rdlength, rdata_t rdata) {
+    if (rdlength == 0) {
+        // RDATA is empty
+        return "";
+    }
     switch (rtype) {
-    case A:
-        // RDATA is an IPv4 address
-        return ipv4_hex_to_str(rdata);
-        break;
-    default:
-        // Default case, simply return RDATA itself
-        return rdata;
+        case A:
+            // RDATA is an IPv4 address
+            return ipv4_net_to_str(rdata.ipv4);
+            break;
+        case NS:
+        case CNAME:
+        case PTR:
+            // RDATA is a domain name
+            return rdata.domain_name;
+            break;
+        default: ;
+            // Generic RDATA
+            char *buffer = (char *) malloc(rdlength * 4 + 1);  // Allocate memory for each byte (4 characters) + the NULL terminator
+            for (uint8_t i = 0; i < rdlength; i++) {
+                snprintf(buffer + (i * 4), 5, "\\x%02x", *(rdata.data + i));
+            }
+            return buffer;
     }
 }
 
@@ -281,7 +330,7 @@ void dns_print_rr(char* section_name, dns_resource_record_t rr) {
     printf("    Class: %hd\n", rr.rclass);
     printf("    TTL [s]: %d\n", rr.ttl);
     printf("    Data length: %hd\n", rr.rdlength);
-    printf("    RDATA: %s\n", rdata_to_str(rr.rtype, rr.rdata));
+    printf("    RDATA: %s\n", dns_rdata_to_str(rr.rtype, rr.rdlength, rr.rdata));
 }
 
 /**

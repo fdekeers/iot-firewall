@@ -56,9 +56,10 @@ void compare_rrs(uint16_t count, dns_resource_record_t *actual, dns_resource_rec
         CU_ASSERT_EQUAL((actual + i)->rclass, (expected + i)->rclass);
         CU_ASSERT_EQUAL((actual + i)->ttl, (expected + i)->ttl);
         CU_ASSERT_EQUAL((actual + i)->rdlength, (expected + i)->rdlength);
-        if ((actual + i)->rdata != NULL) {
-            CU_ASSERT_STRING_EQUAL((actual + i)->rdata, (expected + i)->rdata);
-        }
+        CU_ASSERT_STRING_EQUAL(
+            dns_rdata_to_str((actual + i)->rtype, (actual + i)->rdlength, (actual + i)->rdata),
+            dns_rdata_to_str((expected + i)->rtype, (expected + i)->rdlength, (expected + i)->rdata)
+        );
     }
 }
 
@@ -107,14 +108,14 @@ void test_dns_xiaomi() {
     expected_answer->rclass = 1;
     expected_answer->ttl = 600;
     expected_answer->rdlength = 37;
-    expected_answer->rdata = "cname-app-com-amsproxy.w.mi-dun.com";
+    expected_answer->rdata.domain_name = "cname-app-com-amsproxy.w.mi-dun.com";
     // Answer n°1
     (expected_answer + 1)->name = "cname-app-com-amsproxy.w.mi-dun.com";
     (expected_answer + 1)->rtype = 1;
     (expected_answer + 1)->rclass = 1;
     (expected_answer + 1)->ttl = 147;
     (expected_answer + 1)->rdlength = 4;
-    (expected_answer + 1)->rdata = ipv4_str_to_hex("20.47.97.231");
+    (expected_answer + 1)->rdata.ipv4 = ipv4_str_to_net("20.47.97.231");
     compare_rrs(message.header.ancount, message.answers, expected_answer);
     free(expected_answer);
 
@@ -176,63 +177,63 @@ void test_dns_office() {
     expected_answer->rclass = 1;
     expected_answer->ttl = 7;
     expected_answer->rdlength = 12;
-    expected_answer->rdata = "substrate.office.com";
+    expected_answer->rdata.domain_name = "substrate.office.com";
     // Answer n°1
     (expected_answer + 1)->name = "substrate.office.com";
     (expected_answer + 1)->rtype = 5;
     (expected_answer + 1)->rclass = 1;
     (expected_answer + 1)->ttl = 80;
     (expected_answer + 1)->rdlength = 23;
-    (expected_answer + 1)->rdata = "outlook.office365.com";
+    (expected_answer + 1)->rdata.domain_name = "outlook.office365.com";
     // Answer n°2
     (expected_answer + 2)->name = "outlook.office365.com";
     (expected_answer + 2)->rtype = 5;
     (expected_answer + 2)->rclass = 1;
     (expected_answer + 2)->ttl = 147;
     (expected_answer + 2)->rdlength = 26;
-    (expected_answer + 2)->rdata = "outlook.ha.office365.com";
+    (expected_answer + 2)->rdata.domain_name = "outlook.ha.office365.com";
     // Answer n°3
     (expected_answer + 3)->name = "outlook.ha.office365.com";
     (expected_answer + 3)->rtype = 5;
     (expected_answer + 3)->rclass = 1;
     (expected_answer + 3)->ttl = 11;
     (expected_answer + 3)->rdlength = 28;
-    (expected_answer + 3)->rdata = "outlook.ms-acdc.office.com";
+    (expected_answer + 3)->rdata.domain_name = "outlook.ms-acdc.office.com";
     // Answer n°4
     (expected_answer + 4)->name = "outlook.ms-acdc.office.com";
     (expected_answer + 4)->rtype = CNAME;
     (expected_answer + 4)->rclass = 1;
     (expected_answer + 4)->ttl = 27;
     (expected_answer + 4)->rdlength = 10;
-    (expected_answer + 4)->rdata = "AMS-efz.ms-acdc.office.com";
+    (expected_answer + 4)->rdata.domain_name = "AMS-efz.ms-acdc.office.com";
     // Answer n°5
     (expected_answer + 5)->name = "AMS-efz.ms-acdc.office.com";
     (expected_answer + 5)->rtype = A;
     (expected_answer + 5)->rclass = 1;
     (expected_answer + 5)->ttl = 4;
     (expected_answer + 5)->rdlength = 4;
-    (expected_answer + 5)->rdata = ipv4_str_to_hex("52.97.158.162");
+    (expected_answer + 5)->rdata.ipv4 = ipv4_str_to_net("52.97.158.162");
     // Answer n°6
     (expected_answer + 6)->name = "AMS-efz.ms-acdc.office.com";
     (expected_answer + 6)->rtype = A;
     (expected_answer + 6)->rclass = 1;
     (expected_answer + 6)->ttl = 4;
     (expected_answer + 6)->rdlength = 4;
-    (expected_answer + 6)->rdata = ipv4_str_to_hex("40.101.12.98");
+    (expected_answer + 6)->rdata.ipv4 = ipv4_str_to_net("40.101.12.98");
     // Answer n°7
     (expected_answer + 7)->name = "AMS-efz.ms-acdc.office.com";
     (expected_answer + 7)->rtype = A;
     (expected_answer + 7)->rclass = 1;
     (expected_answer + 7)->ttl = 4;
     (expected_answer + 7)->rdlength = 4;
-    (expected_answer + 7)->rdata = ipv4_str_to_hex("40.99.204.34");
+    (expected_answer + 7)->rdata.ipv4 = ipv4_str_to_net("40.99.204.34");
     // Answer n°8
     (expected_answer + 8)->name = "AMS-efz.ms-acdc.office.com";
     (expected_answer + 8)->rtype = A;
     (expected_answer + 8)->rclass = 1;
     (expected_answer + 8)->ttl = 4;
     (expected_answer + 8)->rdlength = 4;
-    (expected_answer + 8)->rdata = ipv4_str_to_hex("40.101.121.18");
+    (expected_answer + 8)->rdata.ipv4 = ipv4_str_to_net("40.101.121.18");
     // Compare and free answer
     compare_rrs(message.header.ancount, message.answers, expected_answer);
     free(expected_answer);
@@ -252,7 +253,7 @@ void test_dns_office() {
     expected_additional->rclass = 0x04d0;
     expected_additional->ttl = 0x00000000;
     expected_additional->rdlength = 0;
-    expected_additional->rdata = NULL;
+    expected_additional->rdata.data = NULL;
     // Compare and free additional
     compare_rrs(message.header.arcount, message.additionals, expected_additional);
     free(expected_additional);

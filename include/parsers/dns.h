@@ -72,6 +72,15 @@ typedef struct dns_question {
 } dns_question_t;
 
 /**
+ * RDATA field of a DNS Resource Record
+ */
+typedef union {
+    char *domain_name;  // Domain name, character string
+    uint32_t ipv4;      // IPv4 address, 32-bit number in network byte order
+    uint8_t *data;      // Generic data, series of bytes
+} rdata_t;
+
+/**
  * DNS Resource Record
  */
 typedef struct dns_resource_record {
@@ -80,7 +89,7 @@ typedef struct dns_resource_record {
     uint16_t rclass;
     uint32_t ttl;
     uint16_t rdlength;
-    char *rdata;
+    rdata_t rdata;
 } dns_resource_record_t;
 
 /**
@@ -138,6 +147,29 @@ dns_resource_record_t* dns_parse_rrs(uint16_t count, uint8_t *data, uint16_t *of
 dns_message_t dns_parse_message(uint8_t *data);
 
 
+///// LOOKUP /////
+
+/**
+ * @brief Search for a specific domain name in a DNS Questions list.
+ * 
+ * @param questions DNS Questions list
+ * @param qdcount number of Suestions in the list
+ * @param domain_name the domain name to search for
+ * @return the DNS Question related to the given domain name, or NULL if not found
+ */
+dns_question_t* dns_get_question(dns_question_t *questions, uint16_t qdcount, char *domain_name);
+
+/**
+ * @brief Retrieve the IP addresses corresponding to a given domain name in a DNS Answers list.
+ * 
+ * Searches a DNS Answer list for a specific domain name and returns the corresponding IP address.
+ * Processes each Answer recursively if the Answer Type is a CNAME.
+ * 
+ * @return char* 
+ */
+char** dns_get_ip_from_name(dns_resource_record_t *answers, uint16_t ancount, char *domain_name);
+
+
 ///// PRINTING /////
 
 /**
@@ -161,6 +193,16 @@ void dns_print_question(dns_question_t question);
  * @param questions the list of DNS Questions
  */
 void dns_print_questions(uint16_t qdcount, dns_question_t *questions);
+
+/**
+ * Return a string representation of the given RDATA value.
+ * 
+ * @param rtype the type corresponding to the RDATA value
+ * @param rdlength the length, in bytes, of the RDATA value
+ * @param rdata the RDATA value, stored as a union type
+ * @return a string representation of the RDATA value
+ */
+char* dns_rdata_to_str(dns_rr_type_t rtype, uint16_t rdlength, rdata_t rdata);
 
 /**
  * Print a DNS Resource Record.
