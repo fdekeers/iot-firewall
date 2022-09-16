@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['map_5fdomain_5fip_5ft_197',['map_domain_ip_t',['../map__domain__ip_8h.html#a6eb4e8db406b9486ab695ca5e597e661',1,'map_domain_ip.h']]]
+  ['ip_5flist_5ft_200',['ip_list_t',['../dns_8h.html#a149decef00048bd4b13c7617715f1c7c',1,'dns.h']]]
 ];
