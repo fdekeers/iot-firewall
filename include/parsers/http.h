@@ -18,6 +18,7 @@
 #define HTTP_METHOD_MAX_LEN 7      // Maximum length of a HTTP method
 #define HTTP_URI_DEFAULT_LEN 100   // Default length of a HTTP URI
 
+
 /**
  * HTTP methods
  */
@@ -46,11 +47,30 @@ typedef struct http_message {
 
 ///// PARSING /////
 
+/**
+ * @brief Parse the method and URI of HTTP message.
+ * 
+ * @param data pointer to the start of the HTTP message
+ * @return the parsed HTTP message
+ */
 http_message_t http_parse_message(uint8_t *data);
 
 
 ///// PRINTING /////
 
+/**
+ * @brief Converts a HTTP method from enum value to character string.
+ * 
+ * @param method the HTTP method in enum value
+ * @return the same HTTP method as a character string
+ */
+char* http_method_to_str(http_method_t method);
+
+/**
+ * @brief Print the method and URI of a HTTP message.
+ * 
+ * @param message the message to print
+ */
 void http_print_message(http_message_t message);
 
 

@@ -73,10 +73,10 @@ size_t get_headers_length(uint8_t* data) {
     // Skip layer 4 header (protocol-dependant)
     switch (protocol) {
         case TCP:
-            length += get_tcp_header_length(data);
+            length += get_tcp_header_length(data + length);
             break;
         case UDP:
-            length += get_udp_header_length(data);
+            length += get_udp_header_length(data + length);
             break;
         default:
             break;

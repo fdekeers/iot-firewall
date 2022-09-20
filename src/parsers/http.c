@@ -114,7 +114,7 @@ static char* http_parse_uri(uint8_t *data, uint16_t *offset) {
 }
 
 /**
- * @brief Parse method and URI of HTTP message.
+ * @brief Parse the method and URI of HTTP message.
  * 
  * @param data pointer to the start of the HTTP message
  * @return the parsed HTTP message
@@ -130,8 +130,50 @@ http_message_t http_parse_message(uint8_t *data) {
 
 ///// PRINTING /////
 
+/**
+ * @brief Converts a HTTP method from enum value to character string.
+ * 
+ * @param method the HTTP method in enum value
+ * @return the same HTTP method as a character string
+ */
+char* http_method_to_str(http_method_t method) {
+    switch (method) {
+        case GET:
+            return "GET";
+            break;
+        case HEAD:
+            return "HEAD";
+            break;
+        case POST:
+            return "POST";
+            break;
+        case PUT:
+            return "PUT";
+            break;
+        case DELETE:
+            return "DELETE";
+            break;
+        case CONNECT:
+            return "CONNECT";
+            break;
+        case OPTIONS:
+            return "OPTIONS";
+            break;
+        case TRACE:
+            return "TRACE";
+            break;
+        default:
+            return "UNKNOWN";
+    }
+}
+
+/**
+ * @brief Print the method and URI of a HTTP message.
+ * 
+ * @param message the message to print
+ */
 void http_print_message(http_message_t message) {
     printf("HTTP message:\n");
-    printf("  Method: %d\n", message.method);
+    printf("  Method: %s\n", http_method_to_str(message.method));
     printf("  URI: %s\n", message.uri);
 }
