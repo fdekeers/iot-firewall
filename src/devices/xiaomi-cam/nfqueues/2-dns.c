@@ -40,6 +40,7 @@ dns_state_t state = INIT;
  * @return the verdict for the packet
  */
 uint32_t callback(int pkt_id, uint8_t *payload, void *arg) {
+    printf("Received packet\n");
     // Skip layer 3 and 4 headers
     size_t skipped = get_ip_header_length(payload);
     skipped += get_udp_header_length(payload + skipped);
@@ -48,11 +49,27 @@ uint32_t callback(int pkt_id, uint8_t *payload, void *arg) {
     dns_print_message(message);
 
     // Match packet application layer
-    if (state == INIT &&
-    message.header.qr == 0 &&
-    message.questions->qtype == A &&
-    dns_get_question(message.questions, message.header.qdcount, "business.smartcamera.api.io.mi.com") != NULL) {
-
+    if (
+        state == INIT &&
+        message.header.qr == 0 &&
+        message.questions->qtype == A &&
+        dns_contains_domain_name(message.questions, message.header.qdcount, "business.smartcamera.api.io.mi.com")
+    ) {
+        state = QUERIED;
+        printf("Received query.\n");
+    } else if (
+        state == QUERIED &&
+        message.header.qr == 1
+    ) {
+        printf("Received answer.\n");
+        ip_list_t ip_list = dns_get_ip_from_name(message.answers, message.header.ancount, "business.smartcamera.api.io.mi.com");
+        if (ip_list.ip_count > 0) {
+            state = ANSWERED;
+            printf("IP addresses for business.smartcamera.api.io.mi.com:\n");
+            for (uint8_t i = 0; i < ip_list.ip_count; i++) {
+                printf("  %s", ipv4_net_to_str(*(ip_list.ip_addresses + i)));
+            }
+        }
     }
 
     return NF_ACCEPT;
