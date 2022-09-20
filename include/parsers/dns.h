@@ -21,6 +21,7 @@
 
 #define DNS_HEADER_SIZE 12
 #define DNS_MAX_DOMAIN_NAME_LENGTH 100
+#define DNS_QR_FLAG_MASK 0x8000
 #define DNS_COMPRESSION_MASK 0x3fff
 
 
@@ -64,6 +65,7 @@ typedef struct ip_list {
 typedef struct dns_header {
     uint16_t id;
     uint16_t flags;
+    bool qr;           // 0 if the message is a query, 1 if it is a response
     uint16_t qdcount;  // Number of entries in Question section
     uint16_t ancount;  // Number of Resource Records in Answer section
     uint16_t nscount;  // Number of Resource Records in Authority section

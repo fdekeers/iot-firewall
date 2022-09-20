@@ -24,10 +24,10 @@
 dns_header_t dns_parse_header(uint8_t *data, uint16_t *offset) {
     // Init
     dns_header_t header;
-
     // Parse fields
     header.id = ntohs(*((uint16_t *) (data + *offset)));
     header.flags = ntohs(*((uint16_t *) (data + *offset + 2)));
+    header.qr = (header.flags & DNS_QR_FLAG_MASK);
     header.qdcount = ntohs(*((uint16_t *) (data + *offset + 4)));
     header.ancount = ntohs(*((uint16_t *) (data + *offset + 6)));
     header.nscount = ntohs(*((uint16_t *) (data + *offset + 8)));
@@ -282,6 +282,7 @@ void dns_print_header(dns_header_t header) {
     printf("DNS Header:\n");
     printf("  ID: %#hx\n", header.id);
     printf("  Flags: %#hx\n", header.flags);
+    printf("  QR: %d\n", header.qr);
     printf("  Questions count: %hd\n", header.qdcount);
     printf("  Answers count: %hd\n", header.ancount);
     printf("  Authority name servers count: %hd\n", header.nscount);

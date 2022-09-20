@@ -25,10 +25,8 @@
  */
 typedef enum {
     INIT,
-    DISCOVERED,
-    OFFERED,
-    REQUESTED,
-    ACKED
+    QUERIED,
+    ANSWERED
 } dns_state_t;
 
 dns_state_t state = INIT;
@@ -50,6 +48,7 @@ uint32_t callback(int pkt_id, uint8_t *payload, void *arg) {
     dns_print_message(message);
 
     // Match packet application layer
+    
 
     return NF_ACCEPT;
 }

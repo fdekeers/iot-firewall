@@ -27,6 +27,7 @@
 void compare_headers(dns_header_t actual, dns_header_t expected) {
     CU_ASSERT_EQUAL(actual.id, expected.id);
     CU_ASSERT_EQUAL(actual.flags, expected.flags);
+    CU_ASSERT_EQUAL(actual.qr, expected.qr);
     CU_ASSERT_EQUAL(actual.qdcount, expected.qdcount);
     CU_ASSERT_EQUAL(actual.ancount, expected.ancount);
     CU_ASSERT_EQUAL(actual.nscount, expected.nscount);
@@ -84,6 +85,7 @@ void test_dns_xiaomi() {
     dns_header_t expected_header;
     expected_header.id = 0x6dca;
     expected_header.flags = 0x8180;
+    expected_header.qr = 1;
     expected_header.qdcount = 1;
     expected_header.ancount = 2;
     expected_header.nscount = 0;
@@ -174,6 +176,7 @@ void test_dns_office() {
     dns_header_t expected_header;
     expected_header.id = 0x3ebf;
     expected_header.flags = 0x8180;
+    expected_header.qr = 1;
     expected_header.qdcount = 1;
     expected_header.ancount = 9;
     expected_header.nscount = 0;
