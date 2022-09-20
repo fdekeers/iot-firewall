@@ -48,7 +48,12 @@ uint32_t callback(int pkt_id, uint8_t *payload, void *arg) {
     dns_print_message(message);
 
     // Match packet application layer
-    
+    if (state == INIT &&
+    message.header.qr == 0 &&
+    message.questions->qtype == A &&
+    dns_get_question(message.questions, message.header.qdcount, "business.smartcamera.api.io.mi.com") != NULL) {
+
+    }
 
     return NF_ACCEPT;
 }

@@ -77,7 +77,7 @@ typedef struct dns_header {
  */
 typedef struct dns_question {
     char *qname;
-    uint16_t qtype;
+    dns_rr_type_t qtype;
     uint16_t qclass;
 } dns_question_t;
 
@@ -158,6 +158,16 @@ dns_message_t dns_parse_message(uint8_t *data);
 
 
 ///// LOOKUP /////
+
+/**
+ * @brief Search for a specific domain name in a DNS Questions list.
+ * 
+ * @param questions DNS Questions list
+ * @param qdcount number of Suestions in the list
+ * @param domain_name the domain name to search for
+ * @return true if the domain name is found in the Questions list, false otherwise
+ */
+bool dns_contains_domain_name(dns_question_t *questions, uint16_t qdcount, char *domain_name);
 
 /**
  * @brief Search for a specific domain name in a DNS Questions list.

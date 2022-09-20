@@ -225,6 +225,23 @@ dns_message_t dns_parse_message(uint8_t *data) {
  * @param questions DNS Questions list
  * @param qdcount number of Suestions in the list
  * @param domain_name the domain name to search for
+ * @return true if the domain name is found in the Questions list, false otherwise
+ */
+bool dns_contains_domain_name(dns_question_t *questions, uint16_t qdcount, char *domain_name) {
+    for (uint16_t i = 0; i < qdcount; i++) {
+        if (strcmp((questions + i)->qname, domain_name) == 0) {
+            return true;
+        }
+    }
+    return false;
+}
+
+/**
+ * @brief Search for a specific domain name in a DNS Questions list.
+ * 
+ * @param questions DNS Questions list
+ * @param qdcount number of Suestions in the list
+ * @param domain_name the domain name to search for
  * @return the DNS Question related to the given domain name, or NULL if not found
  */
 dns_question_t* dns_get_question(dns_question_t *questions, uint16_t qdcount, char *domain_name) {

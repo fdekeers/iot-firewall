@@ -135,8 +135,16 @@ void test_dns_xiaomi() {
 
     // Lookup functions
 
-    // Get question from domain name
+    // Search for domain name
     char *domain_name = "business.smartcamera.api.io.mi.com";
+    bool contains_domain_name = dns_contains_domain_name(message.questions, message.header.qdcount, domain_name);
+    CU_ASSERT_TRUE(contains_domain_name);
+    domain_name = "swag.framinem.org";
+    contains_domain_name = dns_contains_domain_name(message.questions, message.header.qdcount, domain_name);
+    CU_ASSERT_FALSE(contains_domain_name);
+
+    // Get question from domain name
+    domain_name = "business.smartcamera.api.io.mi.com";
     dns_question_t *question_lookup = dns_get_question(message.questions, message.header.qdcount, domain_name);
     CU_ASSERT_PTR_NOT_NULL(question_lookup);
     domain_name = "swag.framinem.org";
@@ -284,8 +292,16 @@ void test_dns_office() {
 
     // Lookup functions
 
-    // Get question from domain name
+    // Search for domain name
     char *domain_name = "outlook.office.com";
+    bool contains_domain_name = dns_contains_domain_name(message.questions, message.header.qdcount, domain_name);
+    CU_ASSERT_TRUE(contains_domain_name);
+    domain_name = "swag.framinem.org";
+    contains_domain_name = dns_contains_domain_name(message.questions, message.header.qdcount, domain_name);
+    CU_ASSERT_FALSE(contains_domain_name);
+
+    // Get question from domain name
+    domain_name = "outlook.office.com";
     dns_question_t *question_lookup = dns_get_question(message.questions, message.header.qdcount, domain_name);
     CU_ASSERT_PTR_NOT_NULL(question_lookup);
     domain_name = "swag.framinem.org";
