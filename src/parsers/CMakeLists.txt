@@ -13,6 +13,9 @@ target_link_libraries(dns packet_utils)
 # DHCP parser
 add_library(dhcp STATIC ${INCLUDE_PARSERS_DIR}/dhcp.h dhcp.c)
 target_include_directories(dhcp PRIVATE ${INCLUDE_DIR} ${INCLUDE_PARSERS_DIR})
+# HTTP parser
+add_library(http STATIC ${INCLUDE_PARSERS_DIR}/http.h http.c)
+target_include_directories(http PRIVATE ${INCLUDE_DIR} ${INCLUDE_PARSERS_DIR})
 # Installation
 install(TARGETS header dns DESTINATION ${LIB_DIR})
 install(FILES ${INCLUDE_PARSERS_DIR}/header.h ${INCLUDE_PARSERS_DIR}/dns.h DESTINATION ${INCLUDE_DIR})

@@ -16,3 +16,11 @@ target_link_libraries(dhcp-test cunit)
 target_link_libraries(dhcp-test packet_utils)
 target_link_libraries(dhcp-test header dhcp)
 install(TARGETS dhcp-test DESTINATION ${TEST_BIN_DIR})
+
+# HTTP
+#add_executable(http-test http.c)
+#target_include_directories(http-test PRIVATE ${INCLUDE_DIR})
+#target_link_libraries(http-test cunit)
+#target_link_libraries(http-test packet_utils)
+#target_link_libraries(http-test header http)
+#install(TARGETS http-test DESTINATION ${TEST_BIN_DIR})
