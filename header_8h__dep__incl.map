@@ -1,6 +1,7 @@
 <map id="include/parsers/header.h" name="include/parsers/header.h">
-<area shape="rect" id="node1" title="Parser for layer 3 and 4 headers (currently only IP, UDP and TCP)" alt="" coords="164,5,345,32"/>
+<area shape="rect" id="node1" title="Parser for layer 3 and 4 headers (currently only IP, UDP and TCP)" alt="" coords="247,5,428,32"/>
 <area shape="rect" id="node2" href="$header_8c.html" title="Parser for layer 3 and 4 headers (currently only IP, UDP and TCP)" alt="" coords="5,80,157,107"/>
 <area shape="rect" id="node3" href="$test_2parsers_2dhcp_8c.html" title="Unit tests for the DHCP parser." alt="" coords="182,80,327,107"/>
 <area shape="rect" id="node4" href="$test_2parsers_2dns_8c.html" title="Unit tests for the DNS parser." alt="" coords="351,80,489,107"/>
+<area shape="rect" id="node5" href="$test_2parsers_2http_8c.html" title="Unit tests for the HTTP parser." alt="" coords="513,80,653,107"/>
 </map>

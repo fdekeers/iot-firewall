@@ -98,8 +98,9 @@ This graph shows which files directly or indirectly include this file:</div>
 <div class="dyncontent">
 <div class="center"><img src="http_8h__dep__incl.png" border="0" usemap="#include_2parsers_2http_8hdep" alt=""/></div>
 <map name="include_2parsers_2http_8hdep" id="include_2parsers_2http_8hdep">
-<area shape="rect" title="HTTP message parser." alt="" coords="5,5,168,32"/>
-<area shape="rect" href="src_2parsers_2http_8c.html" title="HTTP message parser." alt="" coords="19,80,154,107"/>
+<area shape="rect" title="HTTP message parser." alt="" coords="71,5,234,32"/>
+<area shape="rect" href="src_2parsers_2http_8c.html" title="HTTP message parser." alt="" coords="5,80,140,107"/>
+<area shape="rect" href="test_2parsers_2http_8c.html" title="Unit tests for the HTTP parser." alt="" coords="164,80,304,107"/>
 </map>
 </div>
 </div>
@@ -145,10 +146,13 @@ Enumerations</h2></td></tr>
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="func-members"></a>
 Functions</h2></td></tr>
 <tr class="memitem:a3277792837615504aec946a207f3e2ea"><td class="memItemLeft" align="right" valign="top"><a class="el" href="http_8h.html#aa60e9ae3a4aba97f98db8ee08d49f0d5">http_message_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="http_8h.html#a3277792837615504aec946a207f3e2ea">http_parse_message</a> (uint8_t *data)</td></tr>
-<tr class="memdesc:a3277792837615504aec946a207f3e2ea"><td class="mdescLeft">&#160;</td><td class="mdescRight">Parse method and URI of HTTP message.  <a href="http_8h.html#a3277792837615504aec946a207f3e2ea">More...</a><br /></td></tr>
+<tr class="memdesc:a3277792837615504aec946a207f3e2ea"><td class="mdescLeft">&#160;</td><td class="mdescRight">Parse the method and URI of HTTP message.  <a href="http_8h.html#a3277792837615504aec946a207f3e2ea">More...</a><br /></td></tr>
 <tr class="separator:a3277792837615504aec946a207f3e2ea"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ababffd4e5795f2e8961c4079547b540a"><td class="memItemLeft" align="right" valign="top"><a id="ababffd4e5795f2e8961c4079547b540a"></a>
-void&#160;</td><td class="memItemRight" valign="bottom"><b>http_print_message</b> (<a class="el" href="http_8h.html#aa60e9ae3a4aba97f98db8ee08d49f0d5">http_message_t</a> message)</td></tr>
+<tr class="memitem:a4375d4f0e618f839a229a9eefe7402e5"><td class="memItemLeft" align="right" valign="top">char *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="http_8h.html#a4375d4f0e618f839a229a9eefe7402e5">http_method_to_str</a> (<a class="el" href="http_8h.html#a2fd930fba66817097e73ba9b75800eb2">http_method_t</a> method)</td></tr>
+<tr class="memdesc:a4375d4f0e618f839a229a9eefe7402e5"><td class="mdescLeft">&#160;</td><td class="mdescRight">Converts a HTTP method from enum value to character string.  <a href="http_8h.html#a4375d4f0e618f839a229a9eefe7402e5">More...</a><br /></td></tr>
+<tr class="separator:a4375d4f0e618f839a229a9eefe7402e5"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ababffd4e5795f2e8961c4079547b540a"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="http_8h.html#ababffd4e5795f2e8961c4079547b540a">http_print_message</a> (<a class="el" href="http_8h.html#aa60e9ae3a4aba97f98db8ee08d49f0d5">http_message_t</a> message)</td></tr>
+<tr class="memdesc:ababffd4e5795f2e8961c4079547b540a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Print the method and URI of a HTTP message.  <a href="http_8h.html#ababffd4e5795f2e8961c4079547b540a">More...</a><br /></td></tr>
 <tr class="separator:ababffd4e5795f2e8961c4079547b540a"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
@@ -189,6 +193,33 @@ void&#160;</td><td class="memItemRight" valign="bottom"><b>http_print_message</b
 </div>
 </div>
 <h2 class="groupheader">Function Documentation</h2>
+<a id="a4375d4f0e618f839a229a9eefe7402e5"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a4375d4f0e618f839a229a9eefe7402e5">&#9670;&nbsp;</a></span>http_method_to_str()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">char* http_method_to_str </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="http_8h.html#a2fd930fba66817097e73ba9b75800eb2">http_method_t</a>&#160;</td>
+          <td class="paramname"><em>method</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Converts a HTTP method from enum value to character string. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">method</td><td>the HTTP method in enum value </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>the same HTTP method as a character string </dd></dl>
+
+</div>
+</div>
 <a id="a3277792837615504aec946a207f3e2ea"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a3277792837615504aec946a207f3e2ea">&#9670;&nbsp;</a></span>http_parse_message()</h2>
 
@@ -205,7 +236,7 @@ void&#160;</td><td class="memItemRight" valign="bottom"><b>http_print_message</b
       </table>
 </div><div class="memdoc">
 
-<p>Parse method and URI of HTTP message. </p>
+<p>Parse the method and URI of HTTP message. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">data</td><td>pointer to the start of the HTTP message </td></tr>
@@ -213,6 +244,32 @@ void&#160;</td><td class="memItemRight" valign="bottom"><b>http_print_message</b
   </dd>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>the parsed HTTP message </dd></dl>
+
+</div>
+</div>
+<a id="ababffd4e5795f2e8961c4079547b540a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ababffd4e5795f2e8961c4079547b540a">&#9670;&nbsp;</a></span>http_print_message()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void http_print_message </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="http_8h.html#aa60e9ae3a4aba97f98db8ee08d49f0d5">http_message_t</a>&#160;</td>
+          <td class="paramname"><em>message</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Print the method and URI of a HTTP message. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">message</td><td>the message to print </td></tr>
+  </table>
+  </dd>
+</dl>
 
 </div>
 </div>

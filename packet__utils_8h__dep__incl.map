@@ -1,9 +1,10 @@
 <map id="include/packet_utils.h" name="include/packet_utils.h">
-<area shape="rect" id="node1" title="Utilitaries for payload manipulation and display." alt="" coords="253,5,416,32"/>
+<area shape="rect" id="node1" title="Utilitaries for payload manipulation and display." alt="" coords="333,5,496,32"/>
 <area shape="rect" id="node2" href="$dns_8h.html" title="DNS message parser." alt="" coords="32,80,192,107"/>
 <area shape="rect" id="node4" href="$test_2parsers_2dns_8c.html" title="Unit tests for the DNS parser." alt="" coords="161,155,298,181"/>
 <area shape="rect" id="node5" href="$src_2packet__utils_8c.html" title="Utilitaries for payload manipulation and display." alt="" coords="267,80,402,107"/>
 <area shape="rect" id="node6" href="$test_2packet__utils_8c.html" title="Unit tests for the packet utilities." alt="" coords="426,80,566,107"/>
 <area shape="rect" id="node7" href="$test_2parsers_2dhcp_8c.html" title="Unit tests for the DHCP parser." alt="" coords="590,80,735,107"/>
+<area shape="rect" id="node8" href="$test_2parsers_2http_8c.html" title="Unit tests for the HTTP parser." alt="" coords="759,80,899,107"/>
 <area shape="rect" id="node3" href="$src_2parsers_2dns_8c.html" title="DNS message parser." alt="" coords="5,155,136,181"/>
 </map>
