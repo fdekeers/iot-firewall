@@ -1,11 +1,11 @@
 var indexSectionsWithContent =
 {
   0: "bcdghimnprt",
-  1: "cdir",
+  1: "cdhir",
   2: "dhmnp",
   3: "bcdghimnpt",
-  4: "bcdim",
-  5: "di",
+  4: "bcdhim",
+  5: "dhi",
   6: "i"
 };
 
