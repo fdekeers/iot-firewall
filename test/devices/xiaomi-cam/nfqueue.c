@@ -1,7 +1,7 @@
 /**
- * @file src/devices/xiaomi-cam/2-dns.c
+ * @file test/devices/xiaomi-cam/nfqueue.c
  * @author François De Keersmaeker (francois.dekeersmaeker@uclouvain.be)
- * @brief 
+ * @brief Test nfqueue for the Xiaomi camera
  * @date 2022-09-16
  * 
  * @copyright Copyright (c) 2022
@@ -21,17 +21,6 @@
 #define NFQUEUE_ID 2
 
 /**
- * Current DHCP state
- */
-typedef enum {
-    INIT,
-    QUERIED,
-    ANSWERED
-} dns_state_t;
-
-dns_state_t state = INIT;
-
-/**
  * @brief Basic callback function, called when a packet enters the queue.
  * 
  * @param pkt_id packet ID for netfilter queue
@@ -44,37 +33,10 @@ uint32_t callback(int pkt_id, uint8_t *payload, void *arg) {
     // Skip layer 3 and 4 headers
     size_t skipped = get_ip_header_length(payload);
     skipped += get_udp_header_length(payload + skipped);
+
     // Parse DNS message
     dns_message_t message = dns_parse_message(payload + skipped);
     dns_print_message(message);
-
-    // Match packet application layer
-    if (
-        state == INIT &&
-        message.header.qr == 0 &&
-        message.questions->qtype == A &&
-        dns_contains_domain_name(message.questions, message.header.qdcount, "business.smartcamera.api.io.mi.com")
-    ) {
-        state = QUERIED;
-        printf("Received query.\n");
-    } else if (
-        state == QUERIED &&
-        message.header.qr == 1
-    ) {
-        printf("Received answer.\n");
-        ip_list_t ip_list = dns_get_ip_from_name(message.answers, message.header.ancount, "business.smartcamera.api.io.mi.com");
-        printf("Number of IPs: %d\n", ip_list.ip_count);
-        printf("Test\n");
-        printf("Test: %d\n", ip_list.ip_count > 0);
-        if (ip_list.ip_count > 0) {
-            printf("Test\n");
-            state = ANSWERED;
-            printf("IP addresses for business.smartcamera.api.io.mi.com:\n");
-            for (uint8_t i = 0; i < ip_list.ip_count; i++) {
-                printf("  %s\n", ipv4_net_to_str(*(ip_list.ip_addresses + i)));
-            }
-        }
-    }
 
     return NF_ACCEPT;
 }

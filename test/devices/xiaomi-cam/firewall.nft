@@ -1,11 +1,15 @@
 #!/usr/sbin/nft -f
 
-table test {
+table xiaomi-cam {
 
-    chain test {
+    chain dns {
         type filter hook prerouting priority 0;
+        
+        # Match HTTP requests (TCP * -> 80)
+        tcp sport 1111 tcp dport 2222 queue num 3;
 
-        udp sport 1111 udp dport 2222 queue num 2;
+        # Match HTTP responses (TCP 80 -> *)
+        tcp sport 1111 tcp dport 2222 queue num 3;
     }
 
 }

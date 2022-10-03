@@ -1,8 +1,8 @@
 /**
- * @file src/devices/xiaomi-cam/2-dns.c
+ * @file src/devices/xiaomi-cam/3-dns.c
  * @author François De Keersmaeker (francois.dekeersmaeker@uclouvain.be)
  * @brief 
- * @date 2022-09-16
+ * @date 2022-10-03
  * 
  * @copyright Copyright (c) 2022
  * 
@@ -14,22 +14,22 @@
 #include <string.h>
 // Custom libraries
 #include "nfqueue.h"
+#include "packet_utils.h"
 // Parsers
 #include "parsers/header.h"
-#include "parsers/dns.h"
+#include "parsers/http.h"
 
-#define NFQUEUE_ID 2
+#define NFQUEUE_ID 3
 
 /**
  * Current DHCP state
  */
 typedef enum {
     INIT,
-    QUERIED,
-    ANSWERED
-} dns_state_t;
+    REQUESTED
+} http_state_t;
 
-dns_state_t state = INIT;
+http_state_t state = INIT;
 
 /**
  * @brief Basic callback function, called when a packet enters the queue.
@@ -43,37 +43,28 @@ uint32_t callback(int pkt_id, uint8_t *payload, void *arg) {
     printf("Received packet\n");
     // Skip layer 3 and 4 headers
     size_t skipped = get_ip_header_length(payload);
-    skipped += get_udp_header_length(payload + skipped);
+    skipped += get_tcp_header_length(payload + skipped);
+    print_payload(100, payload + skipped);
     // Parse DNS message
-    dns_message_t message = dns_parse_message(payload + skipped);
-    dns_print_message(message);
+    http_message_t message = http_parse_message(payload + skipped);
+    http_print_message(message);
 
     // Match packet application layer
+    printf("Actual: %s\n", message.uri);
     if (
         state == INIT &&
-        message.header.qr == 0 &&
-        message.questions->qtype == A &&
-        dns_contains_domain_name(message.questions, message.header.qdcount, "business.smartcamera.api.io.mi.com")
+        message.method == GET &&
+        strcmp(message.uri, "/gslb?tver=2&id=369215617&dm=ots.io.mi.com&timestamp=8&sign=j2zt3%2BpbAwcxrxovQUFtCyZ6DUmGplXNKr1i8jteRb4%3D") == 0
     ) {
-        state = QUERIED;
-        printf("Received query.\n");
+        state = REQUESTED;
+        printf("Received request.\n");
+        return NF_ACCEPT;
     } else if (
-        state == QUERIED &&
-        message.header.qr == 1
+        state == REQUESTED
     ) {
-        printf("Received answer.\n");
-        ip_list_t ip_list = dns_get_ip_from_name(message.answers, message.header.ancount, "business.smartcamera.api.io.mi.com");
-        printf("Number of IPs: %d\n", ip_list.ip_count);
-        printf("Test\n");
-        printf("Test: %d\n", ip_list.ip_count > 0);
-        if (ip_list.ip_count > 0) {
-            printf("Test\n");
-            state = ANSWERED;
-            printf("IP addresses for business.smartcamera.api.io.mi.com:\n");
-            for (uint8_t i = 0; i < ip_list.ip_count; i++) {
-                printf("  %s\n", ipv4_net_to_str(*(ip_list.ip_addresses + i)));
-            }
-        }
+        state = INIT;
+        printf("Received response.\n");
+        return NF_ACCEPT;
     }
 
     return NF_ACCEPT;

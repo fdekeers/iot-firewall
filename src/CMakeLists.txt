@@ -2,7 +2,7 @@
 cmake_minimum_required(VERSION 3.2)
 
 add_subdirectory(parsers)
-set(PARSERS header dns dhcp)
+set(PARSERS header dns dhcp http)
 
 add_subdirectory(devices)
 set(DEVICES xiaomi-cam)

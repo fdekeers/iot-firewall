@@ -23,3 +23,4 @@ install(TARGETS packet_utils-test DESTINATION ${TEST_BIN_DIR})
 
 # Test subdirectories
 add_subdirectory(parsers)
+add_subdirectory(devices)

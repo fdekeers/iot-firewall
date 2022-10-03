@@ -26,6 +26,7 @@
  * @return parsed HTTP method
  */
 static http_method_t http_parse_method(uint8_t *data, uint16_t *offset) {
+    printf("Char: %c\n", *(data + *offset));
     switch (*(data + *offset)) {
         case 'G':
             // Method is GET
