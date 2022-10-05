@@ -155,3 +155,15 @@ void bind_queue(uint16_t queue_num, basic_callback *callback, void *arg)
 	printf("closing library handle\n");
 	nfq_close(h);
 }
+
+/**
+ * @brief pthread wrapper for bind_queue.
+ * 
+ * @param arg typeless pointer to the thread argument, which is a thread_arg_t struct containing the necessary arguments for bind_queue.
+ * @return NULL (should loop forever)
+ */
+void* nfqueue_thread(void *arg) {
+	thread_arg_t *thread_arg = (thread_arg_t *) arg;
+	bind_queue(thread_arg->queue_id, thread_arg->func, thread_arg->arg);
+	return NULL;
+}

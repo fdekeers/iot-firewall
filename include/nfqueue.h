@@ -34,6 +34,19 @@ typedef struct callback_struct {
 } callback_struct_t;
 
 /**
+ * @brief Contains the necessary arguments for an nfqueue thread.
+ * The arguments are:
+ * - the queue number to bind to
+ * - the basic callback function
+ * - the arguments to pass to the callback function
+ */
+typedef struct {
+    uint16_t queue_id;    // Queue number to bind to
+    basic_callback *func;  // Basic callback function
+    void *arg;             // Arguments to pass to the callback function
+} thread_arg_t;
+
+/**
  * Retrieve the packet id from a nfq_data struct,
  * or -1 in case of error.
  * 
@@ -53,6 +66,14 @@ int get_pkt_id(struct nfq_data *nfad);
  * @param arg the argument to pass to the callback function
  */
 void bind_queue(uint16_t queue_num, basic_callback *callback, void *arg);
+
+/**
+ * @brief pthread wrapper for bind_queue.
+ * 
+ * @param arg typeless pointer to the thread argument, which is a thread_arg_t struct containing the necessary arguments for bind_queue.
+ * @return NULL
+ */
+void* nfqueue_thread(void *arg);
 
 
 #endif /* _IOTFIREWALL_NFQUEUE_ */

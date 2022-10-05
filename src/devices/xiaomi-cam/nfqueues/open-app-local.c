@@ -12,6 +12,8 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
+#include <pthread.h>
+#include <assert.h>
 // Custom libraries
 #include "nfqueue.h"
 #include "packet_utils.h"
@@ -20,7 +22,8 @@
 #include "parsers/dns.h"
 #include "parsers/igmp.h"
 
-#define NFQUEUE_ID 4
+#define NUM_THREADS 4
+#define NFQUEUE_ID_RANGE 10
 
 /**
  * Current state
@@ -43,27 +46,25 @@ state_t state = STATE_A;
  * @param arg pointer to the argument passed to the callback function
  * @return the verdict for the packet
  */
-uint32_t callback(int pkt_id, uint8_t *payload, void *arg) {
-    printf("Received packet\n");
+uint32_t callback_igmp(int pkt_id, uint8_t *payload, void *arg) {
     // Skip layer 3 and 4 headers
-    size_t skipped = get_headers_length(payload);
+    size_t skipped = get_ip_header_length(payload);
 
-    switch (state) {
-    case STATE_A: {
-        // Receive IGMP query for mDNS group (224.0.0.251)
-        igmp_message_t message = igmp_parse_message(payload + skipped);
-        igmp_print_message(message);
-        if (
-            message.type == V2_MEMBERSHIP_REPORT &&
-            message.group_address == ipv4_str_to_net("224.0.0.251")
-        ) {
-            state = STATE_B;
-            printf("IGMP Membership Report for group mDNS\n");
-            return NF_ACCEPT;
-        }
+    // Receive IGMP query for mDNS group (224.0.0.251)
+    igmp_message_t message = igmp_parse_message(payload + skipped);
+    igmp_print_message(message);
+    if (
+        message.type == V2_MEMBERSHIP_REPORT &&
+        message.group_address == ipv4_str_to_net("224.0.0.251")
+    ) {
+        state = STATE_B;
+        printf("IGMP Membership Report for group mDNS\n");
+        return NF_ACCEPT;
     }
-    break;
 
+    return NF_DROP;
+
+    /*
     case STATE_B: {
         // Receive mDNS query for _miio._udp.local or _rc._tcp.local
         dns_message_t message = dns_parse_message(payload + skipped);
@@ -98,8 +99,7 @@ uint32_t callback(int pkt_id, uint8_t *payload, void *arg) {
     default:
         break;
     }
-    
-    return NF_DROP;
+    */
 }
 
 /**
@@ -110,8 +110,22 @@ uint32_t callback(int pkt_id, uint8_t *payload, void *arg) {
  * @return exit code, 0 if success
  */
 int main(int argc, char const *argv[]) {
-    // Bind to netfilter queue
-    bind_queue(NFQUEUE_ID, &callback, NULL);
+    // Create threads
+    uint8_t i = 0;
+    pthread_t threads[NUM_THREADS];
+    // IGMP
+    thread_arg_t thread_arg_igmp = {
+        .queue_id = NFQUEUE_ID_RANGE + i,
+        .func = &callback_igmp,
+        .arg = NULL
+    };
+    int ret = pthread_create(&threads[i++], NULL, nfqueue_thread, (void *) &thread_arg_igmp);
+    assert(!ret);
+
+    // Wait forever for threads
+    for (i = 0; i < NUM_THREADS; i++) {
+        pthread_join(threads[i], NULL);
+    }
 
     return 0;
 }
