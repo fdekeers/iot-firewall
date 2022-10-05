@@ -33,4 +33,12 @@ table xiaomi-cam {
         # Match HTTP responses (TCP 80 -> *)
     }
 
+    chain open-app-local {
+
+        type filter hook prerouting priority 0;
+
+        # Match IGMP membership report
+        ip saddr 192.168.1.222 ip daddr 224.0.0.251 ip protocol igmp queue num 4;
+    }
+
 }

@@ -24,3 +24,11 @@ target_link_libraries(http-test cunit)
 target_link_libraries(http-test packet_utils)
 target_link_libraries(http-test header http)
 install(TARGETS http-test DESTINATION ${TEST_BIN_DIR})
+
+# IGMP
+add_executable(igmp-test igmp.c)
+target_include_directories(igmp-test PRIVATE ${INCLUDE_DIR})
+target_link_libraries(igmp-test cunit)
+target_link_libraries(igmp-test packet_utils)
+target_link_libraries(igmp-test header igmp)
+install(TARGETS igmp-test DESTINATION ${TEST_BIN_DIR})

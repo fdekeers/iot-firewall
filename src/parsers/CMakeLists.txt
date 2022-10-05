@@ -16,6 +16,8 @@ target_include_directories(dhcp PRIVATE ${INCLUDE_DIR} ${INCLUDE_PARSERS_DIR})
 # HTTP parser
 add_library(http STATIC ${INCLUDE_PARSERS_DIR}/http.h http.c)
 target_include_directories(http PRIVATE ${INCLUDE_DIR} ${INCLUDE_PARSERS_DIR})
+# IGMP parser
+add_library(igmp STATIC ${INCLUDE_PARSERS_DIR}/igmp.h igmp.c)
+target_include_directories(igmp PRIVATE ${INCLUDE_DIR} ${INCLUDE_PARSERS_DIR})
 # Installation
-install(TARGETS header dns DESTINATION ${LIB_DIR})
-install(FILES ${INCLUDE_PARSERS_DIR}/header.h ${INCLUDE_PARSERS_DIR}/dns.h DESTINATION ${INCLUDE_DIR})
+install(TARGETS ${PARSERS} DESTINATION ${LIB_DIR})
