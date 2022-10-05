@@ -118,6 +118,9 @@ This graph shows which files directly or indirectly include this file:</div>
 Classes</h2></td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structcallback__struct.html">callback_struct</a></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structthread__arg__t.html">thread_arg_t</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Contains the necessary arguments for an nfqueue thread. The arguments are:  <a href="structthread__arg__t.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="typedef-members"></a>
 Typedefs</h2></td></tr>
@@ -132,6 +135,9 @@ Functions</h2></td></tr>
 <tr class="separator:ad901cf897da5bb0c6ff0cb8e04ba02da"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a6db79cc68cea647b5331bee9e47894da"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="nfqueue_8h.html#a6db79cc68cea647b5331bee9e47894da">bind_queue</a> (uint16_t queue_num, <a class="el" href="nfqueue_8h.html#a622f452f8e40578e1b5b826e8d83a87d">basic_callback</a> *<a class="el" href="test_2devices_2xiaomi-cam_2nfqueue_8c.html#ab3f457c255b567baffcff35d5c6bba82">callback</a>, void *arg)</td></tr>
 <tr class="separator:a6db79cc68cea647b5331bee9e47894da"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0d2243259140a8bdcea60926b585620d"><td class="memItemLeft" align="right" valign="top">void *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="nfqueue_8h.html#a0d2243259140a8bdcea60926b585620d">nfqueue_thread</a> (void *arg)</td></tr>
+<tr class="memdesc:a0d2243259140a8bdcea60926b585620d"><td class="mdescLeft">&#160;</td><td class="mdescRight">pthread wrapper for bind_queue.  <a href="nfqueue_8h.html#a0d2243259140a8bdcea60926b585620d">More...</a><br /></td></tr>
+<tr class="separator:a0d2243259140a8bdcea60926b585620d"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Wrapper for the netfilter_queue library. </p>
@@ -245,6 +251,40 @@ Functions</h2></td></tr>
   </dd>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>the packet id, or -1 in case of error </dd></dl>
+
+</div>
+</div>
+<a id="a0d2243259140a8bdcea60926b585620d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a0d2243259140a8bdcea60926b585620d">&#9670;&nbsp;</a></span>nfqueue_thread()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void* nfqueue_thread </td>
+          <td>(</td>
+          <td class="paramtype">void *&#160;</td>
+          <td class="paramname"><em>arg</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>pthread wrapper for bind_queue. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">arg</td><td>typeless pointer to the thread argument, which is a <a class="el" href="structthread__arg__t.html" title="Contains the necessary arguments for an nfqueue thread. The arguments are:">thread_arg_t</a> struct containing the necessary arguments for bind_queue. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>NULL</dd></dl>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">arg</td><td>typeless pointer to the thread argument, which is a <a class="el" href="structthread__arg__t.html" title="Contains the necessary arguments for an nfqueue thread. The arguments are:">thread_arg_t</a> struct containing the necessary arguments for bind_queue. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>NULL (should loop forever) </dd></dl>
 
 </div>
 </div>
