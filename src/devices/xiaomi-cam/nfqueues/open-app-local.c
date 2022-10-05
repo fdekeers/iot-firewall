@@ -14,21 +14,24 @@
 #include <string.h>
 // Custom libraries
 #include "nfqueue.h"
+#include "packet_utils.h"
 // Parsers
 #include "parsers/header.h"
 #include "parsers/dns.h"
+#include "parsers/igmp.h"
 
 #define NFQUEUE_ID 4
 
 /**
- * Current DHCP state
+ * Current state
  */
 typedef enum {
-    INIT,
-    QUERIED
-} dns_state_t;
+    STATE_A,
+    STATE_B,
+    STATE_C
+} state_t;
 
-dns_state_t state = INIT;
+state_t state = STATE_A;
 
 /**
  * @brief Basic callback function, called when a packet enters the queue.
@@ -41,40 +44,43 @@ dns_state_t state = INIT;
 uint32_t callback(int pkt_id, uint8_t *payload, void *arg) {
     printf("Received packet\n");
     // Skip layer 3 and 4 headers
-    size_t skipped = get_ip_header_length(payload);
-    skipped += get_udp_header_length(payload + skipped);
-    // Parse DNS message
-    dns_message_t message = dns_parse_message(payload + skipped);
-    dns_print_message(message);
+    size_t skipped = get_headers_length(payload);
 
     // Match packet application layer
-    if (
-        state == INIT &&
-        message.header.qr == 0 &&
-        message.questions->qtype == A &&
-        dns_contains_domain_name(message.questions, message.header.qdcount, "business.smartcamera.api.io.mi.com")
-    ) {
-        state = QUERIED;
-        printf("Received query.\n");
-        return NF_ACCEPT;
-    } else if (
-        state == QUERIED &&
-        message.header.qr == 1 &&
-        message.questions->qtype == A &&
-        dns_contains_domain_name(message.questions, message.header.qdcount, "business.smartcamera.api.io.mi.com")
-    ) {
-        printf("Received answer.\n");
-        ip_list_t ip_list = dns_get_ip_from_name(message.answers, message.header.ancount, "business.smartcamera.api.io.mi.com");
-        if (ip_list.ip_count > 0) {
-            state = INIT;
-            printf("IP addresses for business.smartcamera.api.io.mi.com:\n");
-            for (uint8_t i = 0; i < ip_list.ip_count; i++) {
-                printf("  %s\n", ipv4_net_to_str(*(ip_list.ip_addresses + i)));
-            }
+    switch (state) {
+    case STATE_A: {
+        igmp_message_t message = igmp_parse_message(payload + skipped);
+        igmp_print_message(message);
+        if (
+            message.type == V2_MEMBERSHIP_REPORT &&
+            message.group_address == ipv4_str_to_net("224.0.0.251")
+        ) {
+            state = STATE_B;
+            printf("IGMP Membership Report for group mDNS\n");
             return NF_ACCEPT;
         }
     }
+    break;
 
+    case STATE_B: {
+        dns_message_t message = dns_parse_message(payload + skipped);
+        dns_print_message(message);
+        if (
+            message.header.qr == 0 &&
+            message.questions->qtype == PTR &&
+            ( dns_contains_domain_name(message.questions, message.header.qdcount, "_miio._udp.local") ||
+              dns_contains_domain_name(message.questions, message.header.qdcount, "_rc._tcp.local") )
+        ) {
+            printf("mDNS query\n");
+            return NF_ACCEPT;
+        }
+    }
+    break;
+
+    default:
+        break;
+    }
+    
     return NF_DROP;
 }
 

@@ -228,14 +228,14 @@ interaction-policies:
       mdns-phone:
         protocols:
           mdns:
-            type: query
+            type: PTR
+            domain-name: _miio._udp.local || _rc._tcp.local
           udp:
             src-port: 5353
             dst-port: 5353
           ipv4:
             src: local
         direction: out
-        local-network: true
       udp-phone-broadcast:
         protocols:
           udp:
