@@ -1,11 +1,14 @@
 <map id="include/packet_utils.h" name="include/packet_utils.h">
-<area shape="rect" id="node1" title="Utilitaries for payload manipulation and display." alt="" coords="495,5,657,32"/>
-<area shape="rect" id="node2" href="$dns_8h.html" title="DNS message parser." alt="" coords="181,80,341,107"/>
+<area shape="rect" id="node1" title="Utilitaries for payload manipulation and display." alt="" coords="661,5,824,32"/>
+<area shape="rect" id="node2" href="$dns_8h.html" title="DNS message parser." alt="" coords="201,80,361,107"/>
 <area shape="rect" id="node5" href="$test_2parsers_2dns_8c.html" title="Unit tests for the DNS parser." alt="" coords="335,162,473,189"/>
-<area shape="rect" id="node6" href="$src_2packet__utils_8c.html" title="Utilitaries for payload manipulation and display." alt="" coords="429,80,563,107"/>
-<area shape="rect" id="node7" href="$test_2packet__utils_8c.html" title="Unit tests for the packet utilities." alt="" coords="587,80,727,107"/>
-<area shape="rect" id="node8" href="$test_2parsers_2dhcp_8c.html" title="Unit tests for the DHCP parser." alt="" coords="751,80,897,107"/>
-<area shape="rect" id="node9" href="$test_2parsers_2http_8c.html" title="Unit tests for the HTTP parser." alt="" coords="921,80,1061,107"/>
+<area shape="rect" id="node6" href="$igmp_8h.html" title="IGMP message parser." alt="" coords="483,80,653,107"/>
+<area shape="rect" id="node8" href="$test_2parsers_2igmp_8c.html" title="Unit tests for the IGMP parser." alt="" coords="663,162,809,189"/>
+<area shape="rect" id="node9" href="$src_2packet__utils_8c.html" title="Utilitaries for payload manipulation and display." alt="" coords="729,80,863,107"/>
+<area shape="rect" id="node10" href="$test_2packet__utils_8c.html" title="Unit tests for the packet utilities." alt="" coords="887,80,1027,107"/>
+<area shape="rect" id="node11" href="$test_2parsers_2dhcp_8c.html" title="Unit tests for the DHCP parser." alt="" coords="1051,80,1197,107"/>
+<area shape="rect" id="node12" href="$test_2parsers_2http_8c.html" title="Unit tests for the HTTP parser." alt="" coords="1221,80,1361,107"/>
 <area shape="rect" id="node3" href="$src_2parsers_2dns_8c.html" title="DNS message parser." alt="" coords="5,162,136,189"/>
 <area shape="rect" id="node4" href="$test_2devices_2xiaomi-cam_2nfqueue_8c.html" title="Test nfqueue for the Xiaomi camera." alt="" coords="161,155,311,196"/>
+<area shape="rect" id="node7" href="$src_2parsers_2igmp_8c.html" title=" " alt="" coords="497,162,639,189"/>
 </map>
