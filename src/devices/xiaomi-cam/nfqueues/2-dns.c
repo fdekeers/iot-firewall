@@ -25,8 +25,7 @@
  */
 typedef enum {
     INIT,
-    QUERIED,
-    ANSWERED
+    QUERIED
 } dns_state_t;
 
 dns_state_t state = INIT;
@@ -57,26 +56,26 @@ uint32_t callback(int pkt_id, uint8_t *payload, void *arg) {
     ) {
         state = QUERIED;
         printf("Received query.\n");
+        return NF_ACCEPT;
     } else if (
         state == QUERIED &&
-        message.header.qr == 1
+        message.header.qr == 1 &&
+        message.questions->qtype == A &&
+        dns_contains_domain_name(message.questions, message.header.qdcount, "business.smartcamera.api.io.mi.com")
     ) {
         printf("Received answer.\n");
         ip_list_t ip_list = dns_get_ip_from_name(message.answers, message.header.ancount, "business.smartcamera.api.io.mi.com");
-        printf("Number of IPs: %d\n", ip_list.ip_count);
-        printf("Test\n");
-        printf("Test: %d\n", ip_list.ip_count > 0);
         if (ip_list.ip_count > 0) {
-            printf("Test\n");
-            state = ANSWERED;
+            state = INIT;
             printf("IP addresses for business.smartcamera.api.io.mi.com:\n");
             for (uint8_t i = 0; i < ip_list.ip_count; i++) {
                 printf("  %s\n", ipv4_net_to_str(*(ip_list.ip_addresses + i)));
             }
+            return NF_ACCEPT;
         }
     }
 
-    return NF_ACCEPT;
+    return NF_DROP;
 }
 
 /**
