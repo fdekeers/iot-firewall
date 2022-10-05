@@ -1,11 +1,11 @@
 #!/usr/sbin/nft -f
 
-table xiaomi-cam {
+table netdev xiaomi-cam {
 
     chain dhcp-boot {
 
         # Chain configuration
-        type filter hook prerouting priority 0;
+        type filter hook ingress device enp0s8 priority 0;
 
         # Match DHCP discover/request packets (UDP 68 -> 67)
         ip saddr 0.0.0.0 ip daddr 255.255.255.255 udp sport 68 udp dport 67 queue num 1;
@@ -16,7 +16,7 @@ table xiaomi-cam {
 
     chain dns {
 
-        type filter hook prerouting priority 0;
+        type filter hook ingress device enp0s8 priority 0;
         
         # Match DNS query packets (UDP * -> 53)
         ip saddr 192.168.1.161 ip daddr 192.168.1.1 udp dport 53 queue num 2;
@@ -27,7 +27,7 @@ table xiaomi-cam {
 
     chain http {
         
-        type filter hook prerouting priority 0;
+        type filter hook ingress device enp0s8 priority 0;
 
         # Match HTTP requests  (TCP * -> 80)
         # Match HTTP responses (TCP 80 -> *)
@@ -35,12 +35,16 @@ table xiaomi-cam {
 
     chain open-app-local {
 
-        type filter hook prerouting priority 0;
+        type filter hook ingress device enp0s8 priority 0;
 
         # IGMP membership report
         ip saddr 192.168.1.0/24 ip daddr 224.0.0.251 ip protocol igmp queue num 4;
         # mDNS query
         ip saddr 192.168.1.0/24 udp sport 5353 udp dport 5353 queue num 4;
+        # UDP broadcast
+        ip saddr 192.168.1.0/24 ip daddr 192.168.1.255 udp dport {54321, 32108};
+        # ARP request
+        arp operation request arp saddr ether 78:8b:2a:b2:20:ea arp daddr ether 00:00:00:00:00:00 arp saddr ip 192.168.1.161 arp daddr ip 192.168.1.0/24 queue num 4;
 
     }
 

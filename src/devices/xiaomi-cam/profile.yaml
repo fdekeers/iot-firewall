@@ -229,7 +229,9 @@ interaction-policies:
         protocols:
           mdns:
             type: PTR
-            domain-name: _miio._udp.local || _rc._tcp.local
+            domain-name:
+              - _miio._udp.local
+              - _rc._tcp.local
           udp:
             src-port: 5353
             dst-port: 5353
@@ -251,10 +253,10 @@ interaction-policies:
         protocols:
           arp:
             type: request
-            ip: local
-          eth:
-            src: self
-            dst: broadcast
+            sha: self
+            tha: default
+            spa: self
+            tpa: local
         direction: out
     
     child-pattern:

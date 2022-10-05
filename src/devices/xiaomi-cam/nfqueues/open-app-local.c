@@ -28,7 +28,9 @@
 typedef enum {
     STATE_A,
     STATE_B,
-    STATE_C
+    STATE_C,
+    STATE_D,
+    STATE_E
 } state_t;
 
 state_t state = STATE_A;
@@ -46,9 +48,9 @@ uint32_t callback(int pkt_id, uint8_t *payload, void *arg) {
     // Skip layer 3 and 4 headers
     size_t skipped = get_headers_length(payload);
 
-    // Match packet application layer
     switch (state) {
     case STATE_A: {
+        // Receive IGMP query for mDNS group (224.0.0.251)
         igmp_message_t message = igmp_parse_message(payload + skipped);
         igmp_print_message(message);
         if (
@@ -63,6 +65,7 @@ uint32_t callback(int pkt_id, uint8_t *payload, void *arg) {
     break;
 
     case STATE_B: {
+        // Receive mDNS query for _miio._udp.local or _rc._tcp.local
         dns_message_t message = dns_parse_message(payload + skipped);
         dns_print_message(message);
         if (
@@ -71,11 +74,26 @@ uint32_t callback(int pkt_id, uint8_t *payload, void *arg) {
             ( dns_contains_domain_name(message.questions, message.header.qdcount, "_miio._udp.local") ||
               dns_contains_domain_name(message.questions, message.header.qdcount, "_rc._tcp.local") )
         ) {
+            state = STATE_C;
             printf("mDNS query\n");
             return NF_ACCEPT;
         }
     }
     break;
+
+    case STATE_C: {
+        // Receive UDP broadcast from local address to broadcast
+        printf("UDP from local address to broadcast\n");
+        state = STATE_D;
+        return NF_ACCEPT;
+    }
+    
+    case STATE_D: {
+        // Receive ARP
+        printf("ARP request from camera to local address\n");
+        state = STATE_E;
+        return NF_ACCEPT;
+    }
 
     default:
         break;
