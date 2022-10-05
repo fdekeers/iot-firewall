@@ -13,7 +13,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   config.vm.box = "ubuntu/jammy64"  # Ubuntu 22.04
   config.vm.hostname = "firewall-test"
 
-  config.vm.network "private_network", type: "dhcp"
+  config.vm.network "private_network", type: "dhcp", name: "vboxnet0"
 
   config.vm.provider "virtualbox" do |vb|
     
@@ -21,22 +21,19 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
     vb.memory = 4096
     vb.cpus = 2
 
-    # Network
-    #vb.customize ["modifyvm", :id, "--nic2", "hostonly", "--hostonlyadapter2", "vboxnet0"]
-
   end
 
   # If true, then any SSH connections made will enable agent forwarding.
   config.ssh.forward_agent = true
 
   # Share additional folders to the guest VM.
-  config.vm.synced_folder "/home/fdekeers/UCL", "/home/vagrant/UCL"
+  config.vm.synced_folder "/home/fdekeers/UCL/Doctorat/Tools/iot-firewall", "/home/vagrant/iot-firewall"
 
   # Bash provision script
   config.vm.provision "shell", inline: <<-SHELL
     sudo apt-get update
     sudo apt-get upgrade -y
-    sudo apt-get install -y build-essential net-tools nftables libnetfilter-queue-dev
+    sudo apt-get install -y build-essential cmake net-tools nftables libnetfilter-queue-dev
   SHELL
 
 end

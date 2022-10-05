@@ -18,7 +18,7 @@
 #include "parsers/header.h"
 #include "parsers/dns.h"
 
-#define NFQUEUE_ID 2
+#define NFQUEUE_ID 0
 
 /**
  * @brief Basic callback function, called when a packet enters the queue.
@@ -34,9 +34,7 @@ uint32_t callback(int pkt_id, uint8_t *payload, void *arg) {
     size_t skipped = get_ip_header_length(payload);
     skipped += get_udp_header_length(payload + skipped);
 
-    // Parse DNS message
-    dns_message_t message = dns_parse_message(payload + skipped);
-    dns_print_message(message);
+    print_payload(100, payload);
 
     return NF_ACCEPT;
 }
