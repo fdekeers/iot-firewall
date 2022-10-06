@@ -35,16 +35,21 @@ table netdev xiaomi-cam {
 
     chain open-app-local {
 
-        type filter hook ingress device enp0s8 priority 0;
+        type filter hook ingress device enp0s8 priority 0; policy drop;
 
         # IGMP membership report
         ip saddr 192.168.1.0/24 ip daddr 224.0.0.251 ip protocol igmp queue num 10;
         # mDNS query
-        ip saddr 192.168.1.0/24 udp sport 5353 udp dport 5353 queue num 4;
+        ip saddr 192.168.1.0/24 udp sport 5353 udp dport 5353 queue num 11;
         # UDP broadcast
-        ip saddr 192.168.1.0/24 ip daddr 192.168.1.255 udp dport {54321, 32108} queue num 4;
+        ip saddr 192.168.1.0/24 ip daddr 192.168.1.255 udp dport {54321, 32108} queue num 12;
         # ARP request
-        arp operation request arp saddr ether 78:8b:2a:b2:20:ea arp daddr ether 00:00:00:00:00:00 arp saddr ip 192.168.1.161 arp daddr ip 192.168.1.0/24 queue num 4;
+        arp operation request arp saddr ether 78:8b:2a:b2:20:ea arp daddr ether 00:00:00:00:00:00 arp saddr ip 192.168.1.161 arp daddr ip 192.168.1.0/24 queue num 13;
+        # ARP reply
+        arp operation reply arp saddr ether 3c:cd:5d:a2:a9:d7 arp daddr ether 78:8b:2a:b2:20:ea arp saddr ip 192.168.1.0/24 arp daddr ip 192.168.1.161 queue num 14;
+        # UDP burst & background (in both direction)
+        ip saddr 192.168.1.161 ip daddr 192.168.1.0/24 limit rate 10/second burst 20 packets meta length <= 300 queue num 15;
+        ip saddr 192.168.1.0/24 ip daddr 192.168.1.161 limit rate 10/second burst 20 packets meta length <= 300 queue num 15;
 
     }
 
