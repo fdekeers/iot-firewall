@@ -22,7 +22,7 @@
 #include "parsers/dns.h"
 #include "parsers/igmp.h"
 
-#define NUM_THREADS 6
+#define MAX_THREADS 6
 #define NUM_STATES  6
 #define NFQUEUE_ID_RANGE 10
 
@@ -40,6 +40,7 @@ typedef enum {
 
 // Global variables
 state_t state = STATE_A;  // Initial state
+uint8_t num_threads = 0;  // Current number of threads
 pthread_mutex_t mutex;    // Mutex to protect the state
 
 /**
@@ -162,6 +163,9 @@ uint32_t callback_arp_request(int pkt_id, uint8_t *payload, void *arg) {
 /**
  * @brief Callback function for the ARP reply (fifth queue).
  * 
+ * Add the next nftables rule to the chain, which is
+ * for burst and background UDP traffic.
+ * 
  * @param pkt_id packet ID for netfilter queue
  * @param payload pointer to the packet payload
  * @param arg pointer to the argument passed to the callback function
@@ -174,28 +178,9 @@ uint32_t callback_arp_reply(int pkt_id, uint8_t *payload, void *arg) {
         state = STATE_F;
         pthread_mutex_unlock(&mutex);
         printf("ARP reply for phone IP\n");
-        verdict = NF_ACCEPT;
-    } else {
-        pthread_mutex_unlock(&mutex);
-    }
-
-    return verdict;
-}
-
-/**
- * @brief Callback function for the UDP burst and background traffic (sixth queue).
- * 
- * @param pkt_id packet ID for netfilter queue
- * @param payload pointer to the packet payload
- * @param arg pointer to the argument passed to the callback function
- * @return the verdict for the packet (NF_ACCPET or NF_DROP)
- */
-uint32_t callback_udp_traffic(int pkt_id, uint8_t *payload, void *arg) {
-    uint32_t verdict = NF_DROP;
-    pthread_mutex_lock(&mutex);
-    if (state == STATE_F) {
-        pthread_mutex_unlock(&mutex);
-        printf("UDP burst/background traffic\n");
+        // Add UDP traffic rules
+        system("nft add rule netdev xiaomi-cam open-app-local ip saddr 192.168.1.161 ip daddr 192.168.1.0/24 limit rate 10/second burst 20 packets meta length >= 40 meta length <= 300");
+        system("nft add rule netdev xiaomi-cam open-app-local ip saddr 192.168.1.161 ip daddr 192.168.1.0/24 limit rate 10/second burst 20 packets meta length >= 40 meta length <= 300");
         verdict = NF_ACCEPT;
     } else {
         pthread_mutex_unlock(&mutex);
@@ -218,7 +203,7 @@ int main(int argc, char const *argv[]) {
 
     // Create threads
     uint8_t i = 0;
-    pthread_t threads[NUM_THREADS];
+    pthread_t threads[MAX_THREADS];
 
     // IGMP
     thread_arg_t thread_arg_igmp = {
@@ -265,17 +250,8 @@ int main(int argc, char const *argv[]) {
     ret = pthread_create(&threads[i++], NULL, nfqueue_thread, (void *) &thread_arg_arp_reply);
     assert(ret == 0);
 
-    // UDP traffic
-    thread_arg_t thread_arg_udp_traffic = {
-        .queue_id = NFQUEUE_ID_RANGE + i,
-        .func = &callback_udp_traffic,
-        .arg = NULL
-    };
-    ret = pthread_create(&threads[i++], NULL, nfqueue_thread, (void *) &thread_arg_udp_traffic);
-    assert(ret == 0);
-
     // Wait forever for threads
-    for (i = 0; i < NUM_THREADS; i++) {
+    for (i = 0; i < MAX_THREADS; i++) {
         pthread_join(threads[i], NULL);
     }
     // Destroy mutex

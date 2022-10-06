@@ -47,9 +47,9 @@ table netdev xiaomi-cam {
         arp operation request arp saddr ether 78:8b:2a:b2:20:ea arp daddr ether 00:00:00:00:00:00 arp saddr ip 192.168.1.161 arp daddr ip 192.168.1.0/24 queue num 13;
         # ARP reply
         arp operation reply arp saddr ether 3c:cd:5d:a2:a9:d7 arp daddr ether 78:8b:2a:b2:20:ea arp saddr ip 192.168.1.0/24 arp daddr ip 192.168.1.161 queue num 14;
-        # UDP burst & background (in both direction)
-        ip saddr 192.168.1.161 ip daddr 192.168.1.0/24 limit rate 10/second burst 20 packets meta length <= 300 queue num 15;
-        ip saddr 192.168.1.0/24 ip daddr 192.168.1.161 limit rate 10/second burst 20 packets meta length <= 300 queue num 15;
+        # UDP burst & background (in both directions)
+        #ip saddr 192.168.1.161 ip daddr 192.168.1.0/24 limit rate 10/second burst 20 packets meta length >= 40 meta length <= 300 queue num 15;
+        #ip saddr 192.168.1.0/24 ip daddr 192.168.1.161 limit rate 10/second burst 20 packets meta length >= 40 meta length <= 300 queue num 15;
 
     }
 
