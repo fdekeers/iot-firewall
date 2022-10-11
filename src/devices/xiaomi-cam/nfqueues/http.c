@@ -19,7 +19,7 @@
 #include "parsers/header.h"
 #include "parsers/http.h"
 
-#define NFQUEUE_ID 3
+#define NFQ_ID_BASE 3
 
 /**
  * Current DHCP state
@@ -44,7 +44,6 @@ uint32_t callback(int pkt_id, uint8_t *payload, void *arg) {
     // Skip layer 3 and 4 headers
     size_t skipped = get_ip_header_length(payload);
     skipped += get_tcp_header_length(payload + skipped);
-    print_payload(100, payload + skipped);
     // Parse DNS message
     http_message_t message = http_parse_message(payload + skipped);
     http_print_message(message);
@@ -79,7 +78,7 @@ uint32_t callback(int pkt_id, uint8_t *payload, void *arg) {
  */
 int main(int argc, char const *argv[]) {
     // Bind to netfilter queue
-    bind_queue(NFQUEUE_ID, &callback, NULL);
+    bind_queue(NFQ_ID_BASE, &callback, NULL);
 
     return 0;
 }

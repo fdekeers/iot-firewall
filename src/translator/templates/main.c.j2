@@ -1,0 +1,15 @@
+
+
+/**
+ * @brief Program entry point
+ * 
+ * @param argc number of command line arguments
+ * @param argv list of command line arguments
+ * @return exit code, 0 if success
+ */
+int main(int argc, char const *argv[]) {
+    // Bind to netfilter queue
+    bind_queue(NFQ_ID_BASE + {{nfq_id_offset}}, &callback_{{scenario}}, NULL);
+
+    return 0;
+}

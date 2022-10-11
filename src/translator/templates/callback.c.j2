@@ -1,0 +1,36 @@
+
+
+/**
+ * @brief {{scenario}} callback function, called when a packet enters the queue.
+ * 
+ * @param pkt_id packet ID for netfilter queue
+ * @param payload pointer to the packet payload
+ * @param arg pointer to the argument passed to the callback function
+ * @return the verdict for the packet
+ */
+uint32_t callback_{{scenario}}(int pkt_id, uint8_t *payload, void *arg) {
+    printf("Received packet\n");
+    // Skip layer 3 and 4 headers
+    size_t skipped = get_ip_header_length(payload);
+    skipped += get_tcp_header_length(payload + skipped);
+
+    // Parse message
+    {{protocol}}_message_t message = {{protocol}}_parse_message(payload + skipped);
+    {{protocol}}_print_message(message);
+
+    // Match application layer
+    if (
+        {{match_a}}
+    ) {
+        state = STATE_B;
+        return NF_ACCEPT;
+    } else if (
+        {{match_b}}
+    ) {
+        state = STATE_A;
+        return NF_ACCEPT;
+    }
+
+    return NF_DROP;
+}
+
