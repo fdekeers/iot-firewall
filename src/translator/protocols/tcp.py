@@ -1,20 +1,15 @@
 import jinja2
+from protocols.Layer4 import Layer4
 
-class tcp:
+class tcp(Layer4):
     
     # Class variables
     protocol_name = "tcp"  # Protocol name
-    layer = 4              # Protocol OSI layer
-    custom_parser = False  # Whether the protocol has a custom parser
 
     # Supported keys in YAML profile
-    supported_keys = [
-        "src-port",
-        "dst-port",
-        "initiated-by"
-    ]
+    supported_keys = Layer4.supported_keys + ["initiated-by"]
 
-    def __init__(self, device: str, policy: str, env: jinja2.Environment):
+    def __init__(self, device: str, policy: str, env: jinja2.Environment) -> None:
         """
         Constructor for the TCP protocol.
 
@@ -23,15 +18,11 @@ class tcp:
             policy (str): Policy name.
             env (jinja2.Environment): Jinja2 environment.
         """
-        self.device = device
-        self.policy = policy
-        self.scenario = policy.replace("-", "_")
-        self.nft_table_chain = f"netdev {device} {policy}"
-        self.env = env
+        super().__init__(device, policy, env)
 
     def parse(self, data: dict, nft_rule: str, callback_funcs: str, nft_rule_backwards = "") -> str:
         """
-        Parse the HTTP protocol.
+        Parse the TCP protocol.
 
         Args:
             data (dict): Data from the YAML profile.
@@ -39,12 +30,4 @@ class tcp:
             callback_funcs (str): Current callback functions to be written in the C file.
             nft_rule_backwards (str): Current nftables rule for the backwards direction.
         """
-        # Handle TCP source and destination ports
-        nft_rule += f"tcp sport {data['src-port']} " if 'src-port' in data else ""
-        nft_rule += f"tcp dport {data['dst-port']} " if 'dst-port' in data else ""
-        # Handle backwards direction
-        if nft_rule_backwards:
-            nft_rule_backwards += f"tcp sport {data['dst-port']} " if 'dst-port' in data else ""
-            nft_rule_backwards += f"tcp dport {data['src-port']} " if 'src-port' in data else ""
-
-        return nft_rule, callback_funcs, nft_rule_backwards
+        return super().parse(data, nft_rule, callback_funcs, nft_rule_backwards)

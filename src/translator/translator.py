@@ -3,22 +3,7 @@ from pathlib import Path
 import yaml
 import jinja2
 import subprocess
-import importlib
-
-
-def init_protocol(protocol_name: str, device: dict, policy: str, env: jinja2.Environment):
-    """
-    Initialize a protocol.
-
-    Args:
-        protocol_name (str): Name of the protocol.
-
-    Returns:
-        Protocol: Protocol object.
-    """
-    module = importlib.import_module(f"protocols.{protocol_name}")
-    cls = getattr(module, protocol_name)
-    return cls(device, policy, env)
+from protocols.Protocol import Protocol
 
 
 if __name__ == "__main__":
@@ -86,7 +71,7 @@ if __name__ == "__main__":
 
             for protocol_name in value["protocols"]:
                 # Protocol decoding
-                protocol = init_protocol(protocol_name, device, policy, env)
+                protocol = Protocol.init_protocol(protocol_name, device, policy, env)
                 if protocol.custom_parser:
                     header_dict["parsers"] = header_dict.get("parsers", "") + f"#include \"parsers/{protocol_name}.h\"\n"
                 nft_rule, callback_funcs, nft_rule_backwards = protocol.parse(value["protocols"][protocol_name], nft_rule, callback_funcs, nft_rule_backwards)

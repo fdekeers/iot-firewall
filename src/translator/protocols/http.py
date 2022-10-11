@@ -1,6 +1,7 @@
 import jinja2
+from protocols.Protocol import Protocol
 
-class http:
+class http(Protocol):
     
     # Class variables
     protocol_name = "http"  # Protocol name
@@ -13,7 +14,7 @@ class http:
         "uri"
     ]
 
-    def __init__(self, device: dict, policy: str, env: jinja2.Environment):
+    def __init__(self, device: dict, policy: str, env: jinja2.Environment) -> None:
         """
         Constructor for the HTTP protocol.
 
@@ -22,11 +23,7 @@ class http:
             policy (str): Policy name.
             env (jinja2.Environment): Jinja2 environment.
         """
-        self.device = device
-        self.policy = policy
-        self.scenario = policy.replace("-", "_")
-        self.nft_table_chain = f"netdev {device['name']} {policy}"
-        self.env = env
+        super().__init__(device, policy, env)
 
     def parse(self, data: dict, nft_rule: str, callback_funcs: str, nft_rule_backwards = "") -> str:
         """
