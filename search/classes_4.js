@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['rdata_5ft_142',['rdata_t',['../unionrdata__t.html',1,'']]]
+  ['protocol_146',['Protocol',['../classProtocol_1_1Protocol.html',1,'Protocol']]]
 ];
