@@ -32,6 +32,10 @@ if __name__ == "__main__":
         # For testing only
         # Delete nftables table
         command = f"nft delete table netdev {device['name']}"
+        try:
+            output = subprocess.check_output(command, shell=True)
+        except subprocess.CalledProcessError as e:
+            pass
 
         # Create device directory
         Path(device["name"]).mkdir(exist_ok=True)
@@ -96,3 +100,5 @@ if __name__ == "__main__":
                 fw.write(header)
                 fw.write(callback_funcs)
                 fw.write(main)
+
+    print("Done.")

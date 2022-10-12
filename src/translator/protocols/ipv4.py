@@ -1,4 +1,3 @@
-import jinja2
 from protocols.Protocol import Protocol
 
 class ipv4(Protocol):
@@ -14,26 +13,18 @@ class ipv4(Protocol):
         "dst"
     ]
 
-    def __init__(self, device: str, policy: str, env: jinja2.Environment) -> None:
-        """
-        Constructor for the IPv4 protocol.
-
-        Args:
-            device (dict): Device data from the YAML profile.
-            policy (str): Policy name.
-            env (jinja2.Environment): Jinja2 environment.
-        """
-        super().__init__(device, policy, env)
-
     def parse(self, data: dict, nft_rule: str, callback_funcs: str, nft_rule_backwards = "") -> str:
         """
-        Parse the HTTP protocol.
+        Parse the IPv4 protocol.
 
         Args:
             data (dict): Data from the YAML profile.
             nft_rule (str): Current nftables rule (unused by HTTP).
             callback_funcs (str): Current callback functions to be written in the C file.
             nft_rule_backwards (str): Current nftables rule for the backwards direction.
+
+        Returns:
+            Tuple[str, str, str]: updated values of the arguments nft_rule, callback_funcs, nft_rule_backwards
         """
         # Handle IPv4 source address
         if 'src' in data:

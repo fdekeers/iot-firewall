@@ -35,3 +35,18 @@ class Protocol:
         module = importlib.import_module(f"protocols.{protocol_name}")
         cls = getattr(module, protocol_name)
         return cls(device, policy, env)
+
+    def parse(self, data: dict, nft_rule: str, callback_funcs: str, nft_rule_backwards = "") -> str:
+        """
+        Default parsing method, returns the arguments values unchanged.
+
+        Args:
+            data (dict): Data from the YAML profile.
+            nft_rule (str): Current nftables rule (unused by HTTP).
+            callback_funcs (str): Current callback functions to be written in the C file.
+            nft_rule_backwards (str): Current nftables rule for the backwards direction.
+
+        Returns:
+            Tuple[str, str, str]: updated values of the arguments nft_rule, callback_funcs, nft_rule_backwards
+        """
+        return nft_rule, callback_funcs, nft_rule_backwards

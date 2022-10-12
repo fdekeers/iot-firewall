@@ -114,7 +114,7 @@ individual-policies:
   ping-quad8:
     protocols:
       icmp:
-        type: echo
+        type: echo-request
       ipv4:
         src: self
         dst: 8.8.8.8

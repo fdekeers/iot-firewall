@@ -1,19 +1,19 @@
 from protocols.Application import Application
 
-class http(Application):
+class dns(Application):
     
     # Class variables
-    protocol_name = "http"  # Protocol name
+    protocol_name = "dns"  # Protocol name
 
     # Supported keys in YAML profile
     supported_keys = [
-        "request-type",
-        "uri"
+        "type",        # DNS query type
+        "domain-name"  # DNS domain name
     ]
 
     def parse(self, data: dict, nft_rule: str, callback_funcs: str, nft_rule_backwards = "") -> str:
         """
-        Parse the HTTP protocol.
+        Parse the DNS protocol.
 
         Args:
             data (dict): Data from the YAML profile.
@@ -32,12 +32,12 @@ class http(Application):
         callback_dict["match_a"] = "state == STATE_A &&\n\t\t"
         callback_dict["match_b"] = "state == STATE_B"
         
-        # Handle HTTP request type
-        method = data["method"]
-        callback_dict["match_a"] = callback_dict.get("match_a", "") + f"message.method == {method} &&\n\t\t"
-        # Handle HTTP URI
-        uri = data["uri"]
-        callback_dict["match_a"] += f"strcmp(message.uri, \"{uri}\") == 0"
+        # Handle DNS query type
+        query_type = data["type"]
+        callback_dict["match_a"] = callback_dict.get("match_a", "") + f"message.questions->qtype == {query_type} &&\n\t\t"
+        # Handle DNS domain name
+        domain_name = data["domain-name"]
+        callback_dict["match_a"] += f"dns_contains_domain_name(message.questions, message.header.qdcount, \"{domain_name}\")"
 
         # Render and concatenate callback function
         return nft_rule, callback_funcs + callback_tpl.render(callback_dict), nft_rule_backwards

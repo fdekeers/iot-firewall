@@ -1,7 +1,6 @@
-import jinja2
 from protocols.Protocol import Protocol
 
-class Layer4(Protocol):
+class Transport(Protocol):
     
     # Class variables
     layer = 4              # Protocol OSI layer
@@ -12,17 +11,6 @@ class Layer4(Protocol):
         "src-port",
         "dst-port"
     ]
-
-    def __init__(self, device: str, policy: str, env: jinja2.Environment) -> None:
-        """
-        Constructor for any layer 4 protocol.
-
-        Args:
-            device (dict): Device data from the YAML profile.
-            policy (str): Policy name.
-            env (jinja2.Environment): Jinja2 environment.
-        """
-        super().__init__(device, policy, env)
 
     def parse(self, data: dict, nft_rule: str, callback_funcs: str, nft_rule_backwards = "") -> str:
         """
