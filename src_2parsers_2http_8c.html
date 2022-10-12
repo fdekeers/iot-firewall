@@ -81,19 +81,20 @@ Include dependency graph for http.c:</div>
 <div class="dyncontent">
 <div class="center"><img src="src_2parsers_2http_8c__incl.png" border="0" usemap="#src_2parsers_2http_8c" alt=""/></div>
 <map name="src_2parsers_2http_8c" id="src_2parsers_2http_8c">
-<area shape="rect" title="HTTP message parser." alt="" coords="67,5,201,32"/>
-<area shape="rect" href="http_8h.html" title="HTTP message parser." alt="" coords="104,80,164,107"/>
+<area shape="rect" title="HTTP message parser." alt="" coords="113,5,248,32"/>
+<area shape="rect" href="http_8h.html" title="HTTP message parser." alt="" coords="151,80,211,107"/>
 <area shape="rect" title=" " alt="" coords="5,155,76,181"/>
 <area shape="rect" title=" " alt="" coords="101,155,167,181"/>
 <area shape="rect" title=" " alt="" coords="192,155,263,181"/>
+<area shape="rect" title=" " alt="" coords="287,155,370,181"/>
 </map>
 </div>
 </div><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="func-members"></a>
 Functions</h2></td></tr>
-<tr class="memitem:a3277792837615504aec946a207f3e2ea"><td class="memItemLeft" align="right" valign="top"><a class="el" href="http_8h.html#aa60e9ae3a4aba97f98db8ee08d49f0d5">http_message_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="src_2parsers_2http_8c.html#a3277792837615504aec946a207f3e2ea">http_parse_message</a> (uint8_t *data)</td></tr>
-<tr class="memdesc:a3277792837615504aec946a207f3e2ea"><td class="mdescLeft">&#160;</td><td class="mdescRight">Parse the method and URI of HTTP message.  <a href="src_2parsers_2http_8c.html#a3277792837615504aec946a207f3e2ea">More...</a><br /></td></tr>
-<tr class="separator:a3277792837615504aec946a207f3e2ea"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad1f8d68e4f677b2e2073fa94179870bf"><td class="memItemLeft" align="right" valign="top"><a class="el" href="http_8h.html#aa60e9ae3a4aba97f98db8ee08d49f0d5">http_message_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="src_2parsers_2http_8c.html#ad1f8d68e4f677b2e2073fa94179870bf">http_parse_message</a> (uint8_t *data, uint16_t src_port)</td></tr>
+<tr class="memdesc:ad1f8d68e4f677b2e2073fa94179870bf"><td class="mdescLeft">&#160;</td><td class="mdescRight">Parse the method and URI of HTTP message.  <a href="src_2parsers_2http_8c.html#ad1f8d68e4f677b2e2073fa94179870bf">More...</a><br /></td></tr>
+<tr class="separator:ad1f8d68e4f677b2e2073fa94179870bf"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a4375d4f0e618f839a229a9eefe7402e5"><td class="memItemLeft" align="right" valign="top">char *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="src_2parsers_2http_8c.html#a4375d4f0e618f839a229a9eefe7402e5">http_method_to_str</a> (<a class="el" href="http_8h.html#a2fd930fba66817097e73ba9b75800eb2">http_method_t</a> method)</td></tr>
 <tr class="memdesc:a4375d4f0e618f839a229a9eefe7402e5"><td class="mdescLeft">&#160;</td><td class="mdescRight">Converts a HTTP method from enum value to character string.  <a href="src_2parsers_2http_8c.html#a4375d4f0e618f839a229a9eefe7402e5">More...</a><br /></td></tr>
 <tr class="separator:a4375d4f0e618f839a229a9eefe7402e5"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -134,8 +135,8 @@ Functions</h2></td></tr>
 
 </div>
 </div>
-<a id="a3277792837615504aec946a207f3e2ea"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a3277792837615504aec946a207f3e2ea">&#9670;&nbsp;</a></span>http_parse_message()</h2>
+<a id="ad1f8d68e4f677b2e2073fa94179870bf"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ad1f8d68e4f677b2e2073fa94179870bf">&#9670;&nbsp;</a></span>http_parse_message()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -144,8 +145,18 @@ Functions</h2></td></tr>
           <td class="memname"><a class="el" href="http_8h.html#aa60e9ae3a4aba97f98db8ee08d49f0d5">http_message_t</a> http_parse_message </td>
           <td>(</td>
           <td class="paramtype">uint8_t *&#160;</td>
-          <td class="paramname"><em>data</em></td><td>)</td>
+          <td class="paramname"><em>data</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
           <td></td>
+          <td class="paramtype">uint16_t&#160;</td>
+          <td class="paramname"><em>src_port</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
         </tr>
       </table>
 </div><div class="memdoc">
@@ -154,6 +165,7 @@ Functions</h2></td></tr>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">data</td><td>pointer to the start of the HTTP message </td></tr>
+    <tr><td class="paramname">src_port</td><td>TCP source port </td></tr>
   </table>
   </dd>
 </dl>

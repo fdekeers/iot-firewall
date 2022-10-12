@@ -99,6 +99,9 @@ Functions</h2></td></tr>
 <tr class="separator:ad9f5cf0d8e9b470adcc5701472178b07"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ab8b6a2141761f749c749e3e62e0dbbd9"><td class="memItemLeft" align="right" valign="top">size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="header_8c.html#ab8b6a2141761f749c749e3e62e0dbbd9">get_headers_length</a> (uint8_t *data)</td></tr>
 <tr class="separator:ab8b6a2141761f749c749e3e62e0dbbd9"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aee2ed8d7e05ac3503e097c5e2b18d2bf"><td class="memItemLeft" align="right" valign="top">uint16_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="header_8c.html#aee2ed8d7e05ac3503e097c5e2b18d2bf">get_src_port</a> (uint8_t *data)</td></tr>
+<tr class="memdesc:aee2ed8d7e05ac3503e097c5e2b18d2bf"><td class="mdescLeft">&#160;</td><td class="mdescRight">Retrieve the source port from a layer 4 header.  <a href="header_8c.html#aee2ed8d7e05ac3503e097c5e2b18d2bf">More...</a><br /></td></tr>
+<tr class="separator:aee2ed8d7e05ac3503e097c5e2b18d2bf"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Parser for layer 3 and 4 headers (currently only IP, UDP and TCP) </p>
@@ -166,6 +169,33 @@ Functions</h2></td></tr>
   </dd>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>the size, in bytes, of the IP header </dd></dl>
+
+</div>
+</div>
+<a id="aee2ed8d7e05ac3503e097c5e2b18d2bf"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aee2ed8d7e05ac3503e097c5e2b18d2bf">&#9670;&nbsp;</a></span>get_src_port()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">uint16_t get_src_port </td>
+          <td>(</td>
+          <td class="paramtype">uint8_t *&#160;</td>
+          <td class="paramname"><em>data</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Retrieve the source port from a layer 4 header. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">data</td><td>pointer to the start of the layer 4 header </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>source port </dd></dl>
 
 </div>
 </div>

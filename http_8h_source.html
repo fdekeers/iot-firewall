@@ -77,48 +77,50 @@ $(function() {
 <div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;<span class="preprocessor">#include &lt;stdlib.h&gt;</span></div>
 <div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;<span class="preprocessor">#include &lt;stdio.h&gt;</span></div>
 <div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;<span class="preprocessor">#include &lt;stdint.h&gt;</span></div>
-<div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160; </div>
-<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;<span class="preprocessor">#define HTTP_METHOD_MAX_LEN 7      // Maximum length of a HTTP method</span></div>
-<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;<span class="preprocessor">#define HTTP_URI_DEFAULT_LEN 100   // Default length of a HTTP URI</span></div>
-<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160; </div>
+<div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;<span class="preprocessor">#include &lt;stdbool.h&gt;</span></div>
+<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160; </div>
+<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;<span class="preprocessor">#define HTTP_METHOD_MAX_LEN 7      // Maximum length of a HTTP method</span></div>
+<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;<span class="preprocessor">#define HTTP_URI_DEFAULT_LEN 100   // Default length of a HTTP URI</span></div>
 <div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160; </div>
-<div class="line"><a name="l00025"></a><span class="lineno"><a class="line" href="http_8h.html#a2fd930fba66817097e73ba9b75800eb2">   25</a></span>&#160;<span class="keyword">typedef</span> <span class="keyword">enum</span> {</div>
-<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;    GET,</div>
-<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;    HEAD,</div>
-<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;    POST,</div>
-<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;    PUT,</div>
-<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;    DELETE,</div>
-<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;    CONNECT,</div>
-<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;    OPTIONS,</div>
-<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;    TRACE,</div>
-<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;    UNKNOWN</div>
-<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;} <a class="code" href="http_8h.html#a2fd930fba66817097e73ba9b75800eb2">http_method_t</a>;</div>
-<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160; </div>
-<div class="line"><a name="l00040"></a><span class="lineno"><a class="line" href="structhttp__message.html">   40</a></span>&#160;<span class="keyword">typedef</span> <span class="keyword">struct </span><a class="code" href="structhttp__message.html">http_message</a> {</div>
-<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;    <a class="code" href="http_8h.html#a2fd930fba66817097e73ba9b75800eb2">http_method_t</a> method;</div>
-<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;    <span class="keywordtype">char</span> *uri;</div>
-<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;} <a class="code" href="http_8h.html#aa60e9ae3a4aba97f98db8ee08d49f0d5">http_message_t</a>;</div>
-<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160; </div>
-<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160; </div>
+<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160; </div>
+<div class="line"><a name="l00026"></a><span class="lineno"><a class="line" href="http_8h.html#a2fd930fba66817097e73ba9b75800eb2">   26</a></span>&#160;<span class="keyword">typedef</span> <span class="keyword">enum</span> {</div>
+<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;    GET,</div>
+<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;    HEAD,</div>
+<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;    POST,</div>
+<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;    PUT,</div>
+<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;    DELETE,</div>
+<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;    CONNECT,</div>
+<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;    OPTIONS,</div>
+<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;    TRACE,</div>
+<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;    UNKNOWN</div>
+<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;} <a class="code" href="http_8h.html#a2fd930fba66817097e73ba9b75800eb2">http_method_t</a>;</div>
+<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160; </div>
+<div class="line"><a name="l00041"></a><span class="lineno"><a class="line" href="structhttp__message.html">   41</a></span>&#160;<span class="keyword">typedef</span> <span class="keyword">struct </span><a class="code" href="structhttp__message.html">http_message</a> {</div>
+<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;    <span class="keywordtype">bool</span> is_request;       <span class="comment">// True if the message is a request, false if it is a response</span></div>
+<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;    <a class="code" href="http_8h.html#a2fd930fba66817097e73ba9b75800eb2">http_method_t</a> method;  <span class="comment">// HTTP method (GET, POST, etc.)</span></div>
+<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;    <span class="keywordtype">char</span> *uri;             <span class="comment">// Message URI</span></div>
+<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;} <a class="code" href="http_8h.html#aa60e9ae3a4aba97f98db8ee08d49f0d5">http_message_t</a>;</div>
+<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160; </div>
 <div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160; </div>
 <div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160; </div>
-<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;<a class="code" href="structhttp__message.html">http_message_t</a> <a class="code" href="http_8h.html#a3277792837615504aec946a207f3e2ea">http_parse_message</a>(uint8_t *data);</div>
-<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160; </div>
-<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160; </div>
+<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160; </div>
+<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;<a class="code" href="structhttp__message.html">http_message_t</a> <a class="code" href="http_8h.html#ad1f8d68e4f677b2e2073fa94179870bf">http_parse_message</a>(uint8_t *data, uint16_t src_port);</div>
 <div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160; </div>
-<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;<span class="keywordtype">char</span>* <a class="code" href="http_8h.html#a4375d4f0e618f839a229a9eefe7402e5">http_method_to_str</a>(<a class="code" href="http_8h.html#a2fd930fba66817097e73ba9b75800eb2">http_method_t</a> method);</div>
-<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160; </div>
-<div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;<span class="keywordtype">void</span> <a class="code" href="http_8h.html#ababffd4e5795f2e8961c4079547b540a">http_print_message</a>(<a class="code" href="structhttp__message.html">http_message_t</a> message);</div>
-<div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160; </div>
-<div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160; </div>
-<div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160;<span class="preprocessor">#endif </span><span class="comment">/* _IOTFIREWALL_HTTP_ */</span><span class="preprocessor"></span></div>
+<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160; </div>
+<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160; </div>
+<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;<span class="keywordtype">char</span>* <a class="code" href="http_8h.html#a4375d4f0e618f839a229a9eefe7402e5">http_method_to_str</a>(<a class="code" href="http_8h.html#a2fd930fba66817097e73ba9b75800eb2">http_method_t</a> method);</div>
+<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160; </div>
+<div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160;<span class="keywordtype">void</span> <a class="code" href="http_8h.html#ababffd4e5795f2e8961c4079547b540a">http_print_message</a>(<a class="code" href="structhttp__message.html">http_message_t</a> message);</div>
+<div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160; </div>
+<div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160; </div>
+<div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160;<span class="preprocessor">#endif </span><span class="comment">/* _IOTFIREWALL_HTTP_ */</span><span class="preprocessor"></span></div>
 </div><!-- fragment --></div><!-- contents -->
-<div class="ttc" id="astructhttp__message_html"><div class="ttname"><a href="structhttp__message.html">http_message</a></div><div class="ttdef"><b>Definition:</b> http.h:40</div></div>
-<div class="ttc" id="ahttp_8h_html_ababffd4e5795f2e8961c4079547b540a"><div class="ttname"><a href="http_8h.html#ababffd4e5795f2e8961c4079547b540a">http_print_message</a></div><div class="ttdeci">void http_print_message(http_message_t message)</div><div class="ttdoc">Print the method and URI of a HTTP message.</div><div class="ttdef"><b>Definition:</b> http.c:176</div></div>
+<div class="ttc" id="astructhttp__message_html"><div class="ttname"><a href="structhttp__message.html">http_message</a></div><div class="ttdef"><b>Definition:</b> http.h:41</div></div>
+<div class="ttc" id="ahttp_8h_html_ad1f8d68e4f677b2e2073fa94179870bf"><div class="ttname"><a href="http_8h.html#ad1f8d68e4f677b2e2073fa94179870bf">http_parse_message</a></div><div class="ttdeci">http_message_t http_parse_message(uint8_t *data, uint16_t src_port)</div><div class="ttdoc">Parse the method and URI of HTTP message.</div><div class="ttdef"><b>Definition:</b> http.c:123</div></div>
+<div class="ttc" id="ahttp_8h_html_ababffd4e5795f2e8961c4079547b540a"><div class="ttname"><a href="http_8h.html#ababffd4e5795f2e8961c4079547b540a">http_print_message</a></div><div class="ttdeci">void http_print_message(http_message_t message)</div><div class="ttdoc">Print the method and URI of a HTTP message.</div><div class="ttdef"><b>Definition:</b> http.c:177</div></div>
 <div class="ttc" id="ahttp_8h_html_aa60e9ae3a4aba97f98db8ee08d49f0d5"><div class="ttname"><a href="http_8h.html#aa60e9ae3a4aba97f98db8ee08d49f0d5">http_message_t</a></div><div class="ttdeci">struct http_message http_message_t</div></div>
-<div class="ttc" id="ahttp_8h_html_a4375d4f0e618f839a229a9eefe7402e5"><div class="ttname"><a href="http_8h.html#a4375d4f0e618f839a229a9eefe7402e5">http_method_to_str</a></div><div class="ttdeci">char * http_method_to_str(http_method_t method)</div><div class="ttdoc">Converts a HTTP method from enum value to character string.</div><div class="ttdef"><b>Definition:</b> http.c:140</div></div>
-<div class="ttc" id="ahttp_8h_html_a3277792837615504aec946a207f3e2ea"><div class="ttname"><a href="http_8h.html#a3277792837615504aec946a207f3e2ea">http_parse_message</a></div><div class="ttdeci">http_message_t http_parse_message(uint8_t *data)</div><div class="ttdoc">Parse the method and URI of HTTP message.</div><div class="ttdef"><b>Definition:</b> http.c:123</div></div>
-<div class="ttc" id="ahttp_8h_html_a2fd930fba66817097e73ba9b75800eb2"><div class="ttname"><a href="http_8h.html#a2fd930fba66817097e73ba9b75800eb2">http_method_t</a></div><div class="ttdeci">http_method_t</div><div class="ttdef"><b>Definition:</b> http.h:25</div></div>
+<div class="ttc" id="ahttp_8h_html_a4375d4f0e618f839a229a9eefe7402e5"><div class="ttname"><a href="http_8h.html#a4375d4f0e618f839a229a9eefe7402e5">http_method_to_str</a></div><div class="ttdeci">char * http_method_to_str(http_method_t method)</div><div class="ttdoc">Converts a HTTP method from enum value to character string.</div><div class="ttdef"><b>Definition:</b> http.c:141</div></div>
+<div class="ttc" id="ahttp_8h_html_a2fd930fba66817097e73ba9b75800eb2"><div class="ttname"><a href="http_8h.html#a2fd930fba66817097e73ba9b75800eb2">http_method_t</a></div><div class="ttdeci">http_method_t</div><div class="ttdef"><b>Definition:</b> http.h:26</div></div>
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
 Generated by &#160;<a href="http://www.doxygen.org/index.html">

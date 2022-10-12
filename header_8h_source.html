@@ -96,9 +96,12 @@ $(function() {
 <div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160; </div>
 <div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;<span class="keywordtype">size_t</span> <a class="code" href="header_8h.html#ab8b6a2141761f749c749e3e62e0dbbd9">get_headers_length</a>(uint8_t* data);</div>
 <div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160; </div>
-<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160; </div>
-<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;<span class="preprocessor">#endif </span><span class="comment">/* _IOTFIREWALL_HEADER_ */</span><span class="preprocessor"></span></div>
+<div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160;uint16_t <a class="code" href="header_8h.html#aee2ed8d7e05ac3503e097c5e2b18d2bf">get_src_port</a>(uint8_t* data);</div>
+<div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160; </div>
+<div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160; </div>
+<div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160;<span class="preprocessor">#endif </span><span class="comment">/* _IOTFIREWALL_HEADER_ */</span><span class="preprocessor"></span></div>
 </div><!-- fragment --></div><!-- contents -->
+<div class="ttc" id="aheader_8h_html_aee2ed8d7e05ac3503e097c5e2b18d2bf"><div class="ttname"><a href="header_8h.html#aee2ed8d7e05ac3503e097c5e2b18d2bf">get_src_port</a></div><div class="ttdeci">uint16_t get_src_port(uint8_t *data)</div><div class="ttdoc">Retrieve the source port from a layer 4 header.</div><div class="ttdef"><b>Definition:</b> header.c:93</div></div>
 <div class="ttc" id="aheader_8h_html_a92340a38e51458b30d481b7867cb4273"><div class="ttname"><a href="header_8h.html#a92340a38e51458b30d481b7867cb4273">get_udp_header_length</a></div><div class="ttdeci">size_t get_udp_header_length(uint8_t *data)</div><div class="ttdef"><b>Definition:</b> header.c:43</div></div>
 <div class="ttc" id="aheader_8h_html_a4cadafd910a357a4e71c12d51a6ef606"><div class="ttname"><a href="header_8h.html#a4cadafd910a357a4e71c12d51a6ef606">ip_protocol_t</a></div><div class="ttdeci">ip_protocol_t</div><div class="ttdef"><b>Definition:</b> header.h:33</div></div>
 <div class="ttc" id="aheader_8h_html_aec0858aa33957b4af310b5fd4926b1d6"><div class="ttname"><a href="header_8h.html#aec0858aa33957b4af310b5fd4926b1d6">get_ip_header_length</a></div><div class="ttdeci">size_t get_ip_header_length(uint8_t *data)</div><div class="ttdef"><b>Definition:</b> header.c:29</div></div>
