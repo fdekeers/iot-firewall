@@ -31,8 +31,10 @@ void test_http() {
     size_t length = hexstr_to_payload(hexstring, &payload);
     CU_ASSERT_EQUAL(length, strlen(hexstring) / 2);  // Verify message length
 
-    size_t skipped = get_headers_length(payload);
-    http_message_t actual = http_parse_message(payload + skipped);
+    size_t skipped = get_ip_header_length(payload);
+    uint16_t src_port = get_src_port(payload + skipped);
+    skipped += get_tcp_header_length(payload + skipped);
+    http_message_t actual = http_parse_message(payload + skipped, src_port);
     http_print_message(actual);
 
     // Test method and header of the HTTP message

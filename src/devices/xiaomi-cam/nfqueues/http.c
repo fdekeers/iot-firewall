@@ -43,9 +43,10 @@ uint32_t callback(int pkt_id, uint8_t *payload, void *arg) {
     printf("Received packet\n");
     // Skip layer 3 and 4 headers
     size_t skipped = get_ip_header_length(payload);
+    uint16_t src_port = get_src_port(payload + skipped);
     skipped += get_tcp_header_length(payload + skipped);
     // Parse DNS message
-    http_message_t message = http_parse_message(payload + skipped);
+    http_message_t message = http_parse_message(payload + skipped, src_port);
     http_print_message(message);
 
     // Match packet application layer
