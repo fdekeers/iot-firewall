@@ -95,8 +95,8 @@ Collaboration diagram for dns.dns:</div>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:a91df52469f3f6d1d8726651590c8933b"><td class="memItemLeft" align="right" valign="top">None&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classdns_1_1dns.html#a91df52469f3f6d1d8726651590c8933b">parse</a> (self, dict data, dict states, dict accumulators)</td></tr>
-<tr class="separator:a91df52469f3f6d1d8726651590c8933b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a73d71a49f735ee871e0b1f7007849842"><td class="memItemLeft" align="right" valign="top">None&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classdns_1_1dns.html#a73d71a49f735ee871e0b1f7007849842">handle_fields</a> (self, dict data, dict callback_dict)</td></tr>
+<tr class="separator:a73d71a49f735ee871e0b1f7007849842"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-static-attribs"></a>
 Static Public Attributes</h2></td></tr>
@@ -107,14 +107,14 @@ string&#160;</td><td class="memItemRight" valign="bottom"><b>protocol_name</b> =
 <tr class="separator:ad4a6442780081984d5787e01ac21ee57"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <h2 class="groupheader">Member Function Documentation</h2>
-<a id="a91df52469f3f6d1d8726651590c8933b"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a91df52469f3f6d1d8726651590c8933b">&#9670;&nbsp;</a></span>parse()</h2>
+<a id="a73d71a49f735ee871e0b1f7007849842"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a73d71a49f735ee871e0b1f7007849842">&#9670;&nbsp;</a></span>handle_fields()</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname"> None dns.dns.parse </td>
+          <td class="memname"> None dns.dns.handle_fields </td>
           <td>(</td>
           <td class="paramtype">&#160;</td>
           <td class="paramname"><em>self</em>, </td>
@@ -129,13 +129,7 @@ string&#160;</td><td class="memItemRight" valign="bottom"><b>protocol_name</b> =
           <td class="paramkey"></td>
           <td></td>
           <td class="paramtype">dict&#160;</td>
-          <td class="paramname"><em>states</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">dict&#160;</td>
-          <td class="paramname"><em>accumulators</em>&#160;</td>
+          <td class="paramname"><em>callback_dict</em>&#160;</td>
         </tr>
         <tr>
           <td></td>
@@ -144,12 +138,11 @@ string&#160;</td><td class="memItemRight" valign="bottom"><b>protocol_name</b> =
         </tr>
       </table>
 </div><div class="memdoc">
-<pre class="fragment">Parse the DNS protocol.
+<pre class="fragment">Handle the different protocol fields.
 
 Args:
     data (dict): Data from the YAML profile.
-    states (dict): Current and next states.
-    accumulators (dict): Dictionary containing the accumulators for the forward and backward nftables rules and the callback functions.
+    callback_dict (dict): Dictionary containing the Jinja2 template variables for the callback function.
 </pre> 
 </div>
 </div>

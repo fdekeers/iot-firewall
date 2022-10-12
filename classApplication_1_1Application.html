@@ -67,6 +67,7 @@ $(function() {
 </div><!-- top -->
 <div class="header">
   <div class="summary">
+<a href="#pub-methods">Public Member Functions</a> &#124;
 <a href="#pub-static-attribs">Static Public Attributes</a> &#124;
 <a href="classApplication_1_1Application-members.html">List of all members</a>  </div>
   <div class="headertitle">
@@ -92,6 +93,13 @@ Collaboration diagram for Application.Application:</div>
 </map>
 <center><span class="legend">[<a href="graph_legend.html">legend</a>]</span></center></div>
 <table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
+Public Member Functions</h2></td></tr>
+<tr class="memitem:a84be4d13cb9427d074bdd4a673c940e3"><td class="memItemLeft" align="right" valign="top">None&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classApplication_1_1Application.html#a84be4d13cb9427d074bdd4a673c940e3">handle_fields</a> (self, dict data, dict callback_dict)</td></tr>
+<tr class="separator:a84be4d13cb9427d074bdd4a673c940e3"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1837bfd2c415fbcd55636b09c0ef4ada"><td class="memItemLeft" align="right" valign="top">None&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classApplication_1_1Application.html#a1837bfd2c415fbcd55636b09c0ef4ada">parse</a> (self, dict data, dict states, dict accumulators)</td></tr>
+<tr class="separator:a1837bfd2c415fbcd55636b09c0ef4ada"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-static-attribs"></a>
 Static Public Attributes</h2></td></tr>
 <tr class="memitem:ac0e3bd621a0db6f979c35deeb97a735d"><td class="memItemLeft" align="right" valign="top"><a id="ac0e3bd621a0db6f979c35deeb97a735d"></a>
@@ -101,6 +109,93 @@ int&#160;</td><td class="memItemRight" valign="bottom"><b>layer</b> = 7</td></tr
 bool&#160;</td><td class="memItemRight" valign="bottom"><b>custom_parser</b> = True</td></tr>
 <tr class="separator:ae573cb8d1998ff96f82da7089d11b481"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
+<h2 class="groupheader">Member Function Documentation</h2>
+<a id="a84be4d13cb9427d074bdd4a673c940e3"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a84be4d13cb9427d074bdd4a673c940e3">&#9670;&nbsp;</a></span>handle_fields()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"> None Application.Application.handle_fields </td>
+          <td>(</td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname"><em>self</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">dict&#160;</td>
+          <td class="paramname"><em>data</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">dict&#160;</td>
+          <td class="paramname"><em>callback_dict</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<pre class="fragment">Handle the different protocol fields.
+Must be overridden by the child class.
+
+Args:
+    data (dict): Data from the YAML profile.
+    callback_dict (dict): Dictionary containing the Jinja2 template variables for the callback function.
+</pre> 
+</div>
+</div>
+<a id="a1837bfd2c415fbcd55636b09c0ef4ada"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a1837bfd2c415fbcd55636b09c0ef4ada">&#9670;&nbsp;</a></span>parse()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"> None Application.Application.parse </td>
+          <td>(</td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname"><em>self</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">dict&#160;</td>
+          <td class="paramname"><em>data</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">dict&#160;</td>
+          <td class="paramname"><em>states</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">dict&#160;</td>
+          <td class="paramname"><em>accumulators</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<pre class="fragment">Parse the DNS protocol.
+
+Args:
+    data (dict): Data from the YAML profile.
+    states (dict): Current and next states.
+    accumulators (dict): Dictionary containing the accumulators for the forward and backward nftables rules and the callback functions.
+</pre> 
+</div>
+</div>
 <hr/>The documentation for this class was generated from the following file:<ul>
 <li>src/translator/protocols/Application.py</li>
 </ul>

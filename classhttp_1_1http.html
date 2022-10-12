@@ -95,8 +95,8 @@ Collaboration diagram for http.http:</div>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:afa659aa37d567af9a125d67cb6dc28ad"><td class="memItemLeft" align="right" valign="top">None&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classhttp_1_1http.html#afa659aa37d567af9a125d67cb6dc28ad">parse</a> (self, dict data, dict states, dict accumulators)</td></tr>
-<tr class="separator:afa659aa37d567af9a125d67cb6dc28ad"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0bc1c66deac09b232fba3e85156a0d43"><td class="memItemLeft" align="right" valign="top">None&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classhttp_1_1http.html#a0bc1c66deac09b232fba3e85156a0d43">handle_fields</a> (self, dict data, dict callback_dict)</td></tr>
+<tr class="separator:a0bc1c66deac09b232fba3e85156a0d43"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-static-attribs"></a>
 Static Public Attributes</h2></td></tr>
@@ -107,14 +107,14 @@ string&#160;</td><td class="memItemRight" valign="bottom"><b>protocol_name</b> =
 <tr class="separator:a451a3f849a40e29e4b940a002b2864fd"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <h2 class="groupheader">Member Function Documentation</h2>
-<a id="afa659aa37d567af9a125d67cb6dc28ad"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#afa659aa37d567af9a125d67cb6dc28ad">&#9670;&nbsp;</a></span>parse()</h2>
+<a id="a0bc1c66deac09b232fba3e85156a0d43"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a0bc1c66deac09b232fba3e85156a0d43">&#9670;&nbsp;</a></span>handle_fields()</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname"> None http.http.parse </td>
+          <td class="memname"> None http.http.handle_fields </td>
           <td>(</td>
           <td class="paramtype">&#160;</td>
           <td class="paramname"><em>self</em>, </td>
@@ -129,13 +129,7 @@ string&#160;</td><td class="memItemRight" valign="bottom"><b>protocol_name</b> =
           <td class="paramkey"></td>
           <td></td>
           <td class="paramtype">dict&#160;</td>
-          <td class="paramname"><em>states</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">dict&#160;</td>
-          <td class="paramname"><em>accumulators</em>&#160;</td>
+          <td class="paramname"><em>callback_dict</em>&#160;</td>
         </tr>
         <tr>
           <td></td>
@@ -144,12 +138,11 @@ string&#160;</td><td class="memItemRight" valign="bottom"><b>protocol_name</b> =
         </tr>
       </table>
 </div><div class="memdoc">
-<pre class="fragment">Parse the HTTP protocol.
+<pre class="fragment">Handle the different protocol fields.
 
 Args:
     data (dict): Data from the YAML profile.
-    states (dict): Current and next states.
-    accumulators (dict): Dictionary containing the accumulators for the forward and backward nftables rules and the callback functions.
+    callback_dict (dict): Dictionary containing the Jinja2 template variables for the callback function.
 </pre> 
 </div>
 </div>
