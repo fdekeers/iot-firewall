@@ -355,34 +355,32 @@ interaction-policies:
   ##### OPEN XIAOMI APP #####
   open-app-external:
 
-    parent-pattern:
-      udp-xiaomi-cloud-burst-open:
-        protocols:
-          udp:
-            src-port: 12375
-            dst-port: 19600
-          ipv4:
-            src: self
-            dst: 130.104.94.185
-        direction: both
-        stats:
-          duration: 1 s
-          number-of-packets: 40
-          packet-size: 46 - 300
-    
-    child-pattern:
-      udp-xiaomi-cloud-background:
-        protocols:
-          udp:
-            src-port: 12375
-            dst-port: 19600
-          ipv4:
-            src: self
-            dst: 130.104.94.185
-        direction: both
-        stats:
-          rate: 5/s
-          packet-size: 46
+    udp-xiaomi-cloud-burst-open:
+      protocols:
+        udp:
+          src-port: 12375
+          dst-port: 19600
+        ipv4:
+          src: self
+          dst: 130.104.94.185
+      direction: both
+      stats:
+        duration: 1 s
+        number-of-packets: 40
+        packet-size: 46 - 300
+  
+    udp-xiaomi-cloud-background:
+      protocols:
+        udp:
+          src-port: 12375
+          dst-port: 19600
+        ipv4:
+          src: self
+          dst: 130.104.94.185
+      direction: both
+      stats:
+        rate: 5/s
+        packet-size: 46
 
 
   ##### STREAM CAMERA #####

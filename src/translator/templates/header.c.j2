@@ -22,11 +22,11 @@
 #define NUM_STATES  {{num_states}}
 #define NFQ_ID_BASE {{nfq_id_base}}
 
-// TODO: Loop for multiple states
 typedef enum {
-    STATE_A,
-    STATE_B
+{% for state in states %}
+    {{state}},
+{% endfor %}
 } state_t;
 
-state_t state = STATE_A;
+state_t state = {{states[0]}};
 

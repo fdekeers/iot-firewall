@@ -16,7 +16,7 @@ if __name__ == "__main__":
 
     # Jinja loader
     loader = jinja2.FileSystemLoader(searchpath="templates")
-    env = jinja2.Environment(loader=loader)
+    env = jinja2.Environment(loader=loader, trim_blocks=True)
 
     # Load the device profile
     with open(args.profile, "r") as f:
@@ -67,25 +67,27 @@ if __name__ == "__main__":
             header_dict["max_threads"] = 1
             header_dict["num_states"] = 2
             header_dict["nfq_id_base"] = nfq_id_base
+            header_dict["states"] = ["STATE_0", "STATE_1"]
 
             # Initialize accumulators for nftables rule and callback functions
-            nft_rule = f"nft add rule {nft_table_chain} "
-            nft_rule_backwards = f"nft add rule {nft_table_chain} " if direction == "both" else ""
-            callback_funcs = ""
+            states = {"old": "STATE_0", "new": "STATE_1"}
+            accumulators = {"nft_rule": f"nft add rule {nft_table_chain} ", "callback_funcs": ""}
+            if direction == "both":
+                accumulators["nft_rule_backwards"] = f"nft add rule {nft_table_chain} "
 
             for protocol_name in value["protocols"]:
                 # Protocol decoding
                 protocol = Protocol.init_protocol(protocol_name, device, policy, env)
                 if protocol.custom_parser:
                     header_dict["parsers"] = header_dict.get("parsers", "") + f"#include \"parsers/{protocol_name}.h\"\n"
-                nft_rule, callback_funcs, nft_rule_backwards = protocol.parse(value["protocols"][protocol_name], nft_rule, callback_funcs, nft_rule_backwards)
+                protocol.parse(value["protocols"][protocol_name], states, accumulators)
 
             # End and apply nftables rule
-            nft_rule += f"queue num {nfq_id_base}"
-            subprocess.run(nft_rule, shell=True)
+            accumulators["nft_rule"] += f"queue num {nfq_id_base}"
+            subprocess.run(accumulators["nft_rule"], shell=True)
             if direction == "both":
-                nft_rule_backwards += f"queue num {nfq_id_base}"
-                subprocess.run(nft_rule_backwards, shell=True)
+                accumulators["nft_rule_backwards"] += f"queue num {nfq_id_base}"
+                subprocess.run(accumulators["nft_rule_backwards"], shell=True)
             nfq_id_base += 10
 
             # Render header
@@ -98,7 +100,7 @@ if __name__ == "__main__":
             # Write full file
             with open(f"{device['name']}/{policy}.c", "w+") as fw:
                 fw.write(header)
-                fw.write(callback_funcs)
+                fw.write(accumulators["callback_funcs"])
                 fw.write(main)
 
     print("Done.")

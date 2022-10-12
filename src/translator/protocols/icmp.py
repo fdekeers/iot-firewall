@@ -30,24 +30,18 @@ class icmp(Protocol):
         elif echo_type == "echo-reply":
             return "echo-request"
 
-    def parse(self, data: dict, nft_rule: str, callback_funcs: str, nft_rule_backwards = "") -> Tuple[str, str, str]:
+    def parse(self, data: dict, states: dict, accumulators: dict) -> None:
         """
         Parse the ICMP protocol.
 
         Args:
             data (dict): Data from the YAML profile.
-            nft_rule (str): Current nftables rule (unused by HTTP).
-            callback_funcs (str): Current callback functions to be written in the C file.
-            nft_rule_backwards (str): Current nftables rule for the backwards direction.
-
-        Returns:
-            Tuple[str, str, str]: updated values of the arguments nft_rule, callback_funcs, nft_rule_backwards
+            states (dict): Current and next states.
+            accumulators (dict): Dictionary containing the accumulators for the forward and backward nftables rules and the callback functions.
         """
         # Handle ICMP message type
         if 'type' in data:
             icmp_type = data['type']
-            nft_rule += f"icmp type {icmp_type} "
-            if nft_rule_backwards and "echo" in icmp_type:
-                nft_rule_backwards += f"icmp type {self.flip_echo_type(icmp_type)} "
-
-        return nft_rule, callback_funcs, nft_rule_backwards
+            accumulators["nft_rule"] = accumulators.get("nft_rule", f"nft add rule {self.nft_table_chain} ") + f"icmp type {icmp_type} "
+            if "nft_rule_backwards" in accumulators and "echo" in icmp_type:
+                accumulators["nft_rule_backwards"] = accumulators.get("nft_rule_backwards", f"nft add rule {self.nft_table_chain} ") + f"icmp type {self.flip_echo_type(icmp_type)} "

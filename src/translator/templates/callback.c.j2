@@ -20,14 +20,14 @@ uint32_t callback_{{scenario}}(int pkt_id, uint8_t *payload, void *arg) {
 
     // Match application layer
     if (
-        {{match_a}}
+        state == {{old_state}}{{match_a}}
     ) {
-        state = STATE_B;
+        state = {{new_state}};
         return NF_ACCEPT;
     } else if (
-        {{match_b}}
+        state == {{new_state}}{{match_b}}
     ) {
-        state = STATE_A;
+        state = {{old_state}};
         return NF_ACCEPT;
     }
 

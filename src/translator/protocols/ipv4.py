@@ -1,3 +1,4 @@
+from typing import Tuple
 from protocols.Protocol import Protocol
 
 class ipv4(Protocol):
@@ -13,32 +14,26 @@ class ipv4(Protocol):
         "dst"
     ]
 
-    def parse(self, data: dict, nft_rule: str, callback_funcs: str, nft_rule_backwards = "") -> str:
+    def parse(self, data: dict, states: dict, accumulators: dict) -> None:
         """
         Parse the IPv4 protocol.
 
         Args:
             data (dict): Data from the YAML profile.
-            nft_rule (str): Current nftables rule (unused by HTTP).
-            callback_funcs (str): Current callback functions to be written in the C file.
-            nft_rule_backwards (str): Current nftables rule for the backwards direction.
-
-        Returns:
-            Tuple[str, str, str]: updated values of the arguments nft_rule, callback_funcs, nft_rule_backwards
+            states (dict): Current and next states.
+            accumulators (dict): Dictionary containing the accumulators for the forward and backward nftables rules and the callback functions.
         """
         # Handle IPv4 source address
         if 'src' in data:
             ip = data['src'] if data['src'] != "self" else self.device['ip']
-            nft_rule += f"ip saddr {ip} "
+            accumulators["nft_rule"] = accumulators.get("nft_rule", f"nft add rule {self.nft_table_chain} ") + f"ip saddr {ip} "
             # Handle backwards direction
-            if nft_rule_backwards:
-                nft_rule_backwards += f"ip daddr {ip} "
+            if "nft_rule_backwards" in accumulators:
+                accumulators["nft_rule_backwards"] = accumulators.get("nft_rule_backwards", f"nft add rule {self.nft_table_chain} ") + f"ip daddr {ip} "
         # Handle IPv4 destination address
         if 'dst' in data:
             ip = data['dst'] if data['dst'] != "self" else self.device['ip']
-            nft_rule += f"ip daddr {ip} "
+            accumulators["nft_rule"] = accumulators.get("nft_rule", f"nft add rule {self.nft_table_chain} ") + f"ip daddr {ip} "
             # Handle backwards direction
-            if nft_rule_backwards:
-                nft_rule_backwards += f"ip saddr {ip} "
-
-        return nft_rule, callback_funcs, nft_rule_backwards
+            if "nft_rule_backwards" in accumulators:
+                accumulators["nft_rule_backwards"] = accumulators.get("nft_rule_backwards", f"nft add rule {self.nft_table_chain} ") + f"ip saddr {ip} "
