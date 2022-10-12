@@ -26,7 +26,6 @@
  * @return parsed HTTP method
  */
 static http_method_t http_parse_method(uint8_t *data, uint16_t *offset) {
-    printf("Char: %c\n", *(data + *offset));
     switch (*(data + *offset)) {
         case 'G':
             // Method is GET
@@ -118,10 +117,12 @@ static char* http_parse_uri(uint8_t *data, uint16_t *offset) {
  * @brief Parse the method and URI of HTTP message.
  * 
  * @param data pointer to the start of the HTTP message
+ * @param src_port TCP source port
  * @return the parsed HTTP message
  */
-http_message_t http_parse_message(uint8_t *data) {
+http_message_t http_parse_message(uint8_t *data, uint16_t src_port) {
     http_message_t message;
+    message.is_request = src_port != 80;
     uint16_t offset = 0;
     message.method = http_parse_method(data, &offset);
     message.uri = http_parse_uri(data, &offset);

@@ -14,6 +14,7 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <stdint.h>
+#include <stdbool.h>
 
 #define HTTP_METHOD_MAX_LEN 7      // Maximum length of a HTTP method
 #define HTTP_URI_DEFAULT_LEN 100   // Default length of a HTTP URI
@@ -38,8 +39,9 @@ typedef enum {
  * Useful fields of a HTTP message
  */
 typedef struct http_message {
-    http_method_t method;
-    char *uri;
+    bool is_request;       // True if the message is a request, false if it is a response
+    http_method_t method;  // HTTP method (GET, POST, etc.)
+    char *uri;             // Message URI
 } http_message_t;
 
 
@@ -51,9 +53,10 @@ typedef struct http_message {
  * @brief Parse the method and URI of HTTP message.
  * 
  * @param data pointer to the start of the HTTP message
+ * @param src_port TCP source port
  * @return the parsed HTTP message
  */
-http_message_t http_parse_message(uint8_t *data);
+http_message_t http_parse_message(uint8_t *data, uint16_t src_port);
 
 
 ///// PRINTING /////

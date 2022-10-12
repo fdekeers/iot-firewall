@@ -1,5 +1,3 @@
-from typing import Tuple
-from webbrowser import get
 from protocols.Protocol import Protocol
 
 class arp(Protocol):

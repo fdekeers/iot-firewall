@@ -12,10 +12,17 @@ uint32_t callback_{{scenario}}(int pkt_id, uint8_t *payload, void *arg) {
     printf("Received packet\n");
     // Skip layer 3 and 4 headers
     size_t skipped = get_ip_header_length(payload);
+    {% if protocol == 'http' %}
+    uint16_t src_port = get_src_port(payload + skipped);
+    {% endif %}
     skipped += get_tcp_header_length(payload + skipped);
 
     // Parse message
-    {{protocol}}_message_t message = {{protocol}}_parse_message(payload + skipped);
+    {{protocol}}_message_t message = {{protocol}}_parse_message(payload + skipped
+    {%- if protocol == 'http' -%}
+    , src_port
+    {%- endif -%}
+    );
     {{protocol}}_print_message(message);
 
     // Match application layer

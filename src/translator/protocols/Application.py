@@ -35,7 +35,7 @@ class Application(Protocol):
         callback_dict["new_state"] = states["new"]
         
         # Handle protocol fields
-        self.handle_fields(data, callback_dict)
+        self.handle_fields(data, callback_dict, "nft_rule_backwards" in accumulators)
 
         # Update callback functions accumulator
         accumulators["callback_funcs"] = accumulators.get("callback_funcs", "") + callback_tpl.render(callback_dict)    

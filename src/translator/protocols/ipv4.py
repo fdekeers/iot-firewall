@@ -1,4 +1,3 @@
-from typing import Tuple
 from protocols.Protocol import Protocol
 
 class ipv4(Protocol):

@@ -69,5 +69,13 @@ size_t get_tcp_header_length(uint8_t* data);
  */
 size_t get_headers_length(uint8_t* data);
 
+/**
+ * @brief Retrieve the source port from a layer 4 header.
+ * 
+ * @param data pointer to the start of the layer 4 header
+ * @return source port
+ */
+uint16_t get_src_port(uint8_t* data);
+
 
 #endif /* _IOTFIREWALL_HEADER_ */

@@ -83,3 +83,14 @@ size_t get_headers_length(uint8_t* data) {
     }
     return length;
 }
+
+/**
+ * @brief Retrieve the source port from a layer 4 header.
+ * 
+ * @param data pointer to the start of the layer 4 header
+ * @return source port
+ */
+uint16_t get_src_port(uint8_t* data) {
+    // Source port is encoded in bytes 0 and 1
+    return ntohs(*((uint16_t*) data));
+}

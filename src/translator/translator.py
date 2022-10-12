@@ -16,7 +16,7 @@ if __name__ == "__main__":
 
     # Jinja loader
     loader = jinja2.FileSystemLoader(searchpath="templates")
-    env = jinja2.Environment(loader=loader, trim_blocks=True)
+    env = jinja2.Environment(loader=loader, trim_blocks=True, lstrip_blocks=True)
 
     # Load the device profile
     with open(args.profile, "r") as f:
