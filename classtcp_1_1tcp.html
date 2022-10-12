@@ -67,7 +67,6 @@ $(function() {
 </div><!-- top -->
 <div class="header">
   <div class="summary">
-<a href="#pub-methods">Public Member Functions</a> &#124;
 <a href="#pub-static-attribs">Static Public Attributes</a> &#124;
 <a href="classtcp_1_1tcp-members.html">List of all members</a>  </div>
   <div class="headertitle">
@@ -79,8 +78,8 @@ Inheritance diagram for tcp.tcp:</div>
 <div class="dyncontent">
 <div class="center"><img src="classtcp_1_1tcp__inherit__graph.png" border="0" usemap="#tcp_8tcp_inherit__map" alt="Inheritance graph"/></div>
 <map name="tcp_8tcp_inherit__map" id="tcp_8tcp_inherit__map">
-<area shape="rect" title=" " alt="" coords="5,80,72,107"/>
-<area shape="rect" title=" " alt="" coords="5,5,72,32"/>
+<area shape="rect" title=" " alt="" coords="13,80,80,107"/>
+<area shape="rect" title=" " alt="" coords="5,5,88,32"/>
 </map>
 <center><span class="legend">[<a href="graph_legend.html">legend</a>]</span></center></div>
 <div class="dynheader">
@@ -88,128 +87,20 @@ Collaboration diagram for tcp.tcp:</div>
 <div class="dyncontent">
 <div class="center"><img src="classtcp_1_1tcp__coll__graph.png" border="0" usemap="#tcp_8tcp_coll__map" alt="Collaboration graph"/></div>
 <map name="tcp_8tcp_coll__map" id="tcp_8tcp_coll__map">
-<area shape="rect" title=" " alt="" coords="5,80,72,107"/>
-<area shape="rect" title=" " alt="" coords="5,5,72,32"/>
+<area shape="rect" title=" " alt="" coords="13,80,80,107"/>
+<area shape="rect" title=" " alt="" coords="5,5,88,32"/>
 </map>
 <center><span class="legend">[<a href="graph_legend.html">legend</a>]</span></center></div>
 <table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
-Public Member Functions</h2></td></tr>
-<tr class="memitem:a1aa6bcd1fee76b78d857839059fa4ed3"><td class="memItemLeft" align="right" valign="top">None&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classtcp_1_1tcp.html#a1aa6bcd1fee76b78d857839059fa4ed3">__init__</a> (self, str device, str policy, jinja2.Environment env)</td></tr>
-<tr class="separator:a1aa6bcd1fee76b78d857839059fa4ed3"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:abdbf505f99145cde8fc3992ea9001c1b"><td class="memItemLeft" align="right" valign="top">str&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classtcp_1_1tcp.html#abdbf505f99145cde8fc3992ea9001c1b">parse</a> (self, dict data, str nft_rule, str callback_funcs, nft_rule_backwards=&quot;&quot;)</td></tr>
-<tr class="separator:abdbf505f99145cde8fc3992ea9001c1b"><td class="memSeparator" colspan="2">&#160;</td></tr>
-</table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-static-attribs"></a>
 Static Public Attributes</h2></td></tr>
 <tr class="memitem:a7d274d509ed79e655cae370a4dbf9d6f"><td class="memItemLeft" align="right" valign="top"><a id="a7d274d509ed79e655cae370a4dbf9d6f"></a>
 string&#160;</td><td class="memItemRight" valign="bottom"><b>protocol_name</b> = &quot;tcp&quot;</td></tr>
 <tr class="separator:a7d274d509ed79e655cae370a4dbf9d6f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:acff067e819be270a74797cfe260289cf"><td class="memItemLeft" align="right" valign="top"><a id="acff067e819be270a74797cfe260289cf"></a>
-&#160;</td><td class="memItemRight" valign="bottom"><b>supported_keys</b> = Layer4.supported_keys + [&quot;initiated-by&quot;]</td></tr>
+&#160;</td><td class="memItemRight" valign="bottom"><b>supported_keys</b> = Transport.supported_keys + [&quot;initiated-by&quot;]</td></tr>
 <tr class="separator:acff067e819be270a74797cfe260289cf"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
-<h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
-<a id="a1aa6bcd1fee76b78d857839059fa4ed3"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a1aa6bcd1fee76b78d857839059fa4ed3">&#9670;&nbsp;</a></span>__init__()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname"> None tcp.tcp.__init__ </td>
-          <td>(</td>
-          <td class="paramtype">&#160;</td>
-          <td class="paramname"><em>self</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">str&#160;</td>
-          <td class="paramname"><em>device</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">str&#160;</td>
-          <td class="paramname"><em>policy</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">jinja2.Environment&#160;</td>
-          <td class="paramname"><em>env</em>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-<pre class="fragment">Constructor for the TCP protocol.
-
-Args:
-    device (dict): Device data from the YAML profile.
-    policy (str): Policy name.
-    env (jinja2.Environment): Jinja2 environment.
-</pre> 
-</div>
-</div>
-<h2 class="groupheader">Member Function Documentation</h2>
-<a id="abdbf505f99145cde8fc3992ea9001c1b"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#abdbf505f99145cde8fc3992ea9001c1b">&#9670;&nbsp;</a></span>parse()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname"> str tcp.tcp.parse </td>
-          <td>(</td>
-          <td class="paramtype">&#160;</td>
-          <td class="paramname"><em>self</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">dict&#160;</td>
-          <td class="paramname"><em>data</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">str&#160;</td>
-          <td class="paramname"><em>nft_rule</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">str&#160;</td>
-          <td class="paramname"><em>callback_funcs</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">&#160;</td>
-          <td class="paramname"><em>nft_rule_backwards</em> = <code>&quot;&quot;</code>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-<pre class="fragment">Parse the TCP protocol.
-
-Args:
-    data (dict): Data from the YAML profile.
-    nft_rule (str): Current nftables rule (unused by HTTP).
-    callback_funcs (str): Current callback functions to be written in the C file.
-    nft_rule_backwards (str): Current nftables rule for the backwards direction.
-</pre> 
-</div>
-</div>
 <hr/>The documentation for this class was generated from the following file:<ul>
 <li>src/translator/protocols/tcp.py</li>
 </ul>

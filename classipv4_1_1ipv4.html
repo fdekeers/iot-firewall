@@ -95,8 +95,6 @@ Collaboration diagram for ipv4.ipv4:</div>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:a2de45ab03d9d5f241331d23b83b63f5c"><td class="memItemLeft" align="right" valign="top">None&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classipv4_1_1ipv4.html#a2de45ab03d9d5f241331d23b83b63f5c">__init__</a> (self, str device, str policy, jinja2.Environment env)</td></tr>
-<tr class="separator:a2de45ab03d9d5f241331d23b83b63f5c"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a9f8e4925fe1e3da15587e7f0f6ce68f4"><td class="memItemLeft" align="right" valign="top">str&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classipv4_1_1ipv4.html#a9f8e4925fe1e3da15587e7f0f6ce68f4">parse</a> (self, dict data, str nft_rule, str callback_funcs, nft_rule_backwards=&quot;&quot;)</td></tr>
 <tr class="separator:a9f8e4925fe1e3da15587e7f0f6ce68f4"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
@@ -114,53 +112,6 @@ bool&#160;</td><td class="memItemRight" valign="bottom"><b>custom_parser</b> = F
 <tr class="memitem:af715203302efd21ac19686c97a0c25a5"><td class="memItemLeft" align="right" valign="top">list&#160;</td><td class="memItemRight" valign="bottom"><b>supported_keys</b></td></tr>
 <tr class="separator:af715203302efd21ac19686c97a0c25a5"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
-<h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
-<a id="a2de45ab03d9d5f241331d23b83b63f5c"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a2de45ab03d9d5f241331d23b83b63f5c">&#9670;&nbsp;</a></span>__init__()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname"> None ipv4.ipv4.__init__ </td>
-          <td>(</td>
-          <td class="paramtype">&#160;</td>
-          <td class="paramname"><em>self</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">str&#160;</td>
-          <td class="paramname"><em>device</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">str&#160;</td>
-          <td class="paramname"><em>policy</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">jinja2.Environment&#160;</td>
-          <td class="paramname"><em>env</em>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-<pre class="fragment">Constructor for the IPv4 protocol.
-
-Args:
-    device (dict): Device data from the YAML profile.
-    policy (str): Policy name.
-    env (jinja2.Environment): Jinja2 environment.
-</pre> 
-</div>
-</div>
 <h2 class="groupheader">Member Function Documentation</h2>
 <a id="a9f8e4925fe1e3da15587e7f0f6ce68f4"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a9f8e4925fe1e3da15587e7f0f6ce68f4">&#9670;&nbsp;</a></span>parse()</h2>
@@ -205,13 +156,16 @@ Args:
         </tr>
       </table>
 </div><div class="memdoc">
-<pre class="fragment">Parse the HTTP protocol.
+<pre class="fragment">Parse the IPv4 protocol.
 
 Args:
     data (dict): Data from the YAML profile.
     nft_rule (str): Current nftables rule (unused by HTTP).
     callback_funcs (str): Current callback functions to be written in the C file.
     nft_rule_backwards (str): Current nftables rule for the backwards direction.
+
+Returns:
+    Tuple[str, str, str]: updated values of the arguments nft_rule, callback_funcs, nft_rule_backwards
 </pre> 
 </div>
 </div>
