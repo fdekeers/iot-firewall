@@ -81,8 +81,8 @@ Public Member Functions</h2></td></tr>
 <tr class="separator:a339f1a95cd6c002569264f951075d3ee"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a2a7fb46b3a537fb62f10248ac7f4c765"><td class="memItemLeft" align="right" valign="top">def&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classProtocol_1_1Protocol.html#a2a7fb46b3a537fb62f10248ac7f4c765">init_protocol</a> (c, str protocol_name, dict device, str policy, jinja2.Environment env)</td></tr>
 <tr class="separator:a2a7fb46b3a537fb62f10248ac7f4c765"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:af657f092c951d9916ae01bb719323e0f"><td class="memItemLeft" align="right" valign="top">str&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classProtocol_1_1Protocol.html#af657f092c951d9916ae01bb719323e0f">parse</a> (self, dict data, str nft_rule, str callback_funcs, nft_rule_backwards=&quot;&quot;)</td></tr>
-<tr class="separator:af657f092c951d9916ae01bb719323e0f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae1cc6fa81481cde0e8d07f6b799aee77"><td class="memItemLeft" align="right" valign="top">None&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classProtocol_1_1Protocol.html#ae1cc6fa81481cde0e8d07f6b799aee77">parse</a> (self, dict data, dict states, dict accumulators)</td></tr>
+<tr class="separator:ae1cc6fa81481cde0e8d07f6b799aee77"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-attribs"></a>
 Public Attributes</h2></td></tr>
@@ -205,14 +205,14 @@ Args:
 </pre> 
 </div>
 </div>
-<a id="af657f092c951d9916ae01bb719323e0f"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#af657f092c951d9916ae01bb719323e0f">&#9670;&nbsp;</a></span>parse()</h2>
+<a id="ae1cc6fa81481cde0e8d07f6b799aee77"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae1cc6fa81481cde0e8d07f6b799aee77">&#9670;&nbsp;</a></span>parse()</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname"> str Protocol.Protocol.parse </td>
+          <td class="memname"> None Protocol.Protocol.parse </td>
           <td>(</td>
           <td class="paramtype">&#160;</td>
           <td class="paramname"><em>self</em>, </td>
@@ -226,20 +226,14 @@ Args:
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">str&#160;</td>
-          <td class="paramname"><em>nft_rule</em>, </td>
+          <td class="paramtype">dict&#160;</td>
+          <td class="paramname"><em>states</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">str&#160;</td>
-          <td class="paramname"><em>callback_funcs</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">&#160;</td>
-          <td class="paramname"><em>nft_rule_backwards</em> = <code>&quot;&quot;</code>&#160;</td>
+          <td class="paramtype">dict&#160;</td>
+          <td class="paramname"><em>accumulators</em>&#160;</td>
         </tr>
         <tr>
           <td></td>
@@ -252,12 +246,8 @@ Args:
 
 Args:
     data (dict): Data from the YAML profile.
-    nft_rule (str): Current nftables rule (unused by HTTP).
-    callback_funcs (str): Current callback functions to be written in the C file.
-    nft_rule_backwards (str): Current nftables rule for the backwards direction.
-
-Returns:
-    Tuple[str, str, str]: updated values of the arguments nft_rule, callback_funcs, nft_rule_backwards
+    states (dict): Current and next states.
+    accumulators (dict): Dictionary containing the accumulators for the forward and backward nftables rules and the callback functions.
 </pre> 
 </div>
 </div>

@@ -95,8 +95,8 @@ Collaboration diagram for http.http:</div>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:a4899861006abca8b92be4e475fff7d1a"><td class="memItemLeft" align="right" valign="top">str&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classhttp_1_1http.html#a4899861006abca8b92be4e475fff7d1a">parse</a> (self, dict data, str nft_rule, str callback_funcs, nft_rule_backwards=&quot;&quot;)</td></tr>
-<tr class="separator:a4899861006abca8b92be4e475fff7d1a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:afa659aa37d567af9a125d67cb6dc28ad"><td class="memItemLeft" align="right" valign="top">None&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classhttp_1_1http.html#afa659aa37d567af9a125d67cb6dc28ad">parse</a> (self, dict data, dict states, dict accumulators)</td></tr>
+<tr class="separator:afa659aa37d567af9a125d67cb6dc28ad"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-static-attribs"></a>
 Static Public Attributes</h2></td></tr>
@@ -107,14 +107,14 @@ string&#160;</td><td class="memItemRight" valign="bottom"><b>protocol_name</b> =
 <tr class="separator:a451a3f849a40e29e4b940a002b2864fd"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <h2 class="groupheader">Member Function Documentation</h2>
-<a id="a4899861006abca8b92be4e475fff7d1a"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a4899861006abca8b92be4e475fff7d1a">&#9670;&nbsp;</a></span>parse()</h2>
+<a id="afa659aa37d567af9a125d67cb6dc28ad"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#afa659aa37d567af9a125d67cb6dc28ad">&#9670;&nbsp;</a></span>parse()</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname"> str http.http.parse </td>
+          <td class="memname"> None http.http.parse </td>
           <td>(</td>
           <td class="paramtype">&#160;</td>
           <td class="paramname"><em>self</em>, </td>
@@ -128,20 +128,14 @@ string&#160;</td><td class="memItemRight" valign="bottom"><b>protocol_name</b> =
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">str&#160;</td>
-          <td class="paramname"><em>nft_rule</em>, </td>
+          <td class="paramtype">dict&#160;</td>
+          <td class="paramname"><em>states</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">str&#160;</td>
-          <td class="paramname"><em>callback_funcs</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">&#160;</td>
-          <td class="paramname"><em>nft_rule_backwards</em> = <code>&quot;&quot;</code>&#160;</td>
+          <td class="paramtype">dict&#160;</td>
+          <td class="paramname"><em>accumulators</em>&#160;</td>
         </tr>
         <tr>
           <td></td>
@@ -154,12 +148,8 @@ string&#160;</td><td class="memItemRight" valign="bottom"><b>protocol_name</b> =
 
 Args:
     data (dict): Data from the YAML profile.
-    nft_rule (str): Current nftables rule (unused by HTTP).
-    callback_funcs (str): Current callback functions to be written in the C file.
-    nft_rule_backwards (str): Current nftables rule for the backwards direction (unused by HTTP).
-
-Returns:
-    Tuple[str, str, str]: updated values of the arguments nft_rule, callback_funcs, nft_rule_backwards
+    states (dict): Current and next states.
+    accumulators (dict): Dictionary containing the accumulators for the forward and backward nftables rules and the callback functions.
 </pre> 
 </div>
 </div>

@@ -96,8 +96,8 @@ Collaboration diagram for icmp.icmp:</div>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:aa2ca427d618d7eda6184fc5769d9138a"><td class="memItemLeft" align="right" valign="top">Tuple[str, str, str]&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classicmp_1_1icmp.html#aa2ca427d618d7eda6184fc5769d9138a">parse</a> (self, dict data, str nft_rule, str callback_funcs, nft_rule_backwards=&quot;&quot;)</td></tr>
-<tr class="separator:aa2ca427d618d7eda6184fc5769d9138a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa09e48f1ef8586a6d25d62ec9b5d8759"><td class="memItemLeft" align="right" valign="top">None&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classicmp_1_1icmp.html#aa09e48f1ef8586a6d25d62ec9b5d8759">parse</a> (self, dict data, dict states, dict accumulators)</td></tr>
+<tr class="separator:aa09e48f1ef8586a6d25d62ec9b5d8759"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-static-methods"></a>
 Static Public Member Functions</h2></td></tr>
@@ -153,14 +153,14 @@ Returns:
 </pre> 
 </div>
 </div>
-<a id="aa2ca427d618d7eda6184fc5769d9138a"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aa2ca427d618d7eda6184fc5769d9138a">&#9670;&nbsp;</a></span>parse()</h2>
+<a id="aa09e48f1ef8586a6d25d62ec9b5d8759"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa09e48f1ef8586a6d25d62ec9b5d8759">&#9670;&nbsp;</a></span>parse()</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname"> Tuple[str, str, str] icmp.icmp.parse </td>
+          <td class="memname"> None icmp.icmp.parse </td>
           <td>(</td>
           <td class="paramtype">&#160;</td>
           <td class="paramname"><em>self</em>, </td>
@@ -174,20 +174,14 @@ Returns:
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">str&#160;</td>
-          <td class="paramname"><em>nft_rule</em>, </td>
+          <td class="paramtype">dict&#160;</td>
+          <td class="paramname"><em>states</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">str&#160;</td>
-          <td class="paramname"><em>callback_funcs</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">&#160;</td>
-          <td class="paramname"><em>nft_rule_backwards</em> = <code>&quot;&quot;</code>&#160;</td>
+          <td class="paramtype">dict&#160;</td>
+          <td class="paramname"><em>accumulators</em>&#160;</td>
         </tr>
         <tr>
           <td></td>
@@ -200,12 +194,8 @@ Returns:
 
 Args:
     data (dict): Data from the YAML profile.
-    nft_rule (str): Current nftables rule (unused by HTTP).
-    callback_funcs (str): Current callback functions to be written in the C file.
-    nft_rule_backwards (str): Current nftables rule for the backwards direction.
-
-Returns:
-    Tuple[str, str, str]: updated values of the arguments nft_rule, callback_funcs, nft_rule_backwards
+    states (dict): Current and next states.
+    accumulators (dict): Dictionary containing the accumulators for the forward and backward nftables rules and the callback functions.
 </pre> 
 </div>
 </div>
