@@ -25,7 +25,7 @@ uint32_t callback_{{scenario}}(int pkt_id, uint8_t *payload, void *arg) {
     );
     {{protocol}}_print_message(message);
 
-    // Match application layer
+    // Custom match
     if (
         state == {{old_state}}{{match_a}}
     ) {

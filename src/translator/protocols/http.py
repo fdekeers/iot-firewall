@@ -1,6 +1,6 @@
-from protocols.Application import Application
+from protocols.Custom import Custom
 
-class http(Application):
+class http(Custom):
     
     # Class variables
     protocol_name = "http"  # Protocol name

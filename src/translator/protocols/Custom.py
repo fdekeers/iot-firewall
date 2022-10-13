@@ -1,6 +1,6 @@
 from protocols.Protocol import Protocol
 
-class Application(Protocol):
+class Custom(Protocol):
 
     # Class variables
     layer = 7             # Protocol OSI layer
@@ -25,7 +25,7 @@ class Application(Protocol):
 
     def handle_app_fields(self, direction_both = False) -> None:
         """
-        Handle the different application layer fields.
+        Handle the different custom protocols fields.
         Must be overridden by the child class.
 
         Args:
@@ -37,7 +37,7 @@ class Application(Protocol):
 
     def parse(self) -> None:
         """
-        Parse the DNS protocol.
+        Parse a protocol with custom parser.
         Updates the accumulator values for the nftables and custom C rules.
         """
         # Initialize Jinja2 template for callback function

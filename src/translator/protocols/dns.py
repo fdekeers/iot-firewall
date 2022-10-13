@@ -1,6 +1,6 @@
-from protocols.Application import Application
+from protocols.Custom import Custom
 
-class dns(Application):
+class dns(Custom):
     
     # Class variables
     protocol_name = "dns"  # Protocol name
