@@ -1,4 +1,5 @@
 var searchData=
 [
-  ['callback_5fstruct_148',['callback_struct',['../structcallback__struct.html',1,'']]]
+  ['callback_5fstruct_147',['callback_struct',['../structcallback__struct.html',1,'']]],
+  ['custom_148',['Custom',['../classCustom_1_1Custom.html',1,'Custom']]]
 ];
