@@ -6,21 +6,26 @@ class Application(Protocol):
     layer = 7             # Protocol OSI layer
     custom_parser = True  # Whether the protocol has a custom parser
 
-    def add_field(self, field: str, data: dict, callback_dict: dict) -> None:
+
+    def add_field(self, field: str, rules: dict) -> None:
         """
-        Add a new rule to the callback function.
+        Add a new custom parser rule to the callback function.
+        Overrides the nftables version.
 
         Args:
-            field (str): Field to add the rule for..
-            data (dict): Data from the YAML profile.
-            callback_dict (dict): Dictionary containing the Jinja2 template variables for the callback function.
+            field (str): Field to add the rule for.
+            rules (dict): Dictionary containing the custom matches for the C file.
         """
-        if field in data:
-            callback_dict["match_a"] = callback_dict.get("match_a", "") + f" &&\n\t\t{field} == {data[field]}"
+        if field in self.parsing_data['profile_data']:
+            value = self.parsing_data['profile_data'][field]
+            self.callback_dict["match_a"] = self.callback_dict.get("match_a", "") + f" &&\n\t\t{rules['forward'].format(value)}"
+            if "backward" in rules and self.parsing_data['accumulators']['nft_rule_backwards']:
+                self.callback_dict["match_b"] = self.callback_dict.get("match_b", "") + f" &&\n\t\t{rules['backward'].format(value)}"
 
-    def handle_fields(self, callback_dict: dict, direction_both = False) -> None:
+
+    def handle_app_fields(self, direction_both = False) -> None:
         """
-        Handle the different protocol fields.
+        Handle the different application layer fields.
         Must be overridden by the child class.
 
         Args:
@@ -29,6 +34,7 @@ class Application(Protocol):
         """
         pass
 
+
     def parse(self) -> None:
         """
         Parse the DNS protocol.
@@ -36,15 +42,15 @@ class Application(Protocol):
         """
         # Initialize Jinja2 template for callback function
         callback_tpl = self.env.get_template("callback.c.j2")
-        callback_dict = {"scenario": self.metadata['scenario'], "protocol": self.metadata['protocol']}
+        self.callback_dict = {"scenario": self.metadata['scenario'], "protocol": self.metadata['protocol']}
 
         # Handle state
-        callback_dict["old_state"] = self.parsing_data['states']['old']
-        callback_dict["new_state"] = self.parsing_data['states']['new']
+        self.callback_dict["old_state"] = self.parsing_data['states']['old']
+        self.callback_dict["new_state"] = self.parsing_data['states']['new']
         
         # Handle protocol fields
-        self.handle_fields(callback_dict, "nft_rule_backwards" in self.parsing_data['accumulators'])
+        self.handle_app_fields()
 
         # Update callback functions accumulator
         accumulators = self.parsing_data['accumulators']
-        accumulators['callback_funcs'] = accumulators.get("callback_funcs", "") + callback_tpl.render(callback_dict)    
+        accumulators['callback_funcs'] = accumulators.get("callback_funcs", "") + callback_tpl.render(self.callback_dict)    

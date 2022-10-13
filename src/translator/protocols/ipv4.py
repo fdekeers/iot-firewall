@@ -19,16 +19,12 @@ class ipv4(Protocol):
         Updates the accumulator values for the nftables and custom C rules.
         """
         # Handle IPv4 source address
-        if 'src' in self.parsing_data['profile_data']:
-            ip = self.parsing_data['profile_data']['src'] if self.parsing_data['profile_data']['src'] != "self" else self.metadata['device']['ip']
-            self.parsing_data['accumulators']["nft_rule"] = self.parsing_data['accumulators'].get("nft_rule", f"nft add rule {self.metadata['nft_table_chain']} ") + f"ip saddr {ip} "
-            # Handle backwards direction
-            if "nft_rule_backwards" in self.parsing_data['accumulators']:
-                self.parsing_data['accumulators']["nft_rule_backwards"] = self.parsing_data['accumulators'].get("nft_rule_backwards", f"nft add rule {self.metadata['nft_table_chain']} ") + f"ip daddr {ip} "
+        if self.parsing_data['profile_data'].get("src", None) == "self":
+            self.parsing_data['profile_data']["src"] = self.metadata['device']['ip']
+        rules = {"forward": "ip saddr {}", "backward": "ip daddr {}"}
+        self.add_field("src", rules)
         # Handle IPv4 destination address
-        if 'dst' in self.parsing_data['profile_data']:
-            ip = self.parsing_data['profile_data']['dst'] if self.parsing_data['profile_data']['dst'] != "self" else self.metadata['device']['ip']
-            self.parsing_data['accumulators']["nft_rule"] = self.parsing_data['accumulators'].get("nft_rule", f"nft add rule {self.metadata['nft_table_chain']} ") + f"ip daddr {ip} "
-            # Handle backwards direction
-            if "nft_rule_backwards" in self.parsing_data['accumulators']:
-                self.parsing_data['accumulators']["nft_rule_backwards"] = self.parsing_data['accumulators'].get("nft_rule_backwards", f"nft add rule {self.metadata['nft_table_chain']} ") + f"ip saddr {ip} "
+        if self.parsing_data['profile_data'].get("dst", None) == "self":
+            self.parsing_data['profile_data']['dst'] = self.metadata['device']['ip']
+        rules = {"forward": "ip daddr {}", "backward": "ip saddr {}"}
+        self.add_field("dst", rules)

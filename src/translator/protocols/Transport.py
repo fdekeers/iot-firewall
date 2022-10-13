@@ -22,14 +22,8 @@ class Transport(Protocol):
             accumulators (dict): Dictionary containing the accumulators for the forward and backward nftables rules and the callback functions.
         """
         # Handle source port
-        if 'src-port' in self.parsing_data['profile_data']:
-            self.parsing_data['accumulators']["nft_rule"] = self.parsing_data['accumulators'].get("nft_rule", f"nft add rule {self.metadata['nft_table_chain']} ") + f"tcp sport {self.parsing_data['profile_data']['src-port']} "
-            # Handle backwards direction
-            if "nft_rule_backwards" in self.parsing_data['accumulators']:
-                self.parsing_data['accumulators']["nft_rule_backwards"] = self.parsing_data['accumulators'].get("nft_rule_backwards", f"nft add rule {self.metadata['nft_table_chain']} ") + f"tcp dport {self.parsing_data['profile_data']['src-port']} "
+        rules = {"forward": f"{self.protocol_name} sport {{}}", "backward": f"{self.protocol_name} dport {{}}"}
+        self.add_field("src-port", rules)
         # Handle destination port
-        if 'dst-port' in self.parsing_data['profile_data']:
-            self.parsing_data['accumulators']["nft_rule"] = self.parsing_data['accumulators'].get("nft_rule", f"nft add rule {self.metadata['nft_table_chain']} ") + f"tcp dport {self.parsing_data['profile_data']['dst-port']} "
-            # Handle backwards direction
-            if "nft_rule_backwards" in self.parsing_data['accumulators']:
-                self.parsing_data['accumulators']["nft_rule_backwards"] = self.parsing_data['accumulators'].get("nft_rule_backwards", f"nft add rule {self.metadata['nft_table_chain']} ") + f"tcp sport {self.parsing_data['profile_data']['dst-port']} "
+        rules = {"forward": f"{self.protocol_name} dport {{}}", "backward": f"{self.protocol_name} sport {{}}"}
+        self.add_field("dst-port", rules)

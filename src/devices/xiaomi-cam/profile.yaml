@@ -49,7 +49,7 @@ individual-policies:
   dns-xiaomi-api:
     protocols:
       dns:
-        type: A
+        qtype: A
         domain-name: business.smartcamera.api.io.mi.com
       udp:
         dst-port: 53
@@ -225,7 +225,7 @@ interaction-policies:
     mdns-phone:
       protocols:
         mdns:
-          type: PTR
+          qtype: PTR
           domain-name:
             - _miio._udp.local
             - _rc._tcp.local

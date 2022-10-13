@@ -11,29 +11,21 @@ class dns(Application):
         "domain-name"  # DNS domain name
     ]
 
-    def handle_fields(self, callback_dict: dict, direction_both = False) -> None:
+    def handle_app_fields(self) -> None:
         """
         Handle the different protocol fields.
 
         Args:
-            callback_dict (dict): Dictionary containing the Jinja2 template variables for the callback function.
             direction_both (bool): Whether the rule should be applied in both directions.
         """
-        callback_dict["match_a"] = callback_dict.get("match_a", "") + f" &&\n\t\tmessage.qr == 0"
-        if direction_both:
+        # Profile DNS rules will always be queries
+        self.callback_dict["match_a"] = self.callback_dict.get("match_a", "") + f" &&\n\t\tmessage.qr == 0"
+        if self.parsing_data['accumulators']['nft_rule_backwards']:
             # Handle backwards direction
-            callback_dict["match_b"] = callback_dict.get("match_b", "") + f" &&\n\t\tmessage.qr == 1"
+            self.callback_dict["match_b"] = self.callback_dict.get("match_b", "") + f" &&\n\t\tmessage.qr == 1"
         # Handle DNS query type
-        if 'type' in self.parsing_data['profile_data']:
-            query_type = self.parsing_data['profile_data']['type']
-            callback_dict["match_a"] = callback_dict.get("match_a", "") + f" &&\n\t\tmessage.questions->qtype == {query_type}"
-            if direction_both:
-                # Handle backwards direction
-                callback_dict["match_b"] = callback_dict.get("match_b", "") + f" &&\n\t\tmessage.questions->qtype == {query_type}"
+        rules = {"forward": "message.questions->qtype == {}", "backward": "message.questions->qtype == {}"}
+        self.add_field("qtype", rules)
         # Handle DNS domain name
-        if 'domain-name' in self.parsing_data['profile_data']:
-            domain_name = self.parsing_data['profile_data']['domain-name']
-            callback_dict['match_a'] = callback_dict.get("match_a", "") + f" &&\n\t\tdns_contains_domain_name(message.questions, message.header.qdcount, \"{domain_name}\")"
-            if direction_both:
-                # Handle backwards direction
-                callback_dict["match_b"] = callback_dict.get("match_b", "") + f" &&\n\t\tdns_contains_domain_name(message.questions, message.header.qdcount, \"{domain_name}\")"
+        rules = {"forward": "dns_contains_domain_name(message.questions, message.header.qdcount, \"{}\"", "backward": "dns_contains_domain_name(message.questions, message.header.qdcount, \"{}\""}
+        self.add_field("domain-name", rules)

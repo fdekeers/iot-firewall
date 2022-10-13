@@ -86,10 +86,10 @@ if __name__ == "__main__":
                 protocol.parse()
 
             # End and apply nftables rule
-            accumulators["nft_rule"] += f"queue num {nfq_id_base}"
+            accumulators["nft_rule"] += f" queue num {nfq_id_base}"
             subprocess.run(accumulators["nft_rule"], shell=True)
             if direction == "both":
-                accumulators["nft_rule_backwards"] += f"queue num {nfq_id_base}"
+                accumulators["nft_rule_backwards"] += f" queue num {nfq_id_base}"
                 subprocess.run(accumulators["nft_rule_backwards"], shell=True)
             nfq_id_base += 10
 
