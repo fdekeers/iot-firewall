@@ -11,7 +11,7 @@ class http(Application):
         "uri"
     ]
 
-    def handle_fields(self, data: dict, callback_dict: dict, direction_both = False) -> None:
+    def handle_fields(self, callback_dict: dict, direction_both = False) -> None:
         """
         Handle the different protocol fields.
 
@@ -21,14 +21,14 @@ class http(Application):
             direction_both (bool): Whether the rule should be applied in both directions.
         """
         # Handle HTTP request type
-        if 'method' in data:
-            method = data["method"]
+        if 'method' in self.parsing_data['profile_data']:
+            method = self.parsing_data['profile_data']["method"]
             callback_dict["match_a"] = callback_dict.get("match_a", "") + f" &&\n\t\tmessage.is_request"
             callback_dict["match_a"] = callback_dict.get("match_a", "") + f" &&\n\t\tmessage.method == {method}"
             # Handle backwards direction
             if direction_both:
                 callback_dict["match_b"] = callback_dict.get("match_b", "") + f" &&\n\t\t!message.is_request"
         # Handle HTTP URI
-        if 'uri' in data:
-            uri = data["uri"]
+        if 'uri' in self.parsing_data['profile_data']:
+            uri = self.parsing_data['profile_data']["uri"]
             callback_dict["match_a"] += f" &&\n\t\tstrcmp(message.uri, \"{uri}\") == 0"

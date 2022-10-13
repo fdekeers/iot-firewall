@@ -77,10 +77,13 @@ if __name__ == "__main__":
 
             for protocol_name in value["protocols"]:
                 # Protocol decoding
-                protocol = Protocol.init_protocol(protocol_name, device, policy, env)
+                metadata = {"protocol": protocol_name, "device": device, "policy": policy}
+                parsing_data = {"profile_data": value["protocols"][protocol_name], "states": states, "accumulators": accumulators}
+                protocol = Protocol.init_protocol(metadata, parsing_data, env)
                 if protocol.custom_parser:
+                    # Protocol uses a custom parser, include its header in the C file
                     header_dict["parsers"] = header_dict.get("parsers", "") + f"#include \"parsers/{protocol_name}.h\"\n"
-                protocol.parse(value["protocols"][protocol_name], states, accumulators)
+                protocol.parse()
 
             # End and apply nftables rule
             accumulators["nft_rule"] += f"queue num {nfq_id_base}"

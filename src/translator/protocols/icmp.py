@@ -29,7 +29,7 @@ class icmp(Protocol):
         elif echo_type == "echo-reply":
             return "echo-request"
 
-    def parse(self, data: dict, states: dict, accumulators: dict) -> None:
+    def parse(self) -> None:
         """
         Parse the ICMP protocol.
 
@@ -39,8 +39,8 @@ class icmp(Protocol):
             accumulators (dict): Dictionary containing the accumulators for the forward and backward nftables rules and the callback functions.
         """
         # Handle ICMP message type
-        if 'type' in data:
-            icmp_type = data['type']
-            accumulators["nft_rule"] = accumulators.get("nft_rule", f"nft add rule {self.nft_table_chain} ") + f"icmp type {icmp_type} "
-            if "nft_rule_backwards" in accumulators and "echo" in icmp_type:
-                accumulators["nft_rule_backwards"] = accumulators.get("nft_rule_backwards", f"nft add rule {self.nft_table_chain} ") + f"icmp type {self.flip_echo_type(icmp_type)} "
+        if 'type' in self.parsing_data['profile_data']:
+            icmp_type = self.parsing_data['profile_data']['type']
+            self.parsing_data['accumulators']["nft_rule"] = self.parsing_data['accumulators'].get("nft_rule", f"nft add rule {self.metadata['nft_table_chain']} ") + f"icmp type {icmp_type} "
+            if "nft_rule_backwards" in self.parsing_data['accumulators'] and "echo" in icmp_type:
+                self.parsing_data['accumulators']["nft_rule_backwards"] = self.parsing_data['accumulators'].get("nft_rule_backwards", f"nft add rule {self.metadata['nft_table_chain']} ") + f"icmp type {self.flip_echo_type(icmp_type)} "

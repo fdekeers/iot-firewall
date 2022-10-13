@@ -13,26 +13,22 @@ class ipv4(Protocol):
         "dst"
     ]
 
-    def parse(self, data: dict, states: dict, accumulators: dict) -> None:
+    def parse(self) -> None:
         """
         Parse the IPv4 protocol.
-
-        Args:
-            data (dict): Data from the YAML profile.
-            states (dict): Current and next states.
-            accumulators (dict): Dictionary containing the accumulators for the forward and backward nftables rules and the callback functions.
+        Updates the accumulator values for the nftables and custom C rules.
         """
         # Handle IPv4 source address
-        if 'src' in data:
-            ip = data['src'] if data['src'] != "self" else self.device['ip']
-            accumulators["nft_rule"] = accumulators.get("nft_rule", f"nft add rule {self.nft_table_chain} ") + f"ip saddr {ip} "
+        if 'src' in self.parsing_data['profile_data']:
+            ip = self.parsing_data['profile_data']['src'] if self.parsing_data['profile_data']['src'] != "self" else self.metadata['device']['ip']
+            self.parsing_data['accumulators']["nft_rule"] = self.parsing_data['accumulators'].get("nft_rule", f"nft add rule {self.metadata['nft_table_chain']} ") + f"ip saddr {ip} "
             # Handle backwards direction
-            if "nft_rule_backwards" in accumulators:
-                accumulators["nft_rule_backwards"] = accumulators.get("nft_rule_backwards", f"nft add rule {self.nft_table_chain} ") + f"ip daddr {ip} "
+            if "nft_rule_backwards" in self.parsing_data['accumulators']:
+                self.parsing_data['accumulators']["nft_rule_backwards"] = self.parsing_data['accumulators'].get("nft_rule_backwards", f"nft add rule {self.metadata['nft_table_chain']} ") + f"ip daddr {ip} "
         # Handle IPv4 destination address
-        if 'dst' in data:
-            ip = data['dst'] if data['dst'] != "self" else self.device['ip']
-            accumulators["nft_rule"] = accumulators.get("nft_rule", f"nft add rule {self.nft_table_chain} ") + f"ip daddr {ip} "
+        if 'dst' in self.parsing_data['profile_data']:
+            ip = self.parsing_data['profile_data']['dst'] if self.parsing_data['profile_data']['dst'] != "self" else self.metadata['device']['ip']
+            self.parsing_data['accumulators']["nft_rule"] = self.parsing_data['accumulators'].get("nft_rule", f"nft add rule {self.metadata['nft_table_chain']} ") + f"ip daddr {ip} "
             # Handle backwards direction
-            if "nft_rule_backwards" in accumulators:
-                accumulators["nft_rule_backwards"] = accumulators.get("nft_rule_backwards", f"nft add rule {self.nft_table_chain} ") + f"ip saddr {ip} "
+            if "nft_rule_backwards" in self.parsing_data['accumulators']:
+                self.parsing_data['accumulators']["nft_rule_backwards"] = self.parsing_data['accumulators'].get("nft_rule_backwards", f"nft add rule {self.metadata['nft_table_chain']} ") + f"ip saddr {ip} "

@@ -33,7 +33,7 @@ class arp(Protocol):
         elif arp_type == "reply":
             return "request"
 
-    def parse(self, data: dict, states: dict, accumulators: dict) -> dict:
+    def parse(self) -> dict:
         """
         Parse the ARP protocol.
 
@@ -43,32 +43,32 @@ class arp(Protocol):
             accumulators (dict): Dictionary containing the accumulators for the forward and backward nftables rules and the callback functions.
         """
         # Handle ARP message type
-        if 'type' in data:
-            arp_type = data['type']
-            accumulators["nft_rule"] = accumulators.get("nft_rule", f"nft add rule {self.nft_table_chain} ") + f"arp operation {arp_type} "
-            if "nft_rule_backwards" in accumulators:
-                accumulators["nft_rule_backwards"] = accumulators.get("nft_rule_backwards", f"nft add rule {self.nft_table_chain} ") + f"arp operation {self.flip_type(arp_type)} "
+        if 'type' in self.parsing_data['profile_data']:
+            arp_type = self.parsing_data['profile_data']['type']
+            self.parsing_data['accumulators']["nft_rule"] = self.parsing_data['accumulators'].get("nft_rule", f"nft add rule {self.metadata['nft_table_chain']} ") + f"arp operation {arp_type} "
+            if "nft_rule_backwards" in self.parsing_data['accumulators']:
+                self.parsing_data['accumulators']["nft_rule_backwards"] = self.parsing_data['accumulators'].get("nft_rule_backwards", f"nft add rule {self.metadata['nft_table_chain']} ") + f"arp operation {self.flip_type(arp_type)} "
         # Handle ARP source hardware address
-        if 'sha' in data:
-            sha = data['sha']
-            accumulators["nft_rule"] = accumulators.get("nft_rule", f"nft add rule {self.nft_table_chain} ") + f"arp saddr ether {sha} "
-            if "nft_rule_backwards" in accumulators:
-                accumulators["nft_rule_backwards"] = accumulators.get("nft_rule_backwards", f"nft add rule {self.nft_table_chain} ") + f"arp daddr ether {sha} "
+        if 'sha' in self.parsing_data['profile_data']:
+            sha = self.parsing_data['profile_data']['sha']
+            self.parsing_data['accumulators']["nft_rule"] = self.parsing_data['accumulators'].get("nft_rule", f"nft add rule {self.metadata['nft_table_chain']} ") + f"arp saddr ether {sha} "
+            if "nft_rule_backwards" in self.parsing_data['accumulators']:
+                self.parsing_data['accumulators']["nft_rule_backwards"] = self.parsing_data['accumulators'].get("nft_rule_backwards", f"nft add rule {self.metadata['nft_table_chain']} ") + f"arp daddr ether {sha} "
         # Handle ARP target hardware address
-        if 'tha' in data:
-            tha = data['tha']
-            accumulators["nft_rule"] = accumulators.get("nft_rule", f"nft add rule {self.nft_table_chain} ") + f"arp daddr ether {tha} "
-            if "nft_rule_backwards" in accumulators:
-                accumulators["nft_rule_backwards"] = accumulators.get("nft_rule_backwards", f"nft add rule {self.nft_table_chain} ") + f"arp saddr ether {tha} "
+        if 'tha' in self.parsing_data['profile_data']:
+            tha = self.parsing_data['profile_data']['tha']
+            self.parsing_data['accumulators']["nft_rule"] = self.parsing_data['accumulators'].get("nft_rule", f"nft add rule {self.metadata['nft_table_chain']} ") + f"arp daddr ether {tha} "
+            if "nft_rule_backwards" in self.parsing_data['accumulators']:
+                self.parsing_data['accumulators']["nft_rule_backwards"] = self.parsing_data['accumulators'].get("nft_rule_backwards", f"nft add rule {self.metadata['nft_table_chain']} ") + f"arp saddr ether {tha} "
         # Handle ARP source protocol address
-        if 'spa' in data:
-            spa = data['spa']
-            accumulators["nft_rule"] = accumulators.get("nft_rule", f"nft add rule {self.nft_table_chain} ") + f"arp saddr ip {spa} "
-            if "nft_rule_backwards" in accumulators:
-                accumulators["nft_rule_backwards"] = accumulators.get("nft_rule_backwards", f"nft add rule {self.nft_table_chain} ") + f"arp daddr ip {spa} "
+        if 'spa' in self.parsing_data['profile_data']:
+            spa = self.parsing_data['profile_data']['spa']
+            self.parsing_data['accumulators']["nft_rule"] = self.parsing_data['accumulators'].get("nft_rule", f"nft add rule {self.metadata['nft_table_chain']} ") + f"arp saddr ip {spa} "
+            if "nft_rule_backwards" in self.parsing_data['accumulators']:
+                self.parsing_data['accumulators']["nft_rule_backwards"] = self.parsing_data['accumulators'].get("nft_rule_backwards", f"nft add rule {self.metadata['nft_table_chain']} ") + f"arp daddr ip {spa} "
         # Handle ARP target protocol address
-        if 'tpa' in data:
-            tpa = data['tpa']
-            accumulators["nft_rule"] = accumulators.get("nft_rule", f"nft add rule {self.nft_table_chain} ") + f"arp daddr ip {tpa} "
-            if "nft_rule_backwards" in accumulators:
-                accumulators["nft_rule_backwards"] = accumulators.get("nft_rule_backwards", f"nft add rule {self.nft_table_chain} ") + f"arp saddr ip {tpa} "
+        if 'tpa' in self.parsing_data['profile_data']:
+            tpa = self.parsing_data['profile_data']['tpa']
+            self.parsing_data['accumulators']["nft_rule"] = self.parsing_data['accumulators'].get("nft_rule", f"nft add rule {self.metadata['nft_table_chain']} ") + f"arp daddr ip {tpa} "
+            if "nft_rule_backwards" in self.parsing_data['accumulators']:
+                self.parsing_data['accumulators']["nft_rule_backwards"] = self.parsing_data['accumulators'].get("nft_rule_backwards", f"nft add rule {self.metadata['nft_table_chain']} ") + f"arp saddr ip {tpa} "
