@@ -1,3 +1,5 @@
+from ast import Call
+from typing import Callable
 from protocols.Protocol import Protocol
 
 class Custom(Protocol):
@@ -7,7 +9,7 @@ class Custom(Protocol):
     custom_parser = True  # Whether the protocol has a custom parser
 
 
-    def add_field(self, field: str, rules: dict) -> None:
+    def add_field(self, field: str, rules: dict, func = lambda x: x) -> None:
         """
         Add a new custom parser rule to the callback function.
         Overrides the nftables version.
@@ -15,9 +17,11 @@ class Custom(Protocol):
         Args:
             field (str): Field to add the rule for.
             rules (dict): Dictionary containing the custom matches for the C file.
+            func (lambda): Function to apply to the field value before writing it.
+                           Optional, default is the identity function.
         """
         if field in self.parsing_data['profile_data']:
-            value = self.parsing_data['profile_data'][field]
+            value = func(self.parsing_data['profile_data'][field])
             self.callback_dict["match_a"] = self.callback_dict.get("match_a", "") + f" &&\n\t\t{rules['forward'].format(value)}"
             if "backward" in rules and self.parsing_data['accumulators']['nft_rule_backwards']:
                 self.callback_dict["match_b"] = self.callback_dict.get("match_b", "") + f" &&\n\t\t{rules['backward'].format(value)}"

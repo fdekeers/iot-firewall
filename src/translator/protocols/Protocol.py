@@ -1,3 +1,4 @@
+from typing import Callable
 import jinja2
 import importlib
 
@@ -38,16 +39,19 @@ class Protocol:
         return cls(metadata, parsing_data, env)
 
     
-    def add_field(self, field: str, rules: dict) -> None:
+    def add_field(self, field: str, rules: dict, func = lambda x: x) -> None:
         """
-        Add a new match in the current nftables rule.
+        Add a new custom parser rule to the callback function.
+        Overrides the nftables version.
 
         Args:
             field (str): Field to add the rule for.
-            rules (dict): Dictionary containing the nftables matches, forward and backward (if necessary), for the given field.
+            rules (dict): Dictionary containing the custom matches for the C file.
+            func (lambda): Function to apply to the field value before writing it.
+                           Optional, default is the identity function.
         """
         if field in self.parsing_data['profile_data']:
-            value = self.parsing_data['profile_data'][field]
+            value = func(self.parsing_data['profile_data'][field])
             self.parsing_data['accumulators']['nft_rule'] = self.parsing_data['accumulators'].get("nft_rule", f"nft add rule {self.metadata['nft_table_chain']}") + f" {rules['forward'].format(value)}"
             if "backward" in rules and self.parsing_data['accumulators']['nft_rule_backwards']:
                 self.parsing_data['accumulators']['nft_rule_backwards'] = self.parsing_data['accumulators'].get("nft_rule_backwards", f"nft add rule {self.metadata['nft_table_chain']}") + f" {rules['backward'].format(value)}"

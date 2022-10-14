@@ -13,18 +13,22 @@ class ipv4(Protocol):
         "dst"
     ]
 
+    # Well-known addresses
+    addrs = {
+        "mdns": "224.0.0.251"
+    }
+
+
     def parse(self) -> None:
         """
         Parse the IPv4 protocol.
         Updates the accumulator values for the nftables and custom C rules.
         """
+        # Lambda function to explicit a self or a well-known IP address
+        func = lambda ip: self.metadata['device']['ip'] if ip == "self" else ( self.addrs[ip] if ip in self.addrs else ip )
         # Handle IPv4 source address
-        if self.parsing_data['profile_data'].get("src", None) == "self":
-            self.parsing_data['profile_data']["src"] = self.metadata['device']['ip']
         rules = {"forward": "ip saddr {}", "backward": "ip daddr {}"}
-        self.add_field("src", rules)
+        self.add_field("src", rules, func)
         # Handle IPv4 destination address
-        if self.parsing_data['profile_data'].get("dst", None) == "self":
-            self.parsing_data['profile_data']['dst'] = self.metadata['device']['ip']
         rules = {"forward": "ip daddr {}", "backward": "ip saddr {}"}
-        self.add_field("dst", rules)
+        self.add_field("dst", rules, func)
