@@ -81,8 +81,8 @@ Public Member Functions</h2></td></tr>
 <tr class="separator:a5ae00b189c6a8fa401f087a1681e3ea6"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:afddfc7c1deca71ca804731e027611299"><td class="memItemLeft" align="right" valign="top">def&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classProtocol_1_1Protocol.html#afddfc7c1deca71ca804731e027611299">init_protocol</a> (c, dict metadata, dict parsing_data, jinja2.Environment env)</td></tr>
 <tr class="separator:afddfc7c1deca71ca804731e027611299"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ac57029684ac7eaa20046428bfc2e06ad"><td class="memItemLeft" align="right" valign="top">None&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classProtocol_1_1Protocol.html#ac57029684ac7eaa20046428bfc2e06ad">add_field</a> (self, str field, dict rules)</td></tr>
-<tr class="separator:ac57029684ac7eaa20046428bfc2e06ad"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0a45a8e192e4b68730702111918b3374"><td class="memItemLeft" align="right" valign="top">None&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classProtocol_1_1Protocol.html#a0a45a8e192e4b68730702111918b3374">add_field</a> (self, str field, dict rules, func=lambda x:x)</td></tr>
+<tr class="separator:a0a45a8e192e4b68730702111918b3374"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a227cd0002aa562a1759b592ccf9e2c08"><td class="memItemLeft" align="right" valign="top">None&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classProtocol_1_1Protocol.html#a227cd0002aa562a1759b592ccf9e2c08">parse</a> (self)</td></tr>
 <tr class="separator:a227cd0002aa562a1759b592ccf9e2c08"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
@@ -148,8 +148,8 @@ Args:
 </div>
 </div>
 <h2 class="groupheader">Member Function Documentation</h2>
-<a id="ac57029684ac7eaa20046428bfc2e06ad"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ac57029684ac7eaa20046428bfc2e06ad">&#9670;&nbsp;</a></span>add_field()</h2>
+<a id="a0a45a8e192e4b68730702111918b3374"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a0a45a8e192e4b68730702111918b3374">&#9670;&nbsp;</a></span>add_field()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -170,7 +170,13 @@ Args:
           <td class="paramkey"></td>
           <td></td>
           <td class="paramtype">dict&#160;</td>
-          <td class="paramname"><em>rules</em>&#160;</td>
+          <td class="paramname"><em>rules</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname"><em>func</em> = <code>lambda&#160;x:&#160;x</code>&#160;</td>
         </tr>
         <tr>
           <td></td>
@@ -179,11 +185,14 @@ Args:
         </tr>
       </table>
 </div><div class="memdoc">
-<pre class="fragment">Add a new match in the current nftables rule.
+<pre class="fragment">Add a new custom parser rule to the callback function.
+Overrides the nftables version.
 
 Args:
     field (str): Field to add the rule for.
-    rules (dict): Dictionary containing the nftables matches, forward and backward (if necessary), for the given field.
+    rules (dict): Dictionary containing the custom matches for the C file.
+    func (lambda): Function to apply to the field value before writing it.
+           Optional, default is the identity function.
 </pre> 
 </div>
 </div>
