@@ -1,3 +1,4 @@
+import os
 import argparse
 from pathlib import Path
 import yaml
@@ -8,6 +9,9 @@ from protocols.Protocol import Protocol
 
 if __name__ == "__main__":
 
+    # Get script path
+    path = os.path.abspath(os.path.dirname(__file__))
+
     # Commande line arguments
     description = "Translate a device YAML profile to a corresponding nfqueue C code"
     parser = argparse.ArgumentParser(description=description)
@@ -15,7 +19,7 @@ if __name__ == "__main__":
     args = parser.parse_args()
 
     # Jinja loader
-    loader = jinja2.FileSystemLoader(searchpath="templates")
+    loader = jinja2.FileSystemLoader(searchpath=f"{path}/templates")
     env = jinja2.Environment(loader=loader, trim_blocks=True, lstrip_blocks=True)
 
     # Load the device profile
