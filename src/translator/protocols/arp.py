@@ -16,22 +16,6 @@ class arp(Protocol):
         "tpa"    # ARP target protocol address
     ]
 
-    @staticmethod
-    def flip_type(arp_type: str) -> str:
-        """
-        Flip the given ARP type.
-
-        Args:
-            arp_type (str): ARP type.
-
-        Returns:
-            str: 'reply' if the given type was 'request',
-                 'request' if the given type was 'reply'.
-        """
-        if arp_type == "request":
-            return "reply"
-        elif arp_type == "reply":
-            return "request"
 
     def parse(self) -> dict:
         """
@@ -43,11 +27,10 @@ class arp(Protocol):
             accumulators (dict): Dictionary containing the accumulators for the forward and backward nftables rules and the callback functions.
         """
         # Handle ARP message type
-        if 'type' in self.parsing_data['profile_data']:
-            arp_type = self.parsing_data['profile_data']['type']
-            self.parsing_data['accumulators']["nft_rule"] = self.parsing_data['accumulators'].get("nft_rule", f"nft add rule {self.metadata['nft_table_chain']} ") + f"arp operation {arp_type} "
-            if "nft_rule_backwards" in self.parsing_data['accumulators']:
-                self.parsing_data['accumulators']["nft_rule_backwards"] = self.parsing_data['accumulators'].get("nft_rule_backwards", f"nft add rule {self.metadata['nft_table_chain']} ") + f"arp operation {self.flip_type(arp_type)} "
+        rules = {"forward": "arp operation {}", "backward": "arp operation {}"}
+        # Lambda function to flip the ARP type (for the backward rule)
+        backward_func = lambda arp_type: "reply" if arp_type == "request" else ( "request" if arp_type == "reply" else arp_type )
+        self.add_field("type", rules, backward_func=backward_func)
         # Handle ARP source hardware address
         rules = {"forward": "arp saddr ether {}", "backward": "arp daddr ether {}"}
         self.add_field("sha", rules)

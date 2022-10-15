@@ -39,7 +39,7 @@ class Protocol:
         return cls(metadata, parsing_data, env)
 
     
-    def add_field(self, field: str, rules: dict, func = lambda x: x) -> None:
+    def add_field(self, field: str, rules: dict, func = lambda x: x, backward_func = lambda x: x) -> None:
         """
         Add a new custom parser rule to the callback function.
         Overrides the nftables version.
@@ -49,12 +49,15 @@ class Protocol:
             rules (dict): Dictionary containing the custom matches for the C file.
             func (lambda): Function to apply to the field value before writing it.
                            Optional, default is the identity function.
+            backward_func (lambda): Function to apply to the field value in the case of a backwards rule.
+                           Will be applied before the forward function.
+                           Optional, default is the identity function.
         """
         if field in self.parsing_data['profile_data']:
-            value = func(self.parsing_data['profile_data'][field])
-            self.parsing_data['accumulators']['nft_rule'] = self.parsing_data['accumulators'].get("nft_rule", f"nft add rule {self.metadata['nft_table_chain']}") + f" {rules['forward'].format(value)}"
+            value = self.parsing_data['profile_data'][field]
+            self.parsing_data['accumulators']['nft_rule'] = self.parsing_data['accumulators'].get("nft_rule", f"nft add rule {self.metadata['nft_table_chain']}") + f" {rules['forward'].format(func(value))}"
             if "backward" in rules and self.parsing_data['accumulators']['nft_rule_backwards']:
-                self.parsing_data['accumulators']['nft_rule_backwards'] = self.parsing_data['accumulators'].get("nft_rule_backwards", f"nft add rule {self.metadata['nft_table_chain']}") + f" {rules['backward'].format(value)}"
+                self.parsing_data['accumulators']['nft_rule_backwards'] = self.parsing_data['accumulators'].get("nft_rule_backwards", f"nft add rule {self.metadata['nft_table_chain']}") + f" {rules['backward'].format(func(backward_func(value)))}"
 
 
     def parse(self) -> None:
