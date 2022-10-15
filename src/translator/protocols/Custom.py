@@ -1,5 +1,3 @@
-from ast import Call
-from typing import Callable
 from protocols.Protocol import Protocol
 
 class Custom(Protocol):

@@ -1,4 +1,4 @@
-from protocols.Protocol import Custom
+from protocols.Custom import Custom
 
 class igmp(Custom):
     
