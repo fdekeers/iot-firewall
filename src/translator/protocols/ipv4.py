@@ -15,10 +15,14 @@ class ipv4(Protocol):
 
     # Well-known addresses
     addrs = {
+        "local": "192.168.1.1/24",
+        "gateway": "192.168.1.1",
+        "broadcast": "192.168.1.255",
         "mdns": "224.0.0.251"
     }
 
 
+    # TODO: translate domain names
     def parse(self) -> None:
         """
         Parse the IPv4 protocol.

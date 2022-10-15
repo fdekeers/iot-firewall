@@ -106,7 +106,6 @@ individual-policies:
         src: self
         dst: local
     direction: both
-    local-network: true
     stats:
       rate: 10/s
       packet-size: 46 - 200

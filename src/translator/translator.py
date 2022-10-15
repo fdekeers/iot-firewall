@@ -106,4 +106,9 @@ if __name__ == "__main__":
                 fw.write(accumulators["callback_funcs"])
                 fw.write(main)
 
+
+        # Interaction policies
+        #for policy in profile["interaction-policies"]:
+
+
     print("Done.")
