@@ -1,6 +1,7 @@
 <map id="Graphical Class Hierarchy" name="Graphical Class Hierarchy">
-<area shape="rect" id="node1" title=" " alt="" coords="5,56,77,83"/>
-<area shape="rect" id="node2" href="$classdhcp_1_1dhcp.html" title=" " alt="" coords="125,5,213,32"/>
-<area shape="rect" id="node3" href="$classdns_1_1dns.html" title=" " alt="" coords="133,56,205,83"/>
-<area shape="rect" id="node4" href="$classhttp_1_1http.html" title=" " alt="" coords="130,107,209,133"/>
+<area shape="rect" id="node1" title=" " alt="" coords="5,81,77,108"/>
+<area shape="rect" id="node2" href="$classdhcp_1_1dhcp.html" title=" " alt="" coords="127,5,215,32"/>
+<area shape="rect" id="node3" href="$classdns_1_1dns.html" title=" " alt="" coords="135,56,207,83"/>
+<area shape="rect" id="node4" href="$classhttp_1_1http.html" title=" " alt="" coords="132,107,211,133"/>
+<area shape="rect" id="node5" href="$classigmp_1_1igmp.html" title=" " alt="" coords="125,157,217,184"/>
 </map>
