@@ -96,8 +96,8 @@ Collaboration diagram for Custom.Custom:</div>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:aa99b62e93751c4321093bac324d5b1e3"><td class="memItemLeft" align="right" valign="top">None&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classCustom_1_1Custom.html#aa99b62e93751c4321093bac324d5b1e3">add_field</a> (self, str field, dict rules, func=lambda x:x)</td></tr>
-<tr class="separator:aa99b62e93751c4321093bac324d5b1e3"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9978a4b1e66c423fc8318282a82c3835"><td class="memItemLeft" align="right" valign="top">None&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classCustom_1_1Custom.html#a9978a4b1e66c423fc8318282a82c3835">add_field</a> (self, str field, dict rules, func=lambda x:x, backward_func=lambda x:x)</td></tr>
+<tr class="separator:a9978a4b1e66c423fc8318282a82c3835"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ae4b0b424863e2fb794d2d25f5990a883"><td class="memItemLeft" align="right" valign="top">None&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classCustom_1_1Custom.html#ae4b0b424863e2fb794d2d25f5990a883">handle_app_fields</a> (self, direction_both=False)</td></tr>
 <tr class="separator:ae4b0b424863e2fb794d2d25f5990a883"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a6ea3dc9ed173c0cb9a37d84350398517"><td class="memItemLeft" align="right" valign="top">None&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classCustom_1_1Custom.html#a6ea3dc9ed173c0cb9a37d84350398517">parse</a> (self)</td></tr>
@@ -119,8 +119,8 @@ bool&#160;</td><td class="memItemRight" valign="bottom"><b>custom_parser</b> = T
 <tr class="separator:a9a28dfaf487b41242f3e3714645ed857"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <h2 class="groupheader">Member Function Documentation</h2>
-<a id="aa99b62e93751c4321093bac324d5b1e3"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aa99b62e93751c4321093bac324d5b1e3">&#9670;&nbsp;</a></span>add_field()</h2>
+<a id="a9978a4b1e66c423fc8318282a82c3835"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a9978a4b1e66c423fc8318282a82c3835">&#9670;&nbsp;</a></span>add_field()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -147,7 +147,13 @@ bool&#160;</td><td class="memItemRight" valign="bottom"><b>custom_parser</b> = T
           <td class="paramkey"></td>
           <td></td>
           <td class="paramtype">&#160;</td>
-          <td class="paramname"><em>func</em> = <code>lambda&#160;x:&#160;x</code>&#160;</td>
+          <td class="paramname"><em>func</em> = <code>lambda&#160;x:&#160;x</code>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname"><em>backward_func</em> = <code>lambda&#160;x:&#160;x</code>&#160;</td>
         </tr>
         <tr>
           <td></td>
@@ -163,6 +169,9 @@ Args:
     field (str): Field to add the rule for.
     rules (dict): Dictionary containing the custom matches for the C file.
     func (lambda): Function to apply to the field value before writing it.
+           Optional, default is the identity function.
+    backward_func (lambda): Function to apply to the field value in the case of a backwards rule.
+           Will be applied after the forward function.
            Optional, default is the identity function.
 </pre> 
 </div>
