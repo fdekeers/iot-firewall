@@ -20,7 +20,7 @@ class Custom(Protocol):
             func (lambda): Function to apply to the field value before writing it.
                            Optional, default is the identity function.
             backward_func (lambda): Function to apply to the field value in the case of a backwards rule.
-                           Will be applied before the forward function.
+                           Will be applied after the forward function.
                            Optional, default is the identity function.
         """
         if field in self.parsing_data['profile_data']:

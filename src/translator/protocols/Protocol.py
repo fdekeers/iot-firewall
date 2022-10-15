@@ -1,3 +1,4 @@
+from turtle import forward
 from typing import Callable
 import jinja2
 import importlib
@@ -50,14 +51,32 @@ class Protocol:
             func (lambda): Function to apply to the field value before writing it.
                            Optional, default is the identity function.
             backward_func (lambda): Function to apply to the field value in the case of a backwards rule.
-                           Will be applied before the forward function.
+                           Will be applied after the forward function.
                            Optional, default is the identity function.
         """
         if field in self.parsing_data['profile_data']:
             value = self.parsing_data['profile_data'][field]
-            self.parsing_data['accumulators']['nft_rule'] = self.parsing_data['accumulators'].get("nft_rule", f"nft add rule {self.metadata['nft_table_chain']}") + f" {rules['forward'].format(func(value))}"
+
+            # If value from YAML profile is a list, add each element
+            if type(value) == list:
+                # Value list
+                value_list = value
+                value = "{ "
+                for i in range(len(value_list)):
+                    if i != 0:
+                        value += ", "
+                    value += str(func(value_list[i]))
+                value += " }"
+            else:
+                # Single value
+                value = func(value)
+            
+            # Write rule
+            self.parsing_data['accumulators']['nft_rule'] = self.parsing_data['accumulators'].get("nft_rule", f"nft add rule {self.metadata['nft_table_chain']}") + f" {rules['forward'].format(value)}"
+
+            # Write backwards rule (if necessary)
             if "backward" in rules and self.parsing_data['accumulators']['nft_rule_backwards']:
-                self.parsing_data['accumulators']['nft_rule_backwards'] = self.parsing_data['accumulators'].get("nft_rule_backwards", f"nft add rule {self.metadata['nft_table_chain']}") + f" {rules['backward'].format(func(backward_func(value)))}"
+                self.parsing_data['accumulators']['nft_rule_backwards'] = self.parsing_data['accumulators'].get("nft_rule_backwards", f"nft add rule {self.metadata['nft_table_chain']}") + f" {rules['backward'].format(backward_func(value))}"
 
 
     def parse(self) -> None:
