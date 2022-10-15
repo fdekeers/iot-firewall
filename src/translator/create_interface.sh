@@ -1,4 +1,4 @@
-#!/usr/bin/bash
+#!/bin/bash
 
 modprobe dummy
 ip link add enp0s8 type dummy

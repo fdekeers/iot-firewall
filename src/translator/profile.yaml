@@ -1,0 +1,29 @@
+---
+device-info:
+  device-name: xiaomi-cam
+  mac-address: 78:8b:2a:b2:20:ea
+  ip-address: 192.168.1.161
+  mud-version: 1
+  mud-url: https://xiaomi-cam.com/xiaomi-cam
+  last-update: "2022-03-15T10:27:29.170+01:00"
+  cache-validity: 100
+  is-supported: true
+
+
+individual-policies:
+
+  http-xiaomi-cloud:
+    protocols:
+      http:
+        method: GET
+        uri: /gslb?tver=2&id=369215617&dm=ots.io.mi.com&timestamp=8&sign=j2zt3%2BpbAwcxrxovQUFtCyZ6DUmGplXNKr1i8jteRb4%3D
+      tcp:
+        dst-port: 80
+        initiated-by: self
+      ipv4:
+        src: self
+        dst:
+          - 110.43.0.83
+          - mdns
+    direction: both
+...

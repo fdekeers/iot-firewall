@@ -1,0 +1,20 @@
+name: Test profile translator
+on: [push]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Install required packages
+        run: sudo $GITHUB_WORKSPACE/.ci_scripts/compile-and-test/install_packages.sh
+      
+      - name: Create dummy network interface
+        run: sudo $GITHUB_WORKSPACE/src/translator/create_interface.sh
+      
+      - name: Test profile translator
+        run: sudo python3 $GITHUB_WORKSPACE/src/translator/translator.py $GITHUB_WORKSPACE/src/translator/profile.yaml
+ 
