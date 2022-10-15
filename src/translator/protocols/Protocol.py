@@ -1,5 +1,3 @@
-from turtle import forward
-from typing import Callable
 import jinja2
 import importlib
 
