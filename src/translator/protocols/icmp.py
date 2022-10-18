@@ -13,17 +13,18 @@ class icmp(Protocol):
     ]
 
 
-    def parse(self) -> None:
+    def parse(self, direction: str = "in") -> dict:
         """
         Parse the ICMP protocol.
 
         Args:
-            data (dict): Data from the YAML profile.
-            states (dict): Current and next states.
-            accumulators (dict): Dictionary containing the accumulators for the forward and backward nftables rules and the callback functions.
+            direction (str): Direction of the traffic (in, out, or both).
+        Returns:
+            dict: Dictionary containing the (forward and backward) nftables and nfqueue rules for this policy.
         """
         # Handle ICMP message type
         rules = {"forward": "icmp type {}", "backward": "icmp type {}"}
         # Lambda function to flip the ICMP type (for the backward rule)
         backward_func = lambda icmp_type: icmp_type.replace("request", "reply") if "request" in icmp_type else ( icmp_type.replace("reply", "request") if "reply" in icmp_type else icmp_type )
-        self.add_field("type", rules, backward_func=backward_func)
+        self.add_field("type", rules, direction, backward_func=backward_func)
+        return self.rules

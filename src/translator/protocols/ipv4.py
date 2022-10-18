@@ -23,16 +23,21 @@ class ipv4(Protocol):
 
 
     # TODO: translate domain names
-    def parse(self) -> None:
+    def parse(self, direction: str = "in") -> dict:
         """
         Parse the IPv4 protocol.
-        Updates the accumulator values for the nftables and custom C rules.
+
+        Args:
+            direction (str): Direction of the traffic (in, out, or both).
+        Returns:
+            dict: Dictionary containing the (forward and backward) nftables and nfqueue rules for this policy.
         """
         # Lambda function to explicit a self or a well-known IP address
-        func = lambda ip: self.metadata['device']['ip'] if ip == "self" else ( self.addrs[ip] if ip in self.addrs else ip )
+        func = lambda ip: self.device['ip'] if ip == "self" else ( self.addrs[ip] if ip in self.addrs else ip )
         # Handle IPv4 source address
         rules = {"forward": "ip saddr {}", "backward": "ip daddr {}"}
-        self.add_field("src", rules, func)
+        self.add_field("src", rules, direction, func)
         # Handle IPv4 destination address
         rules = {"forward": "ip daddr {}", "backward": "ip saddr {}"}
-        self.add_field("dst", rules, func)
+        self.add_field("dst", rules, direction, func)
+        return self.rules

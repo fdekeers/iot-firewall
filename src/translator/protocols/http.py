@@ -3,6 +3,7 @@ from protocols.Custom import Custom
 class http(Custom):
     
     # Class variables
+    layer = 7               # Protocol OSI layer
     protocol_name = "http"  # Protocol name
 
     # Supported keys in YAML profile
@@ -11,18 +12,24 @@ class http(Custom):
         "uri"
     ]
 
-    def handle_app_fields(self) -> None:
+    def parse(self, direction: str = "in") -> dict:
         """
-        Handle the different protocol fields.
+        Parse the DHCP protocol.
+
+        Args:
+            direction (str): Direction of the traffic (in, out, or both).
+        Returns:
+            dict: Dictionary containing the (forward and backward) nftables and nfqueue rules for this policy.
         """
-        # Profile HTTP rules will always be requests
-        self.callback_dict["match_a"] = self.callback_dict.get("match_a", "") + f" &&\n\t\tmessage.is_request"
-        if self.parsing_data['accumulators']['nft_rule_backwards']:
-            # Handle backwards direction
-            self.callback_dict["match_b"] = self.callback_dict.get("match_b", "") + f" &&\n\t\t!message.is_request"
+        # HTTP rules will always be requests
+        rule = {"forward": "message.is_request"}
+        if direction == "both":
+            rule["backward"] = "!message.is_request"
+        self.rules["nfq"].append(rule)
         # Handle HTTP method
-        rules = {"forward": "message.method == {}"}
-        self.add_field("method", rules)
+        rule = {"forward": "message.method == {}"}
+        self.add_field("method", rule, direction)
         # Handle HTTP URI
-        rules = {"forward": "strcmp(message.uri, \"{}\") == 0"}
-        self.add_field("uri", rules)
+        rule = {"forward": "strcmp(message.uri, \"{}\") == 0"}
+        self.add_field("uri", rule, direction)
+        return self.rules

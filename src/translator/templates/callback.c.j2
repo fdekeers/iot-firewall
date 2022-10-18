@@ -1,14 +1,14 @@
 
 
 /**
- * @brief {{scenario}} callback function, called when a packet enters the queue.
+ * @brief {{policy}} callback function, called when a packet enters the queue.
  * 
  * @param pkt_id packet ID for netfilter queue
  * @param payload pointer to the packet payload
  * @param arg pointer to the argument passed to the callback function
  * @return the verdict for the packet
  */
-uint32_t callback_{{scenario}}(int pkt_id, uint8_t *payload, void *arg) {
+uint32_t callback_{{policy}}(int pkt_id, uint8_t *payload, void *arg) {
     printf("Received packet\n");
     // Skip layer 3 and 4 headers
     size_t skipped = get_ip_header_length(payload);
@@ -24,20 +24,55 @@ uint32_t callback_{{scenario}}(int pkt_id, uint8_t *payload, void *arg) {
     {%- endif -%}
     );
     {{protocol}}_print_message(message);
+    uint32_t verdict = NF_DROP;
 
     // Custom match
     if (
-        state == {{old_state}}{{match_a}}
+        {{nfq[0]["forward"]}}
+        {% for match in nfq[1:] %}
+        && {{match["forward"]}}
+        {% endfor %}
     ) {
-        state = {{new_state}};
-        return NF_ACCEPT;
+        {% if multithread %}
+        pthread_mutex_lock(&mutex);
+        {% endif %}
+        if (state == {{old_state}}) {
+            state = {{new_state}};
+            {% if multithread %}
+            pthread_mutex_unlock(&mutex);
+            {% endif %}
+            verdict = NF_ACCEPT;
+        }
+        {% if multithread %}
+        else {
+            pthread_mutex_unlock(&mutex);
+        }
+        {% endif %}
     } else if (
-        state == {{new_state}}{{match_b}}
+        {{nfq[0]["backward"]}}
+        {% for match in nfq[1:] %}
+        {% if "backward" in match %}
+        && {{match["backward"]}}
+        {% endif %}
+        {% endfor %}
     ) {
-        state = {{old_state}};
-        return NF_ACCEPT;
+        {% if multithread %}
+        pthread_mutex_lock(&mutex);
+        {% endif %}
+        if (state == {{new_state}}) {
+            state = {{old_state}};
+            {% if multithread %}
+            pthread_mutex_unlock(&mutex);
+            {% endif %}
+            verdict = NF_ACCEPT;
+        }
+        {% if multithread %}
+        else {
+            pthread_mutex_unlock(&mutex);
+        }
+        {% endif %}
     }
 
-    return NF_DROP;
+    return verdict;
 }
 

@@ -26,4 +26,35 @@ individual-policies:
           - 110.43.0.83
           - mdns
     direction: both
+
+
+interaction-policiesu:
+
+  get-ip-address:
+
+      dhcp-discover:
+        protocols:
+          dhcp:
+            type: discover
+            client-mac: self
+          udp:
+            src-port: 68
+            dst-port: 67
+          ipv4:
+            src: 0.0.0.0
+            dst: broadcast
+        direction: out
+
+      dhcp-offer:
+        protocols:
+          dhcp:
+            type: offer
+            client-mac: self
+          udp:
+            src-port: 67
+            dst-port: 68
+          ipv4:
+            src: gateway
+            dst: self
+        direction: in
 ...

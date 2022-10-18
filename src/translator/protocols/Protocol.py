@@ -1,4 +1,4 @@
-import jinja2
+from __future__ import annotations
 import importlib
 
 class Protocol:
@@ -7,57 +7,57 @@ class Protocol:
     """
     
 
-    def __init__(self, metadata: dict, parsing_data: dict, env: jinja2.Environment) -> None:
+    def __init__(self, protocol_data: dict, device: dict) -> None:
         """
         Generic protocol constructor.
 
         Args:
-            metadata (dict): Device and policy metadata.
-            parsing_data (dict): Current parsing_data related to this protocol, will be updated when parsing.
-            env (jinja2.Environment): Jinja2 environment.
+            protocol_data (dict): Dictionary containing the protocol data.
+            device (dict): Dictionary containing the device metadata.
         """
-        metadata["scenario"] = metadata['policy'].replace("-", "_")
-        metadata['nft_table_chain'] = f"netdev {metadata['device']['name']} {metadata['policy']}"
-        self.metadata = metadata
-        self.parsing_data = parsing_data
-        self.env = env
+        self.protocol_data = protocol_data
+        self.device = device
+        self.rules = {
+            "nft": [],
+            "nfq": []
+        }
 
 
     @classmethod
-    def init_protocol(c, metadata: dict, parsing_data: dict, env: jinja2.Environment):
+    def init_protocol(c, protocol_name: str, protocol_data: dict, device: dict) -> Protocol:
         """
         Factory method for a specific protocol.
 
         Args:
-            metadata (dict): Device and policy metadata.
-            parsing_data (dict): Current parsing_data related to this protocol, will be updated when parsing.
-            env (jinja2.Environment): Jinja2 environment.
+            protocol_name (str): Name of the protocol.
+            protocol_data (dict): Dictionary containing the protocol data.
+            device (dict): Dictionary containing the device metadata.
         """
-        module = importlib.import_module(f"protocols.{metadata['protocol']}")
-        cls = getattr(module, metadata['protocol'])
-        return cls(metadata, parsing_data, env)
+        module = importlib.import_module(f"protocols.{protocol_name}")
+        cls = getattr(module, protocol_name)
+        return cls(protocol_data, device)
 
     
-    def add_field(self, field: str, rules: dict, func = lambda x: x, backward_func = lambda x: x) -> None:
+    def add_field(self, field: str, rules: dict, direction: str = "in", func = lambda x: x, backward_func = lambda x: x) -> None:
         """
-        Add a new custom parser rule to the callback function.
-        Overrides the nftables version.
+        Add a new nftables rule to the nftables rules accumulator.
 
         Args:
             field (str): Field to add the rule for.
-            rules (dict): Dictionary containing the custom matches for the C file.
+            rules (dict): Dictionary containing the protocol-specific rules to add.
+            direction (str): Direction of the traffic (in, out, or both). Default is "in".
             func (lambda): Function to apply to the field value before writing it.
                            Optional, default is the identity function.
             backward_func (lambda): Function to apply to the field value in the case of a backwards rule.
                            Will be applied after the forward function.
                            Optional, default is the identity function.
         """
-        if field in self.parsing_data['profile_data']:
-            value = self.parsing_data['profile_data'][field]
+        if field in self.protocol_data:
+            value = self.protocol_data[field]
 
             # If value from YAML profile is a list, add each element
             if type(value) == list:
-                # Value list
+                # Value is a list
                 value_list = value
                 value = "{ "
                 for i in range(len(value_list)):
@@ -66,20 +66,26 @@ class Protocol:
                     value += str(func(value_list[i]))
                 value += " }"
             else:
-                # Single value
+                # Value is a single element
                 value = func(value)
             
-            # Write rule
-            self.parsing_data['accumulators']['nft_rule'] = self.parsing_data['accumulators'].get("nft_rule", f"nft add rule {self.metadata['nft_table_chain']}") + f" {rules['forward'].format(value)}"
+            # Write forward rule
+            rule = {}
+            rule["forward"] = rules["forward"].format(value)
+            # Write backward rule (if necessary)
+            if "backward" in rules and direction == "both":
+                rule["backward"] = rules["backward"].format(backward_func(value))
+            self.rules["nft"].append(rule)
 
-            # Write backwards rule (if necessary)
-            if "backward" in rules and self.parsing_data['accumulators']['nft_rule_backwards']:
-                self.parsing_data['accumulators']['nft_rule_backwards'] = self.parsing_data['accumulators'].get("nft_rule_backwards", f"nft add rule {self.metadata['nft_table_chain']}") + f" {rules['backward'].format(backward_func(value))}"
 
-
-    def parse(self) -> None:
+    def parse(self, direction: str = "in") -> dict:
         """
         Default parsing method.
-        Must be updayed in the children class.
+        Must be updated in the children class.
+
+        Args:
+            direction (str): Direction of the traffic (in, out, or both).
+        Returns:
+            dict: Dictionary containing the (forward and backward) nftables and nfqueue rules for this policy.
         """
-        return None
+        return self.rules

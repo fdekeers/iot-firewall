@@ -12,18 +12,19 @@ class Transport(Protocol):
         "dst-port"
     ]
 
-    def parse(self) -> None:
+    def parse(self, direction: str = "in") -> dict:
         """
         Parse a layer 4 protocol.
 
         Args:
-            data (dict): Data from the YAML profile.
-            states (dict): Current and next states.
-            accumulators (dict): Dictionary containing the accumulators for the forward and backward nftables rules and the callback functions.
+            direction (str): Direction of the traffic (in, out, or both).
+        Returns:
+            dict: Dictionary containing the (forward and backward) nftables and nfqueue rules for this policy.
         """
         # Handle source port
         rules = {"forward": f"{self.protocol_name} sport {{}}", "backward": f"{self.protocol_name} dport {{}}"}
-        self.add_field("src-port", rules)
+        self.add_field("src-port", rules, direction)
         # Handle destination port
         rules = {"forward": f"{self.protocol_name} dport {{}}", "backward": f"{self.protocol_name} sport {{}}"}
-        self.add_field("dst-port", rules)
+        self.add_field("dst-port", rules, direction)
+        return self.rules

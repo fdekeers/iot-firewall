@@ -8,8 +8,35 @@
  * @return exit code, 0 if success
  */
 int main(int argc, char const *argv[]) {
+    {% if multithread %}
+    // Initialize state mutex
+    int ret = pthread_mutex_init(&mutex, NULL);
+    assert(ret == 0);
+
+    // Create threads
+    uint8_t i = 0;
+    pthread_t threads[MAX_THREADS];
+
+    // {{protocol}}
+    thread_arg_t thread_arg_{{protocol}} = {
+        .queue_id = NFQUEUE_ID_RANGE + i,
+        .func = &callback_{{protocol}},
+        .arg = NULL
+    };
+    ret = pthread_create(&threads[i++], NULL, nfqueue_thread, (void *) &thread_arg_{{protocol}});
+    assert(ret == 0);
+
+    // Wait forever for threads
+    for (i = 0; i < MAX_THREADS; i++) {
+        pthread_join(threads[i], NULL);
+    }
+
+    // Destroy mutex
+    pthread_mutex_destroy(&mutex);
+    {% else %}
     // Bind to netfilter queue
-    bind_queue(NFQ_ID_BASE + {{nfq_id_offset}}, &callback_{{scenario}}, NULL);
+    bind_queue(NFQ_ID_BASE + {{nfq_id_offset}}, &callback_{{policy}}, NULL);
+    {% endif %}
 
     return 0;
 }
