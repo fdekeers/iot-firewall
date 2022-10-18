@@ -24,10 +24,10 @@ class Custom(Protocol):
             value = self.protocol_data[field]
             # Write forward rule
             rule = {}
-            rule["forward"] = rules["forward"].format(value)
+            rule["forward"] = rules["forward"].format(func(value))
             # Write backward rule (if necessary)
             if "backward" in rules and direction == "both":
                 rule["backward"] = rules["backward"].format(
-                    backward_func(value))
+                    backward_func(func(value)))
             self.rules["nfq"].append(rule)
 

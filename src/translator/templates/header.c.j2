@@ -15,7 +15,9 @@
 #include "packet_utils.h"
 // Parsers
 #include "parsers/header.h"
-{{parsers}}
+{% for custom_parser in custom_parsers %}
+#include "parsers/{{custom_parser}}.h"
+{% endfor %}
 
 // Constants
 #define MAX_THREADS {{max_threads}}

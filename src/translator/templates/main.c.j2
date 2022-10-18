@@ -17,15 +17,17 @@ int main(int argc, char const *argv[]) {
     uint8_t i = 0;
     pthread_t threads[MAX_THREADS];
 
-    // {{protocol}}
-    thread_arg_t thread_arg_{{protocol}} = {
-        .queue_id = NFQUEUE_ID_RANGE + i,
-        .func = &callback_{{protocol}},
+    {% for policy in policies %}
+    // {{policy}}
+    thread_arg_t thread_arg_{{policy}} = {
+        .queue_id = NFQ_ID_BASE + i,
+        .func = &callback_{{policy}},
         .arg = NULL
     };
-    ret = pthread_create(&threads[i++], NULL, nfqueue_thread, (void *) &thread_arg_{{protocol}});
+    ret = pthread_create(&threads[i++], NULL, nfqueue_thread, (void *) &thread_arg_{{policy}});
     assert(ret == 0);
-
+    
+    {% endfor %}
     // Wait forever for threads
     for (i = 0; i < MAX_THREADS; i++) {
         pthread_join(threads[i], NULL);

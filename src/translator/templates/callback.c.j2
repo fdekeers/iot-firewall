@@ -12,18 +12,18 @@ uint32_t callback_{{policy}}(int pkt_id, uint8_t *payload, void *arg) {
     printf("Received packet\n");
     // Skip layer 3 and 4 headers
     size_t skipped = get_ip_header_length(payload);
-    {% if protocol == 'http' %}
+    {% if custom_parsers[current_state] == 'http' %}
     uint16_t src_port = get_src_port(payload + skipped);
     {% endif %}
     skipped += get_tcp_header_length(payload + skipped);
 
     // Parse message
-    {{protocol}}_message_t message = {{protocol}}_parse_message(payload + skipped
-    {%- if protocol == 'http' -%}
+    {{custom_parsers[current_state]}}_message_t message = {{custom_parsers[current_state]}}_parse_message(payload + skipped
+    {%- if custom_parsers[current_state] == 'http' -%}
     , src_port
     {%- endif -%}
     );
-    {{protocol}}_print_message(message);
+    {{custom_parsers[current_state]}}_print_message(message);
     uint32_t verdict = NF_DROP;
 
     // Custom match
@@ -36,8 +36,8 @@ uint32_t callback_{{policy}}(int pkt_id, uint8_t *payload, void *arg) {
         {% if multithread %}
         pthread_mutex_lock(&mutex);
         {% endif %}
-        if (state == {{old_state}}) {
-            state = {{new_state}};
+        if (state == {{states[current_state]}}) {
+            state = {{states[(current_state + 1) % states|length]}};
             {% if multithread %}
             pthread_mutex_unlock(&mutex);
             {% endif %}
@@ -48,6 +48,7 @@ uint32_t callback_{{policy}}(int pkt_id, uint8_t *payload, void *arg) {
             pthread_mutex_unlock(&mutex);
         }
         {% endif %}
+    {% if direction == "both" %}
     } else if (
         {{nfq[0]["backward"]}}
         {% for match in nfq[1:] %}
@@ -59,8 +60,8 @@ uint32_t callback_{{policy}}(int pkt_id, uint8_t *payload, void *arg) {
         {% if multithread %}
         pthread_mutex_lock(&mutex);
         {% endif %}
-        if (state == {{new_state}}) {
-            state = {{old_state}};
+        if (state == {{states[(current_state + 1) % states|length]}}) {
+            state = {{states[(current_state + 2) % states|length]}};
             {% if multithread %}
             pthread_mutex_unlock(&mutex);
             {% endif %}
@@ -71,6 +72,7 @@ uint32_t callback_{{policy}}(int pkt_id, uint8_t *payload, void *arg) {
             pthread_mutex_unlock(&mutex);
         }
         {% endif %}
+    {% endif %}
     }
 
     return verdict;

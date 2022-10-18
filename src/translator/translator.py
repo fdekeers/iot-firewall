@@ -35,7 +35,7 @@ if __name__ == "__main__":
 
         # For testing only
         # Delete nftables table
-        command = f"nft delete table netdev {device['name']}"
+        command = f"sudo nft delete table netdev {device['name']}"
         try:
             output = subprocess.check_output(command, shell=True)
         except subprocess.CalledProcessError as e:
@@ -50,12 +50,13 @@ if __name__ == "__main__":
 
         # Create device nftables table
         nft_table = f"netdev {device['name']}"
-        command = f"nft add table {nft_table}"
+        command = f"sudo nft add table {nft_table}"
         subprocess.run(command, shell=True)
+
+        nfq_id_base = 0  # Base nfqueue id, will be incremented by 10 for each high-level policy
     
         # Loop over the device's individual policies
         if "individual-policies" in profile:
-            nfq_id_base = 0
             for policy_name in profile["individual-policies"]:
                 # Populate Jinja2 templates with general data for single policies
                 policy_jinja = policy_name.replace("-", "_")
@@ -64,11 +65,11 @@ if __name__ == "__main__":
                 header_dict["max_threads"] = 1
                 header_dict["states"] = states
                 header_dict["nfq_id_base"] = nfq_id_base
-                callback_dict = {"policy": policy_jinja, "multithread": False, "old_state": "STATE_0", "new_state": "STATE_1"}
+                callback_dict = {"policy": policy_jinja, "multithread": False, "states": states, "current_state": 0}
                 main_dict = {"policy": policy_jinja, "multithread": False, "nfq_id_offset": 0}
 
                 # Create nftables chain for this policy
-                command = f"nft add chain {nft_table} {policy_name} {{ type filter hook ingress device enp0s8 priority 0\; policy drop \; }}"
+                command = f"sudo nft add chain {nft_table} {policy_name} {{ type filter hook ingress device enp0s8 priority 0\; policy drop \; }}"
                 subprocess.run(command, shell=True)
 
                 # Create policy and parse it
@@ -77,14 +78,14 @@ if __name__ == "__main__":
                 accumulators = policy.parse()
 
                 # Add nftables rules
-                nft_rule_forward = f"nft add rule {nft_table} {policy_name}"
+                nft_rule_forward = f"sudo nft add rule {nft_table} {policy_name}"
                 nft_rule_backward = ""
                 nft_matches = accumulators["nft"]
                 for i in range(len(nft_matches)):
                     nft_rule_forward += f" {nft_matches[i]['forward']}"
                     # Add backward rule (if necessary)
                     if "backward" in nft_matches[i]:
-                        nft_rule_backward = nft_rule_backward + f" {nft_matches[i]['backward']}" if nft_rule_backward else f"nft add rule {nft_table} {policy_name} {nft_matches[i]['backward']}"
+                        nft_rule_backward = nft_rule_backward + f" {nft_matches[i]['backward']}" if nft_rule_backward else f"sudo nft add rule {nft_table} {policy_name} {nft_matches[i]['backward']}"
                 nft_rule_forward += f" queue num {nfq_id_base}"
                 subprocess.run(nft_rule_forward, shell=True)
                 if nft_rule_backward:
@@ -93,9 +94,16 @@ if __name__ == "__main__":
                 nfq_id_base += 10
 
                 # Retrieve Jinja2 template directories
-                header_dict = {**header_dict, **accumulators["jinja"]["header"]}
-                callback_dict = {**callback_dict, **accumulators["jinja"]["callback"], "nfq": accumulators["nfq"]}
-                main_dict = {**main_dict, **accumulators["jinja"]["main"]}
+                header_dict = {**header_dict,
+                    "custom_parsers": [accumulators["custom_parser"]] if "custom_parser" in accumulators else []
+                }
+                callback_dict = {
+                    **callback_dict,
+                    "custom_parsers": [accumulators["custom_parser"]] if "custom_parser" in accumulators else [],
+                    "current_state": 0,
+                    "direction": profile_data["direction"],
+                    "nfq": accumulators["nfq"]
+                }
 
                 # Render Jinja2 templates
                 header = env.get_template("header.c.j2").render(header_dict)
@@ -107,6 +115,78 @@ if __name__ == "__main__":
                     fw.write(header)
                     fw.write(callback)
                     fw.write(main)
+
+
+        # Loop over the device's interaction policies
+        if "interaction-policies" in profile:
+            for interaction_policy_name in profile["interaction-policies"]:
+                interaction_policy = profile["interaction-policies"][interaction_policy_name]
+                # Populate Jinja2 templates with general data for interaction policies
+                policy_jinja = interaction_policy_name.replace("-", "_")
+                header_dict["policy"] = policy_jinja
+                header_dict["max_threads"] = len(interaction_policy)
+                multithread = len(interaction_policy) > 1
+                states = list(map(lambda i: f"STATE_{i}", range(len(interaction_policy))))
+                header_dict["states"] = states
+                header_dict["nfq_id_base"] = nfq_id_base
+                callback_dict = {"multithread": multithread}
+                main_dict = {"policy": policy_jinja, "multithread": multithread}
+
+                # Create nftables chain for this policy
+                command = f"sudo nft add chain {nft_table} {policy_name} {{ type filter hook ingress device enp0s8 priority 0\; policy drop \; }}"
+                subprocess.run(command, shell=True)
+
+                # Iterate on single policies
+                current_state = 0
+                custom_parsers = []
+                policies = []
+                callback_funcs = ""
+                for single_policy_name in interaction_policy:
+                    # Create policy and parse it
+                    single_policy_jinja = single_policy_name.replace("-", "_")
+                    policies.append(single_policy_jinja)
+                    profile_data = interaction_policy[single_policy_name]
+                    single_policy = Policy(single_policy_name, profile_data, device)
+                    accumulators = single_policy.parse()
+
+                    # Update high-level accumulators
+                    if "custom_parser" in accumulators:
+                        custom_parsers.append(accumulators["custom_parser"])
+
+                    # Add nftables rules
+                    nft_rule_forward = f"sudo nft add rule {nft_table} {policy_name}"
+                    nft_rule_backward = ""
+                    nft_matches = accumulators["nft"]
+                    for i in range(len(nft_matches)):
+                        nft_rule_forward += f" {nft_matches[i]['forward']}"
+                        # Add backward rule (if necessary)
+                        if "backward" in nft_matches[i]:
+                            nft_rule_backward = nft_rule_backward + f" {nft_matches[i]['backward']}" if nft_rule_backward else f"sudo nft add rule {nft_table} {policy_name} {nft_matches[i]['backward']}"
+                    nft_rule_forward += f" queue num {nfq_id_base + current_state}"
+                    subprocess.run(nft_rule_forward, shell=True)
+                    if nft_rule_backward:
+                        nft_rule_backward += f" queue num {nfq_id_base + current_state}"
+                        subprocess.run(nft_rule_backward, shell=True)
+
+                    # Add callback function for this single policy
+                    callback_dict = {**callback_dict, "policy": single_policy_jinja, "custom_parsers": custom_parsers, "states": states, "current_state": current_state, "direction": profile_data["direction"], "nfq": accumulators["nfq"]}
+                    callback_funcs += env.get_template("callback.c.j2").render(callback_dict)
+
+                    current_state += 1
+                
+                # Render Jinja2 templates
+                header_dict = {**header_dict, "custom_parsers": set(custom_parsers)}
+                header = env.get_template("header.c.j2").render(header_dict)
+                main_dict = {**main_dict, "policies": policies}
+                main = env.get_template("main.c.j2").render(main_dict)
+
+                # Write policy C file
+                with open(f"{device['name']}/{interaction_policy_name}.c", "w+") as fw:
+                    fw.write(header)
+                    fw.write(callback_funcs)
+                    fw.write(main)
+            
+            nfq_id_base += 10
 
 
     print("Done.")

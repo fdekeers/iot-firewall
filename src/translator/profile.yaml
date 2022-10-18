@@ -28,7 +28,7 @@ individual-policies:
     direction: both
 
 
-interaction-policiesu:
+interaction-policies:
 
   get-ip-address:
 
