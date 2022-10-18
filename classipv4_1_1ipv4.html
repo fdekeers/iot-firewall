@@ -95,8 +95,8 @@ Collaboration diagram for ipv4.ipv4:</div>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:a2eb72fe3f068bfea436c2124274aa210"><td class="memItemLeft" align="right" valign="top">None&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classipv4_1_1ipv4.html#a2eb72fe3f068bfea436c2124274aa210">parse</a> (self)</td></tr>
-<tr class="separator:a2eb72fe3f068bfea436c2124274aa210"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a69d50c67bb6ced7253cbbdb8c895af1a"><td class="memItemLeft" align="right" valign="top">dict&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classipv4_1_1ipv4.html#a69d50c67bb6ced7253cbbdb8c895af1a">parse</a> (self, str direction=&quot;in&quot;)</td></tr>
+<tr class="separator:a69d50c67bb6ced7253cbbdb8c895af1a"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-static-attribs"></a>
 Static Public Attributes</h2></td></tr>
@@ -115,23 +115,37 @@ bool&#160;</td><td class="memItemRight" valign="bottom"><b>custom_parser</b> = F
 <tr class="separator:a19b973fc937157c9836c6ef3a33eec59"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <h2 class="groupheader">Member Function Documentation</h2>
-<a id="a2eb72fe3f068bfea436c2124274aa210"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a2eb72fe3f068bfea436c2124274aa210">&#9670;&nbsp;</a></span>parse()</h2>
+<a id="a69d50c67bb6ced7253cbbdb8c895af1a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a69d50c67bb6ced7253cbbdb8c895af1a">&#9670;&nbsp;</a></span>parse()</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname"> None ipv4.ipv4.parse </td>
+          <td class="memname"> dict ipv4.ipv4.parse </td>
           <td>(</td>
           <td class="paramtype">&#160;</td>
-          <td class="paramname"><em>self</em></td><td>)</td>
+          <td class="paramname"><em>self</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
           <td></td>
+          <td class="paramtype">str &#160;</td>
+          <td class="paramname"><em>direction</em> = <code>&quot;in&quot;</code>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
         </tr>
       </table>
 </div><div class="memdoc">
 <pre class="fragment">Parse the IPv4 protocol.
-Updates the accumulator values for the nftables and custom C rules.
+
+Args:
+    direction (str): Direction of the traffic (in, out, or both).
+Returns:
+    dict: Dictionary containing the (forward and backward) nftables and nfqueue rules for this policy.
 </pre> 
 </div>
 </div>

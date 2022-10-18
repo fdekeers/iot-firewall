@@ -95,8 +95,8 @@ Collaboration diagram for Transport.Transport:</div>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:a76ff67e21b84929e1cd887f6c290a7fb"><td class="memItemLeft" align="right" valign="top">None&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classTransport_1_1Transport.html#a76ff67e21b84929e1cd887f6c290a7fb">parse</a> (self)</td></tr>
-<tr class="separator:a76ff67e21b84929e1cd887f6c290a7fb"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab0aa3b6e379b925ca2cf402083cf4427"><td class="memItemLeft" align="right" valign="top">dict&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classTransport_1_1Transport.html#ab0aa3b6e379b925ca2cf402083cf4427">parse</a> (self, str direction=&quot;in&quot;)</td></tr>
+<tr class="separator:ab0aa3b6e379b925ca2cf402083cf4427"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-static-attribs"></a>
 Static Public Attributes</h2></td></tr>
@@ -110,27 +110,37 @@ bool&#160;</td><td class="memItemRight" valign="bottom"><b>custom_parser</b> = F
 <tr class="separator:a3ea0f8e030fcacf140844b0b14d26bd2"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <h2 class="groupheader">Member Function Documentation</h2>
-<a id="a76ff67e21b84929e1cd887f6c290a7fb"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a76ff67e21b84929e1cd887f6c290a7fb">&#9670;&nbsp;</a></span>parse()</h2>
+<a id="ab0aa3b6e379b925ca2cf402083cf4427"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ab0aa3b6e379b925ca2cf402083cf4427">&#9670;&nbsp;</a></span>parse()</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname"> None Transport.Transport.parse </td>
+          <td class="memname"> dict Transport.Transport.parse </td>
           <td>(</td>
           <td class="paramtype">&#160;</td>
-          <td class="paramname"><em>self</em></td><td>)</td>
+          <td class="paramname"><em>self</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
           <td></td>
+          <td class="paramtype">str &#160;</td>
+          <td class="paramname"><em>direction</em> = <code>&quot;in&quot;</code>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
         </tr>
       </table>
 </div><div class="memdoc">
 <pre class="fragment">Parse a layer 4 protocol.
 
 Args:
-    data (dict): Data from the YAML profile.
-    states (dict): Current and next states.
-    accumulators (dict): Dictionary containing the accumulators for the forward and backward nftables rules and the callback functions.
+    direction (str): Direction of the traffic (in, out, or both).
+Returns:
+    dict: Dictionary containing the (forward and backward) nftables and nfqueue rules for this policy.
 </pre> 
 </div>
 </div>

@@ -95,26 +95,57 @@ Collaboration diagram for igmp.igmp:</div>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:a7b293263f7404fb15e385c11d9230d11"><td class="memItemLeft" align="right" valign="top"><a id="a7b293263f7404fb15e385c11d9230d11"></a>
-None&#160;</td><td class="memItemRight" valign="bottom"><b>parse</b> (self)</td></tr>
-<tr class="separator:a7b293263f7404fb15e385c11d9230d11"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3cea52cf15c6e7e550dd310f733f299d"><td class="memItemLeft" align="right" valign="top">dict&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classigmp_1_1igmp.html#a3cea52cf15c6e7e550dd310f733f299d">parse</a> (self, str direction=&quot;in&quot;)</td></tr>
+<tr class="separator:a3cea52cf15c6e7e550dd310f733f299d"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-static-attribs"></a>
 Static Public Attributes</h2></td></tr>
-<tr class="memitem:a16641bc3cd613e33734e1ef46ae008f4"><td class="memItemLeft" align="right" valign="top"><a id="a16641bc3cd613e33734e1ef46ae008f4"></a>
-string&#160;</td><td class="memItemRight" valign="bottom"><b>protocol_name</b> = &quot;igmp&quot;</td></tr>
-<tr class="separator:a16641bc3cd613e33734e1ef46ae008f4"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:acc903625560ede9e657c6634a084cbb8"><td class="memItemLeft" align="right" valign="top"><a id="acc903625560ede9e657c6634a084cbb8"></a>
 int&#160;</td><td class="memItemRight" valign="bottom"><b>layer</b> = 3</td></tr>
 <tr class="separator:acc903625560ede9e657c6634a084cbb8"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a9680ddd08359e1f03f0e169fa14e24c0"><td class="memItemLeft" align="right" valign="top"><a id="a9680ddd08359e1f03f0e169fa14e24c0"></a>
-bool&#160;</td><td class="memItemRight" valign="bottom"><b>custom_parser</b> = True</td></tr>
-<tr class="separator:a9680ddd08359e1f03f0e169fa14e24c0"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a16641bc3cd613e33734e1ef46ae008f4"><td class="memItemLeft" align="right" valign="top"><a id="a16641bc3cd613e33734e1ef46ae008f4"></a>
+string&#160;</td><td class="memItemRight" valign="bottom"><b>protocol_name</b> = &quot;igmp&quot;</td></tr>
+<tr class="separator:a16641bc3cd613e33734e1ef46ae008f4"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a099994f08e28156399c98d4ec957babb"><td class="memItemLeft" align="right" valign="top">list&#160;</td><td class="memItemRight" valign="bottom"><b>supported_keys</b></td></tr>
 <tr class="separator:a099994f08e28156399c98d4ec957babb"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a8123ecf8eb026ccc9b4f8df3b1393f21"><td class="memItemLeft" align="right" valign="top">dictionary&#160;</td><td class="memItemRight" valign="bottom"><b>groups</b></td></tr>
 <tr class="separator:a8123ecf8eb026ccc9b4f8df3b1393f21"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
+<h2 class="groupheader">Member Function Documentation</h2>
+<a id="a3cea52cf15c6e7e550dd310f733f299d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a3cea52cf15c6e7e550dd310f733f299d">&#9670;&nbsp;</a></span>parse()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"> dict igmp.igmp.parse </td>
+          <td>(</td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname"><em>self</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">str &#160;</td>
+          <td class="paramname"><em>direction</em> = <code>&quot;in&quot;</code>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<pre class="fragment">Parse the IGMP protocol.
+
+Args:
+    direction (str): Direction of the traffic (in, out, or both).
+Returns:
+    dict: Dictionary containing the (forward and backward) nftables and nfqueue rules for this policy.
+</pre> 
+</div>
+</div>
 <h2 class="groupheader">Member Data Documentation</h2>
 <a id="a8123ecf8eb026ccc9b4f8df3b1393f21"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a8123ecf8eb026ccc9b4f8df3b1393f21">&#9670;&nbsp;</a></span>groups</h2>

@@ -95,8 +95,8 @@ Collaboration diagram for arp.arp:</div>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:a8f1dd44355a60bffae7a712878e019e0"><td class="memItemLeft" align="right" valign="top">dict&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classarp_1_1arp.html#a8f1dd44355a60bffae7a712878e019e0">parse</a> (self)</td></tr>
-<tr class="separator:a8f1dd44355a60bffae7a712878e019e0"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a90c89dc390eb2d4fb70677505c51399e"><td class="memItemLeft" align="right" valign="top">dict&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classarp_1_1arp.html#a90c89dc390eb2d4fb70677505c51399e">parse</a> (self, str direction=&quot;in&quot;)</td></tr>
+<tr class="separator:a90c89dc390eb2d4fb70677505c51399e"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-static-attribs"></a>
 Static Public Attributes</h2></td></tr>
@@ -113,8 +113,8 @@ bool&#160;</td><td class="memItemRight" valign="bottom"><b>custom_parser</b> = F
 <tr class="separator:ae654ae94ae27b558ac5add875c0e21d9"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <h2 class="groupheader">Member Function Documentation</h2>
-<a id="a8f1dd44355a60bffae7a712878e019e0"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a8f1dd44355a60bffae7a712878e019e0">&#9670;&nbsp;</a></span>parse()</h2>
+<a id="a90c89dc390eb2d4fb70677505c51399e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a90c89dc390eb2d4fb70677505c51399e">&#9670;&nbsp;</a></span>parse()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -123,17 +123,27 @@ bool&#160;</td><td class="memItemRight" valign="bottom"><b>custom_parser</b> = F
           <td class="memname"> dict arp.arp.parse </td>
           <td>(</td>
           <td class="paramtype">&#160;</td>
-          <td class="paramname"><em>self</em></td><td>)</td>
+          <td class="paramname"><em>self</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
           <td></td>
+          <td class="paramtype">str &#160;</td>
+          <td class="paramname"><em>direction</em> = <code>&quot;in&quot;</code>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
         </tr>
       </table>
 </div><div class="memdoc">
 <pre class="fragment">Parse the ARP protocol.
 
 Args:
-    data (dict): Data from the YAML profile.
-    states (dict): Current and next states.
-    accumulators (dict): Dictionary containing the accumulators for the forward and backward nftables rules and the callback functions.
+    direction (str): Direction of the traffic (in, out, or both).
+Returns:
+    dict: Dictionary containing the (forward and backward) nftables and nfqueue rules for this policy.
 </pre> 
 </div>
 </div>

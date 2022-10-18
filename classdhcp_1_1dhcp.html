@@ -95,11 +95,14 @@ Collaboration diagram for dhcp.dhcp:</div>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:a4bc7c82689e9c9df6a328ddcb8f55ed3"><td class="memItemLeft" align="right" valign="top">None&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classdhcp_1_1dhcp.html#a4bc7c82689e9c9df6a328ddcb8f55ed3">handle_app_fields</a> (self)</td></tr>
-<tr class="separator:a4bc7c82689e9c9df6a328ddcb8f55ed3"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aeffff81d969d69a53c7060c6cb3e025d"><td class="memItemLeft" align="right" valign="top">dict&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classdhcp_1_1dhcp.html#aeffff81d969d69a53c7060c6cb3e025d">parse</a> (self, str direction=&quot;in&quot;)</td></tr>
+<tr class="separator:aeffff81d969d69a53c7060c6cb3e025d"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-static-attribs"></a>
 Static Public Attributes</h2></td></tr>
+<tr class="memitem:a7907e270454babfccfa53c8ba2ddfd3f"><td class="memItemLeft" align="right" valign="top"><a id="a7907e270454babfccfa53c8ba2ddfd3f"></a>
+int&#160;</td><td class="memItemRight" valign="bottom"><b>layer</b> = 7</td></tr>
+<tr class="separator:a7907e270454babfccfa53c8ba2ddfd3f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:af71981371161904eb93bca02b1f51b0e"><td class="memItemLeft" align="right" valign="top"><a id="af71981371161904eb93bca02b1f51b0e"></a>
 string&#160;</td><td class="memItemRight" valign="bottom"><b>protocol_name</b> = &quot;dhcp&quot;</td></tr>
 <tr class="separator:af71981371161904eb93bca02b1f51b0e"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -107,22 +110,37 @@ string&#160;</td><td class="memItemRight" valign="bottom"><b>protocol_name</b> =
 <tr class="separator:a8e07bd128f6bab8216b69a27aebe7d07"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <h2 class="groupheader">Member Function Documentation</h2>
-<a id="a4bc7c82689e9c9df6a328ddcb8f55ed3"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a4bc7c82689e9c9df6a328ddcb8f55ed3">&#9670;&nbsp;</a></span>handle_app_fields()</h2>
+<a id="aeffff81d969d69a53c7060c6cb3e025d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aeffff81d969d69a53c7060c6cb3e025d">&#9670;&nbsp;</a></span>parse()</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname"> None dhcp.dhcp.handle_app_fields </td>
+          <td class="memname"> dict dhcp.dhcp.parse </td>
           <td>(</td>
           <td class="paramtype">&#160;</td>
-          <td class="paramname"><em>self</em></td><td>)</td>
+          <td class="paramname"><em>self</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
           <td></td>
+          <td class="paramtype">str &#160;</td>
+          <td class="paramname"><em>direction</em> = <code>&quot;in&quot;</code>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
         </tr>
       </table>
 </div><div class="memdoc">
-<pre class="fragment">Handle the different protocol fields.
+<pre class="fragment">Parse the DHCP protocol.
+
+Args:
+    direction (str): Direction of the traffic (in, out, or both).
+Returns:
+    dict: Dictionary containing the (forward and backward) nftables and nfqueue rules for this policy.
 </pre> 
 </div>
 </div>

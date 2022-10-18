@@ -95,11 +95,14 @@ Collaboration diagram for dns.dns:</div>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:a16a47826c17f95f0167419aabc537afe"><td class="memItemLeft" align="right" valign="top">None&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classdns_1_1dns.html#a16a47826c17f95f0167419aabc537afe">handle_app_fields</a> (self)</td></tr>
-<tr class="separator:a16a47826c17f95f0167419aabc537afe"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:acff3a93db1377d75b20f9a5a37e17638"><td class="memItemLeft" align="right" valign="top">dict&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classdns_1_1dns.html#acff3a93db1377d75b20f9a5a37e17638">parse</a> (self, str direction=&quot;in&quot;)</td></tr>
+<tr class="separator:acff3a93db1377d75b20f9a5a37e17638"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-static-attribs"></a>
 Static Public Attributes</h2></td></tr>
+<tr class="memitem:a62480b7df4b3e85003f694235fb23453"><td class="memItemLeft" align="right" valign="top"><a id="a62480b7df4b3e85003f694235fb23453"></a>
+int&#160;</td><td class="memItemRight" valign="bottom"><b>layer</b> = 7</td></tr>
+<tr class="separator:a62480b7df4b3e85003f694235fb23453"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:af24d43ac4764feea79761c41b051962d"><td class="memItemLeft" align="right" valign="top"><a id="af24d43ac4764feea79761c41b051962d"></a>
 string&#160;</td><td class="memItemRight" valign="bottom"><b>protocol_name</b> = &quot;dns&quot;</td></tr>
 <tr class="separator:af24d43ac4764feea79761c41b051962d"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -107,25 +110,37 @@ string&#160;</td><td class="memItemRight" valign="bottom"><b>protocol_name</b> =
 <tr class="separator:ad4a6442780081984d5787e01ac21ee57"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <h2 class="groupheader">Member Function Documentation</h2>
-<a id="a16a47826c17f95f0167419aabc537afe"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a16a47826c17f95f0167419aabc537afe">&#9670;&nbsp;</a></span>handle_app_fields()</h2>
+<a id="acff3a93db1377d75b20f9a5a37e17638"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#acff3a93db1377d75b20f9a5a37e17638">&#9670;&nbsp;</a></span>parse()</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname"> None dns.dns.handle_app_fields </td>
+          <td class="memname"> dict dns.dns.parse </td>
           <td>(</td>
           <td class="paramtype">&#160;</td>
-          <td class="paramname"><em>self</em></td><td>)</td>
+          <td class="paramname"><em>self</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
           <td></td>
+          <td class="paramtype">str &#160;</td>
+          <td class="paramname"><em>direction</em> = <code>&quot;in&quot;</code>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
         </tr>
       </table>
 </div><div class="memdoc">
-<pre class="fragment">Handle the different protocol fields.
+<pre class="fragment">Parse the DHCP protocol.
 
 Args:
-    direction_both (bool): Whether the rule should be applied in both directions.
+    direction (str): Direction of the traffic (in, out, or both).
+Returns:
+    dict: Dictionary containing the (forward and backward) nftables and nfqueue rules for this policy.
 </pre> 
 </div>
 </div>
