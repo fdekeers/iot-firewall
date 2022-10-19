@@ -20,12 +20,17 @@ uint32_t callback_{{policy_jinja}}(int pkt_id, uint8_t *payload, void *arg) {
     skipped += get_tcp_header_length(payload + skipped);
 
     // Parse message
+    {% if custom_parsers[policy] == "mdns" %}
+    dns_message_t message = dns_parse_message(payload + skipped);
+    dns_print_message(message);
+    {% else %}
     {{custom_parsers[policy]}}_message_t message = {{custom_parsers[policy]}}_parse_message(payload + skipped
     {%- if custom_parsers[policy] == 'http' -%}
     , src_port
     {%- endif -%}
     );
     {{custom_parsers[policy]}}_print_message(message);
+    {% endif %}
     {% endif %}
     uint32_t verdict = NF_DROP;
 

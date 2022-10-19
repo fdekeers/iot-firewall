@@ -91,17 +91,6 @@ individual-policies:
         out: 1
         in: 1
 
-  igmp-phone:
-      protocols:
-        igmp:
-          version: 2
-          type: membership report
-          group: mdns
-        ipv4:
-          src: local
-          dst: mdns
-      direction: out
-
 
 interaction-policies:
 
@@ -181,4 +170,32 @@ interaction-policies:
           spa: gateway
           tpa: self
       direction: in
+  
+  ##### OPEN XIAOMI APP #####
+  open-app-local:
+
+    igmp-phone:
+      protocols:
+        igmp:
+          type: membership report
+          group: mdns
+        ipv4:
+          src: local
+          dst: mdns
+      direction: out
+
+    mdns-phone:
+      protocols:
+        mdns:
+          qtype: PTR
+          domain-name:
+            - _miio._udp.local
+            - _rc._tcp.local
+        udp:
+          src-port: 5353
+          dst-port: 5353
+        ipv4:
+          src: local
+      direction: out
+  
 ...

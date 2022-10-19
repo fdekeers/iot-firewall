@@ -19,7 +19,11 @@
 // Parsers
 #include "parsers/header.h"
 {% for parser in custom_parsers %}
+{% if parser == "mdns" %}
+#include "parsers/dns.h"
+{% else %}
 #include "parsers/{{parser}}.h"
+{% endif %}
 {% endfor %}
 
 // Constants
