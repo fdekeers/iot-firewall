@@ -27,6 +27,7 @@ int main(int argc, char const *argv[]) {
     };
     ret = pthread_create(&threads[i++], NULL, nfqueue_thread, (void *) &thread_arg_{{policy_jinja}});
     assert(ret == 0);
+    i++;
     
     {% endfor %}
     // Wait forever for threads

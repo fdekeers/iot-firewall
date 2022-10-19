@@ -12,6 +12,8 @@ device-info:
 
 individual-policies:
 
+  ##### BOOT TRAFFIC #####
+
   http-xiaomi-cloud:
     protocols:
       http:
@@ -25,6 +27,55 @@ individual-policies:
         dst:
           - 110.43.0.83
           - mdns
+    direction: both
+  
+  https-xiaomi-cloud:
+    protocols:
+      tcp:
+        dst-port: 443
+        initiated-by: self
+      ipv4:
+        src: self
+        dst: 120.92.133.153
+    direction: both
+
+  dns-xiaomi-api:
+    protocols:
+      dns:
+        qtype: A
+        domain-name: business.smartcamera.api.io.mi.com
+      udp:
+        dst-port: 53
+      ipv4:
+        src: self
+        dst: gateway
+    direction: both
+
+  ##### IDLE TRAFFIC #####
+
+  arp-request-from-gateway:
+    protocols:
+      arp:
+        type: request
+        sha: gateway
+        tha: default
+        spa: gateway
+        tpa: self
+    direction: both
+
+  udp-xiaomi-cloud:
+    protocols:
+      udp:
+      ipv4:
+        src: self
+        dst:
+          - 36.156.49.100
+          - 42.157.165.140
+          - 45.124.124.68
+          - 110.43.39.29
+          - 110.43.68.58
+          - 120.92.133.153
+          - 120.92.162.194
     direction: both
 
 
@@ -49,6 +100,32 @@ interaction-policies:
         protocols:
           dhcp:
             type: offer
+            client-mac: self
+          udp:
+            src-port: 67
+            dst-port: 68
+          ipv4:
+            src: gateway
+            dst: self
+        direction: in
+      
+      dhcp-request:
+        protocols:
+          dhcp:
+            type: request
+            client-mac: self
+          udp:
+            src-port: 68
+            dst-port: 67
+          ipv4:
+            src: 0.0.0.0
+            dst: broadcast
+        direction: out
+
+      dhcp-ack:
+        protocols:
+          dhcp:
+            type: ack
             client-mac: self
           udp:
             src-port: 67

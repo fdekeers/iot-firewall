@@ -65,12 +65,13 @@ if __name__ == "__main__":
                 header_dict["max_threads"] = 1
                 header_dict["states"] = states
                 header_dict["nfq_id_base"] = nfq_id_base
+                direction = profile_data["direction"]
                 callback_dict = {
                     "policy": policy_name,
                     "multithread": False,
                     "states": states,
                     "current_state": 0,
-                    "direction": profile_data["direction"]
+                    "direction": direction
                 }
                 main_dict = {
                     "policy": policy_name,
@@ -93,37 +94,41 @@ if __name__ == "__main__":
                 for i in range(len(nft_matches)):
                     nft_rule_forward += f" {nft_matches[i]['forward']}"
                     # Add backward rule (if necessary)
-                    if "backward" in nft_matches[i]:
+                    if direction == "both" and "backward" in nft_matches[i]:
                         nft_rule_backward = nft_rule_backward + f" {nft_matches[i]['backward']}" if nft_rule_backward else f"sudo nft add rule {nft_table} {policy_name} {nft_matches[i]['backward']}"
-                nft_rule_forward += f" queue num {nfq_id_base}"
+                suffix = f" queue num {nfq_id_base}" if accumulators["nfq"] else " accept"
+                nft_rule_forward += suffix
                 subprocess.run(nft_rule_forward, shell=True)
-                if nft_rule_backward:
-                    nft_rule_backward += f" queue num {nfq_id_base}"
+                if direction == "both" and nft_rule_backward:
+                    nft_rule_backward += suffix
                     subprocess.run(nft_rule_backward, shell=True)
-                nfq_id_base += 10
 
-                # Retrieve Jinja2 template directories
-                custom_parsers = {policy_name: accumulators["custom_parser"]} if "custom_parser" in accumulators else {}
-                header_dict = {
-                    **header_dict,
-                    "custom_parsers": set(custom_parsers.values())
-                }
-                callback_dict = {
-                    **callback_dict,
-                    "custom_parsers": custom_parsers,
-                    "nfq": accumulators["nfq"]
-                }
+                # If need for user-space matching, create nfqueue C file
+                if accumulators["nfq"]:
+                    # Retrieve Jinja2 template directories
+                    custom_parsers = {policy_name: accumulators["custom_parser"]} if "custom_parser" in accumulators else {}
+                    header_dict = {
+                        **header_dict,
+                        "custom_parsers": set(custom_parsers.values())
+                    }
+                    callback_dict = {
+                        **callback_dict,
+                        "custom_parsers": custom_parsers,
+                        "nfq": accumulators["nfq"]
+                    }
 
-                # Render Jinja2 templates
-                header = env.get_template("header.c.j2").render(header_dict)
-                callback = env.get_template("callback.c.j2").render(callback_dict)
-                main = env.get_template("main.c.j2").render(main_dict)
+                    # Render Jinja2 templates
+                    header = env.get_template("header.c.j2").render(header_dict)
+                    callback = env.get_template("callback.c.j2").render(callback_dict)
+                    main = env.get_template("main.c.j2").render(main_dict)
 
-                # Write policy C file
-                with open(f"{device['name']}/{policy_name}.c", "w+") as fw:
-                    fw.write(header)
-                    fw.write(callback)
-                    fw.write(main)
+                    # Write policy C file
+                    with open(f"{device['name']}/{policy_name}.c", "w+") as fw:
+                        fw.write(header)
+                        fw.write(callback)
+                        fw.write(main)
+                    
+                    nfq_id_base += 10
 
 
         # Loop over the device's interaction policies
@@ -153,6 +158,7 @@ if __name__ == "__main__":
                     # Create policy and parse it
                     policies.append(single_policy_name)
                     profile_data = interaction_policy[single_policy_name]
+                    direction = profile_data["direction"]
                     single_policy = Policy(single_policy_name, profile_data, device)
                     accumulators = single_policy.parse()
 
@@ -168,11 +174,11 @@ if __name__ == "__main__":
                     for i in range(len(nft_matches)):
                         nft_rule_forward += f" {nft_matches[i]['forward']}"
                         # Add backward rule (if necessary)
-                        if "backward" in nft_matches[i]:
+                        if direction == "both" and "backward" in nft_matches[i]:
                             nft_rule_backward = nft_rule_backward + f" {nft_matches[i]['backward']}" if nft_rule_backward else f"{rule_base} {nft_matches[i]['backward']}"
                     nft_rule_forward += f" queue num {nfq_id_base + current_state}"
                     subprocess.run(nft_rule_forward, shell=True)
-                    if nft_rule_backward:
+                    if direction == "both" and nft_rule_backward:
                         nft_rule_backward += f" queue num {nfq_id_base + current_state}"
                         subprocess.run(nft_rule_backward, shell=True)
 
@@ -183,7 +189,7 @@ if __name__ == "__main__":
                         "custom_parsers": custom_parsers,
                         "states": states,
                         "current_state": current_state,
-                        "direction": profile_data["direction"],
+                        "direction": direction,
                         "nfq": accumulators["nfq"]}
                     callback_funcs += env.get_template("callback.c.j2").render(callback_dict)
 

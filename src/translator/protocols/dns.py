@@ -30,7 +30,7 @@ class dns(Custom):
         rules = {"forward": rule, "backward": rule}
         self.add_field("qtype", rules, direction)
         # Handle DNS domain name
-        rule = "dns_contains_domain_name(message.questions, message.header.qdcount, \"{}\""
+        rule = "dns_contains_domain_name(message.questions, message.header.qdcount, \"{}\")"
         rules = {"forward": rule, "backward": rule}
         self.add_field("domain-name", rules, direction)
         return self.rules

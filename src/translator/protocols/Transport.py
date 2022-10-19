@@ -21,6 +21,10 @@ class Transport(Protocol):
         Returns:
             dict: Dictionary containing the (forward and backward) nftables and nfqueue rules for this policy.
         """
+        # Add protocol match
+        protocol_match = f"ip protocol {self.protocol_name}"
+        rule = {"forward": protocol_match, "backward": protocol_match}
+        self.rules["nft"].append(rule)
         # Handle source port
         rules = {"forward": f"{self.protocol_name} sport {{}}", "backward": f"{self.protocol_name} dport {{}}"}
         self.add_field("src-port", rules, direction)

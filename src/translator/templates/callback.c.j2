@@ -28,27 +28,21 @@ uint32_t callback_{{policy_jinja}}(int pkt_id, uint8_t *payload, void *arg) {
     uint32_t verdict = NF_DROP;
 
     // Custom match
+    {% if multithread %}
     if (
         {{nfq[0]["forward"]}}
         {% for match in nfq[1:] %}
         && {{match["forward"]}}
         {% endfor %}
     ) {
-        {% if multithread %}
         pthread_mutex_lock(&mutex);
-        {% endif %}
         if (state == {{states[current_state]}}) {
             state = {{states[(current_state + 1) % states|length]}};
-            {% if multithread %}
             pthread_mutex_unlock(&mutex);
-            {% endif %}
             verdict = NF_ACCEPT;
-        }
-        {% if multithread %}
-        else {
+        } else {
             pthread_mutex_unlock(&mutex);
         }
-        {% endif %}
     {% if direction == "both" %}
     } else if (
         {{nfq[0]["backward"]}}
@@ -58,21 +52,36 @@ uint32_t callback_{{policy_jinja}}(int pkt_id, uint8_t *payload, void *arg) {
         {% endif %}
         {% endfor %}
     ) {
-        {% if multithread %}
         pthread_mutex_lock(&mutex);
-        {% endif %}
         if (state == {{states[(current_state + 1) % states|length]}}) {
             state = {{states[(current_state + 2) % states|length]}};
-            {% if multithread %}
             pthread_mutex_unlock(&mutex);
-            {% endif %}
             verdict = NF_ACCEPT;
-        }
-        {% if multithread %}
-        else {
+        } else {
             pthread_mutex_unlock(&mutex);
         }
+    {% endif %}
+    {% else %}
+    if (
+        state == {{states[current_state]}}
+        {% for match in nfq %}
+        && {{match["forward"]}}
+        {% endfor %}
+    ) {
+        state = {{states[(current_state + 1) % states|length]}};
+        verdict = NF_ACCEPT;
+    {% if direction == "both" %}
+    } else if (
+        state == {{states[(current_state + 1) % states|length]}}
+        {% for match in nfq %}
+        {% if "backward" in match %}
+        && {{match["backward"]}}
         {% endif %}
+        {% endfor %}
+    ) {
+        state = {{states[(current_state + 2) % states|length]}};
+        verdict = NF_ACCEPT;
+    {% endif %}
     {% endif %}
     }
 

@@ -37,7 +37,6 @@ individual-policies:
 
   https-xiaomi-cloud:
     protocols:
-      tls:
       tcp:
         dst-port: 443
         initiated-by: self
@@ -60,7 +59,6 @@ individual-policies:
 
   https-xiaomi-api:
     protocols:
-      tls:
       tcp:
         dst-port: 443
         initiated-by: self
@@ -75,10 +73,11 @@ individual-policies:
   arp-request-from-gateway:
     protocols:
       arp:
-        ip: self
-      eth:
-        src: gateway
-        dst: self
+        type: request
+        sha: gateway
+        tha: default
+        spa: gateway
+        tpa: self
     direction: both
 
   udp-xiaomi-cloud:
@@ -191,20 +190,20 @@ interaction-policies:
         protocols:
           arp:
             type: request
-            ip: 192.168.1.1
-          eth:
-            src: self
-            dst: broadcast
+            sha: self
+            tha: default
+            spa: self
+            tpa: gateway
         direction: out
     
       arp-reply:
         protocols:
           arp:
             type: reply
-            ip: 192.168.1.1
-          eth:
-            src: gateway
-            dst: self
+            sha: gateway
+            tha: self
+            spa: gateway
+            tpa: self
         direction: in
       
 
@@ -260,10 +259,9 @@ interaction-policies:
       protocols:
         arp:
           type: reply
-          ip: local
-        eth:
-          src: phone
-          dst: self
+          tha: self
+          spa: local
+          tpa: self
       direction: in
 
     udp-xiaomi-phone-burst-open:
@@ -307,7 +305,6 @@ interaction-policies:
 
     https-xiaomi-cloud-start:
       protocols:
-        tls:
         tcp:
           src-port: 50228
           dst-port: 443
@@ -336,7 +333,6 @@ interaction-policies:
 
     https-xiaomi-cloud-stop:
       protocols:
-        tls:
         tcp:
           src-port: 50228
           dst-port: 443
@@ -387,7 +383,6 @@ interaction-policies:
 
     https-cloud-xiaomi-start:
       protocols:
-        tls:
         tcp:
           src-port: 443
           dst-port: 50228
@@ -415,7 +410,6 @@ interaction-policies:
 
     https-cloud-xiaomi-stop:
       protocols:
-        tls:
         tcp:
           src-port: 443
           dst-port: 50228

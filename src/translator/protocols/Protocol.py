@@ -52,7 +52,7 @@ class Protocol:
                            Will be applied after the forward function.
                            Optional, default is the identity function.
         """
-        if field in self.protocol_data:
+        if self.protocol_data is not None and field in self.protocol_data:
             value = self.protocol_data[field]
 
             # If value from YAML profile is a list, add each element
@@ -70,8 +70,7 @@ class Protocol:
                 value = func(value)
             
             # Write forward rule
-            rule = {}
-            rule["forward"] = rules["forward"].format(value)
+            rule = {"forward": rules["forward"].format(value)}
             # Write backward rule (if necessary)
             if "backward" in rules and direction == "both":
                 rule["backward"] = rules["backward"].format(backward_func(value))
