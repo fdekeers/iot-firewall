@@ -197,5 +197,26 @@ interaction-policies:
         ipv4:
           src: local
       direction: out
+
+    udp-phone-broadcast:
+      protocols:
+        udp:
+          dst-port:
+            - 54321
+            - 32108
+        ipv4:
+          src: local
+          dst: broadcast
+      direction: out
+
+    arp-xiaomi-phone-request:
+      protocols:
+        arp:
+          type: request
+          sha: self
+          tha: default
+          spa: self
+          tpa: local
+      direction: out
   
 ...

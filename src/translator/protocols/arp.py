@@ -22,6 +22,7 @@ class arp(Protocol):
         "default": "00:00:00:00:00:00",
     }
     ip_addrs = {
+        "local": "192.168.1.1/24",
         "gateway": "192.168.1.1"
     }
 
