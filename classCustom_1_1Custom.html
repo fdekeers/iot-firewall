@@ -95,8 +95,8 @@ Collaboration diagram for Custom.Custom:</div>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:a590e4ca5ffadef7bd5f11edd51c05e41"><td class="memItemLeft" align="right" valign="top">None&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classCustom_1_1Custom.html#a590e4ca5ffadef7bd5f11edd51c05e41">add_field</a> (self, str field, dict rules, str direction=&quot;in&quot;, func=lambda x:x, backward_func=lambda x:x)</td></tr>
-<tr class="separator:a590e4ca5ffadef7bd5f11edd51c05e41"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0ac85a693d352c672ae8a524b56321e6"><td class="memItemLeft" align="right" valign="top">None&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classCustom_1_1Custom.html#a0ac85a693d352c672ae8a524b56321e6">add_field</a> (self, str field, dict template_rules, str direction=&quot;in&quot;, func=lambda x:x, backward_func=lambda x:x)</td></tr>
+<tr class="separator:a0ac85a693d352c672ae8a524b56321e6"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-static-attribs"></a>
 Static Public Attributes</h2></td></tr>
@@ -105,8 +105,8 @@ bool&#160;</td><td class="memItemRight" valign="bottom"><b>custom_parser</b> = T
 <tr class="separator:a9a28dfaf487b41242f3e3714645ed857"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <h2 class="groupheader">Member Function Documentation</h2>
-<a id="a590e4ca5ffadef7bd5f11edd51c05e41"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a590e4ca5ffadef7bd5f11edd51c05e41">&#9670;&nbsp;</a></span>add_field()</h2>
+<a id="a0ac85a693d352c672ae8a524b56321e6"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a0ac85a693d352c672ae8a524b56321e6">&#9670;&nbsp;</a></span>add_field()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -127,7 +127,7 @@ bool&#160;</td><td class="memItemRight" valign="bottom"><b>custom_parser</b> = T
           <td class="paramkey"></td>
           <td></td>
           <td class="paramtype">dict&#160;</td>
-          <td class="paramname"><em>rules</em>, </td>
+          <td class="paramname"><em>template_rules</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
@@ -159,7 +159,7 @@ Overrides the nftables version.
 
 Args:
     field (str): Field to add the rule for.
-    rules (dict): Dictionary containing the protocol-specific rules to add.
+    template_rules (dict): Dictionary containing the protocol-specific rules to add.
     direction (str): Direction of the traffic (in, out, or both). Default is "in".
     func (lambda): Function to apply to the field value before writing it.
            Optional, default is the identity function.
