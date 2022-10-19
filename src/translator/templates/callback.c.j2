@@ -1,29 +1,30 @@
+{% set policy_jinja = policy.replace('-', '_') %}
 
 
 /**
- * @brief {{policy}} callback function, called when a packet enters the queue.
+ * @brief {{policy_jinja}} callback function, called when a packet enters the queue.
  * 
  * @param pkt_id packet ID for netfilter queue
  * @param payload pointer to the packet payload
  * @param arg pointer to the argument passed to the callback function
  * @return the verdict for the packet
  */
-uint32_t callback_{{policy}}(int pkt_id, uint8_t *payload, void *arg) {
+uint32_t callback_{{policy_jinja}}(int pkt_id, uint8_t *payload, void *arg) {
     printf("Received packet\n");
     // Skip layer 3 and 4 headers
     size_t skipped = get_ip_header_length(payload);
-    {% if custom_parsers[current_state] == 'http' %}
+    {% if custom_parsers[policy] == 'http' %}
     uint16_t src_port = get_src_port(payload + skipped);
     {% endif %}
     skipped += get_tcp_header_length(payload + skipped);
 
     // Parse message
-    {{custom_parsers[current_state]}}_message_t message = {{custom_parsers[current_state]}}_parse_message(payload + skipped
-    {%- if custom_parsers[current_state] == 'http' -%}
+    {{custom_parsers[policy]}}_message_t message = {{custom_parsers[policy]}}_parse_message(payload + skipped
+    {%- if custom_parsers[policy] == 'http' -%}
     , src_port
     {%- endif -%}
     );
-    {{custom_parsers[current_state]}}_print_message(message);
+    {{custom_parsers[policy]}}_print_message(message);
     uint32_t verdict = NF_DROP;
 
     // Custom match

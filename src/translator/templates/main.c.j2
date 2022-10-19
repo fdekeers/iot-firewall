@@ -18,13 +18,14 @@ int main(int argc, char const *argv[]) {
     pthread_t threads[MAX_THREADS];
 
     {% for policy in policies %}
-    // {{policy}}
-    thread_arg_t thread_arg_{{policy}} = {
+    {% set policy_jinja = policy.replace('-', '_') %}
+    // {{policy_jinja}}
+    thread_arg_t thread_arg_{{policy_jinja}} = {
         .queue_id = NFQ_ID_BASE + i,
-        .func = &callback_{{policy}},
+        .func = &callback_{{policy_jinja}},
         .arg = NULL
     };
-    ret = pthread_create(&threads[i++], NULL, nfqueue_thread, (void *) &thread_arg_{{policy}});
+    ret = pthread_create(&threads[i++], NULL, nfqueue_thread, (void *) &thread_arg_{{policy_jinja}});
     assert(ret == 0);
     
     {% endfor %}
@@ -37,7 +38,7 @@ int main(int argc, char const *argv[]) {
     pthread_mutex_destroy(&mutex);
     {% else %}
     // Bind to netfilter queue
-    bind_queue(NFQ_ID_BASE + {{nfq_id_offset}}, &callback_{{policy}}, NULL);
+    bind_queue(NFQ_ID_BASE + {{nfq_id_offset}}, &callback_{{policy.replace('-', '_')}}, NULL);
     {% endif %}
 
     return 0;
