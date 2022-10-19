@@ -9,8 +9,10 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
+{% if max_threads > 1 %}
 #include <pthread.h>
 #include <assert.h>
+{% endif %}
 // Custom libraries
 #include "nfqueue.h"
 #include "packet_utils.h"
@@ -21,7 +23,9 @@
 {% endfor %}
 
 // Constants
+{% if max_threads > 1 %}
 #define MAX_THREADS {{max_threads}}
+{% endif %}
 #define NUM_STATES  {{states|length}}
 #define NFQ_ID_BASE {{nfq_id_base}}
 
@@ -32,6 +36,8 @@ typedef enum {
 } state_t;
 
 state_t state = {{states[0]}};
+{% if max_threads > 1 %}
 uint8_t num_threads = 0;
 pthread_mutex_t mutex;
+{% endif %}
 

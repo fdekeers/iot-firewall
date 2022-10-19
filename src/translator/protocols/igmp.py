@@ -8,6 +8,7 @@ class igmp(Custom):
 
     # Supported keys in YAML profile
     supported_keys = [
+        "version",
         'type',
         'group'
     ]
@@ -27,8 +28,10 @@ class igmp(Custom):
         Returns:
             dict: Dictionary containing the (forward and backward) nftables and nfqueue rules for this policy.
         """
+        # Retrieve IGMP version
+        version = self.protocol_data.get("version", 2)
         # Handle IGMP message type
-        rules = {"forward": "message.type == {}"}
+        rules = {"forward": f"message.type == V{version}_{{}}"}
         # Lambda function to convert an IGMP type to its C representation (upper case and separated by underscores)
         func = lambda igmp_type: igmp_type.upper().replace(" ", "_")
         self.add_field("type", rules, direction, func)

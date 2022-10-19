@@ -11,6 +11,7 @@
  */
 uint32_t callback_{{policy_jinja}}(int pkt_id, uint8_t *payload, void *arg) {
     printf("Received packet\n");
+    {% if nfq %}
     // Skip layer 3 and 4 headers
     size_t skipped = get_ip_header_length(payload);
     {% if custom_parsers[policy] == 'http' %}
@@ -25,16 +26,19 @@ uint32_t callback_{{policy_jinja}}(int pkt_id, uint8_t *payload, void *arg) {
     {%- endif -%}
     );
     {{custom_parsers[policy]}}_print_message(message);
+    {% endif %}
     uint32_t verdict = NF_DROP;
 
     // Custom match
     {% if multithread %}
+    {% if nfq %}
     if (
         {{nfq[0]["forward"]}}
         {% for match in nfq[1:] %}
         && {{match["forward"]}}
         {% endfor %}
     ) {
+    {% endif %}
         pthread_mutex_lock(&mutex);
         if (state == {{states[current_state]}}) {
             state = {{states[(current_state + 1) % states|length]}};
@@ -44,6 +48,7 @@ uint32_t callback_{{policy_jinja}}(int pkt_id, uint8_t *payload, void *arg) {
             pthread_mutex_unlock(&mutex);
         }
     {% if direction == "both" %}
+    {% if nfq %}
     } else if (
         {{nfq[0]["backward"]}}
         {% for match in nfq[1:] %}
@@ -52,6 +57,10 @@ uint32_t callback_{{policy_jinja}}(int pkt_id, uint8_t *payload, void *arg) {
         {% endif %}
         {% endfor %}
     ) {
+    {% endif %}
+    {% if not nfq %}
+    } else {
+    {% endif %}
         pthread_mutex_lock(&mutex);
         if (state == {{states[(current_state + 1) % states|length]}}) {
             state = {{states[(current_state + 2) % states|length]}};
@@ -83,7 +92,9 @@ uint32_t callback_{{policy_jinja}}(int pkt_id, uint8_t *payload, void *arg) {
         verdict = NF_ACCEPT;
     {% endif %}
     {% endif %}
+    {% if nfq %}
     }
+    {% endif %}
 
     return verdict;
 }
