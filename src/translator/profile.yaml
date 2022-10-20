@@ -218,5 +218,25 @@ interaction-policies:
           spa: self
           tpa: local
       direction: out
-  
+
+    arp-xiaomi-phone-reply:
+      protocols:
+        arp:
+          type: reply
+          tha: self
+          spa: local
+          tpa: self
+      direction: in
+
+    udp-xiaomi-phone-burst-open:
+      protocols:
+        udp:
+        ipv4:
+          src: self
+          dst: local
+      direction: both
+      stats:
+        duration: 1 s
+        number-of-packets: 20
+        payload-size: 4 - 250
 ...

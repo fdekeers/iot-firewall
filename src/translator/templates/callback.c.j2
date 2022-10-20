@@ -52,8 +52,7 @@ uint32_t callback_{{policy_jinja}}(int pkt_id, uint8_t *payload, void *arg) {
         } else {
             pthread_mutex_unlock(&mutex);
         }
-    {% if direction == "both" %}
-    {% if nfq %}
+    {% if nfq and direction == "both" %}
     } else if (
         {{nfq[0]["backward"]}}
         {% for match in nfq[1:] %}
@@ -62,18 +61,6 @@ uint32_t callback_{{policy_jinja}}(int pkt_id, uint8_t *payload, void *arg) {
         {% endif %}
         {% endfor %}
     ) {
-    {% endif %}
-    {% if not nfq %}
-    } else {
-    {% endif %}
-        pthread_mutex_lock(&mutex);
-        if (state == {{states[(current_state + 1) % states|length]}}) {
-            state = {{states[(current_state + 2) % states|length]}};
-            pthread_mutex_unlock(&mutex);
-            verdict = NF_ACCEPT;
-        } else {
-            pthread_mutex_unlock(&mutex);
-        }
     {% endif %}
     {% else %}
     if (
@@ -84,16 +71,16 @@ uint32_t callback_{{policy_jinja}}(int pkt_id, uint8_t *payload, void *arg) {
     ) {
         state = {{states[(current_state + 1) % states|length]}};
         verdict = NF_ACCEPT;
-    {% if direction == "both" %}
+    {% if nfq and direction == "both" %}
     } else if (
-        state == {{states[(current_state + 1) % states|length]}}
+        state == {{states[current_state]}}
         {% for match in nfq %}
         {% if "backward" in match %}
         && {{match["backward"]}}
         {% endif %}
         {% endfor %}
     ) {
-        state = {{states[(current_state + 2) % states|length]}};
+        state = {{states[(current_state + 1) % states|length]}};
         verdict = NF_ACCEPT;
     {% endif %}
     {% endif %}
