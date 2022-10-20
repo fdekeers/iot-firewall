@@ -1,20 +1,28 @@
-name: Test profile translator
+name: Translate profiles, compile, and run unit tests
 on: [push]
 
+
 jobs:
+
+  # Compile project
   build:
     runs-on: ubuntu-latest
     steps:
-
+    
       - name: Checkout repository
         uses: actions/checkout@v3
 
       - name: Install required packages
-        run: sudo $GITHUB_WORKSPACE/.ci_scripts/compile-and-test/install_packages.sh
-      
+        run: sudo $GITHUB_WORKSPACE/.ci_scripts/full-test/install_packages.sh
+
       - name: Create dummy network interface
         run: sudo $GITHUB_WORKSPACE/src/translator/create_interface.sh
-      
-      - name: Test profile translator
+
+      - name: Translate profile
         run: sudo python3 $GITHUB_WORKSPACE/src/translator/translator.py $GITHUB_WORKSPACE/src/devices/xiaomi-cam/profile.yaml
- 
+
+      - name: Build project with CMake
+        run: $GITHUB_WORKSPACE/.ci_scripts/full-test/build_project.sh
+
+      - name: Run CUnit tests
+        run: $GITHUB_WORKSPACE/.ci_scripts/full-test/run_tests.sh
