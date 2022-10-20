@@ -16,5 +16,5 @@ jobs:
         run: sudo $GITHUB_WORKSPACE/src/translator/create_interface.sh
       
       - name: Test profile translator
-        run: sudo python3 $GITHUB_WORKSPACE/src/translator/translator.py $GITHUB_WORKSPACE/src/translator/profile.yaml
+        run: sudo python3 $GITHUB_WORKSPACE/src/translator/translator.py $GITHUB_WORKSPACE/src/devices/xiaomi-cam/profile.yaml
  

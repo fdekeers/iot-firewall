@@ -10,7 +10,7 @@ from Policy import Policy
 if __name__ == "__main__":
 
     # Get script path
-    path = os.path.abspath(os.path.dirname(__file__))
+    script_path = os.path.abspath(os.path.dirname(__file__))
 
     # Commande line arguments
     description = "Translate a device YAML profile to a corresponding nfqueue C code"
@@ -19,7 +19,7 @@ if __name__ == "__main__":
     args = parser.parse_args()
 
     # Jinja loader
-    loader = jinja2.FileSystemLoader(searchpath=f"{path}/templates")
+    loader = jinja2.FileSystemLoader(searchpath=f"{script_path}/templates")
     env = jinja2.Environment(loader=loader, trim_blocks=True, lstrip_blocks=True)
 
     # Load the device profile
@@ -42,7 +42,8 @@ if __name__ == "__main__":
             pass
 
         # Create device directory
-        Path(device["name"]).mkdir(exist_ok=True)
+        device_path = f"{script_path}/../devices/{device['name']}/nfqueues"
+        Path(device_path).mkdir(exist_ok=True)
 
         # Initialize header Jinja2 template
         header_tpl = env.get_template("header.c.j2")
@@ -123,7 +124,7 @@ if __name__ == "__main__":
                     main = env.get_template("main.c.j2").render(main_dict)
 
                     # Write policy C file
-                    with open(f"{device['name']}/{policy_name}.c", "w+") as fw:
+                    with open(f"{device_path}/{policy_name}.c", "w+") as fw:
                         fw.write(header)
                         fw.write(callback)
                         fw.write(main)
@@ -205,7 +206,7 @@ if __name__ == "__main__":
                 main = env.get_template("main.c.j2").render(main_dict)
 
                 # Write policy C file
-                with open(f"{device['name']}/{interaction_policy_name}.c", "w+") as fw:
+                with open(f"{device_path}/{interaction_policy_name}.c", "w+") as fw:
                     fw.write(header)
                     fw.write(callback_funcs)
                     fw.write(main)
