@@ -1,3 +1,4 @@
+
 import os
 import argparse
 from pathlib import Path
@@ -42,8 +43,9 @@ if __name__ == "__main__":
             pass
 
         # Create device directory
-        device_path = f"{script_path}/../devices/{device['name']}/nfqueues"
-        Path(device_path).mkdir(exist_ok=True)
+        device_path = f"{script_path}/../devices/{device['name']}"
+        nfqueues_path = f"{device_path}/nfqueues"
+        Path(nfqueues_path).mkdir(parents=True, exist_ok=True)
 
         # Initialize header Jinja2 template
         header_tpl = env.get_template("header.c.j2")
@@ -55,6 +57,7 @@ if __name__ == "__main__":
         subprocess.run(command, shell=True)
 
         nfq_id_base = 0  # Base nfqueue id, will be incremented by 10 for each high-level policy
+        nfqueues = []
     
         # Loop over the device's individual policies
         if "individual-policies" in profile:
@@ -124,11 +127,12 @@ if __name__ == "__main__":
                     main = env.get_template("main.c.j2").render(main_dict)
 
                     # Write policy C file
-                    with open(f"{device_path}/{policy_name}.c", "w+") as fw:
+                    with open(f"{nfqueues_path}/{policy_name}.c", "w+") as fw:
                         fw.write(header)
                         fw.write(callback)
                         fw.write(main)
                     
+                    nfqueues.append(policy_name)
                     nfq_id_base += 10
 
 
@@ -206,12 +210,19 @@ if __name__ == "__main__":
                 main = env.get_template("main.c.j2").render(main_dict)
 
                 # Write policy C file
-                with open(f"{device_path}/{interaction_policy_name}.c", "w+") as fw:
+                with open(f"{nfqueues_path}/{interaction_policy_name}.c", "w+") as fw:
                     fw.write(header)
                     fw.write(callback_funcs)
                     fw.write(main)
             
+                nfqueues.append(interaction_policy_name)
                 nfq_id_base += 10
 
+        # Create CMake file
+        cmake_dict = {
+            "device": device["name"],
+            "nfqueues": nfqueues
+        }
+        env.get_template("CMakeLists.txt.j2").stream(cmake_dict).dump(f"{device_path}/CMakeLists.txt")
 
     print("Done.")

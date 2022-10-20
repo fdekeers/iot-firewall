@@ -1,5 +1,5 @@
 /**
- * @file igmp.c
+ * @file src/parsers/igmp.c
  * @author François De Keersmaeker (francois.dekeersmaeker@uclouvain.be)
  * @brief 
  * @date 2022-10-05
