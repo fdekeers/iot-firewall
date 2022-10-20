@@ -239,4 +239,146 @@ interaction-policies:
         duration: 1 s
         number-of-packets: 20
         payload-size: 4 - 250
+
+    udp-xiaomi-phone-background:
+      protocols:
+        udp:
+        ipv4:
+          src: self
+          dst: local
+      direction: both
+      stats:
+        rate: 10/s
+        payload-size: 4 - 150
+  
+  ##### STREAM CAMERA #####
+  stream-local:
+
+    udp-xiaomi-phone-start:
+      protocols:
+        udp:
+          dst-port: 54321
+        ipv4:
+          src: local
+          dst: self
+      direction: both
+      local-network: true
+      stats:
+        number-of-packets: 6
+
+    https-xiaomi-cloud-start:
+      protocols:
+        tcp:
+          src-port: 50228
+          dst-port: 443
+        ipv4:
+          src: self
+          dst: 120.92.133.153
+      direction: both
+      stats:
+        number-of-packets: 3
+    
+    udp-stream:
+      protocols:
+        udp:
+          src-port: 12257
+          dst-port: 23207
+        ipv4:
+          src: self
+          dst: local
+      direction: both
+      local-network: true
+      stats:
+        rate: 300/s
+        packet-size:
+          out: 46 - 1074
+          in: 46 - 734
+    
+    https-xiaomi-cloud-stop:
+      protocols:
+        tcp:
+          src-port: 50228
+          dst-port: 443
+        ipv4:
+          src: self
+          dst: 120.92.133.153
+      direction: both
+      stats:
+        number-of-packets: <= 10
+
+
+  ########## EXTERNAL NETWORK ##########
+
+  ##### OPEN XIAOMI APP #####
+  open-app-external:
+
+    udp-xiaomi-cloud-burst-open:
+      protocols:
+        udp:
+          src-port: 12375
+          dst-port: 19600
+        ipv4:
+          src: self
+          dst: 130.104.94.185
+      direction: both
+      stats:
+        duration: 1 s
+        number-of-packets: 40
+        packet-size: 46 - 300
+  
+    udp-xiaomi-cloud-background:
+      protocols:
+        udp:
+          src-port: 12375
+          dst-port: 19600
+        ipv4:
+          src: self
+          dst: 130.104.94.185
+      direction: both
+      stats:
+        rate: 5/s
+        packet-size: 46
+
+
+  ##### STREAM CAMERA #####
+  stream-external:
+
+    https-cloud-xiaomi-start:
+      protocols:
+        tcp:
+          src-port: 443
+          dst-port: 50228
+        ipv4:
+          src: 120.92.133.153
+          dst: self
+      direction: both
+      stats:
+        number-of-packets: <= 10
+
+    udp-stream:
+      protocols:
+        udp:
+          src-port: 12375
+          dst-port: 19600
+        ipv4:
+          src: self
+          dst: 130.104.94.185
+      direction: both
+      stats:
+        rate: 300/s
+        packet-size:
+          out: 46 - 1074
+          in: 46 - 734
+
+    https-cloud-xiaomi-stop:
+      protocols:
+        tcp:
+          src-port: 443
+          dst-port: 50228
+        ipv4:
+          src: 120.92.133.153
+          dst: self
+      direction: both
+      stats:
+        number-of-packets: <= 10
 ...
