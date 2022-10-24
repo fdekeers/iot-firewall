@@ -19,7 +19,7 @@ jobs:
         run: sudo $GITHUB_WORKSPACE/src/translator/create_interface.sh
 
       - name: Translate profile
-        run: sudo python3 $GITHUB_WORKSPACE/src/translator/translator.py $GITHUB_WORKSPACE/src/devices/xiaomi-cam/profile.yaml
+        run: sudo python3 $GITHUB_WORKSPACE/src/translator/translator.py $GITHUB_WORKSPACE/devices/xiaomi-cam/profile.yaml
 
       - name: Build project with CMake
         run: $GITHUB_WORKSPACE/.ci_scripts/full-test/build_project.sh
