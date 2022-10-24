@@ -72,7 +72,7 @@ uint32_t callback_{{policy_jinja}}(int pkt_id, uint8_t *payload, void *arg) {
     ) {
         state = {{states[(current_state + 1) % states|length]}};
         verdict = NF_ACCEPT;
-    {% if policy.nfq_matches and policydirection == "both" %}
+    {% if policy.nfq_matches and policy.direction == "both" %}
     } else if (
         state == {{states[current_state]}}
         {% for match in policy.nfq_matches %}

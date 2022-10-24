@@ -57,11 +57,8 @@ if __name__ == "__main__":
                 header_dict["nfq_id_base"] = nfq_id_base
                 direction = profile_data["direction"]
                 callback_dict = {
-                    "policy": policy_name,
                     "multithread": False,
-                    "states": states,
-                    "current_state": 0,
-                    "direction": direction
+                    "states": states
                 }
                 main_dict = {
                     "policy": policy_name,
@@ -104,8 +101,7 @@ if __name__ == "__main__":
                     }
                     callback_dict = {
                         **callback_dict,
-                        "custom_parsers": custom_parsers,
-                        "nfq": policy.nfq_matches
+                        "policies": [policy]
                     }
 
                     # Render Jinja2 templates
