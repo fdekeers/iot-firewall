@@ -18,7 +18,7 @@ int main(int argc, char const *argv[]) {
     pthread_t threads[MAX_THREADS];
 
     {% for policy in policies %}
-    {% set policy_jinja = policy.replace('-', '_') %}
+    {% set policy_jinja = policy.name.replace('-', '_') %}
     // {{policy_jinja}}
     thread_arg_t thread_arg_{{policy_jinja}} = {
         .queue_id = NFQ_ID_BASE + i,

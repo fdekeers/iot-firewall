@@ -128,14 +128,14 @@ if __name__ == "__main__":
             for interaction_policy_name in profile["interaction-policies"]:
                 interaction_policy = profile["interaction-policies"][interaction_policy_name]
                 # Populate Jinja2 templates with general data for interaction policies
-                header_dict["policy"] = policy_name
+                header_dict["policy"] = interaction_policy_name
                 header_dict["max_threads"] = len(interaction_policy)
                 multithread = len(interaction_policy) > 1
                 states = list(map(lambda i: f"STATE_{i}", range(len(interaction_policy))))
                 header_dict["states"] = states
                 header_dict["nfq_id_base"] = nfq_id_base
                 callback_dict = {"multithread": multithread}
-                main_dict = {"policy": policy_name, "multithread": multithread}
+                main_dict = {"multithread": multithread}
 
                 # Iterate on single policies
                 current_state = len(interaction_policy) - 1
@@ -146,10 +146,10 @@ if __name__ == "__main__":
                 single_policies = reversed(list(interaction_policy.keys()))
                 for single_policy_name in single_policies:
                     # Create policy and parse it
-                    policies.append(single_policy_name)
                     profile_data = interaction_policy[single_policy_name]
                     direction = profile_data["direction"]
                     single_policy = Policy(single_policy_name, profile_data, device)
+                    policies.append(single_policy)
                     single_policy.parse()
 
                     # Update high-level accumulators
