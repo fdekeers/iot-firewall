@@ -1,4 +1,5 @@
 {% for policy in policies %}
+{% if not policy.periodic %}
 {% set policy_jinja = policy.name.replace('-', '_') %}
 {% set current_state = loop.index - 1 %}
 
@@ -47,8 +48,18 @@ uint32_t callback_{{policy_jinja}}(int pkt_id, uint8_t *payload, void *arg) {
     {% endif %}
         pthread_mutex_lock(&mutex);
         if (state == {{states[current_state]}}) {
+            {% if not policy.periodic %}
             state = {{states[(current_state + 1) % states|length]}};
+            {% endif %}
             pthread_mutex_unlock(&mutex);
+            {% set next_policy = policies[(current_state + 1) % policies|length] %}
+            {% if policy.direction != "both" and next_policy.periodic %}
+            {% set next_rules = next_policy.build_nft_rule(nfq_id_base + current_state + 1) %}
+            system("sudo nft add rule {{nft_table_chain}} {{next_rules['forward']}}");
+            {% if 'backward' in next_rules %}
+            system("sudo nft add rule {{nft_table_chain}} {{next_rules['backward']}}");
+            {% endif %}
+            {% endif %}
             verdict = NF_ACCEPT;
         } else {
             pthread_mutex_unlock(&mutex);
@@ -63,6 +74,24 @@ uint32_t callback_{{policy_jinja}}(int pkt_id, uint8_t *payload, void *arg) {
         {% endfor %}
     ) {
     {% endif %}
+        pthread_mutex_lock(&mutex);
+        if (state == {{states[current_state]}}) {
+            {% if not policy.periodic %}
+            state = {{states[(current_state + 1) % states|length]}};
+            {% endif %}
+            pthread_mutex_unlock(&mutex);
+            {% set next_policy = policies[(current_state + 1) % policies|length] %}
+            {% if policy.direction == "both" and next_policy.periodic %}
+            {% set next_rules = next_policy.build_nft_rule(nfq_id_base + current_state + 1) %}
+            system("sudo nft add rule {{nft_table_chain}} {{next_rules['forward']}}");
+            {% if 'backward' in next_rules %}
+            system("sudo nft add rule {{nft_table_chain}} {{next_rules['backward']}}");
+            {% endif %}
+            {% endif %}
+            verdict = NF_ACCEPT;
+        } else {
+            pthread_mutex_unlock(&mutex);
+        }
     {% else %}
     if (
         state == {{states[current_state]}}
@@ -70,9 +99,21 @@ uint32_t callback_{{policy_jinja}}(int pkt_id, uint8_t *payload, void *arg) {
         && {{match["forward"]}}
         {% endfor %}
     ) {
+        {% if not policy.periodic %}
         state = {{states[(current_state + 1) % states|length]}};
+        {% endif %}
+        {% if policies|length > 1 %}
+        {% set next_policy = policies[(current_state + 1) % policies|length] %}
+        {% if policy.direction != "both" and next_policy.periodic %}
+        {% set next_rules = next_policy.build_nft_rule(nfq_id_base + current_state + 1) %}
+        system("sudo nft add rule {{nft_table_chain}} {{next_rules['forward']}}");
+        {% if 'backward' in next_rules %}
+        system("sudo nft add rule {{nft_table_chain}} {{next_rules['backward']}}");
+        {% endif %}
+        {% endif %}
+        {% endif %}
         verdict = NF_ACCEPT;
-    {% if policy.nfq_matches and policy.direction == "both" %}
+    {% if policy.direction == "both" %}
     } else if (
         state == {{states[current_state]}}
         {% for match in policy.nfq_matches %}
@@ -81,14 +122,28 @@ uint32_t callback_{{policy_jinja}}(int pkt_id, uint8_t *payload, void *arg) {
         {% endif %}
         {% endfor %}
     ) {
+        {% if not policy.periodic %}
         state = {{states[(current_state + 1) % states|length]}};
+        {% endif %}
+        {% if policies|length > 1 %}
+        {% set next_policy = policies[(current_state + 1) % policies|length] %}
+        {% if policy.direction == "both" and next_policy.periodic %}
+        {% set next_rules = next_policy.build_nft_rule(nfq_id_base + current_state + 1) %}
+        system("sudo nft add rule {{nft_table_chain}} {{next_rules['forward']}}");
+        {% if 'backward' in next_rules %}
+        system("sudo nft add rule {{nft_table_chain}} {{next_rules['backward']}}");
+        {% endif %}
+        {% endif %}
+        {% endif %}
         verdict = NF_ACCEPT;
+    }
     {% endif %}
     {% endif %}
-    {% if policy.nfq_matches %}
+    {% if policy.direction != "both" and policy.nfq_matches %}
     }
     {% endif %}
 
     return verdict;
 }
+{% endif %}
 {% endfor %}

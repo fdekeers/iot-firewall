@@ -58,10 +58,10 @@ if __name__ == "__main__":
                 direction = profile_data["direction"]
                 callback_dict = {
                     "multithread": False,
-                    "states": states
+                    "states": states,
+                    "nft_table_chain": f"netdev {device['name']} {policy_name}"
                 }
                 main_dict = {
-                    "policy": policy_name,
                     "multithread": False,
                     "nfq_id_offset": 0
                 }
@@ -71,25 +71,7 @@ if __name__ == "__main__":
                 policy.parse()
 
                 # Add nftables rules
-                nft_rule_forward = ""
-                nft_rule_backward = ""
-                nft_matches = policy.nft_matches
-                for i in range(len(nft_matches)):
-                    if i > 0:
-                        nft_rule_forward += " "
-                    nft_rule_forward += f"{nft_matches[i]['forward']}"
-                    # Add backward rule (if necessary)
-                    if direction == "both" and "backward" in nft_matches[i]:
-                        if i > 0:
-                            nft_rule_backward += " "
-                        nft_rule_backward += f"{nft_matches[i]['backward']}"
-                suffix = f" queue num {nfq_id_base}" if policy.nfq_matches else " accept"
-                nft_rule_forward += suffix
-                rule = {"forward": nft_rule_forward}
-                if direction == "both" and nft_rule_backward:
-                    nft_rule_backward += suffix
-                    rule["backward"] = nft_rule_backward
-                nft_chains[policy_name] = [rule]
+                nft_chains[policy_name] = [policy.build_nft_rule(nfq_id_base)]
 
                 # If need for user-space matching, create nfqueue C file
                 if policy.nfq_matches:
@@ -101,6 +83,10 @@ if __name__ == "__main__":
                     }
                     callback_dict = {
                         **callback_dict,
+                        "policies": [policy]
+                    }
+                    main_dict = {
+                        **main_dict,
                         "policies": [policy]
                     }
 
@@ -125,13 +111,15 @@ if __name__ == "__main__":
                 interaction_policy = profile["interaction-policies"][interaction_policy_name]
                 # Populate Jinja2 templates with general data for interaction policies
                 header_dict["policy"] = interaction_policy_name
-                header_dict["max_threads"] = len(interaction_policy)
-                multithread = len(interaction_policy) > 1
+                max_threads = len(interaction_policy)
                 states = list(map(lambda i: f"STATE_{i}", range(len(interaction_policy))))
                 header_dict["states"] = states
                 header_dict["nfq_id_base"] = nfq_id_base
-                callback_dict = {"multithread": multithread}
-                main_dict = {"multithread": multithread}
+                callback_dict = {
+                    "nfq_id_base": nfq_id_base,
+                    "nft_table_chain": f"netdev {device['name']} {interaction_policy_name}",
+                    "states": states
+                }
 
                 # Iterate on single policies
                 current_state = 0
@@ -143,49 +131,38 @@ if __name__ == "__main__":
                     profile_data = interaction_policy[single_policy_name]
                     direction = profile_data["direction"]
                     single_policy = Policy(single_policy_name, profile_data, device)
-                    policies.append(single_policy)
                     single_policy.parse()
+                    policies.append(single_policy)
+                    if single_policy.periodic:
+                        max_threads -= 1
 
                     # Update high-level accumulators
                     if single_policy.custom_parser:
                         custom_parsers[single_policy_name] = single_policy.custom_parser
 
                     # Add nftables rules
-                    nft_rule_forward = ""
-                    nft_rule_backward = ""
-                    nft_matches = single_policy.nft_matches
-                    for i in range(len(nft_matches)):
-                        if i > 0:
-                            nft_rule_forward += " "
-                        nft_rule_forward += f"{nft_matches[i]['forward']}"
-                        # Add backward rule (if necessary)
-                        if direction == "both" and "backward" in nft_matches[i]:
-                            if i > 0:
-                                nft_rule_backward += " "
-                            nft_rule_backward += f"{nft_matches[i]['backward']}"
-                    suffix = f" queue num {nfq_id_base + current_state}"
-                    nft_rule_forward += suffix
-                    rule = {"forward": nft_rule_forward}
-                    if direction == "both" and nft_rule_backward:
-                        nft_rule_backward += suffix
-                        rule["backward"] = nft_rule_backward
-                    nft_chains[interaction_policy_name].append(rule)
+                    if not single_policy.periodic:
+                        nft_chains[interaction_policy_name].append(single_policy.build_nft_rule(nfq_id_base + current_state))
 
                     current_state += 1
                 
                 # Render Jinja2 templates
                 header_dict = {
                     **header_dict,
+                    "max_threads": max_threads,
                     "custom_parsers": set(custom_parsers.values())
                 }
                 header = env.get_template("header.c.j2").render(header_dict)
                 callback_dict = {
                     **callback_dict,
-                    "states": states,
+                    "multithread": max_threads > 1,
                     "policies": policies
                 }
                 callback = env.get_template("callback.c.j2").render(callback_dict)
-                main_dict = {**main_dict, "policies": policies}
+                main_dict = {
+                    "multithread": max_threads > 1,
+                    "policies": policies
+                }
                 main = env.get_template("main.c.j2").render(main_dict)
 
                 # Write policy C file

@@ -18,6 +18,7 @@ int main(int argc, char const *argv[]) {
     pthread_t threads[MAX_THREADS];
 
     {% for policy in policies %}
+    {% if not policy.periodic %}
     {% set policy_jinja = policy.name.replace('-', '_') %}
     // {{policy_jinja}}
     thread_arg_t thread_arg_{{policy_jinja}} = {
@@ -28,6 +29,7 @@ int main(int argc, char const *argv[]) {
     ret = pthread_create(&threads[i++], NULL, nfqueue_thread, (void *) &thread_arg_{{policy_jinja}});
     assert(ret == 0);
     
+    {% endif %}
     {% endfor %}
     // Wait forever for threads
     for (i = 0; i < MAX_THREADS; i++) {
@@ -38,7 +40,7 @@ int main(int argc, char const *argv[]) {
     pthread_mutex_destroy(&mutex);
     {% else %}
     // Bind to netfilter queue
-    bind_queue(NFQ_ID_BASE + {{nfq_id_offset}}, &callback_{{policy.replace('-', '_')}}, NULL);
+    bind_queue(NFQ_ID_BASE, &callback_{{policies[0].name.replace('-', '_')}}, NULL);
     {% endif %}
 
     return 0;

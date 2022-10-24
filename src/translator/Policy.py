@@ -30,6 +30,35 @@ class Policy:
         return "stats" in self.profile_data and "rate" in self.profile_data["stats"]
 
     
+    def build_nft_rule(self, queue_num: int) -> dict:
+        """
+        Build the nftables rules (forward and backward) for this policy.
+
+        Args:
+            queue_num (int): Number of the nfqueue queue corresponding to this policy
+        Returns:
+            dict: Dictionary containing the forward and backward nftables rules
+        """
+        nft_rule_forward = ""
+        nft_rule_backward = ""
+        for i in range(len(self.nft_matches)):
+            if i > 0:
+                nft_rule_forward += " "
+            nft_rule_forward += f"{self.nft_matches[i]['forward']}"
+            # Add backward rule (if necessary)
+            if self.direction == "both" and "backward" in self.nft_matches[i]:
+                if i > 0:
+                    nft_rule_backward += " "
+                nft_rule_backward += f"{self.nft_matches[i]['backward']}"
+        suffix = f" queue num {queue_num}"
+        nft_rule_forward += suffix
+        rule = {"forward": nft_rule_forward}
+        if self.direction == "both" and nft_rule_backward:
+            nft_rule_backward += suffix
+            rule["backward"] = nft_rule_backward
+        return rule
+
+    
     def parse(self) -> None:
         """
         Parse the policy and populate the related instance variables
