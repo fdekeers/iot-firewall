@@ -21,9 +21,6 @@ jobs:
       - name: Translate profile
         run: sudo python3 $GITHUB_WORKSPACE/src/translator/translator.py $GITHUB_WORKSPACE/src/devices/xiaomi-cam/profile.yaml
 
-      - name: Apply nftables rules
-        run: sudo nft -f $GITHUB_WORKSPACE/src/devices/xiaomi-cam/firewall.nft
-
       - name: Build project with CMake
         run: $GITHUB_WORKSPACE/.ci_scripts/full-test/build_project.sh
 

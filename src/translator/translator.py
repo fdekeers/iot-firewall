@@ -33,7 +33,7 @@ if __name__ == "__main__":
         }
 
         # Create device directory
-        device_path = f"{script_path}/../devices/{device['name']}"
+        device_path = f"{script_path}/../../devices/{device['name']}"
         nfqueues_path = f"{device_path}/nfqueues"
         Path(nfqueues_path).mkdir(parents=True, exist_ok=True)
 
