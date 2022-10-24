@@ -138,13 +138,11 @@ if __name__ == "__main__":
                 main_dict = {"multithread": multithread}
 
                 # Iterate on single policies
-                current_state = len(interaction_policy) - 1
+                current_state = 0
                 custom_parsers = {}
                 policies = []
                 nft_chains[interaction_policy_name] = []
-                callback_funcs = ""
-                single_policies = reversed(list(interaction_policy.keys()))
-                for single_policy_name in single_policies:
+                for single_policy_name in interaction_policy:
                     # Create policy and parse it
                     profile_data = interaction_policy[single_policy_name]
                     direction = profile_data["direction"]
@@ -177,19 +175,7 @@ if __name__ == "__main__":
                         rule["backward"] = nft_rule_backward
                     nft_chains[interaction_policy_name].append(rule)
 
-                    # Add callback function for this single policy
-                    callback_dict = {
-                        **callback_dict,
-                        "policy": single_policy_name,
-                        "custom_parsers": custom_parsers,
-                        "states": states,
-                        "current_state": current_state,
-                        "direction": direction,
-                        "nfq": single_policy.nfq_matches
-                    }
-                    callback_funcs += env.get_template("callback.c.j2").render(callback_dict)
-
-                    current_state -= 1
+                    current_state += 1
                 
                 # Render Jinja2 templates
                 header_dict = {
@@ -197,13 +183,19 @@ if __name__ == "__main__":
                     "custom_parsers": set(custom_parsers.values())
                 }
                 header = env.get_template("header.c.j2").render(header_dict)
+                callback_dict = {
+                    **callback_dict,
+                    "states": states,
+                    "policies": policies
+                }
+                callback = env.get_template("callback.c.j2").render(callback_dict)
                 main_dict = {**main_dict, "policies": policies}
                 main = env.get_template("main.c.j2").render(main_dict)
 
                 # Write policy C file
                 with open(f"{nfqueues_path}/{interaction_policy_name}.c", "w+") as fw:
                     fw.write(header)
-                    fw.write(callback_funcs)
+                    fw.write(callback)
                     fw.write(main)
             
                 nfqueues.append(interaction_policy_name)

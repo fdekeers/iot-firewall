@@ -1,5 +1,6 @@
-{% set policy_jinja = policy.replace('-', '_') %}
-
+{% for policy in policies %}
+{% set policy_jinja = policy.name.replace('-', '_') %}
+{% set current_state = loop.index - 1 %}
 
 /**
  * @brief {{policy_jinja}} callback function, called when a packet enters the queue.
@@ -11,35 +12,35 @@
  */
 uint32_t callback_{{policy_jinja}}(int pkt_id, uint8_t *payload, void *arg) {
     printf("Received packet\n");
-    {% if nfq %}
+    {% if policy.nfq_matches %}
     // Skip layer 3 and 4 headers
     size_t skipped = get_ip_header_length(payload);
-    {% if custom_parsers[policy] == 'http' %}
+    {% if policy.custom_parser == 'http' %}
     uint16_t src_port = get_src_port(payload + skipped);
     {% endif %}
     skipped += get_tcp_header_length(payload + skipped);
 
     // Parse message
-    {% if custom_parsers[policy] == "mdns" %}
+    {% if policy.custom_parser == "mdns" %}
     dns_message_t message = dns_parse_message(payload + skipped);
     dns_print_message(message);
     {% else %}
-    {{custom_parsers[policy]}}_message_t message = {{custom_parsers[policy]}}_parse_message(payload + skipped
-    {%- if custom_parsers[policy] == 'http' -%}
+    {{policy.custom_parser}}_message_t message = {{policy.custom_parser}}_parse_message(payload + skipped
+    {%- if policy.custom_parser == 'http' -%}
     , src_port
     {%- endif -%}
     );
-    {{custom_parsers[policy]}}_print_message(message);
+    {{policy.custom_parser}}_print_message(message);
     {% endif %}
     {% endif %}
     uint32_t verdict = NF_DROP;
 
     // Custom match
     {% if multithread %}
-    {% if nfq %}
+    {% if policy.nfq_matches %}
     if (
-        {{nfq[0]["forward"]}}
-        {% for match in nfq[1:] %}
+        {{policy.nfq_matches[0]["forward"]}}
+        {% for match in policy.nfq_matches[1:] %}
         && {{match["forward"]}}
         {% endfor %}
     ) {
@@ -52,10 +53,10 @@ uint32_t callback_{{policy_jinja}}(int pkt_id, uint8_t *payload, void *arg) {
         } else {
             pthread_mutex_unlock(&mutex);
         }
-    {% if nfq and direction == "both" %}
+    {% if policy.nfq_matches and policy.direction == "both" %}
     } else if (
-        {{nfq[0]["backward"]}}
-        {% for match in nfq[1:] %}
+        {{policy.nfq_matches[0]["backward"]}}
+        {% for match in policy.nfq_matches[1:] %}
         {% if "backward" in match %}
         && {{match["backward"]}}
         {% endif %}
@@ -65,16 +66,16 @@ uint32_t callback_{{policy_jinja}}(int pkt_id, uint8_t *payload, void *arg) {
     {% else %}
     if (
         state == {{states[current_state]}}
-        {% for match in nfq %}
+        {% for match in policy.nfq_matches %}
         && {{match["forward"]}}
         {% endfor %}
     ) {
         state = {{states[(current_state + 1) % states|length]}};
         verdict = NF_ACCEPT;
-    {% if nfq and direction == "both" %}
+    {% if policy.nfq_matches and policydirection == "both" %}
     } else if (
         state == {{states[current_state]}}
-        {% for match in nfq %}
+        {% for match in policy.nfq_matches %}
         {% if "backward" in match %}
         && {{match["backward"]}}
         {% endif %}
@@ -84,10 +85,10 @@ uint32_t callback_{{policy_jinja}}(int pkt_id, uint8_t *payload, void *arg) {
         verdict = NF_ACCEPT;
     {% endif %}
     {% endif %}
-    {% if nfq %}
+    {% if policy.nfq_matches %}
     }
     {% endif %}
 
     return verdict;
 }
-
+{% endfor %}
