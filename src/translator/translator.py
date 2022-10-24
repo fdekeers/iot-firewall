@@ -1,10 +1,8 @@
-
 import os
 import argparse
 from pathlib import Path
 import yaml
 import jinja2
-import subprocess
 from Policy import Policy
     
 
@@ -34,14 +32,6 @@ if __name__ == "__main__":
             "ip":   profile["device-info"]["ip-address"]
         }
 
-        # For testing only
-        # Delete nftables table
-        command = f"sudo nft delete table netdev {device['name']}"
-        try:
-            output = subprocess.check_output(command, shell=True)
-        except subprocess.CalledProcessError as e:
-            pass
-
         # Create device directory
         device_path = f"{script_path}/../devices/{device['name']}"
         nfqueues_path = f"{device_path}/nfqueues"
@@ -51,12 +41,8 @@ if __name__ == "__main__":
         header_tpl = env.get_template("header.c.j2")
         header_dict = {"device": device["name"]}
 
-        # Create device nftables table
-        nft_table = f"netdev {device['name']}"
-        command = f"sudo nft add table {nft_table}"
-        subprocess.run(command, shell=True)
-
         nfq_id_base = 0  # Base nfqueue id, will be incremented by 10 for each high-level policy
+        nft_chains = {}
         nfqueues = []
     
         # Loop over the device's individual policies
@@ -83,29 +69,30 @@ if __name__ == "__main__":
                     "nfq_id_offset": 0
                 }
 
-                # Create nftables chain for this policy
-                command = f"sudo nft add chain {nft_table} {policy_name} {{ type filter hook ingress device enp0s8 priority 0\; policy drop \; }}"
-                subprocess.run(command, shell=True)
-
                 # Create policy and parse it
                 policy = Policy(policy_name, profile_data, device)
                 accumulators = policy.parse()
 
                 # Add nftables rules
-                nft_rule_forward = f"sudo nft add rule {nft_table} {policy_name}"
+                nft_rule_forward = ""
                 nft_rule_backward = ""
                 nft_matches = accumulators["nft"]
                 for i in range(len(nft_matches)):
-                    nft_rule_forward += f" {nft_matches[i]['forward']}"
+                    if i > 0:
+                        nft_rule_forward += " "
+                    nft_rule_forward += f"{nft_matches[i]['forward']}"
                     # Add backward rule (if necessary)
                     if direction == "both" and "backward" in nft_matches[i]:
-                        nft_rule_backward = nft_rule_backward + f" {nft_matches[i]['backward']}" if nft_rule_backward else f"sudo nft add rule {nft_table} {policy_name} {nft_matches[i]['backward']}"
+                        if i > 0:
+                            nft_rule_backward += " "
+                        nft_rule_backward += f"{nft_matches[i]['backward']}"
                 suffix = f" queue num {nfq_id_base}" if accumulators["nfq"] else " accept"
                 nft_rule_forward += suffix
-                subprocess.run(nft_rule_forward, shell=True)
+                rule = {"forward": nft_rule_forward}
                 if direction == "both" and nft_rule_backward:
                     nft_rule_backward += suffix
-                    subprocess.run(nft_rule_backward, shell=True)
+                    rule["backward"] = nft_rule_backward
+                nft_chains[policy_name] = [rule]
 
                 # If need for user-space matching, create nfqueue C file
                 if accumulators["nfq"]:
@@ -150,14 +137,11 @@ if __name__ == "__main__":
                 callback_dict = {"multithread": multithread}
                 main_dict = {"policy": policy_name, "multithread": multithread}
 
-                # Create nftables chain for this policy
-                command = f"sudo nft add chain {nft_table} {interaction_policy_name} {{ type filter hook ingress device enp0s8 priority 0\; policy drop \; }}"
-                subprocess.run(command, shell=True)
-
                 # Iterate on single policies
                 current_state = 0
                 custom_parsers = {}
                 policies = []
+                nft_chains[interaction_policy_name] = []
                 callback_funcs = ""
                 for single_policy_name in interaction_policy:
                     # Create policy and parse it
@@ -172,20 +156,25 @@ if __name__ == "__main__":
                         custom_parsers[single_policy_name] = accumulators["custom_parser"]
 
                     # Add nftables rules
-                    rule_base = f"sudo nft add rule {nft_table} {interaction_policy_name}"
-                    nft_rule_forward = rule_base
+                    nft_rule_forward = ""
                     nft_rule_backward = ""
                     nft_matches = accumulators["nft"]
                     for i in range(len(nft_matches)):
-                        nft_rule_forward += f" {nft_matches[i]['forward']}"
+                        if i > 0:
+                            nft_rule_forward += " "
+                        nft_rule_forward += f"{nft_matches[i]['forward']}"
                         # Add backward rule (if necessary)
                         if direction == "both" and "backward" in nft_matches[i]:
-                            nft_rule_backward = nft_rule_backward + f" {nft_matches[i]['backward']}" if nft_rule_backward else f"{rule_base} {nft_matches[i]['backward']}"
-                    nft_rule_forward += f" queue num {nfq_id_base + current_state}"
-                    subprocess.run(nft_rule_forward, shell=True)
+                            if i > 0:
+                                nft_rule_backward += " "
+                            nft_rule_backward += f"{nft_matches[i]['backward']}"
+                    suffix = f" queue num {nfq_id_base + current_state}"
+                    nft_rule_forward += suffix
+                    rule = {"forward": nft_rule_forward}
                     if direction == "both" and nft_rule_backward:
-                        nft_rule_backward += f" queue num {nfq_id_base + current_state}"
-                        subprocess.run(nft_rule_backward, shell=True)
+                        nft_rule_backward += suffix
+                        rule["backward"] = nft_rule_backward
+                    nft_chains[interaction_policy_name].append(rule)
 
                     # Add callback function for this single policy
                     callback_dict = {
@@ -217,6 +206,13 @@ if __name__ == "__main__":
             
                 nfqueues.append(interaction_policy_name)
                 nfq_id_base += 10
+
+        # Create nftables script
+        nft_dict = {
+            "device": device["name"],
+            "nft_chains": nft_chains
+        }
+        env.get_template("firewall.nft.j2").stream(nft_dict).dump(f"{device_path}/firewall.nft")
 
         # Create CMake file
         cmake_dict = {

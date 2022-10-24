@@ -1,0 +1,23 @@
+#!/usr/sbin/nft -f
+
+table netdev {{device}} {
+
+    {% for chain in nft_chains %}
+    chain {{chain}} {
+        
+        # Chain configuration
+        type filter hook ingress device enp0s8 priority 0; policy drop;
+
+        # Rules
+        {% for rule in nft_chains[chain] %}
+        {{rule["forward"]}}
+        {% if "backward" in rule %}
+        {{rule["backward"]}}
+        {% endif %}
+        {% endfor %}
+
+    }
+    
+    {% endfor %}
+
+}
