@@ -2,10 +2,6 @@
 cmake_minimum_required(VERSION 3.2)
 
 add_subdirectory(parsers)
-set(PARSERS header dns dhcp http igmp)
-
-add_subdirectory(devices)
-set(DEVICES xiaomi-cam)
 
 # Build libraries
 

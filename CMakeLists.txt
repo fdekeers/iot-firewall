@@ -14,6 +14,10 @@ set(EXECUTABLE_OUTPUT_PATH ${BIN_DIR})
 # Set compiler flags
 add_compile_options(-Wall -Werror)
 
+# Custom parsers
+set(PARSERS header dns dhcp http igmp)
+
 # Subdirectories containing code
 add_subdirectory(src)
+add_subdirectory(devices)
 add_subdirectory(test)
