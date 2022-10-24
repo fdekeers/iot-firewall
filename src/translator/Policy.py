@@ -16,20 +16,17 @@ class Policy:
         self.name = name
         self.profile_data = profile_data
         self.device = device
+        self.custom_parser = ""
+        self.nft_matches = []
+        self.nfq_matches = []
 
     
-    def parse(self) -> dict:
-        # Initialize accumulators for nftables and Jinja2
-        accumulators = {
-            "nft": [],
-            "nfq": []
-        }
+    def parse(self) -> None:
         # Parse protocols
         for protocol_name in self.profile_data["protocols"]:
             protocol = Protocol.init_protocol(protocol_name, self.profile_data["protocols"][protocol_name], self.device)
             if protocol.custom_parser:
-                accumulators["custom_parser"] = protocol_name
+                self.custom_parser = protocol_name
             new_rules = protocol.parse(self.profile_data["direction"])
-            accumulators["nft"].extend(new_rules["nft"])
-            accumulators["nfq"].extend(new_rules["nfq"])
-        return accumulators
+            self.nft_matches += new_rules["nft"]
+            self.nfq_matches += new_rules["nfq"]

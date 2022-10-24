@@ -71,12 +71,12 @@ if __name__ == "__main__":
 
                 # Create policy and parse it
                 policy = Policy(policy_name, profile_data, device)
-                accumulators = policy.parse()
+                policy.parse()
 
                 # Add nftables rules
                 nft_rule_forward = ""
                 nft_rule_backward = ""
-                nft_matches = accumulators["nft"]
+                nft_matches = policy.nft_matches
                 for i in range(len(nft_matches)):
                     if i > 0:
                         nft_rule_forward += " "
@@ -86,7 +86,7 @@ if __name__ == "__main__":
                         if i > 0:
                             nft_rule_backward += " "
                         nft_rule_backward += f"{nft_matches[i]['backward']}"
-                suffix = f" queue num {nfq_id_base}" if accumulators["nfq"] else " accept"
+                suffix = f" queue num {nfq_id_base}" if policy.nfq_matches else " accept"
                 nft_rule_forward += suffix
                 rule = {"forward": nft_rule_forward}
                 if direction == "both" and nft_rule_backward:
@@ -95,9 +95,9 @@ if __name__ == "__main__":
                 nft_chains[policy_name] = [rule]
 
                 # If need for user-space matching, create nfqueue C file
-                if accumulators["nfq"]:
+                if policy.nfq_matches:
                     # Retrieve Jinja2 template directories
-                    custom_parsers = {policy_name: accumulators["custom_parser"]} if "custom_parser" in accumulators else {}
+                    custom_parsers = {policy_name: policy.custom_parser} if policy.custom_parser else {}
                     header_dict = {
                         **header_dict,
                         "custom_parsers": set(custom_parsers.values())
@@ -105,7 +105,7 @@ if __name__ == "__main__":
                     callback_dict = {
                         **callback_dict,
                         "custom_parsers": custom_parsers,
-                        "nfq": accumulators["nfq"]
+                        "nfq": policy.nfq_matches
                     }
 
                     # Render Jinja2 templates
@@ -138,27 +138,28 @@ if __name__ == "__main__":
                 main_dict = {"policy": policy_name, "multithread": multithread}
 
                 # Iterate on single policies
-                current_state = 0
+                current_state = len(interaction_policy) - 1
                 custom_parsers = {}
                 policies = []
                 nft_chains[interaction_policy_name] = []
                 callback_funcs = ""
-                for single_policy_name in interaction_policy:
+                single_policies = reversed(list(interaction_policy.keys()))
+                for single_policy_name in single_policies:
                     # Create policy and parse it
                     policies.append(single_policy_name)
                     profile_data = interaction_policy[single_policy_name]
                     direction = profile_data["direction"]
                     single_policy = Policy(single_policy_name, profile_data, device)
-                    accumulators = single_policy.parse()
+                    single_policy.parse()
 
                     # Update high-level accumulators
-                    if "custom_parser" in accumulators:
-                        custom_parsers[single_policy_name] = accumulators["custom_parser"]
+                    if single_policy.custom_parser:
+                        custom_parsers[single_policy_name] = single_policy.custom_parser
 
                     # Add nftables rules
                     nft_rule_forward = ""
                     nft_rule_backward = ""
-                    nft_matches = accumulators["nft"]
+                    nft_matches = single_policy.nft_matches
                     for i in range(len(nft_matches)):
                         if i > 0:
                             nft_rule_forward += " "
@@ -184,10 +185,11 @@ if __name__ == "__main__":
                         "states": states,
                         "current_state": current_state,
                         "direction": direction,
-                        "nfq": accumulators["nfq"]}
+                        "nfq": single_policy.nfq_matches
+                    }
                     callback_funcs += env.get_template("callback.c.j2").render(callback_dict)
 
-                    current_state += 1
+                    current_state -= 1
                 
                 # Render Jinja2 templates
                 header_dict = {
