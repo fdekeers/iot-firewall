@@ -71,7 +71,8 @@ if __name__ == "__main__":
                     states.append("STATE_1")
 
                 # Add nftables rules
-                nft_chains[policy_name] = [policy.build_nft_rule(nfq_id_base)]
+                nfq_id = nfq_id_base if policy.nfq_matches else -1
+                nft_chains[policy_name] = [policy.build_nft_rule(nfq_id)]
 
                 # If need for user-space matching, create nfqueue C file
                 if policy.nfq_matches:
@@ -123,6 +124,7 @@ if __name__ == "__main__":
 
                 # Iterate on single policies
                 i = 0
+                nfq_id_offset = 0
                 current_state = 0
                 custom_parsers = {}
                 policies = []
@@ -135,11 +137,12 @@ if __name__ == "__main__":
                     single_policy.parse()
                     policies.append(single_policy)
 
-                    # Add states for this policy
-                    if (not single_policy.periodic) and (i < len(interaction_policy) - 1):
-                        current_state += 1
-                        states.append(f"STATE_{current_state}")
-                        if single_policy.direction == "both":
+                    # Add states for this policy (if needed)
+                    if (not single_policy.periodic):
+                        if (i < len(interaction_policy) - 1) or (single_policy.direction == "both"):
+                            current_state += 1
+                            states.append(f"STATE_{current_state}")
+                        if (i < len(interaction_policy) - 1) and (single_policy.direction == "both"):
                             current_state += 1
                             states.append(f"STATE_{current_state}")
 
@@ -153,7 +156,8 @@ if __name__ == "__main__":
 
                     # Add nftables rules
                     if not single_policy.periodic:
-                        nft_chains[interaction_policy_name].append(single_policy.build_nft_rule(nfq_id_base + current_state))
+                        nft_chains[interaction_policy_name].append(single_policy.build_nft_rule(nfq_id_base + nfq_id_offset))
+                        nfq_id_offset += 1
                     
                     i += 1
                 
