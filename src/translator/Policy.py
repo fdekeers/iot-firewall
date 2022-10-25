@@ -35,7 +35,8 @@ class Policy:
         Build the nftables rules (forward and backward) for this policy.
 
         Args:
-            queue_num (int): Number of the nfqueue queue corresponding to this policy
+            queue_num (int): Number of the nfqueue queue corresponding to this policy,
+                             or a negative number if the policy does not need an nfqueue.
         Returns:
             dict: Dictionary containing the forward and backward nftables rules
         """
@@ -50,7 +51,7 @@ class Policy:
                 if i > 0:
                     nft_rule_backward += " "
                 nft_rule_backward += f"{self.nft_matches[i]['backward']}"
-        suffix = f" queue num {queue_num}"
+        suffix = f" queue num {queue_num}" if queue_num >= 0 else " accept"
         nft_rule_forward += suffix
         rule = {"forward": nft_rule_forward}
         if self.direction == "both" and nft_rule_backward:

@@ -50,15 +50,13 @@ if __name__ == "__main__":
             for policy_name in profile["individual-policies"]:
                 profile_data = profile["individual-policies"][policy_name]
                 # Populate Jinja2 templates with general data for single policies
-                states = ["STATE_0", "STATE_1"]
+                states = ["STATE_0"]
                 header_dict["policy"] = policy_name
                 header_dict["max_threads"] = 1
-                header_dict["states"] = states
                 header_dict["nfq_id_base"] = nfq_id_base
                 direction = profile_data["direction"]
                 callback_dict = {
                     "multithread": False,
-                    "states": states,
                     "nft_table_chain": f"netdev {device['name']} {policy_name}"
                 }
                 main_dict = {
@@ -69,6 +67,8 @@ if __name__ == "__main__":
                 # Create policy and parse it
                 policy = Policy(policy_name, profile_data, device)
                 policy.parse()
+                if policy.direction == "both":
+                    states.append("STATE_1")
 
                 # Add nftables rules
                 nft_chains[policy_name] = [policy.build_nft_rule(nfq_id_base)]
@@ -79,10 +79,12 @@ if __name__ == "__main__":
                     custom_parsers = {policy_name: policy.custom_parser} if policy.custom_parser else {}
                     header_dict = {
                         **header_dict,
+                        "states": states,
                         "custom_parsers": set(custom_parsers.values())
                     }
                     callback_dict = {
                         **callback_dict,
+                        "states": states,
                         "policies": [policy]
                     }
                     main_dict = {
@@ -112,16 +114,15 @@ if __name__ == "__main__":
                 # Populate Jinja2 templates with general data for interaction policies
                 header_dict["policy"] = interaction_policy_name
                 max_threads = len(interaction_policy)
-                states = list(map(lambda i: f"STATE_{i}", range(len(interaction_policy))))
-                header_dict["states"] = states
+                states = ["STATE_0"]
                 header_dict["nfq_id_base"] = nfq_id_base
                 callback_dict = {
                     "nfq_id_base": nfq_id_base,
-                    "nft_table_chain": f"netdev {device['name']} {interaction_policy_name}",
-                    "states": states
+                    "nft_table_chain": f"netdev {device['name']} {interaction_policy_name}"
                 }
 
                 # Iterate on single policies
+                i = 0
                 current_state = 0
                 custom_parsers = {}
                 policies = []
@@ -133,29 +134,41 @@ if __name__ == "__main__":
                     single_policy = Policy(single_policy_name, profile_data, device)
                     single_policy.parse()
                     policies.append(single_policy)
-                    if single_policy.periodic:
+
+                    # Add states for this policy
+                    if (not single_policy.periodic) and (i < len(interaction_policy) - 1):
+                        current_state += 1
+                        states.append(f"STATE_{current_state}")
+                        if single_policy.direction == "both":
+                            current_state += 1
+                            states.append(f"STATE_{current_state}")
+
+                    # If policy is periodic and does not need user-space matching, it does not need an nfqueue
+                    if single_policy.periodic and not single_policy.nfq_matches:
                         max_threads -= 1
 
-                    # Update high-level accumulators
+                    # Add custom parser (if any)
                     if single_policy.custom_parser:
                         custom_parsers[single_policy_name] = single_policy.custom_parser
 
                     # Add nftables rules
                     if not single_policy.periodic:
                         nft_chains[interaction_policy_name].append(single_policy.build_nft_rule(nfq_id_base + current_state))
-
-                    current_state += 1
+                    
+                    i += 1
                 
                 # Render Jinja2 templates
                 header_dict = {
                     **header_dict,
                     "max_threads": max_threads,
-                    "custom_parsers": set(custom_parsers.values())
+                    "custom_parsers": set(custom_parsers.values()),
+                    "states": states
                 }
                 header = env.get_template("header.c.j2").render(header_dict)
                 callback_dict = {
                     **callback_dict,
                     "multithread": max_threads > 1,
+                    "states": states,
                     "policies": policies
                 }
                 callback = env.get_template("callback.c.j2").render(callback_dict)

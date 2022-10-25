@@ -1,7 +1,7 @@
+{% set current_state = namespace(value=0) %}
 {% for policy in policies %}
 {% if not policy.periodic %}
 {% set policy_jinja = policy.name.replace('-', '_') %}
-{% set current_state = loop.index - 1 %}
 
 /**
  * @brief {{policy_jinja}} callback function, called when a packet enters the queue.
@@ -47,14 +47,15 @@ uint32_t callback_{{policy_jinja}}(int pkt_id, uint8_t *payload, void *arg) {
     ) {
     {% endif %}
         pthread_mutex_lock(&mutex);
-        if (state == {{states[current_state]}}) {
+        if (state == {{states[current_state.value]}}) {
             {% if not policy.periodic %}
-            state = {{states[(current_state + 1) % states|length]}};
+            {% set current_state.value = (current_state.value + 1) % states|length %}
+            state = {{states[current_state.value]}};
             {% endif %}
             pthread_mutex_unlock(&mutex);
-            {% set next_policy = policies[(current_state + 1) % policies|length] %}
+            {% set next_policy = policies[loop.index % policies|length] %}
             {% if policy.direction != "both" and next_policy.periodic %}
-            {% set next_rules = next_policy.build_nft_rule(nfq_id_base + current_state + 1) %}
+            {% set next_rules = next_policy.build_nft_rule(-1) %}
             system("sudo nft add rule {{nft_table_chain}} {{next_rules['forward']}}");
             {% if 'backward' in next_rules %}
             system("sudo nft add rule {{nft_table_chain}} {{next_rules['backward']}}");
@@ -64,7 +65,8 @@ uint32_t callback_{{policy_jinja}}(int pkt_id, uint8_t *payload, void *arg) {
         } else {
             pthread_mutex_unlock(&mutex);
         }
-    {% if policy.nfq_matches and policy.direction == "both" %}
+    {% if policy.direction == "both" %}
+    {% if policy.nfq_matches %}
     } else if (
         {{policy.nfq_matches[0]["backward"]}}
         {% for match in policy.nfq_matches[1:] %}
@@ -75,14 +77,15 @@ uint32_t callback_{{policy_jinja}}(int pkt_id, uint8_t *payload, void *arg) {
     ) {
     {% endif %}
         pthread_mutex_lock(&mutex);
-        if (state == {{states[current_state]}}) {
+        if (state == {{states[current_state.value]}}) {
             {% if not policy.periodic %}
-            state = {{states[(current_state + 1) % states|length]}};
+            {% set current_state.value = (current_state.value + 1) % states|length %}
+            state = {{states[current_state.value]}};
             {% endif %}
             pthread_mutex_unlock(&mutex);
-            {% set next_policy = policies[(current_state + 1) % policies|length] %}
-            {% if policy.direction == "both" and next_policy.periodic %}
-            {% set next_rules = next_policy.build_nft_rule(nfq_id_base + current_state + 1) %}
+            {% set next_policy = policies[loop.index % policies|length] %}
+            {% if next_policy.periodic %}
+            {% set next_rules = next_policy.build_nft_rule(-1) %}
             system("sudo nft add rule {{nft_table_chain}} {{next_rules['forward']}}");
             {% if 'backward' in next_rules %}
             system("sudo nft add rule {{nft_table_chain}} {{next_rules['backward']}}");
@@ -92,20 +95,22 @@ uint32_t callback_{{policy_jinja}}(int pkt_id, uint8_t *payload, void *arg) {
         } else {
             pthread_mutex_unlock(&mutex);
         }
+    {% endif %}
     {% else %}
     if (
-        state == {{states[current_state]}}
+        state == {{states[current_state.value]}}
         {% for match in policy.nfq_matches %}
         && {{match["forward"]}}
         {% endfor %}
     ) {
         {% if not policy.periodic %}
-        state = {{states[(current_state + 1) % states|length]}};
+        {% set current_state.value = (current_state.value + 1) % states|length %}
+        state = {{states[current_state.value]}};
         {% endif %}
         {% if policies|length > 1 %}
-        {% set next_policy = policies[(current_state + 1) % policies|length] %}
+        {% set next_policy = policies[loop.index % policies|length] %}
         {% if policy.direction != "both" and next_policy.periodic %}
-        {% set next_rules = next_policy.build_nft_rule(nfq_id_base + current_state + 1) %}
+        {% set next_rules = next_policy.build_nft_rule(-1) %}
         system("sudo nft add rule {{nft_table_chain}} {{next_rules['forward']}}");
         {% if 'backward' in next_rules %}
         system("sudo nft add rule {{nft_table_chain}} {{next_rules['backward']}}");
@@ -115,7 +120,7 @@ uint32_t callback_{{policy_jinja}}(int pkt_id, uint8_t *payload, void *arg) {
         verdict = NF_ACCEPT;
     {% if policy.direction == "both" %}
     } else if (
-        state == {{states[current_state]}}
+        state == {{states[current_state.value]}}
         {% for match in policy.nfq_matches %}
         {% if "backward" in match %}
         && {{match["backward"]}}
@@ -123,12 +128,13 @@ uint32_t callback_{{policy_jinja}}(int pkt_id, uint8_t *payload, void *arg) {
         {% endfor %}
     ) {
         {% if not policy.periodic %}
-        state = {{states[(current_state + 1) % states|length]}};
+        {% set current_state.value = (current_state.value + 1) % states|length %}
+        state = {{states[current_state.value]}};
         {% endif %}
         {% if policies|length > 1 %}
-        {% set next_policy = policies[(current_state + 1) % policies|length] %}
-        {% if policy.direction == "both" and next_policy.periodic %}
-        {% set next_rules = next_policy.build_nft_rule(nfq_id_base + current_state + 1) %}
+        {% set next_policy = policies[loop.index % policies|length] %}
+        {% if next_policy.periodic %}
+        {% set next_rules = next_policy.build_nft_rule(-1) %}
         system("sudo nft add rule {{nft_table_chain}} {{next_rules['forward']}}");
         {% if 'backward' in next_rules %}
         system("sudo nft add rule {{nft_table_chain}} {{next_rules['backward']}}");
