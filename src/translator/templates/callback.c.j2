@@ -62,9 +62,11 @@ uint32_t callback_{{policy_jinja}}(int pkt_id, uint8_t *payload, void *arg) {
             {% endif %}
             {% endif %}
             verdict = NF_ACCEPT;
+        {% if policy.direction != "both" or policy.nfq_matches %}
         } else {
             pthread_mutex_unlock(&mutex);
         }
+        {% endif %}
     {% if policy.direction == "both" %}
     {% if policy.nfq_matches %}
     } else if (
@@ -75,9 +77,9 @@ uint32_t callback_{{policy_jinja}}(int pkt_id, uint8_t *payload, void *arg) {
         {% endif %}
         {% endfor %}
     ) {
-    {% endif %}
         pthread_mutex_lock(&mutex);
-        if (state == {{states[current_state.value]}}) {
+    {% else %}
+        } else{% endif %} if (state == {{states[current_state.value]}}) {
             {% if not policy.periodic %}
             {% set current_state.value = (current_state.value + 1) % states|length %}
             state = {{states[current_state.value]}};
