@@ -190,7 +190,8 @@ Args:
 <pre class="fragment">Build the nftables rules (forward and backward) for this policy.
 
 Args:
-    queue_num (int): Number of the nfqueue queue corresponding to this policy
+    queue_num (int): Number of the nfqueue queue corresponding to this policy,
+             or a negative number if the policy does not need an nfqueue.
 Returns:
     dict: Dictionary containing the forward and backward nftables rules
 </pre> 
