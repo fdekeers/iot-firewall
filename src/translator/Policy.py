@@ -5,6 +5,11 @@ class Policy:
     Class which represents a single access control policy.
     """
 
+    # Statistics currently handled
+    stats_templates = {
+        "rate": "limit rate {}"
+    }
+
     def __init__(self, name: str, profile_data: dict, device: dict) -> None:
         """
         Initializes a new Policy object.
@@ -30,6 +35,18 @@ class Policy:
         return "stats" in self.profile_data and "rate" in self.profile_data["stats"]
 
     
+    def handle_stat(self, stat: str) -> None:
+        """
+        Add the nftables match corresponding to the given stat to this policy's rule.
+
+        Args:
+            stat (str): Statistic to handle
+        """
+        value = self.profile_data["stats"][stat]
+        match = Policy.stats_templates[stat].format(value)
+        self.nft_matches.append({"forward": match, "backward": match})
+
+    
     def build_nft_rule(self, queue_num: int) -> dict:
         """
         Build the nftables rules (forward and backward) for this policy.
@@ -40,6 +57,7 @@ class Policy:
         Returns:
             dict: Dictionary containing the forward and backward nftables rules
         """
+        # Packet header matching
         nft_rule_forward = ""
         nft_rule_backward = ""
         for i in range(len(self.nft_matches)):
@@ -51,6 +69,8 @@ class Policy:
                 if i > 0:
                     nft_rule_backward += " "
                 nft_rule_backward += f"{self.nft_matches[i]['backward']}"
+
+        # Finalize rule
         suffix = f" queue num {queue_num}" if queue_num >= 0 else " accept"
         nft_rule_forward += suffix
         rule = {"forward": nft_rule_forward}
@@ -72,3 +92,9 @@ class Policy:
             new_rules = protocol.parse(self.profile_data["direction"])
             self.nft_matches += new_rules["nft"]
             self.nfq_matches += new_rules["nfq"]
+        
+        # Parse statistics
+        if "stats" in self.profile_data:
+            for stat in self.profile_data["stats"]:
+                if stat in Policy.stats_templates:
+                    self.handle_stat(stat)

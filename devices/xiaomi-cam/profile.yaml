@@ -97,7 +97,7 @@ individual-policies:
         dst: local
     direction: both
     stats:
-      rate: 10/s
+      rate: 10/second
       packet-size: 46 - 200
 
   ping-quad8:
@@ -275,7 +275,7 @@ interaction-policies:
           dst: local
       direction: both
       stats:
-        rate: 10/s
+        rate: 10/second
         payload-size: 4 - 150
   
 
@@ -317,7 +317,7 @@ interaction-policies:
       direction: both
       local-network: true
       stats:
-        rate: 300/s
+        rate: 300/second
         packet-size:
           out: 46 - 1074
           in: 46 - 734
@@ -365,7 +365,7 @@ interaction-policies:
           dst: 130.104.94.185
       direction: both
       stats:
-        rate: 5/s
+        rate: 5/second
         packet-size: 46
 
 
@@ -394,7 +394,7 @@ interaction-policies:
           dst: 130.104.94.185
       direction: both
       stats:
-        rate: 300/s
+        rate: 300/second
         packet-size:
           out: 46 - 1074
           in: 46 - 734
