@@ -98,7 +98,7 @@ individual-policies:
     direction: both
     stats:
       rate: 10/second
-      packet-size: 46 - 200
+      packet-size: 46-200
 
   ping-quad8:
     protocols:
@@ -265,7 +265,7 @@ interaction-policies:
       stats:
         duration: 1 s
         number-of-packets: 20
-        payload-size: 4 - 250
+        packet-size: 4-250
 
     udp-xiaomi-phone-background:
       protocols:
@@ -276,7 +276,7 @@ interaction-policies:
       direction: both
       stats:
         rate: 10/second
-        payload-size: 4 - 150
+        packet-size: 4-150
   
 
   ##### STREAM CAMERA #####
@@ -319,8 +319,8 @@ interaction-policies:
       stats:
         rate: 300/second
         packet-size:
-          out: 46 - 1074
-          in: 46 - 734
+          out: 46-1074
+          in: 46-734
 
     https-xiaomi-cloud-stop:
       protocols:
@@ -353,7 +353,7 @@ interaction-policies:
       stats:
         duration: 1 s
         number-of-packets: 40
-        packet-size: 46 - 300
+        packet-size: 46-300
   
     udp-xiaomi-cloud-background:
       protocols:
@@ -396,8 +396,8 @@ interaction-policies:
       stats:
         rate: 300/second
         packet-size:
-          out: 46 - 1074
-          in: 46 - 734
+          out: 46-1074
+          in: 46-734
 
     https-cloud-xiaomi-stop:
       protocols:

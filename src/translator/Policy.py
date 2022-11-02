@@ -7,7 +7,8 @@ class Policy:
 
     # Statistics currently handled
     stats_templates = {
-        "rate": "limit rate {}"
+        "rate": "limit rate {}",
+        "packet-size": "meta length {}"
     }
 
     def __init__(self, name: str, profile_data: dict, device: dict) -> None:
@@ -43,8 +44,15 @@ class Policy:
             stat (str): Statistic to handle
         """
         value = self.profile_data["stats"][stat]
-        match = Policy.stats_templates[stat].format(value)
-        self.nft_matches.append({"forward": match, "backward": match})
+        if type(value) == dict:
+            # Stat is a dictionary, and contains data for directions "in" and "out"
+            match_forward = Policy.stats_templates[stat].format(value["in"])
+            match_backward = Policy.stats_templates[stat].format(value["out"])
+            self.nft_matches.append({"forward": match_forward, "backward": match_backward})
+        else:
+            # Stat is a single value, and applies to both directions
+            match = Policy.stats_templates[stat].format(value)
+            self.nft_matches.append({"forward": match, "backward": match})
 
     
     def build_nft_rule(self, queue_num: int) -> dict:
