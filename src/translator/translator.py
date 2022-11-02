@@ -43,6 +43,7 @@ if __name__ == "__main__":
 
         nfq_id_base = 0  # Base nfqueue id, will be incremented by 10 for each high-level policy
         nft_chains = {}
+        nft_counters = []
         nfqueues = []
     
         # Loop over the device's individual policies
@@ -73,6 +74,8 @@ if __name__ == "__main__":
                 # Add nftables rules
                 nfq_id = nfq_id_base if policy.nfq_matches else -1
                 nft_chains[policy_name] = [policy.build_nft_rule(nfq_id)]
+                if policy.counters:
+                    nft_counters += policy.counters
 
                 # If need for user-space matching, create nfqueue C file
                 if policy.nfq_matches:
@@ -154,6 +157,10 @@ if __name__ == "__main__":
                     if single_policy.custom_parser:
                         custom_parsers[single_policy_name] = single_policy.custom_parser
 
+                    # Add nftables counter (if any)
+                    if single_policy.counters:
+                        nft_counters += single_policy.counters
+
                     # Add nftables rules
                     if not single_policy.periodic:
                         nft_chains[interaction_policy_name].append(single_policy.build_nft_rule(nfq_id_base + nfq_id_offset))
@@ -194,7 +201,8 @@ if __name__ == "__main__":
         # Create nftables script
         nft_dict = {
             "device": device["name"],
-            "nft_chains": nft_chains
+            "nft_chains": nft_chains,
+            "counters": nft_counters
         }
         env.get_template("firewall.nft.j2").stream(nft_dict).dump(f"{device_path}/firewall.nft")
 

@@ -2,6 +2,12 @@
 
 table netdev {{device}} {
 
+    # Counters
+    {% for counter in counters %}
+    counter {{counter}} {}
+    {% endfor %}
+
+    # Chains
     {% for chain in nft_chains %}
     chain {{chain}} {
         

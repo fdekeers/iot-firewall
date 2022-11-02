@@ -8,7 +8,8 @@ class Policy:
     # Statistics currently handled
     stats_templates = {
         "rate": "limit rate {}",
-        "packet-size": "meta length {}"
+        "packet-size": "meta length {}",
+        "packet-count": "counter name {}"
     }
 
     def __init__(self, name: str, profile_data: dict, device: dict) -> None:
@@ -27,6 +28,7 @@ class Policy:
         self.nft_matches = []                       # List of nftables matches (will be populated by parsing)
         self.nfq_matches = []                       # List of nfqueue matches (will be populated by parsing)
         self.periodic = self.is_periodic()          # Whether the policy represents a periodic pattern
+        self.counters = []                          # Counters associated to this policy
 
     
     def is_periodic(self) -> bool:
@@ -45,13 +47,23 @@ class Policy:
         """
         value = self.profile_data["stats"][stat]
         if type(value) == dict:
-            # Stat is a dictionary, and contains data for directions "in" and "out"
-            match_forward = Policy.stats_templates[stat].format(value["in"])
-            match_backward = Policy.stats_templates[stat].format(value["out"])
+            # Stat is a dictionary, and contains data for directions "out" and "in"
+            fmt_out = value["out"]
+            fmt_in = value["in"]
+            if stat == "packet-count":
+                fmt_out = f"{self.name}-out"
+                fmt_in = f"{self.name}-in"
+                # Add counters for "out" and "in" directions
+                self.counters += [fmt_out, fmt_in]
+            match_forward = Policy.stats_templates[stat].format(fmt_out)
+            match_backward = Policy.stats_templates[stat].format(fmt_in)
             self.nft_matches.append({"forward": match_forward, "backward": match_backward})
         else:
-            # Stat is a single value, and applies to both directions
+            # Stat is a single value
             match = Policy.stats_templates[stat].format(value)
+            if stat == "packet-count":
+                match = self.name
+                self.counters.append(match)
             self.nft_matches.append({"forward": match, "backward": match})
 
     
@@ -103,6 +115,14 @@ class Policy:
         
         # Parse statistics
         if "stats" in self.profile_data:
+            packet_count_idx = -1  # Index of the packet-count rule (-1 if not present)
             for stat in self.profile_data["stats"]:
                 if stat in Policy.stats_templates:
                     self.handle_stat(stat)
+                    if stat == "packet-count":
+                        packet_count_idx = len(self.nft_matches) - 1
+            if packet_count_idx >= 0:
+                # Rules contain packet-count stat
+                # Move packet-count match to the end of the list
+                packet_count_match = self.nft_matches.pop(packet_count_idx)
+                self.nft_matches.append(packet_count_match)
