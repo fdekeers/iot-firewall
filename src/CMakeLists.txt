@@ -21,3 +21,8 @@ add_library(map_domain_ip STATIC ${INCLUDE_DIR}/map_domain_ip.h map_domain_ip.c)
 target_include_directories(map_domain_ip PRIVATE ${INCLUDE_DIR})
 target_link_libraries(map_domain_ip ${LIB_DIR}/libhashmap.a)
 install(TARGETS map_domain_ip DESTINATION ${LIB_DIR})
+
+# nft_counter
+add_library(nft_counter STATIC ${INCLUDE_DIR}/nft_counter.h nft_counter.c)
+target_include_directories(nft_counter PRIVATE ${INCLUDE_DIR})
+install(TARGETS nft_counter DESTINATION ${LIB_DIR})
