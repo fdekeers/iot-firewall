@@ -53,9 +53,13 @@ uint32_t callback_{{policy_jinja}}(int pkt_id, uint8_t *payload, void *arg) {
             state = {{states[current_state.value]}};
             {% endif %}
             pthread_mutex_unlock(&mutex);
+            {% set previous_policy = policies[(loop.index - 2) % policies|length] %}
+            {% if previous_policy.periodic %}
+            {% endif %}
             {% set next_policy = policies[loop.index % policies|length] %}
             {% if policy.direction != "both" and next_policy.periodic %}
             {% set next_rules = next_policy.build_nft_rule(-1) %}
+            // Add nftables rule for next match
             system("sudo nft add rule {{nft_table_chain}} {{next_rules['forward']}}");
             {% if 'backward' in next_rules %}
             system("sudo nft add rule {{nft_table_chain}} {{next_rules['backward']}}");
