@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.17"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>IoT firewall: include/nft_counter.h File Reference</title>
+<title>IoT firewall: src/nft_counter.c File Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -62,55 +62,41 @@ $(function() {
 
 <div id="nav-path" class="navpath">
   <ul>
-<li class="navelem"><a class="el" href="dir_d44c64559bbebec7f509842c48db8b23.html">include</a></li>  </ul>
+<li class="navelem"><a class="el" href="dir_68267d1309a1af8e8297ef4c3efbcdba.html">src</a></li>  </ul>
 </div>
 </div><!-- top -->
 <div class="header">
   <div class="summary">
 <a href="#func-members">Functions</a>  </div>
   <div class="headertitle">
-<div class="title">nft_counter.h File Reference</div>  </div>
+<div class="title">nft_counter.c File Reference</div>  </div>
 </div><!--header-->
 <div class="contents">
 
 <p>Interface to nftables counters.  
 <a href="#details">More...</a></p>
-<div class="textblock"><code>#include &lt;stdlib.h&gt;</code><br />
-<code>#include &lt;stdio.h&gt;</code><br />
-<code>#include &lt;stdint.h&gt;</code><br />
-<code>#include &lt;string.h&gt;</code><br />
+<div class="textblock"><code>#include &quot;<a class="el" href="nft__counter_8h_source.html">nft_counter.h</a>&quot;</code><br />
 </div><div class="textblock"><div class="dynheader">
-Include dependency graph for nft_counter.h:</div>
+Include dependency graph for nft_counter.c:</div>
 <div class="dyncontent">
-<div class="center"><img src="nft__counter_8h__incl.png" border="0" usemap="#include_2nft__counter_8h" alt=""/></div>
-<map name="include_2nft__counter_8h" id="include_2nft__counter_8h">
-<area shape="rect" title="Interface to nftables counters." alt="" coords="102,5,259,32"/>
-<area shape="rect" title=" " alt="" coords="5,80,76,107"/>
-<area shape="rect" title=" " alt="" coords="101,80,167,107"/>
-<area shape="rect" title=" " alt="" coords="192,80,263,107"/>
-<area shape="rect" title=" " alt="" coords="287,80,357,107"/>
+<div class="center"><img src="src_2nft__counter_8c__incl.png" border="0" usemap="#src_2nft__counter_8c" alt=""/></div>
+<map name="src_2nft__counter_8c" id="src_2nft__counter_8c">
+<area shape="rect" title="Interface to nftables counters." alt="" coords="117,5,245,32"/>
+<area shape="rect" href="nft__counter_8h.html" title="Interface to nftables counters." alt="" coords="127,80,234,107"/>
+<area shape="rect" title=" " alt="" coords="5,155,76,181"/>
+<area shape="rect" title=" " alt="" coords="101,155,167,181"/>
+<area shape="rect" title=" " alt="" coords="192,155,263,181"/>
+<area shape="rect" title=" " alt="" coords="287,155,357,181"/>
 </map>
 </div>
-</div><div class="textblock"><div class="dynheader">
-This graph shows which files directly or indirectly include this file:</div>
-<div class="dyncontent">
-<div class="center"><img src="nft__counter_8h__dep__incl.png" border="0" usemap="#include_2nft__counter_8hdep" alt=""/></div>
-<map name="include_2nft__counter_8hdep" id="include_2nft__counter_8hdep">
-<area shape="rect" title="Interface to nftables counters." alt="" coords="68,5,225,32"/>
-<area shape="rect" href="src_2nft__counter_8c.html" title="Interface to nftables counters." alt="" coords="5,80,133,107"/>
-<area shape="rect" href="test_2nft__counter_8c.html" title="Unit tests for the interface with nftables counters." alt="" coords="158,80,293,107"/>
-</map>
-</div>
-</div>
-<p><a href="nft__counter_8h_source.html">Go to the source code of this file.</a></p>
-<table class="memberdecls">
+</div><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="func-members"></a>
 Functions</h2></td></tr>
-<tr class="memitem:aeb67f07c5cd1df5f6676a3c8cab46538"><td class="memItemLeft" align="right" valign="top">uint32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="nft__counter_8h.html#aeb67f07c5cd1df5f6676a3c8cab46538">counter_read_packets</a> (char *table_name, char *counter_name)</td></tr>
-<tr class="memdesc:aeb67f07c5cd1df5f6676a3c8cab46538"><td class="mdescLeft">&#160;</td><td class="mdescRight">Read the packet count value of an nftables counter.  <a href="nft__counter_8h.html#aeb67f07c5cd1df5f6676a3c8cab46538">More...</a><br /></td></tr>
+<tr class="memitem:aeb67f07c5cd1df5f6676a3c8cab46538"><td class="memItemLeft" align="right" valign="top">uint32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="src_2nft__counter_8c.html#aeb67f07c5cd1df5f6676a3c8cab46538">counter_read_packets</a> (char *table_name, char *counter_name)</td></tr>
+<tr class="memdesc:aeb67f07c5cd1df5f6676a3c8cab46538"><td class="mdescLeft">&#160;</td><td class="mdescRight">Read the packet count value of an nftables counter.  <a href="src_2nft__counter_8c.html#aeb67f07c5cd1df5f6676a3c8cab46538">More...</a><br /></td></tr>
 <tr class="separator:aeb67f07c5cd1df5f6676a3c8cab46538"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a6fdb1478a673e248041d605f5b19282f"><td class="memItemLeft" align="right" valign="top">uint32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="nft__counter_8h.html#a6fdb1478a673e248041d605f5b19282f">counter_read_bytes</a> (char *table_name, char *counter_name)</td></tr>
-<tr class="memdesc:a6fdb1478a673e248041d605f5b19282f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Read the bytes value of an nftables counter.  <a href="nft__counter_8h.html#a6fdb1478a673e248041d605f5b19282f">More...</a><br /></td></tr>
+<tr class="memitem:a6fdb1478a673e248041d605f5b19282f"><td class="memItemLeft" align="right" valign="top">uint32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="src_2nft__counter_8c.html#a6fdb1478a673e248041d605f5b19282f">counter_read_bytes</a> (char *table_name, char *counter_name)</td></tr>
+<tr class="memdesc:a6fdb1478a673e248041d605f5b19282f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Read the bytes value of an nftables counter.  <a href="src_2nft__counter_8c.html#a6fdb1478a673e248041d605f5b19282f">More...</a><br /></td></tr>
 <tr class="separator:a6fdb1478a673e248041d605f5b19282f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>

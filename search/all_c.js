@@ -20,6 +20,8 @@ var searchData=
   ['test_5fmap_5fdomain_5fip_5fempty_146',['test_map_domain_ip_empty',['../test_2map__domain__ip_8c.html#afc5c1c91856c2ee5df7273973dfb9a11',1,'map_domain_ip.c']]],
   ['test_5fmap_5fdomain_5fip_5fget_147',['test_map_domain_ip_get',['../test_2map__domain__ip_8c.html#a99582bdb7ed8afc90feb4a8abfe2db25',1,'map_domain_ip.c']]],
   ['test_5fmap_5fdomain_5fip_5fpop_148',['test_map_domain_ip_pop',['../test_2map__domain__ip_8c.html#a99d18489aae476038b7f4d5cdcc04e35',1,'map_domain_ip.c']]],
-  ['thread_5farg_5ft_149',['thread_arg_t',['../structthread__arg__t.html',1,'']]],
-  ['transport_150',['Transport',['../classTransport_1_1Transport.html',1,'Transport']]]
+  ['test_5fnft_5fcounter_5fbytes_149',['test_nft_counter_bytes',['../test_2nft__counter_8c.html#ab0c2b4c01ecd22ff7b24090f730c9d72',1,'nft_counter.c']]],
+  ['test_5fnft_5fcounter_5fpackets_150',['test_nft_counter_packets',['../test_2nft__counter_8c.html#a4bf386dde4689c554f495a0d27246c7b',1,'nft_counter.c']]],
+  ['thread_5farg_5ft_151',['thread_arg_t',['../structthread__arg__t.html',1,'']]],
+  ['transport_152',['Transport',['../classTransport_1_1Transport.html',1,'Transport']]]
 ];

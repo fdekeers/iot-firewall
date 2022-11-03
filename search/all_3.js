@@ -8,7 +8,7 @@ var searchData=
   ['compare_5foptions_11',['compare_options',['../test_2parsers_2dhcp_8c.html#abfed43928603899b50c415654e915122',1,'dhcp.c']]],
   ['compare_5fquestions_12',['compare_questions',['../test_2parsers_2dns_8c.html#a46fccdb44b31b2adb5a91f05c08b706a',1,'dns.c']]],
   ['compare_5frrs_13',['compare_rrs',['../test_2parsers_2dns_8c.html#aa1d7f0a863b7a608e32e34f8b3b05ba0',1,'dns.c']]],
-  ['counter_5fread_5fbytes_14',['counter_read_bytes',['../nft__counter_8h.html#a8948ddccacc187c61ad7144ac762a6d1',1,'counter_read_bytes(char *counter_name):&#160;nft_counter.c'],['../nft__counter_8c.html#a8948ddccacc187c61ad7144ac762a6d1',1,'counter_read_bytes(char *counter_name):&#160;nft_counter.c']]],
-  ['counter_5fread_5fpackets_15',['counter_read_packets',['../nft__counter_8h.html#acd9b07d9e557fd02a7cfa4cc1bebf48e',1,'counter_read_packets(char *counter_name):&#160;nft_counter.c'],['../nft__counter_8c.html#acd9b07d9e557fd02a7cfa4cc1bebf48e',1,'counter_read_packets(char *counter_name):&#160;nft_counter.c']]],
+  ['counter_5fread_5fbytes_14',['counter_read_bytes',['../nft__counter_8h.html#a6fdb1478a673e248041d605f5b19282f',1,'counter_read_bytes(char *table_name, char *counter_name):&#160;nft_counter.c'],['../src_2nft__counter_8c.html#a6fdb1478a673e248041d605f5b19282f',1,'counter_read_bytes(char *table_name, char *counter_name):&#160;nft_counter.c']]],
+  ['counter_5fread_5fpackets_15',['counter_read_packets',['../nft__counter_8h.html#aeb67f07c5cd1df5f6676a3c8cab46538',1,'counter_read_packets(char *table_name, char *counter_name):&#160;nft_counter.c'],['../src_2nft__counter_8c.html#aeb67f07c5cd1df5f6676a3c8cab46538',1,'counter_read_packets(char *table_name, char *counter_name):&#160;nft_counter.c']]],
   ['custom_16',['Custom',['../classCustom_1_1Custom.html',1,'Custom']]]
 ];
