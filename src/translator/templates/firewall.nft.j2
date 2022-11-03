@@ -3,8 +3,13 @@
 table netdev {{device}} {
 
     # Counters
-    {% for counter in counters %}
-    counter {{counter}} {}
+    {% for policy in counters %}
+    {% if "out" in counters[policy] and "in" in counters[policy] %}
+    counter {{policy}}-out {}
+    counter {{policy}}-in {}
+    {% else %}
+    counter {{policy}} {}
+    {% endif %}
     {% endfor %}
 
     # Chains

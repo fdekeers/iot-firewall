@@ -43,7 +43,7 @@ if __name__ == "__main__":
 
         nfq_id_base = 0  # Base nfqueue id, will be incremented by 10 for each high-level policy
         nft_chains = {}
-        nft_counters = []
+        nft_counters = {}
         nfqueues = []
     
         # Loop over the device's individual policies
@@ -58,7 +58,8 @@ if __name__ == "__main__":
                 direction = profile_data["direction"]
                 callback_dict = {
                     "multithread": False,
-                    "nft_table_chain": f"netdev {device['name']} {policy_name}"
+                    "nft_table": f"netdev {device['name']}",
+                    "nft_chain": policy_name
                 }
                 main_dict = {
                     "multithread": False,
@@ -72,13 +73,13 @@ if __name__ == "__main__":
                     states.append("STATE_1")
 
                 # Add nftables rules
-                nfq_id = nfq_id_base if policy.nfq_matches else -1
+                nfq_id = nfq_id_base if (policy.nfq_matches or policy.counters) else -1
                 nft_chains[policy_name] = [policy.build_nft_rule(nfq_id)]
                 if policy.counters:
-                    nft_counters += policy.counters
+                    nft_counters[policy_name] = policy.counters
 
                 # If need for user-space matching, create nfqueue C file
-                if policy.nfq_matches:
+                if policy.nfq_matches or policy.counters:
                     # Retrieve Jinja2 template directories
                     custom_parsers = {policy_name: policy.custom_parser} if policy.custom_parser else {}
                     header_dict = {
@@ -122,7 +123,8 @@ if __name__ == "__main__":
                 header_dict["nfq_id_base"] = nfq_id_base
                 callback_dict = {
                     "nfq_id_base": nfq_id_base,
-                    "nft_table_chain": f"netdev {device['name']} {interaction_policy_name}"
+                    "nft_table": f"netdev {device['name']}",
+                    "nft_chain": interaction_policy_name
                 }
 
                 # Iterate on single policies
@@ -159,7 +161,7 @@ if __name__ == "__main__":
 
                     # Add nftables counter (if any)
                     if single_policy.counters:
-                        nft_counters += single_policy.counters
+                        nft_counters[single_policy_name] = single_policy.counters
 
                     # Add nftables rules
                     if not single_policy.periodic:

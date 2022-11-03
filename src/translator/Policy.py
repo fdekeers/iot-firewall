@@ -28,7 +28,7 @@ class Policy:
         self.nft_matches = []                       # List of nftables matches (will be populated by parsing)
         self.nfq_matches = []                       # List of nfqueue matches (will be populated by parsing)
         self.periodic = self.is_periodic()          # Whether the policy represents a periodic pattern
-        self.counters = []                          # Counters associated to this policy
+        self.counters = {}                          # Counters associated to this policy (will be populated by parsing)
 
     
     def is_periodic(self) -> bool:
@@ -48,22 +48,24 @@ class Policy:
         value = self.profile_data["stats"][stat]
         if type(value) == dict:
             # Stat is a dictionary, and contains data for directions "out" and "in"
-            fmt_out = value["out"]
-            fmt_in = value["in"]
+            value_out = value["out"]
+            value_in = value["in"]
             if stat == "packet-count":
-                fmt_out = f"{self.name}-out"
-                fmt_in = f"{self.name}-in"
                 # Add counters for "out" and "in" directions
-                self.counters += [fmt_out, fmt_in]
-            match_forward = Policy.stats_templates[stat].format(fmt_out)
-            match_backward = Policy.stats_templates[stat].format(fmt_in)
+                self.counters["out"] = value_out
+                self.counters["in"] = value_in
+                # Update values with counter names (to be used as nftables match)
+                value_out = f"{self.name}-out"
+                value_in = f"{self.name}-in"
+            match_forward = Policy.stats_templates[stat].format(value_out)
+            match_backward = Policy.stats_templates[stat].format(value_in)
             self.nft_matches.append({"forward": match_forward, "backward": match_backward})
         else:
             # Stat is a single value
-            match = Policy.stats_templates[stat].format(value)
             if stat == "packet-count":
-                match = self.name
-                self.counters.append(match)
+                self.counters["default"] = value
+                value = self.name
+            match = Policy.stats_templates[stat].format(value)
             self.nft_matches.append({"forward": match, "backward": match})
 
     

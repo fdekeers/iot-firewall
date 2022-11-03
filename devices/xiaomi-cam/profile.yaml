@@ -332,7 +332,7 @@ interaction-policies:
           dst: 120.92.133.153
       direction: both
       stats:
-        packet-count: <= 10
+        packet-count: 10
 
 
 
@@ -382,7 +382,7 @@ interaction-policies:
           dst: self
       direction: both
       stats:
-        packet-count: <= 10
+        packet-count: 10
 
     udp-stream:
       protocols:
@@ -409,5 +409,5 @@ interaction-policies:
           dst: self
       direction: both
       stats:
-        packet-count: <= 10
+        packet-count: 10
 ...
