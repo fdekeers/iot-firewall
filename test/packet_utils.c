@@ -105,6 +105,7 @@ void test_mac_str_to_hex() {
 int main(int argc, char const *argv[])
 {
     // Initialize the CUnit test registry and suite
+    printf("Test suite: packet_utils\n");
     if (CU_initialize_registry() != CUE_SUCCESS)
         return CU_get_error();
     CU_pSuite suite = CU_add_suite("packet_utils", NULL, NULL);

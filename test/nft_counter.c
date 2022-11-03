@@ -38,6 +38,7 @@ int main(int argc, char const *argv[])
     system("sudo nft add table test");
     system("sudo nft add counter test counter1");
     // Initialize the CUnit test registry and suite
+    printf("Test suite: nft_counter\n");
     if (CU_initialize_registry() != CUE_SUCCESS)
         return CU_get_error();
     CU_pSuite suite = CU_add_suite("nft_counter", NULL, NULL);

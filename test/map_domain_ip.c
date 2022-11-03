@@ -24,7 +24,6 @@ void test_map_domain_ip_create() {
     CU_ASSERT_PTR_NOT_NULL(table);
     CU_ASSERT_EQUAL(hashmap_count(table), 0);
     map_domain_ip_destroy(table);
-    printf("test_map_domain_ip_create: OK\n");
 }
 
 /**
@@ -38,7 +37,6 @@ void test_map_domain_ip_empty() {
     CU_ASSERT_PTR_NULL(entry);
     map_domain_ip_remove(table, "www.google.com");  // Does nothing, but should not crash
     map_domain_ip_destroy(table);
-    printf("test_map_domain_ip_empty: OK\n");
 }
 
 /**
@@ -67,7 +65,6 @@ void test_map_domain_ip_add_remove() {
     map_domain_ip_remove(table, "www.example.com");
     CU_ASSERT_EQUAL(hashmap_count(table), 0);
     map_domain_ip_destroy(table);
-    printf("test_map_domain_ip_add_remove: OK\n");
 }
 
 /**
@@ -105,7 +102,6 @@ void test_map_domain_ip_get() {
     }
     
     map_domain_ip_destroy(table);
-    printf("test_map_domain_ip_get: OK\n");
 }
 
 /**
@@ -149,7 +145,6 @@ void test_map_domain_ip_pop() {
     CU_ASSERT_PTR_NULL(actual);
     
     map_domain_ip_destroy(table);
-    printf("test_map_domain_ip_pop: OK\n");
 }
 
 
@@ -159,6 +154,7 @@ void test_map_domain_ip_pop() {
 int main(int argc, char const *argv[])
 {
     // Initialize the CUnit test registry and suite
+    printf("Test suite: map_domain_ip\n");
     if (CU_initialize_registry() != CUE_SUCCESS)
         return CU_get_error();
     CU_pSuite suite = CU_add_suite("map_domain_ip", NULL, NULL);
