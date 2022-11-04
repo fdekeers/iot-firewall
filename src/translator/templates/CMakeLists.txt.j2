@@ -10,7 +10,7 @@ set(EXECUTABLE_OUTPUT_PATH {{'${'}}{{device_jinja}}_BIN_DIR{{'}'}})
 # Queue {{queue}}
 add_executable({{target}} nfqueues/{{queue}}.c)
 target_link_libraries({{target}} pthread)
-target_link_libraries({{target}} nfqueue packet_utils nft_counter)
+target_link_libraries({{target}} nfqueue packet_utils counters)
 target_link_libraries({{target}} ${PARSERS})
 target_include_directories({{target}} PRIVATE ${INCLUDE_DIR})
 install(TARGETS {{target}} DESTINATION ${XIAOMI_CAM_BIN_DIR})

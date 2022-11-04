@@ -41,7 +41,8 @@ typedef struct callback_struct {
  * - the arguments to pass to the callback function
  */
 typedef struct {
-    uint16_t queue_id;    // Queue number to bind to
+    uint8_t thread_id;     // Thread id
+    uint16_t queue_id;     // Queue number to bind to
     basic_callback *func;  // Basic callback function
     void *arg;             // Arguments to pass to the callback function
 } thread_arg_t;

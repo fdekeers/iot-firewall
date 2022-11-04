@@ -21,11 +21,11 @@ target_link_libraries(packet_utils-test packet_utils)
 install(TARGETS packet_utils-test DESTINATION ${TEST_BIN_DIR})
 
 # nftables counter test
-add_executable(nft_counter-test nft_counter.c)
-target_include_directories(nft_counter-test PRIVATE ${INCLUDE_DIR})
-target_link_libraries(nft_counter-test cunit)
-target_link_libraries(nft_counter-test nft_counter)
-install(TARGETS nft_counter-test DESTINATION ${TEST_BIN_DIR})
+add_executable(counters-test counters.c)
+target_include_directories(counters-test PRIVATE ${INCLUDE_DIR})
+target_link_libraries(counters-test cunit)
+target_link_libraries(counters-test counters)
+install(TARGETS counters-test DESTINATION ${TEST_BIN_DIR})
 
 # Test subdirectories
 add_subdirectory(parsers)

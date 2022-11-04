@@ -263,7 +263,7 @@ interaction-policies:
           dst: local
       direction: both
       stats:
-        duration: 1 s
+        duration: 1
         packet-count: 20
         packet-size: 4-250
 
@@ -351,7 +351,7 @@ interaction-policies:
           dst: 130.104.94.185
       direction: both
       stats:
-        duration: 1 s
+        duration: 1
         packet-count: 40
         packet-size: 46-300
   

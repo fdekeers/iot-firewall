@@ -27,10 +27,18 @@ class Policy:
         self.custom_parser = ""                     # Name of the custom parser (if any)
         self.nft_matches = []                       # List of nftables matches (will be populated by parsing)
         self.nfq_matches = []                       # List of nfqueue matches (will be populated by parsing)
+        self.transient = self.is_transient()        # Whether the policy represents a transient pattern
         self.periodic = self.is_periodic()          # Whether the policy represents a periodic pattern
         self.counters = {}                          # Counters associated to this policy (will be populated by parsing)
 
     
+    def is_transient(self) -> bool:
+        """
+        Check whether the policy represents a transient pattern.
+        """
+        return "stats" in self.profile_data and ("duration" in self.profile_data["stats"] or "packet-count" in self.profile_data["stats"])
+
+
     def is_periodic(self) -> bool:
         """
         Check whether the policy represents a periodic pattern.

@@ -8,6 +8,8 @@
 // Standard libraries
 #include <stdlib.h>
 #include <stdio.h>
+#include <stdint.h>
+#include <stdbool.h>
 #include <string.h>
 {% if max_threads > 1 %}
 #include <pthread.h>
@@ -16,7 +18,7 @@
 // Custom libraries
 #include "nfqueue.h"
 #include "packet_utils.h"
-#include "nft_counter.h"
+#include "counters.h"
 // Parsers
 #include "parsers/header.h"
 {% for parser in custom_parsers %}
@@ -44,5 +46,8 @@ state_t state = {{states[0]}};
 {% if max_threads > 1 %}
 uint8_t num_threads = 0;
 pthread_mutex_t mutex;
+initial_values_t initial_values[MAX_THREADS];
+{% else %}
+initial_values_t initial_values;
 {% endif %}
 

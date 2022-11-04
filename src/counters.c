@@ -1,5 +1,5 @@
 /**
- * @file nft_counter.c
+ * @file src/counters.c
  * @author François De Keersmaeker (francois.dekeersmaeker@uclouvain.be)
  * @brief Interface to nftables counters
  * @date 2022-11-02
@@ -8,7 +8,8 @@
  *
  */
 
-#include "nft_counter.h"
+#include "counters.h"
+
 
 /**
  * @brief Generic function to read an nftables counter value.
@@ -18,7 +19,7 @@
  * @param num number of the value to read (1 for packets, 2 for bytes)
  * @return value read from the counter
  */
-static uint32_t counter_read(char *table_name, char *counter_name, uint8_t num) {
+static uint32_t counter_read_nft(char *table_name, char *counter_name, uint8_t num) {
     // Build command
     uint16_t length = 58 + strlen(table_name) + strlen(counter_name);
     char cmd[length];
@@ -55,7 +56,7 @@ static uint32_t counter_read(char *table_name, char *counter_name, uint8_t num) 
  * @return packet count value of the counter
  */
 uint32_t counter_read_packets(char *table_name, char *counter_name) {
-    return counter_read(table_name, counter_name, 1);
+    return counter_read_nft(table_name, counter_name, 1);
 }
 
 /**
@@ -66,5 +67,28 @@ uint32_t counter_read_packets(char *table_name, char *counter_name) {
  * @return bytes value of the counter
  */
 uint32_t counter_read_bytes(char *table_name, char *counter_name) {
-    return counter_read(table_name, counter_name, 2);
+    return counter_read_nft(table_name, counter_name, 2);
+}
+
+/**
+ * @brief Initialize counters values.
+ *
+ * @param nft_table_name name of the nftables table containing the associated nftables counter
+ * @param nft_counter_name name of the associated nftables counter
+ * @return initial_values_t struct containing the initial values
+ */
+initial_values_t counters_init(char *nft_table_name, char *nft_counter_name) {
+    initial_values_t initial_values;
+    initial_values.is_initialized = true;
+    // Initial packet count value
+    initial_values.packets = counter_read_packets(nft_table_name, nft_counter_name);
+    // Initial time value
+    struct timeval tv;
+    int ret = gettimeofday(&tv, NULL);
+    if (ret != 0) {
+        perror("counters_init - gettimeofday");
+        exit(EXIT_FAILURE);
+    }
+    initial_values.microseconds = ((uint64_t)tv.tv_sec) * 1000000 + ((uint64_t)tv.tv_usec);
+    return initial_values;
 }
