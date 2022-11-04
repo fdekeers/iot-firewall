@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.17"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>IoT firewall: test/nft_counter.c File Reference</title>
+<title>IoT firewall: test/counters.c File Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -69,42 +69,50 @@ $(function() {
   <div class="summary">
 <a href="#func-members">Functions</a>  </div>
   <div class="headertitle">
-<div class="title">nft_counter.c File Reference</div>  </div>
+<div class="title">counters.c File Reference</div>  </div>
 </div><!--header-->
 <div class="contents">
 
 <p>Unit tests for the interface with nftables counters.  
 <a href="#details">More...</a></p>
-<div class="textblock"><code>#include &quot;<a class="el" href="nft__counter_8h_source.html">nft_counter.h</a>&quot;</code><br />
+<div class="textblock"><code>#include &lt;stdio.h&gt;</code><br />
+<code>#include &lt;stdint.h&gt;</code><br />
+<code>#include &lt;sys/time.h&gt;</code><br />
+<code>#include &quot;<a class="el" href="counters_8h_source.html">counters.h</a>&quot;</code><br />
 <code>#include &lt;CUnit/CUnit.h&gt;</code><br />
 <code>#include &lt;CUnit/Basic.h&gt;</code><br />
 </div><div class="textblock"><div class="dynheader">
-Include dependency graph for nft_counter.c:</div>
+Include dependency graph for counters.c:</div>
 <div class="dyncontent">
-<div class="center"><img src="test_2nft__counter_8c__incl.png" border="0" usemap="#test_2nft__counter_8c" alt=""/></div>
-<map name="test_2nft__counter_8c" id="test_2nft__counter_8c">
-<area shape="rect" title="Unit tests for the interface with nftables counters." alt="" coords="247,5,381,32"/>
-<area shape="rect" href="nft__counter_8h.html" title="Interface to nftables counters." alt="" coords="127,80,234,107"/>
-<area shape="rect" title=" " alt="" coords="259,80,369,107"/>
-<area shape="rect" title=" " alt="" coords="394,80,503,107"/>
-<area shape="rect" title=" " alt="" coords="5,155,76,181"/>
-<area shape="rect" title=" " alt="" coords="101,155,167,181"/>
-<area shape="rect" title=" " alt="" coords="192,155,263,181"/>
-<area shape="rect" title=" " alt="" coords="287,155,357,181"/>
+<div class="center"><img src="test_2counters_8c__incl.png" border="0" usemap="#test_2counters_8c" alt=""/></div>
+<map name="test_2counters_8c" id="test_2counters_8c">
+<area shape="rect" title="Unit tests for the interface with nftables counters." alt="" coords="165,5,283,32"/>
+<area shape="rect" title=" " alt="" coords="5,155,72,181"/>
+<area shape="rect" title=" " alt="" coords="97,155,167,181"/>
+<area shape="rect" title=" " alt="" coords="192,155,283,181"/>
+<area shape="rect" href="counters_8h.html" title="Interface to nftables counters." alt="" coords="220,80,311,107"/>
+<area shape="rect" title=" " alt="" coords="335,80,446,107"/>
+<area shape="rect" title=" " alt="" coords="471,80,580,107"/>
+<area shape="rect" title=" " alt="" coords="307,155,378,181"/>
+<area shape="rect" title=" " alt="" coords="403,155,485,181"/>
+<area shape="rect" title=" " alt="" coords="510,155,581,181"/>
 </map>
 </div>
 </div><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="func-members"></a>
 Functions</h2></td></tr>
-<tr class="memitem:a4bf386dde4689c554f495a0d27246c7b"><td class="memItemLeft" align="right" valign="top"><a id="a4bf386dde4689c554f495a0d27246c7b"></a>
-void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="test_2nft__counter_8c.html#a4bf386dde4689c554f495a0d27246c7b">test_nft_counter_packets</a> ()</td></tr>
-<tr class="memdesc:a4bf386dde4689c554f495a0d27246c7b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Test the reading of the packets value of an nftables counter. <br /></td></tr>
-<tr class="separator:a4bf386dde4689c554f495a0d27246c7b"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ab0c2b4c01ecd22ff7b24090f730c9d72"><td class="memItemLeft" align="right" valign="top"><a id="ab0c2b4c01ecd22ff7b24090f730c9d72"></a>
-void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="test_2nft__counter_8c.html#ab0c2b4c01ecd22ff7b24090f730c9d72">test_nft_counter_bytes</a> ()</td></tr>
-<tr class="memdesc:ab0c2b4c01ecd22ff7b24090f730c9d72"><td class="mdescLeft">&#160;</td><td class="mdescRight">Test the reading of the bytes value of an nftables counter. <br /></td></tr>
-<tr class="separator:ab0c2b4c01ecd22ff7b24090f730c9d72"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:abf9e6b7e6f15df4b525a2e7705ba3089"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="test_2nft__counter_8c.html#abf9e6b7e6f15df4b525a2e7705ba3089">main</a> (int argc, char const *argv[])</td></tr>
+<tr class="memitem:adc326edcda5ec1043b9012aa4b2cd32a"><td class="memItemLeft" align="right" valign="top"><a id="adc326edcda5ec1043b9012aa4b2cd32a"></a>
+void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="test_2counters_8c.html#adc326edcda5ec1043b9012aa4b2cd32a">test_counter_read_packets</a> ()</td></tr>
+<tr class="memdesc:adc326edcda5ec1043b9012aa4b2cd32a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Test the reading of the packets value of an nftables counter. <br /></td></tr>
+<tr class="separator:adc326edcda5ec1043b9012aa4b2cd32a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3e90825717bd24700324b449d83febcf"><td class="memItemLeft" align="right" valign="top"><a id="a3e90825717bd24700324b449d83febcf"></a>
+void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="test_2counters_8c.html#a3e90825717bd24700324b449d83febcf">test_counter_read_bytes</a> ()</td></tr>
+<tr class="memdesc:a3e90825717bd24700324b449d83febcf"><td class="mdescLeft">&#160;</td><td class="mdescRight">Test the reading of the bytes value of an nftables counter. <br /></td></tr>
+<tr class="separator:a3e90825717bd24700324b449d83febcf"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:affbc1aa4f13f4680448239f8637f40f3"><td class="memItemLeft" align="right" valign="top"><a id="affbc1aa4f13f4680448239f8637f40f3"></a>
+void&#160;</td><td class="memItemRight" valign="bottom"><b>test_counters_init</b> ()</td></tr>
+<tr class="separator:affbc1aa4f13f4680448239f8637f40f3"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:abf9e6b7e6f15df4b525a2e7705ba3089"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="test_2counters_8c.html#abf9e6b7e6f15df4b525a2e7705ba3089">main</a> (int argc, char const *argv[])</td></tr>
 <tr class="separator:abf9e6b7e6f15df4b525a2e7705ba3089"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>

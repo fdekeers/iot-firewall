@@ -8,7 +8,10 @@ var searchData=
   ['compare_5foptions_11',['compare_options',['../test_2parsers_2dhcp_8c.html#abfed43928603899b50c415654e915122',1,'dhcp.c']]],
   ['compare_5fquestions_12',['compare_questions',['../test_2parsers_2dns_8c.html#a46fccdb44b31b2adb5a91f05c08b706a',1,'dns.c']]],
   ['compare_5frrs_13',['compare_rrs',['../test_2parsers_2dns_8c.html#aa1d7f0a863b7a608e32e34f8b3b05ba0',1,'dns.c']]],
-  ['counter_5fread_5fbytes_14',['counter_read_bytes',['../nft__counter_8h.html#a6fdb1478a673e248041d605f5b19282f',1,'counter_read_bytes(char *table_name, char *counter_name):&#160;nft_counter.c'],['../src_2nft__counter_8c.html#a6fdb1478a673e248041d605f5b19282f',1,'counter_read_bytes(char *table_name, char *counter_name):&#160;nft_counter.c']]],
-  ['counter_5fread_5fpackets_15',['counter_read_packets',['../nft__counter_8h.html#aeb67f07c5cd1df5f6676a3c8cab46538',1,'counter_read_packets(char *table_name, char *counter_name):&#160;nft_counter.c'],['../src_2nft__counter_8c.html#aeb67f07c5cd1df5f6676a3c8cab46538',1,'counter_read_packets(char *table_name, char *counter_name):&#160;nft_counter.c']]],
-  ['custom_16',['Custom',['../classCustom_1_1Custom.html',1,'Custom']]]
+  ['counter_5fread_5fbytes_14',['counter_read_bytes',['../counters_8h.html#a6fdb1478a673e248041d605f5b19282f',1,'counter_read_bytes(char *table_name, char *counter_name):&#160;counters.c'],['../src_2counters_8c.html#a6fdb1478a673e248041d605f5b19282f',1,'counter_read_bytes(char *table_name, char *counter_name):&#160;counters.c']]],
+  ['counter_5fread_5fpackets_15',['counter_read_packets',['../counters_8h.html#aeb67f07c5cd1df5f6676a3c8cab46538',1,'counter_read_packets(char *table_name, char *counter_name):&#160;counters.c'],['../src_2counters_8c.html#aeb67f07c5cd1df5f6676a3c8cab46538',1,'counter_read_packets(char *table_name, char *counter_name):&#160;counters.c']]],
+  ['counters_2ec_16',['counters.c',['../src_2counters_8c.html',1,'(Global Namespace)'],['../test_2counters_8c.html',1,'(Global Namespace)']]],
+  ['counters_2eh_17',['counters.h',['../counters_8h.html',1,'']]],
+  ['counters_5finit_18',['counters_init',['../counters_8h.html#a2df81f3700ec32c9b4d3d88c5149fa91',1,'counters_init(char *nft_table_name, char *nft_counter_name):&#160;counters.c'],['../src_2counters_8c.html#a2df81f3700ec32c9b4d3d88c5149fa91',1,'counters_init(char *nft_table_name, char *nft_counter_name):&#160;counters.c']]],
+  ['custom_19',['Custom',['../classCustom_1_1Custom.html',1,'Custom']]]
 ];

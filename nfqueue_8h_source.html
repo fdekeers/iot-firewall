@@ -91,19 +91,20 @@ $(function() {
 <div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;} <a class="code" href="nfqueue_8h.html#aeffca4208e9e48be1ff3148e9838a672">callback_struct_t</a>;</div>
 <div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160; </div>
 <div class="line"><a name="l00043"></a><span class="lineno"><a class="line" href="structthread__arg__t.html">   43</a></span>&#160;<span class="keyword">typedef</span> <span class="keyword">struct </span>{</div>
-<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;    uint16_t queue_id;    <span class="comment">// Queue number to bind to</span></div>
-<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;    <a class="code" href="nfqueue_8h.html#a622f452f8e40578e1b5b826e8d83a87d">basic_callback</a> *func;  <span class="comment">// Basic callback function</span></div>
-<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;    <span class="keywordtype">void</span> *arg;             <span class="comment">// Arguments to pass to the callback function</span></div>
-<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;} <a class="code" href="structthread__arg__t.html">thread_arg_t</a>;</div>
-<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160; </div>
-<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;<span class="keywordtype">int</span> <a class="code" href="nfqueue_8h.html#ad901cf897da5bb0c6ff0cb8e04ba02da">get_pkt_id</a>(<span class="keyword">struct</span> nfq_data *nfad);</div>
-<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160; </div>
-<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;<span class="keywordtype">void</span> <a class="code" href="nfqueue_8h.html#a6db79cc68cea647b5331bee9e47894da">bind_queue</a>(uint16_t queue_num, <a class="code" href="nfqueue_8h.html#a622f452f8e40578e1b5b826e8d83a87d">basic_callback</a> *<a class="code" href="test_2devices_2xiaomi-cam_2nfqueue_8c.html#ab3f457c255b567baffcff35d5c6bba82">callback</a>, <span class="keywordtype">void</span> *arg);</div>
-<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160; </div>
-<div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;<span class="keywordtype">void</span>* <a class="code" href="nfqueue_8h.html#a0d2243259140a8bdcea60926b585620d">nfqueue_thread</a>(<span class="keywordtype">void</span> *arg);</div>
-<div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160; </div>
+<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;    uint8_t thread_id;     <span class="comment">// Thread id</span></div>
+<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;    uint16_t queue_id;     <span class="comment">// Queue number to bind to</span></div>
+<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;    <a class="code" href="nfqueue_8h.html#a622f452f8e40578e1b5b826e8d83a87d">basic_callback</a> *func;  <span class="comment">// Basic callback function</span></div>
+<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;    <span class="keywordtype">void</span> *arg;             <span class="comment">// Arguments to pass to the callback function</span></div>
+<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;} <a class="code" href="structthread__arg__t.html">thread_arg_t</a>;</div>
+<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160; </div>
+<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;<span class="keywordtype">int</span> <a class="code" href="nfqueue_8h.html#ad901cf897da5bb0c6ff0cb8e04ba02da">get_pkt_id</a>(<span class="keyword">struct</span> nfq_data *nfad);</div>
+<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160; </div>
+<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;<span class="keywordtype">void</span> <a class="code" href="nfqueue_8h.html#a6db79cc68cea647b5331bee9e47894da">bind_queue</a>(uint16_t queue_num, <a class="code" href="nfqueue_8h.html#a622f452f8e40578e1b5b826e8d83a87d">basic_callback</a> *<a class="code" href="test_2devices_2xiaomi-cam_2nfqueue_8c.html#ab3f457c255b567baffcff35d5c6bba82">callback</a>, <span class="keywordtype">void</span> *arg);</div>
+<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160; </div>
+<div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160;<span class="keywordtype">void</span>* <a class="code" href="nfqueue_8h.html#a0d2243259140a8bdcea60926b585620d">nfqueue_thread</a>(<span class="keywordtype">void</span> *arg);</div>
 <div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160; </div>
-<div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160;<span class="preprocessor">#endif </span><span class="comment">/* _IOTFIREWALL_NFQUEUE_ */</span><span class="preprocessor"></span></div>
+<div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160; </div>
+<div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160;<span class="preprocessor">#endif </span><span class="comment">/* _IOTFIREWALL_NFQUEUE_ */</span><span class="preprocessor"></span></div>
 </div><!-- fragment --></div><!-- contents -->
 <div class="ttc" id="anfqueue_8h_html_a6db79cc68cea647b5331bee9e47894da"><div class="ttname"><a href="nfqueue_8h.html#a6db79cc68cea647b5331bee9e47894da">bind_queue</a></div><div class="ttdeci">void bind_queue(uint16_t queue_num, basic_callback *callback, void *arg)</div><div class="ttdef"><b>Definition:</b> nfqueue.c:63</div></div>
 <div class="ttc" id="astructthread__arg__t_html"><div class="ttname"><a href="structthread__arg__t.html">thread_arg_t</a></div><div class="ttdoc">Contains the necessary arguments for an nfqueue thread. The arguments are:</div><div class="ttdef"><b>Definition:</b> nfqueue.h:43</div></div>
