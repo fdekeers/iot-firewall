@@ -126,6 +126,8 @@ Public Attributes</h2></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-static-attribs"></a>
 Static Public Attributes</h2></td></tr>
+<tr class="memitem:aece862e37569bf8f344be2952f8b1759"><td class="memItemLeft" align="right" valign="top">list&#160;</td><td class="memItemRight" valign="bottom"><b>counters</b></td></tr>
+<tr class="separator:aece862e37569bf8f344be2952f8b1759"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a46730ba872360537b1a86f88b281d56c"><td class="memItemLeft" align="right" valign="top">dictionary&#160;</td><td class="memItemRight" valign="bottom"><b>stats_templates</b></td></tr>
 <tr class="separator:a46730ba872360537b1a86f88b281d56c"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
@@ -238,7 +240,8 @@ Returns:
         </tr>
       </table>
 </div><div class="memdoc">
-<pre class="fragment">Add the nftables match corresponding to the given stat to this policy's rule.
+<pre class="fragment">Handle a single statistic.
+Add the corresponding counters and nftables matches.
 
 Args:
     stat (str): Statistic to handle
@@ -303,6 +306,32 @@ Args:
 </div>
 </div>
 <h2 class="groupheader">Member Data Documentation</h2>
+<a id="aece862e37569bf8f344be2952f8b1759"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aece862e37569bf8f344be2952f8b1759">&#9670;&nbsp;</a></span>counters</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">list Policy.Policy.counters</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<b>Initial value:</b><div class="fragment"><div class="line">=  [</div>
+<div class="line">        <span class="stringliteral">&quot;packet-count&quot;</span>,</div>
+<div class="line">        <span class="stringliteral">&quot;duration&quot;</span></div>
+<div class="line">    ]</div>
+</div><!-- fragment -->
+</div>
+</div>
 <a id="a46730ba872360537b1a86f88b281d56c"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a46730ba872360537b1a86f88b281d56c">&#9670;&nbsp;</a></span>stats_templates</h2>
 

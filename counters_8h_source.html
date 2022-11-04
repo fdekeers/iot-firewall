@@ -85,19 +85,21 @@ $(function() {
 <div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;<span class="comment">// Initial counters values</span></div>
 <div class="line"><a name="l00023"></a><span class="lineno"><a class="line" href="structinitial__values__t.html">   23</a></span>&#160;<span class="keyword">typedef</span> <span class="keyword">struct </span>{</div>
 <div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;    <span class="keywordtype">bool</span> is_initialized;</div>
-<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;    uint16_t packets;</div>
-<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;    uint64_t microseconds;</div>
-<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;} <a class="code" href="structinitial__values__t.html">initial_values_t</a>;</div>
-<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160; </div>
-<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160; </div>
-<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;uint32_t <a class="code" href="counters_8h.html#aeb67f07c5cd1df5f6676a3c8cab46538">counter_read_packets</a>(<span class="keywordtype">char</span> *table_name, <span class="keywordtype">char</span> *counter_name);</div>
-<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160; </div>
-<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;uint32_t <a class="code" href="counters_8h.html#a6fdb1478a673e248041d605f5b19282f">counter_read_bytes</a>(<span class="keywordtype">char</span>* table_name, <span class="keywordtype">char</span> *counter_name);</div>
-<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160; </div>
-<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;<a class="code" href="structinitial__values__t.html">initial_values_t</a> <a class="code" href="counters_8h.html#a2df81f3700ec32c9b4d3d88c5149fa91">counters_init</a>(<span class="keywordtype">char</span> *nft_table_name, <span class="keywordtype">char</span> *nft_counter_name);</div>
-<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160; </div>
-<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160; </div>
-<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;<span class="preprocessor">#endif</span></div>
+<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;    uint16_t packets_out;</div>
+<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;    uint16_t packets_in;</div>
+<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;    uint16_t packets_both;</div>
+<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;    uint64_t microseconds;</div>
+<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;} <a class="code" href="structinitial__values__t.html">initial_values_t</a>;</div>
+<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160; </div>
+<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160; </div>
+<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;uint32_t <a class="code" href="counters_8h.html#aeb67f07c5cd1df5f6676a3c8cab46538">counter_read_packets</a>(<span class="keywordtype">char</span> *table_name, <span class="keywordtype">char</span> *counter_name);</div>
+<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160; </div>
+<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;uint32_t <a class="code" href="counters_8h.html#a6fdb1478a673e248041d605f5b19282f">counter_read_bytes</a>(<span class="keywordtype">char</span>* table_name, <span class="keywordtype">char</span> *counter_name);</div>
+<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160; </div>
+<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;<a class="code" href="structinitial__values__t.html">initial_values_t</a> <a class="code" href="counters_8h.html#a2df81f3700ec32c9b4d3d88c5149fa91">counters_init</a>(<span class="keywordtype">char</span> *nft_table_name, <span class="keywordtype">char</span> *nft_counter_name);</div>
+<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160; </div>
+<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160; </div>
+<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;<span class="preprocessor">#endif</span></div>
 </div><!-- fragment --></div><!-- contents -->
 <div class="ttc" id="acounters_8h_html_aeb67f07c5cd1df5f6676a3c8cab46538"><div class="ttname"><a href="counters_8h.html#aeb67f07c5cd1df5f6676a3c8cab46538">counter_read_packets</a></div><div class="ttdeci">uint32_t counter_read_packets(char *table_name, char *counter_name)</div><div class="ttdoc">Read the packet count value of an nftables counter.</div><div class="ttdef"><b>Definition:</b> counters.c:58</div></div>
 <div class="ttc" id="astructinitial__values__t_html"><div class="ttname"><a href="structinitial__values__t.html">initial_values_t</a></div><div class="ttdef"><b>Definition:</b> counters.h:23</div></div>
