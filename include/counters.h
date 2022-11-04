@@ -22,7 +22,9 @@
 // Initial counters values
 typedef struct {
     bool is_initialized;
-    uint16_t packets;
+    uint16_t packets_out;
+    uint16_t packets_in;
+    uint16_t packets_both;
     uint64_t microseconds;
 } initial_values_t;
 

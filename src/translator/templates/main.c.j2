@@ -16,8 +16,6 @@ int main(int argc, char const *argv[]) {
     // Initialize initial_values structures
     for (uint8_t i = 0; i < MAX_THREADS; i++) {
         initial_values[i].is_initialized = false;
-        initial_values[i].packets = 0;
-        initial_values[i].microseconds = 0;
     }
 
     // Create threads
@@ -29,10 +27,9 @@ int main(int argc, char const *argv[]) {
     {% set policy_jinja = policy.name.replace('-', '_') %}
     // {{policy_jinja}}
     thread_arg_t thread_arg_{{policy_jinja}} = {
-        .thread_id = i,
         .queue_id = NFQ_ID_BASE + i,
         .func = &callback_{{policy_jinja}},
-        .arg = NULL
+        .arg = i
     };
     ret = pthread_create(&threads[i++], NULL, nfqueue_thread, (void *) &thread_arg_{{policy_jinja}});
     assert(ret == 0);
@@ -49,8 +46,6 @@ int main(int argc, char const *argv[]) {
     {% else %}
     // Initialize inital_values structure
     initial_values.is_initialized = false;
-    initial_values.packets = 0;
-    initial_values.microseconds = 0;
 
     // Bind to netfilter queue
     bind_queue(NFQ_ID_BASE, &callback_{{policies[0].name.replace('-', '_')}}, NULL);

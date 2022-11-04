@@ -75,8 +75,8 @@ if __name__ == "__main__":
                 # Add nftables rules
                 nfq_id = nfq_id_base if (policy.nfq_matches or policy.counters) else -1
                 nft_chains[policy_name] = [policy.build_nft_rule(nfq_id)]
-                if policy.counters:
-                    nft_counters[policy_name] = policy.counters
+                if policy.counters and "packet-count" in policy.counters:
+                    nft_counters[policy_name] = policy.counters["packet-count"]
 
                 # If need for user-space matching, create nfqueue C file
                 if policy.nfq_matches or policy.counters:
@@ -160,8 +160,8 @@ if __name__ == "__main__":
                         custom_parsers[single_policy_name] = single_policy.custom_parser
 
                     # Add nftables counter (if any)
-                    if single_policy.counters:
-                        nft_counters[single_policy_name] = single_policy.counters
+                    if single_policy.counters and "packet-count" in single_policy.counters:
+                        nft_counters[single_policy_name] = single_policy.counters["packet-count"]
 
                     # Add nftables rules
                     if not single_policy.periodic:
