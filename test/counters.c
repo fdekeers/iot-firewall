@@ -45,8 +45,10 @@ void test_counters_init() {
     uint64_t timestamp = ((uint64_t)tv.tv_sec) * 1000000 + ((uint64_t)tv.tv_usec);
     // Test function
     initial_values_t init_values = counters_init("test", "counter1");
-    CU_ASSERT_EQUAL(init_values.is_initialized, true);
-    CU_ASSERT_EQUAL(init_values.packets, 0);
+    CU_ASSERT(init_values.is_initialized);
+    CU_ASSERT_EQUAL(init_values.packets_out, 0);
+    CU_ASSERT_EQUAL(init_values.packets_in, 0);
+    CU_ASSERT_EQUAL(init_values.packets_both, 0);
     CU_ASSERT(init_values.microseconds > timestamp);
 }
 

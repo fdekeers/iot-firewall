@@ -13,7 +13,9 @@
  */
 uint32_t callback_{{policy_jinja}}(int pkt_id, uint8_t *payload, void *arg) {
     printf("Received packet\n");
+    {% if multithread %}
     uint8_t thread_id = *((uint8_t *) arg);
+    {% endif %}
     {% if policy.nfq_matches %}
     // Skip layer 3 and 4 headers
     size_t skipped = get_ip_header_length(payload);

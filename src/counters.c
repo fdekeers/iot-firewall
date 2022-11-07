@@ -81,8 +81,8 @@ initial_values_t counters_init(char *nft_table_name, char *nft_counter_name) {
     initial_values_t initial_values;
     initial_values.is_initialized = true;
     // Initial packet count value
-    initial_values.packets_out = counter_read_packets(nft_table_name, strncat(nft_counter_name, "-out", 4));
-    initial_values.packets_in = counter_read_packets(nft_table_name, strncat(nft_counter_name, "-in", 3));
+    initial_values.packets_out = counter_read_packets(nft_table_name, strcat(nft_counter_name, "-out"));
+    initial_values.packets_in = counter_read_packets(nft_table_name, strcat(nft_counter_name, "-in"));
     initial_values.packets_both = counter_read_packets(nft_table_name, nft_counter_name);
     // Initial time value
     struct timeval tv;
