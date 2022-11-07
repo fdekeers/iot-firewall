@@ -69,13 +69,13 @@ if __name__ == "__main__":
                     states.append("STATE_1")
 
                 # Add nftables rules
-                nfq_id = nfq_id_base if (policy.nfq_matches or policy.counters) else -1
+                nfq_id = nfq_id_base if (policy.direction == "both" or policy.nfq_matches or policy.counters) else -1
                 nft_chains[policy_name] = [policy.build_nft_rule(nfq_id)]
                 if policy.counters and "packet-count" in policy.counters:
                     nft_counters[policy_name] = policy.counters["packet-count"]
 
                 # If need for user-space matching, create nfqueue C file
-                if policy.nfq_matches or policy.counters:
+                if policy.direction == "both" or policy.nfq_matches or policy.counters:
                     # Retrieve Jinja2 template directories
                     custom_parsers = {policy_name: policy.custom_parser} if policy.custom_parser else {}
                     header_dict = {
