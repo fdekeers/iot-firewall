@@ -39,13 +39,15 @@ uint32_t callback_{{policy_jinja}}(int pkt_id, uint8_t *payload, void *arg) {
     {% endif %}
     uint32_t verdict = NF_DROP;
 
-    // Custom match
     {% if multithread %}
     {% if policy.transient %}
+    // Initialize counters if not initialized yet
     if (!initial_values[thread_id].is_initialized) {
         initial_values[thread_id] = counters_init("{{nft_table}}", "{{policy_jinja}}");
     }
     {% endif %}
+
+    // Custom match
     {% if policy.nfq_matches%}
     if (
         {% if policy.nfq_matches %}
@@ -57,7 +59,12 @@ uint32_t callback_{{policy_jinja}}(int pkt_id, uint8_t *payload, void *arg) {
     ) {
     {% endif %}
         pthread_mutex_lock(&mutex);
-        if (state == {{states[current_state.value]}}) {
+        if (state == {{states[current_state.value]}}
+        {% set previous_policy = policies[(loop.index - 2) % policies|length] %}
+        {% if previous_policy.transient %}
+            || state == {{states[current_state.value - 1]}}
+        {% endif %}
+        ) {
             {% if not policy.periodic and not policy.transient %}
             {% set current_state.value = (current_state.value + 1) % states|length %}
             state = {{states[current_state.value]}};
@@ -138,12 +145,20 @@ uint32_t callback_{{policy_jinja}}(int pkt_id, uint8_t *payload, void *arg) {
     {% endif %}
     {% else %}
     {% if policy.transient %}
+    // Initialize counters if not initialized yet
     if (!initial_values.is_initialized) {
         initial_values = counters_init("{{nft_table}}", "{{policy_jinja}}");
     }
+
     {% endif %}
+    // Custom match
     if (
+        {% set previous_policy = policies[(loop.index - 2) % policies|length] %}
+        {% if previous_policy.transient %}
+        ( {% endif %}
         state == {{states[current_state.value]}}
+        {% if previous_policy.transient %} || state == {{states[current_state.value - 1]}} )
+        {% endif %}
         {% for match in policy.nfq_matches %}
         && {{match["forward"]}}
         {% endfor %}
