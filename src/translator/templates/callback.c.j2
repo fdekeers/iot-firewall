@@ -13,7 +13,7 @@
  */
 uint32_t callback_{{policy_jinja}}(int pkt_id, uint8_t *payload, void *arg) {
     printf("Received packet\n");
-    {% if multithread %}
+    {% if multithread and policy.counters %}
     uint8_t thread_id = *((uint8_t *) arg);
     {% endif %}
     {% if policy.nfq_matches %}
@@ -41,9 +41,11 @@ uint32_t callback_{{policy_jinja}}(int pkt_id, uint8_t *payload, void *arg) {
 
     // Custom match
     {% if multithread %}
+    {% if policy.counters %}
     if (!initial_values[thread_id].is_initialized) {
         initial_values[thread_id] = counters_init("netdev xiaomi-cam", "udp-xiaomi-phone-burst-open");
     }
+    {% endif %}
     {% if policy.nfq_matches or policy.counters %}
     if (
         {% if policy.nfq_matches %}

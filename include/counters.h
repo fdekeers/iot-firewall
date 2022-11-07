@@ -48,6 +48,13 @@ uint32_t counter_read_packets(char *table_name, char *counter_name);
 uint32_t counter_read_bytes(char* table_name, char *counter_name);
 
 /**
+ * @brief Read the current microseconds value.
+ * 
+ * @return current microseconds value
+ */
+uint64_t counter_read_microseconds();
+
+/**
  * @brief Initialize counters values.
  *
  * @param nft_table_name name of the nftables table containing the associated nftables counter

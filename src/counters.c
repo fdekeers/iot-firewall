@@ -71,6 +71,22 @@ uint32_t counter_read_bytes(char *table_name, char *counter_name) {
 }
 
 /**
+ * @brief Read the current microseconds value.
+ *
+ * @return current microseconds value
+ */
+uint64_t counter_read_microseconds() {
+    struct timeval tv;
+    int ret = gettimeofday(&tv, NULL);
+    if (ret != 0)
+    {
+        perror("counters_read_microseconds - gettimeofday");
+        exit(EXIT_FAILURE);
+    }
+    return ((uint64_t) tv.tv_sec) * 1000000 + ((uint64_t) tv.tv_usec);
+}
+
+/**
  * @brief Initialize counters values.
  *
  * @param nft_table_name name of the nftables table containing the associated nftables counter
@@ -85,12 +101,6 @@ initial_values_t counters_init(char *nft_table_name, char *nft_counter_name) {
     initial_values.packets_in = counter_read_packets(nft_table_name, strcat(nft_counter_name, "-in"));
     initial_values.packets_both = counter_read_packets(nft_table_name, nft_counter_name);
     // Initial time value
-    struct timeval tv;
-    int ret = gettimeofday(&tv, NULL);
-    if (ret != 0) {
-        perror("counters_init - gettimeofday");
-        exit(EXIT_FAILURE);
-    }
-    initial_values.microseconds = ((uint64_t)tv.tv_sec) * 1000000 + ((uint64_t)tv.tv_usec);
+    initial_values.microseconds = counter_read_microseconds();
     return initial_values;
 }

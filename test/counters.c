@@ -34,6 +34,20 @@ void test_counter_read_bytes()
     CU_ASSERT_EQUAL(counter_read_bytes("test", "counter1"), 0);
 }
 
+void test_counter_read_microseconds() {
+    // Retrieve time before calling function under test
+    struct timeval tv;
+    int ret = gettimeofday(&tv, NULL);
+    if (ret != 0)
+    {
+        perror("gettimeofday");
+        exit(EXIT_FAILURE);
+    }
+    uint64_t timestamp = ((uint64_t)tv.tv_sec) * 1000000 + ((uint64_t)tv.tv_usec);
+    // Call function under test
+    CU_ASSERT(counter_read_microseconds() > timestamp);
+}
+
 void test_counters_init() {
     // Retrieve time before calling function under test
     struct timeval tv;
@@ -43,7 +57,7 @@ void test_counters_init() {
         exit(EXIT_FAILURE);
     }
     uint64_t timestamp = ((uint64_t)tv.tv_sec) * 1000000 + ((uint64_t)tv.tv_usec);
-    // Test function
+    // Call function under test
     initial_values_t init_values = counters_init("test", "counter1");
     CU_ASSERT(init_values.is_initialized);
     CU_ASSERT_EQUAL(init_values.packets_out, 0);
@@ -68,6 +82,7 @@ int main(int argc, char const *argv[])
     // Add and run tests
     CU_add_test(suite, "counter_read_packets", test_counter_read_packets);
     CU_add_test(suite, "counter_read_bytes", test_counter_read_bytes);
+    CU_add_test(suite, "counter_read_microseconds", test_counter_read_microseconds);
     CU_add_test(suite, "counters_init", test_counters_init);
     CU_basic_run_tests();
     return 0;
