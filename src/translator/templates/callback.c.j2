@@ -41,12 +41,12 @@ uint32_t callback_{{policy_jinja}}(int pkt_id, uint8_t *payload, void *arg) {
 
     // Custom match
     {% if multithread %}
-    {% if policy.counters %}
+    {% if policy.transient %}
     if (!initial_values[thread_id].is_initialized) {
-        initial_values[thread_id] = counters_init("netdev xiaomi-cam", "udp-xiaomi-phone-burst-open");
+        initial_values[thread_id] = counters_init("{{nft_table}}", "{{policy_jinja}}");
     }
     {% endif %}
-    {% if policy.nfq_matches or policy.counters %}
+    {% if policy.nfq_matches%}
     if (
         {% if policy.nfq_matches %}
         {{policy.nfq_matches[0]["forward"]}}
@@ -54,24 +54,39 @@ uint32_t callback_{{policy_jinja}}(int pkt_id, uint8_t *payload, void *arg) {
         && {{match["forward"]}}
         {% endfor %}
         {% endif %}
-        {% if policy.nfq_matches and policy.counters %}
-        && {% endif -%}
-        {% if policy.counters["packet-count"] and "default" in policy.counters["packet-count"] %}
-        counter_read_packets("{{nft_table}}", "{{policy.name}}") - initial_values[thread_id].packets_both <= {{policy.counters["packet-count"]["default"]}}
-        {% elif policy.counters["packet-count"] and "out" in policy.counters["packet-count"] -%}
-        counter_read_packets("{{nft_table}}", "{{policy.name}}-out") - initial_values[thread_id].packets_out <= {{policy.counters["packet-count"]["out"]}}
-        {% endif %}
     ) {
     {% endif %}
         pthread_mutex_lock(&mutex);
         if (state == {{states[current_state.value]}}) {
-            {% if not policy.periodic %}
+            {% if not policy.periodic and not policy.transient %}
             {% set current_state.value = (current_state.value + 1) % states|length %}
             state = {{states[current_state.value]}};
+            {% endif %}
+            {% if policy.transient %}
+            if (
+                {% if "packet-count" in policy.counters and "default" in policy.counters["packet-count"] %}
+                counter_read_packets("{{nft_table}}", "{{policy.name}}") - initial_values[thread_id].packets_both >= {{policy.counters["packet-count"]["default"]}}
+                {% elif "packet-count" in policy.counters and "out" in policy.counters["packet-count"] %}
+                counter_read_packets("{{nft_table}}", "{{policy.name}}-out") - initial_values[thread_id].packets_out >= {{policy.counters["packet-count"]["out"]}}
+                {% endif %}
+                {% if policy.counters|length >= 2 %}
+                &&
+                {% endif %}
+                {% if "duration" in policy.counters and "default" in policy.counters["duration"] %}
+                counter_read_microseconds() - initial_values[thread_id].microseconds >= {{policy.counters["duration"]["default"]}}
+                {% elif "duration" in policy.counters and "out" in policy.counters["duration"] %}
+                counter_read_microseconds() - initial_values[thread_id].microseconds >= {{policy.counters["duration"]["out"]}}
+                {% endif %}
+            ) {
+                {% set current_state.value = (current_state.value + 1) % states|length %}
+                state = {{states[current_state.value]}};
+                initial_values[thread_id].is_initialized = false;
+            }
             {% endif %}
             pthread_mutex_unlock(&mutex);
             {% set previous_policy = policies[(loop.index - 2) % policies|length] %}
             {% if previous_policy.periodic %}
+            {# TODO: remove rule if not needed #}
             {% endif %}
             {% set next_policy = policies[loop.index % policies|length] %}
             {% if policy.direction != "both" and next_policy.periodic %}
@@ -83,13 +98,13 @@ uint32_t callback_{{policy_jinja}}(int pkt_id, uint8_t *payload, void *arg) {
             {% endif %}
             {% endif %}
             verdict = NF_ACCEPT;
-        {% if policy.direction != "both" or policy.nfq_matches or policy.counters %}
+        {% if policy.direction != "both" or policy.nfq_matches%}
         } else {
             pthread_mutex_unlock(&mutex);
         }
         {% endif %}
     {% if policy.direction == "both" %}
-    {% if policy.nfq_matches or policy.counters %}
+    {% if policy.nfq_matches%}
     } else if (
         {% if policy.nfq_matches %}
         {{policy.nfq_matches[0]["backward"]}}
@@ -98,13 +113,6 @@ uint32_t callback_{{policy_jinja}}(int pkt_id, uint8_t *payload, void *arg) {
         && {{match["backward"]}}
         {% endif %}
         {% endfor %}
-        {% endif %}
-        {% if policy.nfq_matches and policy.counters %}
-        && {% endif -%}
-        {% if policy.counters["packet-count"] and "default" in policy.counters["packet-count"] %}
-        counter_read_packets("{{nft_table}}", "{{policy.name}}") - initial_values[thread_id].packets_both <= {{policy.counters["packet-count"]["default"]}}
-        {% elif policy.counters and "in" in policy.counters %}
-        counter_read_packets("{{nft_table}}", "{{policy.name}}-in") - initial_values[thread_id].packets_out <= {{policy.counters["packet-count"]["in"]}}
         {% endif %}
     ) {
         pthread_mutex_lock(&mutex);
@@ -129,20 +137,33 @@ uint32_t callback_{{policy_jinja}}(int pkt_id, uint8_t *payload, void *arg) {
         }
     {% endif %}
     {% else %}
+    {% if policy.transient %}
+    if (!initial_values.is_initialized) {
+        initial_values = counters_init("{{nft_table}}", "{{policy_jinja}}");
+    }
+    {% endif %}
     if (
         state == {{states[current_state.value]}}
         {% for match in policy.nfq_matches %}
         && {{match["forward"]}}
         {% endfor %}
-        {% if policy.counters["packet-count"] and "default" in policy.counters["packet-count"] %}
+        {% if "packet-count" in policy.counters and "default" in policy.counters["packet-count"] %}
         && counter_read_packets("{{nft_table}}", "{{policy.name}}") - initial_values.packets_both <= {{policy.counters["packet-count"]["default"]}}
-        {% elif policy.counters["packet-count"] and "out" in policy.counters["packet-count"] -%}
+        {% elif "packet-count" in policy.counters and "out" in policy.counters["packet-count"] -%}
         && counter_read_packets("{{nft_table}}", "{{policy.name}}") - initial_values.packets_out <= {{policy.counters["packet-count"]["out"]}}
+        {% endif %}
+        {% if "duration" in policy.counters and "default" in policy.counters["duration"] %}
+        && counter_read_microseconds() - initial_values.microseconds <= {{policy.counters["duration"]["default"]}}
+        {% elif "duration" in policy.counters and "out" in policy.counters["duration"] %}
+        && counter_read_microseconds() - initial_values.microseconds <= {{policy.counters["duration"]["out"]}}
         {% endif %}
     ) {
         {% if not policy.periodic %}
         {% set current_state.value = (current_state.value + 1) % states|length %}
         state = {{states[current_state.value]}};
+        {% if policy.transient %}
+        initial_values.is_initialized = false;
+        {% endif %}
         {% endif %}
         {% if policies|length > 1 %}
         {% set next_policy = policies[loop.index % policies|length] %}
@@ -163,11 +184,6 @@ uint32_t callback_{{policy_jinja}}(int pkt_id, uint8_t *payload, void *arg) {
         && {{match["backward"]}}
         {% endif %}
         {% endfor %}
-        {% if policy.counters["packet-count"] and "default" in policy.counters["packet-count"] %}
-        && counter_read_packets("{{nft_table}}", "{{policy.name}}") - initial_values.packets_both <= {{policy.counters["packet-count"]["default"]}}
-        {% elif policy.counters["packet-count"] and "in" in policy.counters["packet-count"] -%}
-        && counter_read_packets("{{nft_table}}", "{{policy.name}}") - initial_values.packets_in <= {{policy.counters["packet-count"]["in"]}}
-        {% endif %}
     ) {
         {% if not policy.periodic %}
         {% set current_state.value = (current_state.value + 1) % states|length %}
@@ -187,7 +203,7 @@ uint32_t callback_{{policy_jinja}}(int pkt_id, uint8_t *payload, void *arg) {
     }
     {% endif %}
     {% endif %}
-    {% if multithread and (policy.nfq_matches or policy.counters) %}
+    {% if multithread and policy.nfq_matches %}
     }
     {% endif %}
 
