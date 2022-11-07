@@ -108,10 +108,6 @@ individual-policies:
         src: self
         dst: 8.8.8.8
     direction: both
-    stats:
-      packet-count:
-        out: 1
-        in: 1
 
 
 interaction-policies:

@@ -53,23 +53,19 @@ if __name__ == "__main__":
                 # Populate Jinja2 templates with general data for single policies
                 states = ["STATE_0"]
                 header_dict["policy"] = policy_name
-                header_dict["max_threads"] = 1
                 header_dict["nfq_id_base"] = nfq_id_base
                 direction = profile_data["direction"]
                 callback_dict = {
-                    "multithread": False,
                     "nft_table": f"netdev {device['name']}",
                     "nft_chain": policy_name
                 }
-                main_dict = {
-                    "multithread": False,
-                    "nfq_id_offset": 0
-                }
 
                 # Create policy and parse it
+                max_threads = 1
                 policy = Policy(policy_name, profile_data, device)
                 policy.parse()
                 if policy.direction == "both":
+                    max_threads += 1
                     states.append("STATE_1")
 
                 # Add nftables rules
@@ -84,16 +80,18 @@ if __name__ == "__main__":
                     custom_parsers = {policy_name: policy.custom_parser} if policy.custom_parser else {}
                     header_dict = {
                         **header_dict,
+                        "max_threads": max_threads,
                         "states": states,
                         "custom_parsers": set(custom_parsers.values())
                     }
                     callback_dict = {
                         **callback_dict,
+                        "multithread": max_threads > 1,
                         "states": states,
                         "policies": [policy]
                     }
                     main_dict = {
-                        **main_dict,
+                        "multithread": max_threads > 1,
                         "policies": [policy]
                     }
 
@@ -118,7 +116,6 @@ if __name__ == "__main__":
                 interaction_policy = profile["interaction-policies"][interaction_policy_name]
                 # Populate Jinja2 templates with general data for interaction policies
                 header_dict["policy"] = interaction_policy_name
-                max_threads = len(interaction_policy)
                 states = ["STATE_0"]
                 header_dict["nfq_id_base"] = nfq_id_base
                 callback_dict = {
@@ -131,6 +128,7 @@ if __name__ == "__main__":
                 i = 0
                 nfq_id_offset = 0
                 current_state = 0
+                max_threads = 0
                 custom_parsers = {}
                 policies = []
                 nft_chains[interaction_policy_name] = []
@@ -143,17 +141,19 @@ if __name__ == "__main__":
                     policies.append(single_policy)
 
                     # Add states for this policy (if needed)
-                    if (not single_policy.periodic):
-                        if (i < len(interaction_policy) - 1) or (single_policy.direction == "both"):
+                    if not single_policy.periodic:
+                        if (i < len(interaction_policy) - 1) or (single_policy.direction == "both" and not single_policy.transient):
                             current_state += 1
                             states.append(f"STATE_{current_state}")
-                        if (i < len(interaction_policy) - 1) and (single_policy.direction == "both"):
+                        if (i < len(interaction_policy) - 1) and (single_policy.direction == "both" and not single_policy.transient):
                             current_state += 1
                             states.append(f"STATE_{current_state}")
 
-                    # If policy is periodic and does not need user-space matching, it does not need an nfqueue
-                    if single_policy.periodic and not single_policy.nfq_matches:
-                        max_threads -= 1
+                    # Add threads for this policy
+                    if not single_policy.periodic or single_policy.nfq_matches or single_policy.counters:
+                        max_threads += 1
+                        if single_policy.direction == "both":
+                            max_threads += 1
 
                     # Add custom parser (if any)
                     if single_policy.custom_parser:

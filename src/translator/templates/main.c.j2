@@ -1,5 +1,3 @@
-
-
 /**
  * @brief Program entry point
  * 
@@ -34,6 +32,19 @@ int main(int argc, char const *argv[]) {
     };
     ret = pthread_create(&threads[i++], NULL, nfqueue_thread, (void *) &thread_arg_{{policy_jinja}});
     assert(ret == 0);
+
+    {% if policy.direction == "both" %}
+    {% set policy_jinja = "{}_backward".format(policy.name.replace('-', '_')) %}
+    // {{policy_jinja}}
+    uint8_t thread_id_{{policy_jinja}} = i;
+    thread_arg_t thread_arg_{{policy_jinja}} = {
+        .queue_id = NFQ_ID_BASE + i,
+        .func = &callback_{{policy_jinja}},
+        .arg = &thread_id_{{policy_jinja}}
+    };
+    ret = pthread_create(&threads[i++], NULL, nfqueue_thread, (void *) &thread_arg_{{policy_jinja}});
+    assert(ret == 0);
+    {% endif %}
     
     {% endif %}
     {% endfor %}
