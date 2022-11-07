@@ -117,7 +117,8 @@ class Policy:
         nft_rule_forward += suffix
         rule = {"forward": nft_rule_forward}
         if self.direction == "both" and nft_rule_backward:
-            nft_rule_backward += suffix
+            suffix_backward = suffix.replace(str(queue_num), str(queue_num + 1))
+            nft_rule_backward += suffix_backward
             rule["backward"] = nft_rule_backward
         return rule
 

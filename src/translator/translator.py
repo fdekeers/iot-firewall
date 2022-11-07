@@ -109,7 +109,7 @@ if __name__ == "__main__":
                         fw.write(main)
                     
                     nfqueues.append(policy_name)
-                    nfq_id_base += 10
+                    nfq_id_base += 100
 
 
         # Loop over the device's interaction policies
@@ -167,6 +167,8 @@ if __name__ == "__main__":
                     if not single_policy.periodic:
                         nft_chains[interaction_policy_name].append(single_policy.build_nft_rule(nfq_id_base + nfq_id_offset))
                         nfq_id_offset += 1
+                        if single_policy.direction == "both":
+                            nfq_id_offset += 1
                     
                     i += 1
                 
@@ -198,7 +200,7 @@ if __name__ == "__main__":
                     fw.write(main)
             
                 nfqueues.append(interaction_policy_name)
-                nfq_id_base += 10
+                nfq_id_base += 100
 
         # Create nftables script
         nft_dict = {
