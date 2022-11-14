@@ -1,0 +1,159 @@
+---
+device-info:
+  device-name: tplink-plug
+  mac-address: 50:c7:bf:ed:0a:54
+  ip-address: 192.168.1.135
+
+
+# Reusable patterns
+patterns:
+  
+  receive-from-cloud: &pattern-receive-from-cloud
+    protocols:
+      tls:
+      tcp:
+        src-port: 443
+      ipv4:
+        src: self
+        dst: 52.213.214.138  # TODO: check domain name by recording boot traffic
+    direction: both
+    stats:
+      number-of-packets: 4
+
+  update-to-cloud: &pattern-update-to-cloud
+    dns-ipv4:
+      protocols:
+        dns:
+          type: A
+          domain-name: use1-api.tplinkra.com
+          initiated-by: self
+        udp:
+          dst-port: 53
+        ipv4:
+        src: self
+          dst: gateway
+      direction: both
+    https-ipv4-tplinkapi:
+      protocols:
+        tls:
+        tcp:
+          dst-port: 443
+          initiated-by: self
+        ipv4:
+          src: self
+          dst: use1-api.tplinkra.com
+      direction: both
+
+
+individual-policies:
+  
+  ntp-ipv4-out:
+    protocols:
+      ntp:
+        client: self
+      udp:
+        dst-port: 123
+      ipv4:
+        dst: uk.pool.ntp.org
+    direction: both
+  
+  # Probably DHCP ACK
+  bootstrap-ipv4-in:
+    protocols:
+      bootp:
+      udp:
+        src-port: 67
+      ipv4:
+    direction: in
+
+
+
+interaction-policies:
+  
+  lan-kasa:
+
+    tcp-phone-to-plug:
+      protocols:
+        tcp:
+          dst-port: 9999
+          initiated-by: src
+        ipv4:
+          src: local
+          dst: self
+      direction: both
+    update-to-cloud: *pattern-update-to-cloud
+    delay: 1 s
+
+  
+  wan-generic:
+
+    https-ipv4-cloud-plug: *pattern-receive-from-cloud   
+
+    update-to-cloud: *pattern-update-to-cloud
+
+    delay: 1 s
+
+
+  alexa-app:
+
+    https-ipv4-cloud-alexa:
+      protocols:
+        tls:
+        tcp:
+          dst-port: 443
+        ipv4:
+          dst: 205.251.243.55
+          src: alexa
+      direction: both
+      stats:
+        number-of-packets: 3
+
+    https-ipv4-cloud-plug: *pattern-receive-from-cloud
+
+    update-to-cloud: *pattern-update-to-cloud
+    
+    delay: 1 s
+
+  
+  alexa-voice:
+
+    https-ipv4-alexa-cloud:
+      protocols:
+        tls:
+        tcp:
+          dst-port: 443
+        ipv4:
+          dst: 205.251.243.55
+          src: alexa
+      direction: both
+      stats:
+        number-of-packets: 3
+
+    dns-ipv4-alexa-unagi:
+      protocols:
+        dns:
+          type: A
+          domain-name: unagi-na.amazon.com
+          initiated-by: alexa
+        udp:
+          dst-port: 53
+        ipv4:
+          src: alexa
+          dst: gateway
+      direction: both
+
+    https-ipv4-alexa-unagi:
+      protocols:
+        tls:
+        tcp:
+          dst-port: 443
+          initiated-by: alexa
+        ipv4:
+          src: alexa
+          dst: unagi-na.amazon.com
+      direction: both
+    
+    update-to-cloud: *pattern-update-to-cloud
+
+    delay: 5 s
+...
