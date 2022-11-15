@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.17"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>IoT firewall: test/counters.c File Reference</title>
+<title>IoT firewall: test/rule_utils.c File Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -69,30 +69,30 @@ $(function() {
   <div class="summary">
 <a href="#func-members">Functions</a>  </div>
   <div class="headertitle">
-<div class="title">counters.c File Reference</div>  </div>
+<div class="title">rule_utils.c File Reference</div>  </div>
 </div><!--header-->
 <div class="contents">
 
-<p>Unit tests for the interface with nftables counters.  
+<p>Unit tests for the rule utilitaries.  
 <a href="#details">More...</a></p>
 <div class="textblock"><code>#include &lt;stdio.h&gt;</code><br />
 <code>#include &lt;stdint.h&gt;</code><br />
 <code>#include &lt;sys/time.h&gt;</code><br />
-<code>#include &quot;<a class="el" href="counters_8h_source.html">counters.h</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="rule__utils_8h_source.html">rule_utils.h</a>&quot;</code><br />
 <code>#include &lt;CUnit/CUnit.h&gt;</code><br />
 <code>#include &lt;CUnit/Basic.h&gt;</code><br />
 </div><div class="textblock"><div class="dynheader">
-Include dependency graph for counters.c:</div>
+Include dependency graph for rule_utils.c:</div>
 <div class="dyncontent">
-<div class="center"><img src="test_2counters_8c__incl.png" border="0" usemap="#test_2counters_8c" alt=""/></div>
-<map name="test_2counters_8c" id="test_2counters_8c">
-<area shape="rect" title="Unit tests for the interface with nftables counters." alt="" coords="165,5,283,32"/>
+<div class="center"><img src="test_2rule__utils_8c__incl.png" border="0" usemap="#test_2rule__utils_8c" alt=""/></div>
+<map name="test_2rule__utils_8c" id="test_2rule__utils_8c">
+<area shape="rect" title="Unit tests for the rule utilitaries." alt="" coords="164,5,287,32"/>
 <area shape="rect" title=" " alt="" coords="5,155,72,181"/>
 <area shape="rect" title=" " alt="" coords="97,155,167,181"/>
 <area shape="rect" title=" " alt="" coords="192,155,283,181"/>
-<area shape="rect" href="counters_8h.html" title="Interface to nftables counters." alt="" coords="220,80,311,107"/>
-<area shape="rect" title=" " alt="" coords="335,80,446,107"/>
-<area shape="rect" title=" " alt="" coords="471,80,580,107"/>
+<area shape="rect" href="rule__utils_8h.html" title="Interface to nftables counters." alt="" coords="221,80,315,107"/>
+<area shape="rect" title=" " alt="" coords="339,80,450,107"/>
+<area shape="rect" title=" " alt="" coords="475,80,584,107"/>
 <area shape="rect" title=" " alt="" coords="307,155,378,181"/>
 <area shape="rect" title=" " alt="" coords="403,155,485,181"/>
 <area shape="rect" title=" " alt="" coords="510,155,581,181"/>
@@ -102,24 +102,30 @@ Include dependency graph for counters.c:</div>
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="func-members"></a>
 Functions</h2></td></tr>
 <tr class="memitem:adc326edcda5ec1043b9012aa4b2cd32a"><td class="memItemLeft" align="right" valign="top"><a id="adc326edcda5ec1043b9012aa4b2cd32a"></a>
-void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="test_2counters_8c.html#adc326edcda5ec1043b9012aa4b2cd32a">test_counter_read_packets</a> ()</td></tr>
+void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="test_2rule__utils_8c.html#adc326edcda5ec1043b9012aa4b2cd32a">test_counter_read_packets</a> ()</td></tr>
 <tr class="memdesc:adc326edcda5ec1043b9012aa4b2cd32a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Test the reading of the packets value of an nftables counter. <br /></td></tr>
 <tr class="separator:adc326edcda5ec1043b9012aa4b2cd32a"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a3e90825717bd24700324b449d83febcf"><td class="memItemLeft" align="right" valign="top"><a id="a3e90825717bd24700324b449d83febcf"></a>
-void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="test_2counters_8c.html#a3e90825717bd24700324b449d83febcf">test_counter_read_bytes</a> ()</td></tr>
+void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="test_2rule__utils_8c.html#a3e90825717bd24700324b449d83febcf">test_counter_read_bytes</a> ()</td></tr>
 <tr class="memdesc:a3e90825717bd24700324b449d83febcf"><td class="mdescLeft">&#160;</td><td class="mdescRight">Test the reading of the bytes value of an nftables counter. <br /></td></tr>
 <tr class="separator:a3e90825717bd24700324b449d83febcf"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ac7aee26ff469d5f9130ac3557310d81c"><td class="memItemLeft" align="right" valign="top"><a id="ac7aee26ff469d5f9130ac3557310d81c"></a>
-void&#160;</td><td class="memItemRight" valign="bottom"><b>test_counter_read_microseconds</b> ()</td></tr>
+void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="test_2rule__utils_8c.html#ac7aee26ff469d5f9130ac3557310d81c">test_counter_read_microseconds</a> ()</td></tr>
+<tr class="memdesc:ac7aee26ff469d5f9130ac3557310d81c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Test the reading of the current time in microseconds. <br /></td></tr>
 <tr class="separator:ac7aee26ff469d5f9130ac3557310d81c"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:affbc1aa4f13f4680448239f8637f40f3"><td class="memItemLeft" align="right" valign="top"><a id="affbc1aa4f13f4680448239f8637f40f3"></a>
-void&#160;</td><td class="memItemRight" valign="bottom"><b>test_counters_init</b> ()</td></tr>
+void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="test_2rule__utils_8c.html#affbc1aa4f13f4680448239f8637f40f3">test_counters_init</a> ()</td></tr>
+<tr class="memdesc:affbc1aa4f13f4680448239f8637f40f3"><td class="mdescLeft">&#160;</td><td class="mdescRight">Test the counter initialization. <br /></td></tr>
 <tr class="separator:affbc1aa4f13f4680448239f8637f40f3"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:abf9e6b7e6f15df4b525a2e7705ba3089"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="test_2counters_8c.html#abf9e6b7e6f15df4b525a2e7705ba3089">main</a> (int argc, char const *argv[])</td></tr>
+<tr class="memitem:a3e100e3a1040cde7d86724bc9249e082"><td class="memItemLeft" align="right" valign="top"><a id="a3e100e3a1040cde7d86724bc9249e082"></a>
+void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="test_2rule__utils_8c.html#a3e100e3a1040cde7d86724bc9249e082">test_delete_nft_rule</a> ()</td></tr>
+<tr class="memdesc:a3e100e3a1040cde7d86724bc9249e082"><td class="mdescLeft">&#160;</td><td class="mdescRight">Test the deletion of an nftables rule. <br /></td></tr>
+<tr class="separator:a3e100e3a1040cde7d86724bc9249e082"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:abf9e6b7e6f15df4b525a2e7705ba3089"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="test_2rule__utils_8c.html#abf9e6b7e6f15df4b525a2e7705ba3089">main</a> (int argc, char const *argv[])</td></tr>
 <tr class="separator:abf9e6b7e6f15df4b525a2e7705ba3089"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock"><p>Unit tests for the interface with nftables counters. </p>
+<div class="textblock"><p>Unit tests for the rule utilitaries. </p>
 <dl class="section author"><dt>Author</dt><dd>François De Keersmaeker (<a href="#" onclick="location.href='mai'+'lto:'+'fra'+'nc'+'ois'+'.d'+'eke'+'er'+'sma'+'ek'+'er@'+'uc'+'lou'+'va'+'in.'+'be'; return false;">franc<span style="display: none;">.nosp@m.</span>ois.<span style="display: none;">.nosp@m.</span>dekee<span style="display: none;">.nosp@m.</span>rsma<span style="display: none;">.nosp@m.</span>eker@<span style="display: none;">.nosp@m.</span>uclo<span style="display: none;">.nosp@m.</span>uvain<span style="display: none;">.nosp@m.</span>.be</a>) </dd></dl>
 <dl class="section date"><dt>Date</dt><dd>2022-11-02</dd></dl>
 <dl class="section copyright"><dt>Copyright</dt><dd>Copyright (c) 2022 </dd></dl>

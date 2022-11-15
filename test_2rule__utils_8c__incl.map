@@ -1,11 +1,11 @@
-<map id="test/counters.c" name="test/counters.c">
-<area shape="rect" id="node1" title="Unit tests for the interface with nftables counters." alt="" coords="165,5,283,32"/>
+<map id="test/rule_utils.c" name="test/rule_utils.c">
+<area shape="rect" id="node1" title="Unit tests for the rule utilitaries." alt="" coords="164,5,287,32"/>
 <area shape="rect" id="node2" title=" " alt="" coords="5,155,72,181"/>
 <area shape="rect" id="node3" title=" " alt="" coords="97,155,167,181"/>
 <area shape="rect" id="node4" title=" " alt="" coords="192,155,283,181"/>
-<area shape="rect" id="node5" href="$counters_8h.html" title="Interface to nftables counters." alt="" coords="220,80,311,107"/>
-<area shape="rect" id="node9" title=" " alt="" coords="335,80,446,107"/>
-<area shape="rect" id="node10" title=" " alt="" coords="471,80,580,107"/>
+<area shape="rect" id="node5" href="$rule__utils_8h.html" title="Interface to nftables counters." alt="" coords="221,80,315,107"/>
+<area shape="rect" id="node9" title=" " alt="" coords="339,80,450,107"/>
+<area shape="rect" id="node10" title=" " alt="" coords="475,80,584,107"/>
 <area shape="rect" id="node6" title=" " alt="" coords="307,155,378,181"/>
 <area shape="rect" id="node7" title=" " alt="" coords="403,155,485,181"/>
 <area shape="rect" id="node8" title=" " alt="" coords="510,155,581,181"/>

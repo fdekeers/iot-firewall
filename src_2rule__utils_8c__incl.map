@@ -1,6 +1,6 @@
-<map id="src/counters.c" name="src/counters.c">
-<area shape="rect" id="node1" title="Interface to nftables counters." alt="" coords="222,5,334,32"/>
-<area shape="rect" id="node2" href="$counters_8h.html" title="Interface to nftables counters." alt="" coords="233,80,323,107"/>
+<map id="src/rule_utils.c" name="src/rule_utils.c">
+<area shape="rect" id="node1" title="Rule utilitaries." alt="" coords="220,5,336,32"/>
+<area shape="rect" id="node2" href="$rule__utils_8h.html" title="Interface to nftables counters." alt="" coords="231,80,325,107"/>
 <area shape="rect" id="node3" title=" " alt="" coords="5,155,76,181"/>
 <area shape="rect" id="node4" title=" " alt="" coords="101,155,167,181"/>
 <area shape="rect" id="node5" title=" " alt="" coords="192,155,263,181"/>
