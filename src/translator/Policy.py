@@ -20,7 +20,7 @@ class Policy:
 
     def __init__(self, name: str, profile_data: dict, device: dict) -> None:
         """
-        Initializes a new Policy object.
+        Initialize a new Policy object.
 
         Args:
             name (str): Name of the policy.
@@ -71,19 +71,19 @@ class Policy:
                     "out": value_out,
                     "in": value_in
                 }
-                # Update values with counter names (to be used as nftables match)
+                # If stat is packet count, update values with counter names (to be used as nftables match)
                 if stat == "packet-count":
-                    value_out = f"{self.name}-out"
-                    value_in = f"{self.name}-in"
+                    value_out = f"\"{self.name}-out\""
+                    value_in = f"\"{self.name}-in\""
             if stat in Policy.stats_templates:
                 match_forward = Policy.stats_templates[stat].format(value_out)
                 match_backward = Policy.stats_templates[stat].format(value_in)
                 self.nft_matches.append({"forward": match_forward, "backward": match_backward})
         else:
-            # Stat is a single value
+            # Stat is a single value, which is used for both directions
             if stat in Policy.counters:
                 self.counters[stat] = {"default": value}
-                value = self.name
+                value = f"\"{self.name}\""
             if stat in Policy.stats_templates:
                 match = Policy.stats_templates[stat].format(value)
                 self.nft_matches.append({"forward": match, "backward": match})

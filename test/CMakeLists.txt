@@ -20,12 +20,12 @@ target_link_libraries(packet_utils-test cunit)
 target_link_libraries(packet_utils-test packet_utils)
 install(TARGETS packet_utils-test DESTINATION ${TEST_BIN_DIR})
 
-# nftables counter test
-add_executable(counters-test counters.c)
-target_include_directories(counters-test PRIVATE ${INCLUDE_DIR})
-target_link_libraries(counters-test cunit)
-target_link_libraries(counters-test counters)
-install(TARGETS counters-test DESTINATION ${TEST_BIN_DIR})
+# nftables utilitairies test
+add_executable(rule_utils-test rule_utils.c)
+target_include_directories(rule_utils-test PRIVATE ${INCLUDE_DIR})
+target_link_libraries(rule_utils-test cunit)
+target_link_libraries(rule_utils-test rule_utils)
+install(TARGETS rule_utils-test DESTINATION ${TEST_BIN_DIR})
 
 # Test subdirectories
 add_subdirectory(parsers)

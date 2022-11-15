@@ -24,7 +24,7 @@ patterns:
     dns-ipv4:
       protocols:
         dns:
-          type: A
+          qtype: A
           domain-name: use1-api.tplinkra.com
           initiated-by: self
         udp:
@@ -136,7 +136,7 @@ interaction-policies:
     dns-ipv4-alexa-unagi:
       protocols:
         dns:
-          type: A
+          qtype: A
           domain-name: unagi-na.amazon.com
           initiated-by: alexa
         udp:

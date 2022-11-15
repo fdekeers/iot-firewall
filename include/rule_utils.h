@@ -1,5 +1,5 @@
 /**
- * @file include/counters.h
+ * @file include/rule_utils.h
  * @author François De Keersmaeker (francois.dekeersmaeker@uclouvain.be)
  * @brief Interface to nftables counters
  * @date 2022-11-02
@@ -8,8 +8,8 @@
  * 
  */
 
-#ifndef _IOTFIREWALL_COUNTERS_
-#define _IOTFIREWALL_COUNTERS_
+#ifndef _IOTFIREWALL_RULE_UTILS_
+#define _IOTFIREWALL_RULE_UTILS_
 
 #include <stdlib.h>
 #include <stdio.h>
@@ -62,6 +62,16 @@ uint64_t counter_read_microseconds();
  * @return initial_values_t struct containing the initial values
  */
 initial_values_t counters_init(char *nft_table_name, char *nft_counter_name);
+
+/**
+ * @brief Delete an nftables rule.
+ *
+ * @param nft_table nftables table containing the rule
+ * @param nft_chain nftables chain containing the rule
+ * @param nft_rule nftables rule to delete
+ * @return true if the rule was correctly deleted, false otherwise
+ */
+bool delete_nft_rule(char *nft_table, char *nft_chain, char *nft_rule);
 
 
 #endif

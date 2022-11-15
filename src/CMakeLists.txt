@@ -22,7 +22,7 @@ target_include_directories(map_domain_ip PRIVATE ${INCLUDE_DIR})
 target_link_libraries(map_domain_ip ${LIB_DIR}/libhashmap.a)
 install(TARGETS map_domain_ip DESTINATION ${LIB_DIR})
 
-# counters
-add_library(counters STATIC ${INCLUDE_DIR}/counters.h counters.c)
-target_include_directories(counters PRIVATE ${INCLUDE_DIR})
-install(TARGETS counters DESTINATION ${LIB_DIR})
+# rule_utils
+add_library(rule_utils STATIC ${INCLUDE_DIR}/rule_utils.h rule_utils.c)
+target_include_directories(rule_utils PRIVATE ${INCLUDE_DIR})
+install(TARGETS rule_utils DESTINATION ${LIB_DIR})
