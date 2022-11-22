@@ -76,6 +76,22 @@ interaction-policies:
   
   lan-kasa:
 
+    mdns-phone:
+      protocols:
+        udp:
+          dst-port: 5353
+        ipv4:
+          src: local
+          dst: mdns
+    udp-broadcast-phone:
+      protocols:
+        udp:
+          dst-port:
+            - 9999
+            - 20002
+        ipv4:
+          src: local
+          dst: broadcast
     tcp-phone-to-plug:
       protocols:
         tcp:
