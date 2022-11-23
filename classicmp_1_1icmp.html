@@ -95,8 +95,8 @@ Collaboration diagram for icmp.icmp:</div>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:a21ebfaa6bc15bbfc56280867bfd0ddec"><td class="memItemLeft" align="right" valign="top">dict&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classicmp_1_1icmp.html#a21ebfaa6bc15bbfc56280867bfd0ddec">parse</a> (self, str direction=&quot;in&quot;)</td></tr>
-<tr class="separator:a21ebfaa6bc15bbfc56280867bfd0ddec"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6efa083b95be8db958190cfeb1147016"><td class="memItemLeft" align="right" valign="top">dict&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classicmp_1_1icmp.html#a6efa083b95be8db958190cfeb1147016">parse</a> (self, str direction=&quot;out&quot;, str initiator=&quot;src&quot;)</td></tr>
+<tr class="separator:a6efa083b95be8db958190cfeb1147016"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-static-attribs"></a>
 Static Public Attributes</h2></td></tr>
@@ -113,8 +113,8 @@ bool&#160;</td><td class="memItemRight" valign="bottom"><b>custom_parser</b> = F
 <tr class="separator:a936298b3124cb5b22e0181dda2f4c49d"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <h2 class="groupheader">Member Function Documentation</h2>
-<a id="a21ebfaa6bc15bbfc56280867bfd0ddec"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a21ebfaa6bc15bbfc56280867bfd0ddec">&#9670;&nbsp;</a></span>parse()</h2>
+<a id="a6efa083b95be8db958190cfeb1147016"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a6efa083b95be8db958190cfeb1147016">&#9670;&nbsp;</a></span>parse()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -129,7 +129,13 @@ bool&#160;</td><td class="memItemRight" valign="bottom"><b>custom_parser</b> = F
           <td class="paramkey"></td>
           <td></td>
           <td class="paramtype">str &#160;</td>
-          <td class="paramname"><em>direction</em> = <code>&quot;in&quot;</code>&#160;</td>
+          <td class="paramname"><em>direction</em> = <code>&quot;out&quot;</code>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">str &#160;</td>
+          <td class="paramname"><em>initiator</em> = <code>&quot;src&quot;</code>&#160;</td>
         </tr>
         <tr>
           <td></td>
