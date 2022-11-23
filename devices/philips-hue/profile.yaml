@@ -1,0 +1,459 @@
+---
+device-info:
+  device-name: philips-hue
+  mac-address: 00:17:88:74:c2:dc
+  ip-address: 192.168.1.141
+  mud-version: 1
+  mud-url: https://philips-hue.com/philips-hue
+  last-update: "2022-03-15T10:27:29.170+01:00"
+  cache-validity: 100
+  is-supported: true
+
+
+individual-policies:
+
+  ##### DNS TRAFFIC #####
+
+  dns-mqtt-ipv4:
+    protocols:
+      dns:
+        qtype: A
+        domain-name: mqtt.2030.ltsapis.goog
+      udp:
+        dst-port: 53
+      ipv4:
+        src: self
+        dst: gateway
+    direction: both
+
+  dns-mqtt-ipv6:
+    protocols:
+      dns:
+        qtype: AAAA
+        domain-name: mqtt.2030.ltsapis.goog
+      udp:
+        dst-port: 53
+      ipv6:
+        src: self
+        dst: gateway
+    direction: both
+
+  dns-google-ntp-ipv4:
+    protocols:
+      dns:
+        qtype: A
+        domain-name:
+          - time1.google.com
+          - time2.google.com
+          - time3.google.com
+          - time4.google.com
+      udp:
+        dst-port: 53
+      ipv4:
+        src: self
+        dst: gateway
+    direction: both
+
+  dns-google-ntp-ipv6:
+    protocols:
+      dns:
+        qtype: AAAA
+        domain-name:
+          - time1.google.com
+          - time2.google.com
+          - time3.google.com
+          - time4.google.com
+      udp:
+        dst-port: 53
+      ipv4:
+        src: self
+        dst: gateway
+    direction: both
+
+  dns-aliyun-ntp-ipv4:
+    protocols:
+      dns:
+        qtype: A
+        domain-name:
+          - ntp1.aliyun.com
+          - ntp2.aliyun.com
+          - ntp3.aliyun.com
+          - ntp4.aliyun.com
+      udp:
+        dst-port: 53
+      ipv4:
+        src: self
+        dst: gateway
+    direction: both
+
+  dns-aliyun-ntp-ipv6:
+    protocols:
+      dns:
+        qtype: AAAA
+        domain-name:
+          - ntp1.aliyun.com
+          - ntp2.aliyun.com
+          - ntp3.aliyun.com
+          - ntp4.aliyun.com
+      udp:
+        dst-port: 53
+      ipv4:
+        src: self
+        dst: gateway
+    direction: both
+
+  dns-philips-hue:
+    protocols:
+      dns:
+        qtype: A
+        domain-name: www.philips-hue.com
+      udp:
+        dst-port: 53
+      ipv4:
+        src: self
+        dst: gateway
+    direction: both
+
+  dns-ecdinterface-ipv4:
+    protocols:
+      dns:
+        qtype: A
+        domain-name: www.ecdinterface.philips.com
+      udp:
+        dst-port: 53
+      ipv4:
+        src: self
+        dst: gateway
+    direction: both
+
+  dns-ecdinterface-ipv6:
+    protocols:
+      dns:
+        qtype: AAAA
+        domain-name: www.ecdinterface.philips.com
+      udp:
+        dst-port: 53
+      ipv4:
+        src: self
+        dst: gateway
+    direction: both
+
+  dns-ws-meethue-ipv4:
+    protocols:
+      dns:
+        qtype: A
+        domain-name: ws.meethue.com
+      udp:
+        dst-port: 53
+      ipv4:
+        src: self
+        dst: gateway
+    direction: both
+
+  dns-ws-meethue-ipv6:
+    protocols:
+      dns:
+        qtype: AAAA
+        domain-name: ws.meethue.com
+      udp:
+        dst-port: 53
+      ipv4:
+        src: self
+        dst: gateway
+    direction: both
+
+  dns-time-meethue-ipv4:
+    protocols:
+      dns:
+        qtype: A
+        domain-name: time.meethue.com
+      udp:
+        dst-port: 53
+      ipv4:
+        src: self
+        dst: gateway
+    direction: both
+
+  dns-time-meethue-ipv6:
+    protocols:
+      dns:
+        qtype: AAAA
+        domain-name: time.meethue.com
+      udp:
+        dst-port: 53
+      ipv4:
+        src: self
+        dst: gateway
+    direction: both
+
+  dns-data-meethue-ipv4:
+    protocols:
+      dns:
+        qtype: A
+        domain-name: data.meethue.com
+      udp:
+        dst-port: 53
+      ipv4:
+        src: self
+        dst: gateway
+    direction: both
+
+  dns-data-meethue-ipv6:
+    protocols:
+      dns:
+        qtype: AAAA
+        domain-name: data.meethue.com
+      udp:
+        dst-port: 53
+      ipv4:
+        src: self
+        dst: gateway
+    direction: both
+
+  dns-diag-meethue-ipv4:
+    protocols:
+      dns:
+        qtype: A
+        domain-name: diag.meethue.com
+      udp:
+        dst-port: 53
+      ipv4:
+        src: self
+        dst: gateway
+    direction: both
+
+  dns-diag-meethue-ipv6:
+    protocols:
+      dns:
+        qtype: AAAA
+        domain-name: diag.meethue.com
+      udp:
+        dst-port: 53
+      ipv4:
+        src: self
+        dst: gateway
+    direction: both
+
+  dns-dcp-philips-ipv4:
+    protocols:
+      dns:
+        qtype: A
+        domain-name: dcp.dc1.philips.com
+      udp:
+        dst-port: 53
+      ipv4:
+        src: self
+        dst: gateway
+    direction: both
+
+  dns-dcp-philips-ipv6:
+    protocols:
+      dns:
+        qtype: AAAA
+        domain-name: dcp.dc1.philips.com
+      udp:
+        dst-port: 53
+      ipv4:
+        src: self
+        dst: gateway
+    direction: both
+
+
+  # NTP: retrieve current time
+  ntp-all-servers:
+    protocols:
+      ntp: #TODO
+      udp:
+        dst-port: 123
+      ipv4:
+        src: self
+        dst:
+          - time1.google.com
+          - time2.google.com
+          - time3.google.com
+          - time4.google.com
+          - ntp1.aliyun.com
+          - ntp2.aliyun.com
+          - ntp3.aliyun.com
+          - ntp4.aliyun.com
+    direction: both
+
+  # IGMP: join multicast group
+  igmp-join-multicast:
+    protocols:
+      igmp:
+        type: membership report
+        group: mdns
+      ipv4:
+        src: self
+        dst: 224.0.0.22
+
+  # ARP: gateway to hue
+  arp-gateway-hue:
+    protocols:
+      arp:
+          type: request
+          sha: gateway
+          tha: self
+          spa: gateway
+          tpa: self
+    direction: both
+
+  # MDNS
+  mdns-query:
+    protocols:
+      mdns:
+        qtype: any
+        domain-name:
+          - Philips Hue - 74C2DC._hue._tcp.local
+          - 00178874c2dc.local
+      udp:
+        src-port: 5353
+        dst-port: 5353
+      ipv4:
+        src: self
+        dst: mdns
+
+
+
+interaction-policies:
+
+  # IP allocation at boot
+  ip-allocation:
+
+    dhcp-discover:
+      protocols:
+        dhcp:
+          type: discover
+          client-mac: self
+        udp:
+          src-port: 68
+          dst-port: 67
+        ipv4:
+          src: 0.0.0.0
+          dst: broadcast
+    
+    arp-gateway-hue:
+      protocols:
+        arp:
+          type: request
+          sha: self
+          tha: default
+          spa: self
+          tpa: gateway
+    
+    icmp-ping:
+      protocols:
+        icmp:
+          type: echo-request
+        ipv4:
+          src: gateway
+          dst: self
+    
+    dhcp-offer:
+      protocols:
+        dhcp:
+          type: offer
+          client-mac: self
+        udp:
+          src-port: 67
+          dst-port: 68
+        ipv4:
+          src: gateway
+          dst: self
+    
+    dhcp-request:
+      protocols:
+        dhcp:
+          type: request
+          client-mac: self
+        udp:
+          src-port: 68
+          dst-port: 67
+        ipv4:
+          src: 0.0.0.0
+          dst: broadcast
+
+    dhcp-ack:
+      protocols:
+        dhcp:
+          type: ack
+          client-mac: self
+        udp:
+          src-port: 67
+          dst-port: 68
+        ipv4:
+          src: gateway
+          dst: self
+
+    arp-hue-gateway:
+      protocols:
+        arp:
+          type: request
+          sha: self
+          tha: default
+          spa: self
+          tpa: gateway
+      direction: both
+
+  # HTTP traffic at boot
+  http-boot:
+
+    http-post-device-portal:
+      protocols:
+        http:
+          method: post
+          url: /DevicePortalICPRequestHandler/RequestHandler.ashx
+        tcp:
+          dst-port: 80
+        ipv4:
+          src: self
+          dst: www.ecdinterface.philips.com
+    
+    http-post-notification-service:
+      protocols:
+        http:
+          method: post
+          url: /NotificationService/RequestHandler.ashx
+        tcp:
+          dst-port: 80
+        ipv4:
+          src: self
+          dst: www.ecdinterface.philips.com
+
+    http-post-request-handler:
+      protocols:
+        http:
+          method: post
+          url: /DcpRequestHandler/index.ashx
+        tcp:
+          dst-port: 80
+        ipv4:
+          src: self
+          dst: dcp.dc1.philips.com
+
+  # SSDP discovery
+  discover-hue-services:
+
+    ssdp-search:
+      protocols:
+        ssdp:
+          type: m-search
+        udp:
+          dst-port: 1900
+        ipv4:
+          src: local
+          dst: ssdp  # 239.255.255.250
+    
+    ssdp-notify:
+      protocols:
+        ssdp:
+          type: notify
+        udp:
+          src-port: 1900
+          dst-port: 1900
+        ipv4:
+          src: self
+          dst: ssdp  # 239.255.255.250
+
+...
