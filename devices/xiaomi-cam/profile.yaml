@@ -20,20 +20,20 @@ individual-policies:
         method: GET
       tcp:
         dst-port: 80
-        initiated-by: self
       ipv4:
         src: self
         dst: 110.43.0.83
+    initiator: src
     direction: both
 
   https-xiaomi-cloud:
     protocols:
       tcp:
         dst-port: 443
-        initiated-by: self
       ipv4:
         src: self
         dst: 120.92.133.153
+    initiator: src
     direction: both
 
   dns-xiaomi-api:
@@ -52,10 +52,10 @@ individual-policies:
     protocols:
       tcp:
         dst-port: 443
-        initiated-by: self
       ipv4:
         src: self
         dst: business.smartcamera.api.io.mi.com
+    initiator: src
     direction: both
 
 

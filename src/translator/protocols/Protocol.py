@@ -38,7 +38,7 @@ class Protocol:
         return cls(protocol_data, device)
 
     
-    def add_field(self, field: str, template_rules: dict, direction: str = "in", func = lambda x: x, backward_func = lambda x: x) -> None:
+    def add_field(self, field: str, template_rules: dict, direction: str = "out", func = lambda x: x, backward_func = lambda x: x) -> None:
         """
         Add a new nftables rule to the nftables rules accumulator.
 
@@ -77,13 +77,14 @@ class Protocol:
             self.rules["nft"].append(rules)
 
 
-    def parse(self, direction: str = "in") -> dict:
+    def parse(self, direction: str = "out", initiator: str = "src") -> dict:
         """
         Default parsing method.
         Must be updated in the children class.
 
         Args:
-            direction (str): Direction of the traffic (in, out, or both).
+            direction (str): Direction of the traffic (in, out, or both). Default is "in".
+            initiator (str): Connection initiator (src or dst). Default is "src".
         Returns:
             dict: Dictionary containing the (forward and backward) nftables and nfqueue rules for this policy.
         """

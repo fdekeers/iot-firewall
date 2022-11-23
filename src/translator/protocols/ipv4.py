@@ -22,8 +22,7 @@ class ipv4(Protocol):
     }
 
 
-    # TODO: translate domain names
-    def parse(self, direction: str = "in") -> dict:
+    def parse(self, direction: str = "out", initiator: str = "src") -> dict:
         """
         Parse the IPv4 protocol.
 
@@ -34,10 +33,32 @@ class ipv4(Protocol):
         """
         # Lambda function to explicit a self or a well-known IP address
         func = lambda ip: self.device['ip'] if ip == "self" else ( self.addrs[ip] if ip in self.addrs else ip )
-        # Handle IPv4 source address
-        rules = {"forward": "ip saddr {}", "backward": "ip daddr {}"}
-        self.add_field("src", rules, direction, func)
-        # Handle IPv4 destination address
-        rules = {"forward": "ip daddr {}", "backward": "ip saddr {}"}
-        self.add_field("dst", rules, direction, func)
+
+        # Connection initiator is specified
+        if initiator:
+            # Template rules
+            template_rules = {
+                "src": {"forward": f"ct original saddr src={{}}", "backward": f"ct original daddr dst={{}}"},
+                "dst": {"forward": f"ct original daddr dst={{}}", "backward": f"ct original saddr src={{}}"}
+            }
+            if ((initiator == "src" and (direction == "out" or direction == "both")) or
+                (initiator == "dst" and direction == "in")):
+                # Connection initiator is the source device
+                self.add_field("src", template_rules["src"], direction, func)
+                self.add_field("dst", template_rules["dst"], direction, func)
+            elif ((initiator == "src" and direction == "in") or
+                  (initiator == "dst" and (direction == "out" or direction == "both"))):
+                # Connection initiator is the destination device
+                self.add_field("src", template_rules["dst"], direction, func)
+                self.add_field("dst", template_rules["src"], direction, func)
+
+        # Connection initiator is not specified
+        else:
+            # Handle IPv4 source address
+            rules = {"forward": "ip saddr {}", "backward": "ip daddr {}"}
+            self.add_field("src", rules, direction, func)
+            # Handle IPv4 destination address
+            rules = {"forward": "ip daddr {}", "backward": "ip saddr {}"}
+            self.add_field("dst", rules, direction, func)
+        
         return self.rules

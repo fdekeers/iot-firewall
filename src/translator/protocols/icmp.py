@@ -13,7 +13,7 @@ class icmp(Protocol):
     ]
 
 
-    def parse(self, direction: str = "in") -> dict:
+    def parse(self, direction: str = "out", initiator: str = "src") -> dict:
         """
         Parse the ICMP protocol.
 

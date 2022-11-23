@@ -54,7 +54,6 @@ if __name__ == "__main__":
                 states = ["STATE_0"]
                 header_dict["policy"] = policy_name
                 header_dict["nfq_id_base"] = nfq_id_base
-                direction = profile_data["direction"]
                 callback_dict = {
                     "nft_table": f"netdev {device['name']}",
                     "nft_chain": policy_name
@@ -135,7 +134,6 @@ if __name__ == "__main__":
                 for single_policy_name in interaction_policy:
                     # Create policy and parse it
                     profile_data = interaction_policy[single_policy_name]
-                    direction = profile_data["direction"]
                     single_policy = Policy(single_policy_name, profile_data, device)
                     single_policy.parse()
                     policies.append(single_policy)

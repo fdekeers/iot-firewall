@@ -5,7 +5,7 @@ class Custom(Protocol):
     # Class variables
     custom_parser = True  # Whether the protocol has a custom parser
 
-    def add_field(self, field: str, template_rules: dict, direction: str = "in", func= lambda x: x, backward_func = lambda x: x) -> None:
+    def add_field(self, field: str, template_rules: dict, direction: str = "out", func = lambda x: x, backward_func = lambda x: x) -> None:
         """
         Add a new nfqueue match to the accumulator.
         Overrides the nftables version.

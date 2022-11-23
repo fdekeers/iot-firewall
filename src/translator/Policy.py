@@ -28,7 +28,8 @@ class Policy:
         """
         self.name = name                            # Policy name
         self.profile_data = profile_data            # Policy data from the YAML profile
-        self.direction = profile_data["direction"]  # Policy direction
+        self.direction = profile_data["direction"] if "direction" in profile_data else "out"
+        self.initiator = profile_data["initiator"] if "initiator" in profile_data else ""
         self.device = device                        # Name of the device this policy is linked to
         self.custom_parser = ""                     # Name of the custom parser (if any)
         self.nft_matches = []                       # List of nftables matches (will be populated by parsing)
@@ -132,7 +133,7 @@ class Policy:
             protocol = Protocol.init_protocol(protocol_name, self.profile_data["protocols"][protocol_name], self.device)
             if protocol.custom_parser:
                 self.custom_parser = protocol_name
-            new_rules = protocol.parse(self.profile_data["direction"])
+            new_rules = protocol.parse(direction=self.direction, initiator=self.initiator)
             self.nft_matches += new_rules["nft"]
             self.nfq_matches += new_rules["nfq"]
         

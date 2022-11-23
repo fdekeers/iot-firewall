@@ -12,7 +12,7 @@ class http(Custom):
         "uri"
     ]
 
-    def parse(self, direction: str = "in") -> dict:
+    def parse(self, direction: str = "out", initiator: str = "src") -> dict:
         """
         Parse the DHCP protocol.
 
