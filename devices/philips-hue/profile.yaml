@@ -74,9 +74,8 @@ individual-policies:
   # NTP: retrieve current time
   ntp-all-servers:
     protocols:
-      ntp: #TODO
       udp:
-        dst-port: 123
+        dst-port: 123  # NTP
       ipv4:
         src: self
         dst:
@@ -153,7 +152,7 @@ individual-policies:
     destination: both
     initiator: src
     stats:
-      rate: 10/second
+      rate: 10/second burst 100 packets
 
   # Background HTTPS traffic with ws.meethue.com when app is open in an outside network
   https-app-external:
@@ -166,7 +165,7 @@ individual-policies:
     direction: both
     initiator: src
     stats:
-      rate: 10/second
+      rate: 10/second burst 100 packets
 
   # HTTP GET request from Amazon Echo to Hue bridge
   http-echo-hue-local:
