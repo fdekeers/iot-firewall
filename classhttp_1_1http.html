@@ -145,6 +145,7 @@ string&#160;</td><td class="memItemRight" valign="bottom"><b>protocol_name</b> =
 
 Args:
     direction (str): Direction of the traffic (in, out, or both).
+    initiator (str): Initiator of the connection (src or dst).
 Returns:
     dict: Dictionary containing the (forward and backward) nftables and nfqueue rules for this policy.
 </pre> 
@@ -172,7 +173,8 @@ Returns:
 </div><div class="memdoc">
 <b>Initial value:</b><div class="fragment"><div class="line">=  [</div>
 <div class="line">        <span class="stringliteral">&quot;method&quot;</span>,</div>
-<div class="line">        <span class="stringliteral">&quot;uri&quot;</span></div>
+<div class="line">        <span class="stringliteral">&quot;uri&quot;</span>,</div>
+<div class="line">        <span class="stringliteral">&quot;response&quot;</span></div>
 <div class="line">    ]</div>
 </div><!-- fragment -->
 </div>
