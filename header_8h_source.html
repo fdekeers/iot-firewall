@@ -96,16 +96,18 @@ $(function() {
 <div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160; </div>
 <div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;<span class="keywordtype">size_t</span> <a class="code" href="header_8h.html#ab8b6a2141761f749c749e3e62e0dbbd9">get_headers_length</a>(uint8_t* data);</div>
 <div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160; </div>
-<div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160;uint16_t <a class="code" href="header_8h.html#aee2ed8d7e05ac3503e097c5e2b18d2bf">get_src_port</a>(uint8_t* data);</div>
+<div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160;uint16_t <a class="code" href="header_8h.html#ad5de26b107cc666f5ce7fca69d8f966c">get_dst_port</a>(uint8_t* data);</div>
 <div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160; </div>
-<div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160; </div>
-<div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160;<span class="preprocessor">#endif </span><span class="comment">/* _IOTFIREWALL_HEADER_ */</span><span class="preprocessor"></span></div>
+<div class="line"><a name="l00086"></a><span class="lineno">   86</span>&#160;uint32_t <a class="code" href="header_8h.html#abe4c2ae5319a4f5eb9b4eec414e0968f">get_dst_addr</a>(uint8_t *data);</div>
+<div class="line"><a name="l00087"></a><span class="lineno">   87</span>&#160; </div>
+<div class="line"><a name="l00088"></a><span class="lineno">   88</span>&#160;<span class="preprocessor">#endif </span><span class="comment">/* _IOTFIREWALL_HEADER_ */</span><span class="preprocessor"></span></div>
 </div><!-- fragment --></div><!-- contents -->
-<div class="ttc" id="aheader_8h_html_aee2ed8d7e05ac3503e097c5e2b18d2bf"><div class="ttname"><a href="header_8h.html#aee2ed8d7e05ac3503e097c5e2b18d2bf">get_src_port</a></div><div class="ttdeci">uint16_t get_src_port(uint8_t *data)</div><div class="ttdoc">Retrieve the source port from a layer 4 header.</div><div class="ttdef"><b>Definition:</b> header.c:93</div></div>
 <div class="ttc" id="aheader_8h_html_a92340a38e51458b30d481b7867cb4273"><div class="ttname"><a href="header_8h.html#a92340a38e51458b30d481b7867cb4273">get_udp_header_length</a></div><div class="ttdeci">size_t get_udp_header_length(uint8_t *data)</div><div class="ttdef"><b>Definition:</b> header.c:43</div></div>
+<div class="ttc" id="aheader_8h_html_abe4c2ae5319a4f5eb9b4eec414e0968f"><div class="ttname"><a href="header_8h.html#abe4c2ae5319a4f5eb9b4eec414e0968f">get_dst_addr</a></div><div class="ttdeci">uint32_t get_dst_addr(uint8_t *data)</div><div class="ttdoc">Retrieve the destination IPv4 address from a layer 3 header.</div><div class="ttdef"><b>Definition:</b> header.c:104</div></div>
 <div class="ttc" id="aheader_8h_html_a4cadafd910a357a4e71c12d51a6ef606"><div class="ttname"><a href="header_8h.html#a4cadafd910a357a4e71c12d51a6ef606">ip_protocol_t</a></div><div class="ttdeci">ip_protocol_t</div><div class="ttdef"><b>Definition:</b> header.h:33</div></div>
 <div class="ttc" id="aheader_8h_html_aec0858aa33957b4af310b5fd4926b1d6"><div class="ttname"><a href="header_8h.html#aec0858aa33957b4af310b5fd4926b1d6">get_ip_header_length</a></div><div class="ttdeci">size_t get_ip_header_length(uint8_t *data)</div><div class="ttdef"><b>Definition:</b> header.c:29</div></div>
 <div class="ttc" id="aheader_8h_html_ab8b6a2141761f749c749e3e62e0dbbd9"><div class="ttname"><a href="header_8h.html#ab8b6a2141761f749c749e3e62e0dbbd9">get_headers_length</a></div><div class="ttdeci">size_t get_headers_length(uint8_t *data)</div><div class="ttdef"><b>Definition:</b> header.c:68</div></div>
+<div class="ttc" id="aheader_8h_html_ad5de26b107cc666f5ce7fca69d8f966c"><div class="ttname"><a href="header_8h.html#ad5de26b107cc666f5ce7fca69d8f966c">get_dst_port</a></div><div class="ttdeci">uint16_t get_dst_port(uint8_t *data)</div><div class="ttdoc">Retrieve the source port from a layer 4 header.</div><div class="ttdef"><b>Definition:</b> header.c:93</div></div>
 <div class="ttc" id="aheader_8h_html_ad9f5cf0d8e9b470adcc5701472178b07"><div class="ttname"><a href="header_8h.html#ad9f5cf0d8e9b470adcc5701472178b07">get_tcp_header_length</a></div><div class="ttdeci">size_t get_tcp_header_length(uint8_t *data)</div><div class="ttdef"><b>Definition:</b> header.c:54</div></div>
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
