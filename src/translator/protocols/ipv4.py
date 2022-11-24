@@ -1,4 +1,5 @@
 from protocols.Protocol import Protocol
+from protocols.igmp import igmp
 
 class ipv4(Protocol):
 
@@ -18,7 +19,8 @@ class ipv4(Protocol):
         "local": "192.168.1.1/24",
         "gateway": "192.168.1.1",
         "broadcast": "192.168.1.255",
-        "mdns": "224.0.0.251"
+        "igmpv3": "224.0.0.22",
+        **igmp.groups
     }
 
 
