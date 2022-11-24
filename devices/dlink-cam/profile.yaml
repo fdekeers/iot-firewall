@@ -1,0 +1,11 @@
+---
+device-info:
+  device-name: dlink-cam
+  mac-address: b0:c5:54:43:54:83
+  ip-address: 192.168.1.115
+  mud-version: 1
+  mud-url: https://dlink-cam.com/dlink-cam
+  last-update: "2022-03-15T10:27:29.170+01:00"
+  cache-validity: 100
+  is-supported: true
+...

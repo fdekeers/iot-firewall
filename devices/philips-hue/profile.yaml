@@ -14,11 +14,27 @@ individual-policies:
 
   ##### DNS TRAFFIC #####
 
-  dns-mqtt-ipv4:
+  dns-ipv4:
     protocols:
       dns:
         qtype: A
-        domain-name: mqtt.2030.ltsapis.goog
+        domain-name:
+          - mqtt.2030.ltsapis.goog
+          - time1.google.com
+          - time2.google.com
+          - time3.google.com
+          - time4.google.com
+          - ntp1.aliyun.com
+          - ntp2.aliyun.com
+          - ntp3.aliyun.com
+          - ntp4.aliyun.com
+          - www.philips-hue.com
+          - www.ecdinterface.philips.com
+          - ws.meethue.com
+          - time.meethue.com
+          - data.meethue.com
+          - diag.meethue.com
+          - dcp.dc1.philips.com
       udp:
         dst-port: 53
       ipv4:
@@ -26,234 +42,30 @@ individual-policies:
         dst: gateway
     direction: both
 
-  dns-mqtt-ipv6:
+  dns-ipv6:
     protocols:
       dns:
         qtype: AAAA
-        domain-name: mqtt.2030.ltsapis.goog
+        domain-name:
+          - mqtt.2030.ltsapis.goog
+          - time1.google.com
+          - time2.google.com
+          - time3.google.com
+          - time4.google.com
+          - ntp1.aliyun.com
+          - ntp2.aliyun.com
+          - ntp3.aliyun.com
+          - ntp4.aliyun.com
+          - www.philips-hue.com
+          - www.ecdinterface.philips.com
+          - ws.meethue.com
+          - time.meethue.com
+          - data.meethue.com
+          - diag.meethue.com
+          - dcp.dc1.philips.com
       udp:
         dst-port: 53
       ipv6:
-        src: self
-        dst: gateway
-    direction: both
-
-  dns-google-ntp-ipv4:
-    protocols:
-      dns:
-        qtype: A
-        domain-name:
-          - time1.google.com
-          - time2.google.com
-          - time3.google.com
-          - time4.google.com
-      udp:
-        dst-port: 53
-      ipv4:
-        src: self
-        dst: gateway
-    direction: both
-
-  dns-google-ntp-ipv6:
-    protocols:
-      dns:
-        qtype: AAAA
-        domain-name:
-          - time1.google.com
-          - time2.google.com
-          - time3.google.com
-          - time4.google.com
-      udp:
-        dst-port: 53
-      ipv4:
-        src: self
-        dst: gateway
-    direction: both
-
-  dns-aliyun-ntp-ipv4:
-    protocols:
-      dns:
-        qtype: A
-        domain-name:
-          - ntp1.aliyun.com
-          - ntp2.aliyun.com
-          - ntp3.aliyun.com
-          - ntp4.aliyun.com
-      udp:
-        dst-port: 53
-      ipv4:
-        src: self
-        dst: gateway
-    direction: both
-
-  dns-aliyun-ntp-ipv6:
-    protocols:
-      dns:
-        qtype: AAAA
-        domain-name:
-          - ntp1.aliyun.com
-          - ntp2.aliyun.com
-          - ntp3.aliyun.com
-          - ntp4.aliyun.com
-      udp:
-        dst-port: 53
-      ipv4:
-        src: self
-        dst: gateway
-    direction: both
-
-  dns-philips-hue:
-    protocols:
-      dns:
-        qtype: A
-        domain-name: www.philips-hue.com
-      udp:
-        dst-port: 53
-      ipv4:
-        src: self
-        dst: gateway
-    direction: both
-
-  dns-ecdinterface-ipv4:
-    protocols:
-      dns:
-        qtype: A
-        domain-name: www.ecdinterface.philips.com
-      udp:
-        dst-port: 53
-      ipv4:
-        src: self
-        dst: gateway
-    direction: both
-
-  dns-ecdinterface-ipv6:
-    protocols:
-      dns:
-        qtype: AAAA
-        domain-name: www.ecdinterface.philips.com
-      udp:
-        dst-port: 53
-      ipv4:
-        src: self
-        dst: gateway
-    direction: both
-
-  dns-ws-meethue-ipv4:
-    protocols:
-      dns:
-        qtype: A
-        domain-name: ws.meethue.com
-      udp:
-        dst-port: 53
-      ipv4:
-        src: self
-        dst: gateway
-    direction: both
-
-  dns-ws-meethue-ipv6:
-    protocols:
-      dns:
-        qtype: AAAA
-        domain-name: ws.meethue.com
-      udp:
-        dst-port: 53
-      ipv4:
-        src: self
-        dst: gateway
-    direction: both
-
-  dns-time-meethue-ipv4:
-    protocols:
-      dns:
-        qtype: A
-        domain-name: time.meethue.com
-      udp:
-        dst-port: 53
-      ipv4:
-        src: self
-        dst: gateway
-    direction: both
-
-  dns-time-meethue-ipv6:
-    protocols:
-      dns:
-        qtype: AAAA
-        domain-name: time.meethue.com
-      udp:
-        dst-port: 53
-      ipv4:
-        src: self
-        dst: gateway
-    direction: both
-
-  dns-data-meethue-ipv4:
-    protocols:
-      dns:
-        qtype: A
-        domain-name: data.meethue.com
-      udp:
-        dst-port: 53
-      ipv4:
-        src: self
-        dst: gateway
-    direction: both
-
-  dns-data-meethue-ipv6:
-    protocols:
-      dns:
-        qtype: AAAA
-        domain-name: data.meethue.com
-      udp:
-        dst-port: 53
-      ipv4:
-        src: self
-        dst: gateway
-    direction: both
-
-  dns-diag-meethue-ipv4:
-    protocols:
-      dns:
-        qtype: A
-        domain-name: diag.meethue.com
-      udp:
-        dst-port: 53
-      ipv4:
-        src: self
-        dst: gateway
-    direction: both
-
-  dns-diag-meethue-ipv6:
-    protocols:
-      dns:
-        qtype: AAAA
-        domain-name: diag.meethue.com
-      udp:
-        dst-port: 53
-      ipv4:
-        src: self
-        dst: gateway
-    direction: both
-
-  dns-dcp-philips-ipv4:
-    protocols:
-      dns:
-        qtype: A
-        domain-name: dcp.dc1.philips.com
-      udp:
-        dst-port: 53
-      ipv4:
-        src: self
-        dst: gateway
-    direction: both
-
-  dns-dcp-philips-ipv6:
-    protocols:
-      dns:
-        qtype: AAAA
-        domain-name: dcp.dc1.philips.com
-      udp:
-        dst-port: 53
-      ipv4:
         src: self
         dst: gateway
     direction: both

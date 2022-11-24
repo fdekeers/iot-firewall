@@ -1,0 +1,43 @@
+---
+device-info:
+  device-name: smartthings-hub
+  mac-address: d0:52:a8:72:aa:27
+  ip-address: 192.168.1.147
+  mud-version: 1
+  mud-url: https://smartthings-hub.com/smartthings-hub
+  last-update: "2022-03-15T10:27:29.170+01:00"
+  cache-validity: 100
+  is-supported: true
+
+individual-policies:
+
+  ##### DNS TRAFFIC #####
+  dns-ipv4:
+    protocols:
+      dns:
+        qtype: A
+        domain-name:
+          - api.smartthings.com
+          - fw-update2.smartthings.com
+      udp:
+        dst-port: 53
+      ipv4:
+        src: self
+        dst: gateway
+    direction: both
+
+  dns-ipv6:
+    protocols:
+      dns:
+        qtype: AAAA
+        domain-name:
+          - api.smartthings.com
+          - fw-update2.smartthings.com
+      udp:
+        dst-port: 53
+      ipv6:
+        src: self
+        dst: gateway
+    direction: both
+
+...
