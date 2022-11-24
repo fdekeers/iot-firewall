@@ -27,56 +27,56 @@
  */
 static http_method_t http_parse_method(uint8_t *data, uint16_t *offset) {
     switch (*(data + *offset)) {
-        case 'G':
-            // Method is GET
-            *offset += 4;
-            return GET;
-            break;
-        case 'H':
-            // Method is HEAD
-            *offset += 5;
-            return HEAD;
-            break;
-        case 'P':
-            // Method is POST or PUT
-            switch (*(data + *offset + 1)) {
-                case 'O':
-                    // Method is POST
-                    *offset += 5;
-                    return POST;
-                    break;
-                case 'U':
-                    // Method is PUT
-                    *offset += 4;
-                    return PUT;
-                    break;
-                default:
-                    // Unknown method
-                    return UNKNOWN;
-            }
-        case 'D':
-            // Method is DELETE
-            *offset += 7;
-            return DELETE;
-            break;
-        case 'C':
-            // Method is CONNECT
-            *offset += 8;
-            return CONNECT;
-            break;
+    case 'G':
+        // Method is GET
+        *offset += 4;
+        return GET;
+        break;
+    case 'H':
+        // Method is HEAD
+        *offset += 5;
+        return HEAD;
+        break;
+    case 'P':
+        // Method is POST or PUT
+        switch (*(data + *offset + 1)) {
         case 'O':
-            // Method is OPTIONS
-            *offset += 8;
-            return OPTIONS;
+            // Method is POST
+            *offset += 5;
+            return POST;
             break;
-        case 'T':
-            // Method is TRACE
-            *offset += 6;
-            return TRACE;
+        case 'U':
+            // Method is PUT
+            *offset += 4;
+            return PUT;
             break;
         default:
             // Unknown method
             return UNKNOWN;
+        }
+    case 'D':
+        // Method is DELETE
+        *offset += 7;
+        return DELETE;
+        break;
+    case 'C':
+        // Method is CONNECT
+        *offset += 8;
+        return CONNECT;
+        break;
+    case 'O':
+        // Method is OPTIONS
+        *offset += 8;
+        return OPTIONS;
+        break;
+    case 'T':
+        // Method is TRACE
+        *offset += 6;
+        return TRACE;
+        break;
+    default:
+        // Unknown method
+        return UNKNOWN;
     }
 }
 
@@ -117,12 +117,12 @@ static char* http_parse_uri(uint8_t *data, uint16_t *offset) {
  * @brief Parse the method and URI of HTTP message.
  * 
  * @param data pointer to the start of the HTTP message
- * @param src_port TCP source port
+ * @param dst_port TCP destination port
  * @return the parsed HTTP message
  */
-http_message_t http_parse_message(uint8_t *data, uint16_t src_port) {
+http_message_t http_parse_message(uint8_t *data, uint16_t dst_port) {
     http_message_t message;
-    message.is_request = src_port != 80;
+    message.is_request = dst_port == 80;
     uint16_t offset = 0;
     message.method = http_parse_method(data, &offset);
     message.uri = http_parse_uri(data, &offset);
@@ -140,32 +140,32 @@ http_message_t http_parse_message(uint8_t *data, uint16_t src_port) {
  */
 char* http_method_to_str(http_method_t method) {
     switch (method) {
-        case GET:
-            return "GET";
-            break;
-        case HEAD:
-            return "HEAD";
-            break;
-        case POST:
-            return "POST";
-            break;
-        case PUT:
-            return "PUT";
-            break;
-        case DELETE:
-            return "DELETE";
-            break;
-        case CONNECT:
-            return "CONNECT";
-            break;
-        case OPTIONS:
-            return "OPTIONS";
-            break;
-        case TRACE:
-            return "TRACE";
-            break;
-        default:
-            return "UNKNOWN";
+    case GET:
+        return "GET";
+        break;
+    case HEAD:
+        return "HEAD";
+        break;
+    case POST:
+        return "POST";
+        break;
+    case PUT:
+        return "PUT";
+        break;
+    case DELETE:
+        return "DELETE";
+        break;
+    case CONNECT:
+        return "CONNECT";
+        break;
+    case OPTIONS:
+        return "OPTIONS";
+        break;
+    case TRACE:
+        return "TRACE";
+        break;
+    default:
+        return "UNKNOWN";
     }
 }
 
@@ -176,6 +176,7 @@ char* http_method_to_str(http_method_t method) {
  */
 void http_print_message(http_message_t message) {
     printf("HTTP message:\n");
+    printf("  is request ?: %d\n", message.is_request);
     printf("  Method: %s\n", http_method_to_str(message.method));
     printf("  URI: %s\n", message.uri);
 }

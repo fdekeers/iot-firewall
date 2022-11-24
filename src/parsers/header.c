@@ -86,11 +86,22 @@ size_t get_headers_length(uint8_t* data) {
 
 /**
  * @brief Retrieve the source port from a layer 4 header.
- * 
+ *
  * @param data pointer to the start of the layer 4 header
- * @return source port
+ * @return destination port
  */
-uint16_t get_src_port(uint8_t* data) {
-    // Source port is encoded in bytes 0 and 1
-    return ntohs(*((uint16_t*) data));
+uint16_t get_dst_port(uint8_t *data) {
+    // Source port is encoded in bytes 2 and 3
+    return ntohs(*((uint16_t*) (data + 2)));
+}
+
+/**
+ * @brief Retrieve the destination IPv4 address from a layer 3 header.
+ * 
+ * @param data pointer to the start of the layer 3 header
+ * @return destination IPv4 address, in network byte order
+ */
+uint32_t get_dst_addr(uint8_t* data) {
+    // Destination address is encoded in bytes 16 to 19
+    return *((uint32_t*) (data + 16));
 }

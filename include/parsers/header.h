@@ -73,9 +73,16 @@ size_t get_headers_length(uint8_t* data);
  * @brief Retrieve the source port from a layer 4 header.
  * 
  * @param data pointer to the start of the layer 4 header
- * @return source port
+ * @return destination port
  */
-uint16_t get_src_port(uint8_t* data);
+uint16_t get_dst_port(uint8_t* data);
 
+/**
+ * @brief Retrieve the destination IPv4 address from a layer 3 header.
+ *
+ * @param data pointer to the start of the layer 3 header
+ * @return destination IPv4 address, in network byte order
+ */
+uint32_t get_dst_addr(uint8_t *data);
 
 #endif /* _IOTFIREWALL_HEADER_ */

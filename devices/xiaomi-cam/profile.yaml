@@ -18,6 +18,7 @@ individual-policies:
     protocols:
       http:
         method: GET
+        uri: /gslb?tver=2&id=369215617&dm=ots.io.mi.com&timestamp=8&sign=j2zt3%2BpbAwcxrxovQUFtCyZ6DUmGplXNKr1i8jteRb4%3D
       tcp:
         dst-port: 80
       ipv4:

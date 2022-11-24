@@ -32,3 +32,11 @@ target_link_libraries(igmp-test cunit)
 target_link_libraries(igmp-test packet_utils)
 target_link_libraries(igmp-test header igmp)
 install(TARGETS igmp-test DESTINATION ${TEST_BIN_DIR})
+
+# SSDP
+add_executable(ssdp-test ssdp.c)
+target_include_directories(ssdp-test PRIVATE ${INCLUDE_DIR})
+target_link_libraries(ssdp-test cunit)
+target_link_libraries(ssdp-test packet_utils)
+target_link_libraries(ssdp-test header ssdp)
+install(TARGETS ssdp-test DESTINATION ${TEST_BIN_DIR})

@@ -19,5 +19,8 @@ target_include_directories(http PRIVATE ${INCLUDE_DIR} ${INCLUDE_PARSERS_DIR})
 # IGMP parser
 add_library(igmp STATIC ${INCLUDE_PARSERS_DIR}/igmp.h igmp.c)
 target_include_directories(igmp PRIVATE ${INCLUDE_DIR} ${INCLUDE_PARSERS_DIR})
+# SSDP parser
+add_library(ssdp STATIC ${INCLUDE_PARSERS_DIR}/ssdp.h ssdp.c)
+target_include_directories(ssdp PRIVATE ${INCLUDE_DIR} ${INCLUDE_PARSERS_DIR})
 # Installation
 install(TARGETS ${PARSERS} DESTINATION ${LIB_DIR})

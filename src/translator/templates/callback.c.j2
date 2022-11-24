@@ -15,11 +15,14 @@ uint32_t callback_{{policy_jinja}}(int pkt_id, uint8_t *payload, void *arg) {
     {% if multithread and policy.counters %}
     uint8_t thread_id = *((uint8_t *) arg);
     {% endif %}
+    {% if policy.custom_parser == 'ssdp' %}
+    uint32_t dst_addr = get_dst_addr(payload);  // IPv4 destination address, in network byte order
+    {% endif %}
     {% if policy.nfq_matches %}
     // Skip layer 3 and 4 headers
     size_t skipped = get_ip_header_length(payload);
     {% if policy.custom_parser == 'http' %}
-    uint16_t src_port = get_src_port(payload + skipped);
+    uint16_t dst_port = get_dst_port(payload + skipped);
     {% endif %}
     skipped += get_tcp_header_length(payload + skipped);
 
@@ -30,7 +33,9 @@ uint32_t callback_{{policy_jinja}}(int pkt_id, uint8_t *payload, void *arg) {
     {% else %}
     {{policy.custom_parser}}_message_t message = {{policy.custom_parser}}_parse_message(payload + skipped
     {%- if policy.custom_parser == 'http' -%}
-    , src_port
+    , dst_port
+    {%- elif policy.custom_parser == 'ssdp' -%}
+    , dst_addr
     {%- endif -%}
     );
     {{policy.custom_parser}}_print_message(message);

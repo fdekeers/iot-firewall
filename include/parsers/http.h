@@ -36,7 +36,7 @@ typedef enum {
 } http_method_t;
 
 /**
- * Useful fields of a HTTP message
+ * Abstraction of a HTTP message
  */
 typedef struct http_message {
     bool is_request;       // True if the message is a request, false if it is a response
@@ -53,10 +53,10 @@ typedef struct http_message {
  * @brief Parse the method and URI of HTTP message.
  * 
  * @param data pointer to the start of the HTTP message
- * @param src_port TCP source port
+ * @param src_port TCP destination port
  * @return the parsed HTTP message
  */
-http_message_t http_parse_message(uint8_t *data, uint16_t src_port);
+http_message_t http_parse_message(uint8_t *data, uint16_t dst_port);
 
 
 ///// PRINTING /////

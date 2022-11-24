@@ -14,7 +14,7 @@ class dns(Custom):
 
     def parse(self, direction: str = "out", initiator: str = "src") -> dict:
         """
-        Parse the DHCP protocol.
+        Parse the DNS protocol.
 
         Args:
             direction (str): Direction of the traffic (in, out, or both).
