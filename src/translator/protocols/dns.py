@@ -27,12 +27,17 @@ class dns(Custom):
         if direction == "both":
             rules["backward"] = "message.header.qr == 1"
         self.rules["nfq"].append(rules)
+
         # Handle DNS query type
         rule = "message.questions->qtype == {}"
+        # Lambda function to convert an DNS query type to its C representation (upper case)
+        func = lambda ssdp_method: ssdp_method.upper()
         rules = {"forward": rule, "backward": rule}
-        self.add_field("qtype", rules, direction)
+        self.add_field("qtype", rules, direction, func)
+
         # Handle DNS domain name
         rule = "dns_contains_domain_name(message.questions, message.header.qdcount, \"{}\")"
         rules = {"forward": rule, "backward": rule}
         self.add_field("domain-name", rules, direction)
+        
         return self.rules

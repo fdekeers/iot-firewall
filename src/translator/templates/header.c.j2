@@ -36,6 +36,7 @@
 #define NUM_STATES  {{states|length}}
 #define NFQ_ID_BASE {{nfq_id_base}}
 
+{% if states|length > 1 %}
 typedef enum {
 {% for state in states %}
     {{state}},
@@ -43,6 +44,7 @@ typedef enum {
 } state_t;
 
 state_t state = {{states[0]}};
+{% endif %}
 {% if max_threads > 1 %}
 uint8_t num_threads = 0;
 pthread_mutex_t mutex;

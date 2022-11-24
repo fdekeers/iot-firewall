@@ -55,20 +55,6 @@ individual-policies:
       ipv4:
         dst: uk.pool.ntp.org
     direction: both
-  
-  # Probably DHCP ACK
-  dhcp-ack:
-    protocols:
-      dhcp:
-        type: ack
-      udp:
-        src-port: 67
-        dst-port: 68
-      ipv4:
-        src: 0.0.0.0
-        dst: broadcast
-    direction: in
-
 
 
 interaction-policies:

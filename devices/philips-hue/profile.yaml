@@ -114,7 +114,7 @@ individual-policies:
   mdns-query:
     protocols:
       mdns:
-        qtype: any
+        qtype: ANY
         domain-name:
           - Philips Hue - 74C2DC._hue._tcp.local
           - 00178874c2dc.local

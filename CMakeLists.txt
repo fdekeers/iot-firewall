@@ -15,7 +15,7 @@ set(EXECUTABLE_OUTPUT_PATH ${BIN_DIR})
 add_compile_options(-Wall -Werror)
 
 # Custom parsers
-set(PARSERS header dns dhcp http igmp)
+set(PARSERS header dns dhcp http igmp ssdp)
 
 # Subdirectories containing code
 add_subdirectory(src)
