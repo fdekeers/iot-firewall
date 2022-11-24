@@ -27,7 +27,7 @@
 typedef enum {
     M_SEARCH,
     NOTIFY,
-    UNKNOWN
+    SSDP_UNKNOWN
 } ssdp_method_t;
 
 /**

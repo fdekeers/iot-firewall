@@ -18,8 +18,8 @@ jobs:
       - name: Create dummy network interface
         run: sudo $GITHUB_WORKSPACE/test/create_interface.sh
 
-      - name: Translate profile
-        run: sudo python3 $GITHUB_WORKSPACE/src/translator/translator.py $GITHUB_WORKSPACE/devices/xiaomi-cam/profile.yaml
+      - name: Translate profiles
+        run: $GITHUB_WORKSPACE/.ci_scripts/full-test/translate_profiles.sh
 
       - name: Build project with CMake
         run: $GITHUB_WORKSPACE/.ci_scripts/full-test/build_project.sh

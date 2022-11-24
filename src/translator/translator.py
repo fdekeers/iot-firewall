@@ -4,8 +4,26 @@ from pathlib import Path
 import yaml
 import jinja2
 from Policy import Policy
-    
+import json
 
+
+def flatten_policies(single_policy_name: str, single_policy: dict, acc: dict = {}) -> None:
+    """
+    Flatten a nested single policy into a list of single policies.
+
+    Args:
+        single_policy (dict): Single policy to be flattened
+    Returns:
+        list: List of single policies
+    """
+    if "protocols" in single_policy:
+        acc[single_policy_name] = single_policy
+    else:
+        for subpolicy in single_policy:
+            flatten_policies(subpolicy, single_policy[subpolicy], acc)
+
+
+# Program entry point
 if __name__ == "__main__":
 
     # Get script path
@@ -131,19 +149,26 @@ if __name__ == "__main__":
                 custom_parsers = {}
                 policies = []
                 nft_chains[interaction_policy_name] = []
+                single_policies = {}
+
+                # First pass, to flatten nested policies
                 for single_policy_name in interaction_policy:
+                    flatten_policies(single_policy_name, interaction_policy[single_policy_name], single_policies)
+
+                # Second pass, parse policies
+                for single_policy_name in single_policies:
                     # Create policy and parse it
-                    profile_data = interaction_policy[single_policy_name]
+                    profile_data = single_policies[single_policy_name]
                     single_policy = Policy(single_policy_name, profile_data, device)
                     single_policy.parse()
                     policies.append(single_policy)
 
                     # Add states for this policy (if needed)
                     if not single_policy.periodic:
-                        if (i < len(interaction_policy) - 1) or (single_policy.direction == "both" and not single_policy.transient):
+                        if (i < len(single_policies) - 1) or (single_policy.direction == "both" and not single_policy.transient):
                             current_state += 1
                             states.append(f"STATE_{current_state}")
-                        if (i < len(interaction_policy) - 1) and (single_policy.direction == "both" and not single_policy.transient):
+                        if (i < len(single_policies) - 1) and (single_policy.direction == "both" and not single_policy.transient):
                             current_state += 1
                             states.append(f"STATE_{current_state}")
 

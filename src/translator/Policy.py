@@ -130,12 +130,18 @@ class Policy:
         """
         # Parse protocols
         for protocol_name in self.profile_data["protocols"]:
-            protocol = Protocol.init_protocol(protocol_name, self.profile_data["protocols"][protocol_name], self.device)
-            if protocol.custom_parser:
-                self.custom_parser = protocol_name
-            new_rules = protocol.parse(direction=self.direction, initiator=self.initiator)
-            self.nft_matches += new_rules["nft"]
-            self.nfq_matches += new_rules["nfq"]
+            try:
+                protocol = Protocol.init_protocol(protocol_name, self.profile_data["protocols"][protocol_name], self.device)
+            except ModuleNotFoundError:
+                # Unsupported protocol, skip it
+                continue
+            else:
+                # Supported protocol, parse it
+                if protocol.custom_parser:
+                    self.custom_parser = protocol_name
+                new_rules = protocol.parse(direction=self.direction, initiator=self.initiator)
+                self.nft_matches += new_rules["nft"]
+                self.nfq_matches += new_rules["nfq"]
         
         # Parse statistics
         if "stats" in self.profile_data:

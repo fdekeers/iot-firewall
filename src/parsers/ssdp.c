@@ -39,7 +39,7 @@ static ssdp_method_t ssdp_parse_method(uint8_t *data, uint16_t *offset) {
         break;
     default:
         // Unknown method
-        return UNKNOWN;
+        return SSDP_UNKNOWN;
     }
 }
 

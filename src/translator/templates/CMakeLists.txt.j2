@@ -13,6 +13,6 @@ target_link_libraries({{target}} pthread)
 target_link_libraries({{target}} nfqueue packet_utils rule_utils)
 target_link_libraries({{target}} ${PARSERS})
 target_include_directories({{target}} PRIVATE ${INCLUDE_DIR})
-install(TARGETS {{target}} DESTINATION ${XIAOMI_CAM_BIN_DIR})
+install(TARGETS {{target}} DESTINATION ${EXECUTABLE_OUTPUT_PATH})
 
 {% endfor %}

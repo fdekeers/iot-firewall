@@ -308,7 +308,7 @@ interaction-policies:
     ssdp-search:
       protocols:
         ssdp:
-          type: m-search
+          method: M_SEARCH
         udp:
           dst-port: 1900
         ipv4:
@@ -318,7 +318,7 @@ interaction-policies:
     ssdp-notify:
       protocols:
         ssdp:
-          type: notify
+          method: NOTIFY
         udp:
           src-port: 1900
           dst-port: 1900
@@ -342,7 +342,7 @@ interaction-policies:
     ssdp-search-phone:
       protocols:
         ssdp:
-          type: m-search
+          method: M_SEARCH
         udp:
           dst-port: 1900
         ipv4:
@@ -352,7 +352,7 @@ interaction-policies:
     ssdp-response-hue:
       protocols:
         ssdp:
-          # TODO: simple HTTP 200 response
+          response: true
         udp:
           src-port: 1900
         ipv4:
@@ -381,7 +381,7 @@ interaction-policies:
     ssdp-notify-hue:
       protocols:
         ssdp:
-          type: notify
+          method: NOTIFY
         udp:
           src-port: 1900
           dst-port: 1900

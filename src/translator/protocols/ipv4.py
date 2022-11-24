@@ -30,6 +30,7 @@ class ipv4(Protocol):
 
         Args:
             direction (str): Direction of the traffic (in, out, or both).
+            initiator (str): Initiator of the connection (src or dst).
         Returns:
             dict: Dictionary containing the (forward and backward) nftables and nfqueue rules for this policy.
         """

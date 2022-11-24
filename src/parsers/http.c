@@ -52,7 +52,7 @@ static http_method_t http_parse_method(uint8_t *data, uint16_t *offset) {
             break;
         default:
             // Unknown method
-            return UNKNOWN;
+            return HTTP_UNKNOWN;
         }
     case 'D':
         // Method is DELETE
@@ -76,7 +76,7 @@ static http_method_t http_parse_method(uint8_t *data, uint16_t *offset) {
         break;
     default:
         // Unknown method
-        return UNKNOWN;
+        return HTTP_UNKNOWN;
     }
 }
 

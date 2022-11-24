@@ -32,7 +32,7 @@ typedef enum {
     CONNECT,
     OPTIONS,
     TRACE,
-    UNKNOWN
+    HTTP_UNKNOWN
 } http_method_t;
 
 /**

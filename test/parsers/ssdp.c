@@ -91,7 +91,7 @@ void test_ssdp_response() {
     // Test if SSDP message has been correctly parsed
     ssdp_message_t expected;
     expected.is_request = false;
-    expected.method = UNKNOWN;
+    expected.method = SSDP_UNKNOWN;
     CU_ASSERT_EQUAL(actual.is_request, expected.is_request);
     CU_ASSERT_EQUAL(actual.method, expected.method);
 
