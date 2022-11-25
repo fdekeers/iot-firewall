@@ -8,4 +8,26 @@ device-info:
   last-update: "2022-03-15T10:27:29.170+01:00"
   cache-validity: 100
   is-supported: true
+
+individual-policies:
+
+  # DNS
+  dns-ipv4:
+    protocols:
+      dns:
+        qtype: A
+        domain-name:
+          - msh.amazon.com
+          - fos5echocaptiveportal.com
+          - ntp-g7g.amazon.com
+          - api.amazonalexa.com
+          - device-metrics-us.amazon.com
+      udp:
+        dst-port: 53
+      ipv4:
+        src: self
+        dst: gateway
+    direction: both
+
+
 ...

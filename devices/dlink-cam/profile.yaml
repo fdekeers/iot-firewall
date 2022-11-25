@@ -8,4 +8,332 @@ device-info:
   last-update: "2022-03-15T10:27:29.170+01:00"
   cache-validity: 100
   is-supported: true
+
+
+individual-policies:
+
+  # ARP from gateway to camera
+  arp-gateway-cam:
+    protocols:
+      arp:
+        type: request
+        sha: gateway
+        tha: default
+        spa: gateway
+        tpa: self
+    direction: both
+
+  # DNS
+  dns-ipv4: &dns-ipv4
+    protocols:
+      dns:
+        qtype: A
+        domain-name:
+          - ca-mgr.auto.mydlink.com
+          - mp-eu-sas.auto.mydlink.com
+          - mp-eu-sas-1.auto.mydlink.com
+          - mp-eu-dcdda.auto.mydlink.com
+          - mp-us-sas.auto.mydlink.com
+          - mp-eu-fwd.auto.mydlink.com
+      udp:
+        dst-port: 53
+      ipv4:
+        src: self
+        dst: gateway
+    direction: both
+
+  # mDNS
+  mdns-local:
+    protocols:
+      mdns:
+        qtype: PTR
+        domain-name: _dcp._tcp.local
+      udp:
+        src-port: 5353
+        dst-port: 5353
+      ipv4:
+        src: self
+        dst: mdns
+
+  # TCP traffic between phone and camera
+  tcp-traffic-phone-cam:
+    protocols:
+      tcp:
+        dst-port: 8080
+      ipv4:
+        src: local
+        dst: self
+    initiator: src
+    direction: both
+    stats:
+      rate: 30/second
+
+
+
+interaction-policies:
+
+  ##### BOOT TRAFFIC #####
+
+  # Retrieve IPv4 address with DHCP
+  get-ip-address:
+
+    dhcp-discover:
+      protocols:
+        dhcp:
+          type: discover
+          client-mac: self
+        udp:
+          src-port: 68
+          dst-port: 67
+        ipv4:
+          src: 0.0.0.0
+          dst: broadcast
+    
+    dhcp-offer:
+      protocols:
+        dhcp:
+          type: offer
+          client-mac: self
+        udp:
+          src-port: 67
+          dst-port: 68
+        ipv4:
+          src: gateway
+          dst: self
+
+    dhcp-request:
+      protocols:
+        dhcp:
+          type: request
+          client-mac: self
+        udp:
+          src-port: 68
+          dst-port: 67
+        ipv4:
+          src: 0.0.0.0
+          dst: broadcast
+
+    dhcp-ack:
+      protocols:
+        dhcp:
+          type: ack
+          client-mac: self
+        udp:
+          src-port: 67
+          dst-port: 68
+        ipv4:
+          src: gateway
+          dst: self
+    
+
+  # HTTP HEAD request towards ca-mgr.auto.mydlink.com
+  http-head-boot:
+
+    dns-cam-ca-mgr:
+      protocols:
+        dns:
+          qtype: A
+          domain-name: ca-mgr.auto.mydlink.com
+        udp:
+          dst-port: 53
+        ipv4:
+          src: self
+          dst: gateway
+      direction: both
+    
+    http-head-cam-cloud:
+      protocols:
+        http:
+          method: HEAD
+          uri: /default/ca-bundle.crt
+        tcp:
+          dst-port: 80
+        ipv4:
+          src: self
+          dst: ca-mgr.auto.mydlink.com
+      direction: both
+      initiator: src
+      stats:
+        packet-count: 10
+
+
+  # HTTPS traffic towards mp-eu-fwd.auto.mydlink.com at boot
+  https-boot-cam-fwd:
+
+    dns-cam-fwd:
+      protocols:
+        dns:
+          qtype: A
+          domain-name: mp-eu-fwd.auto.mydlink.com
+        udp:
+          dst-port: 53
+        ipv4:
+          src: self
+          dst: gateway
+      direction: both
+    
+    https-cam-fwd:
+      protocols:
+        tcp:
+          dst-port: 443
+        ipv4:
+          src: self
+          dst: mp-eu-fwd.auto.mydlink.com
+      direction: both
+      initiator: src
+      stats:
+        packet-count: 30
+
+
+  # mDNS
+  mdns-boot:
+
+    igmp-join-mdns:
+      protocols:
+        igmp:
+          type: membership report
+          group: mdns
+        ipv4:
+          src: self
+          dst: igmpv3
+    
+    mdns-queries:
+      protocols:
+        mdns:
+          qtype: ANY
+          domain-name:
+            - DCS-8000LH-B0C554435483.local
+            - DCS-8000LH-5483._http._tcp.local
+            - DCS-8000LH-5483._dcp._tcp.local
+            - 
+        udp:
+          src-port: 5353
+          dst-port: 5353
+        ipv4:
+          src: self
+          dst: mdns
+    
+    mdns-response:
+      protcols:
+        mdns:
+          response: true
+        udp:
+          src-port: 5353
+          dst-port: 5353
+        ipv4:
+          src: self
+          dst: mdns
+
+        
+  ##### BACKGROUND TRAFFIC #####
+
+  # HTTPS communication with mydlink servers
+  https-background:
+
+    dns-cam-mp-eu-dcdda:
+      protocols:
+        dns:
+          qtype: A
+          domain-name: mp-eu-dcdda.auto.mydlink.com
+        udp:
+          dst-port: 53
+        ipv4:
+          src: self
+          dst: gateway
+      direction: both
+
+    https-cam-server:
+      protocols:
+        tcp:
+          dst-port: 443
+        ipv4:
+          src: self
+          dst: mp-eu-dcdda.auto.mydlink.com
+      initiator: src
+      direction: both
+      stats:
+        rate: 20/second
+
+  
+  ##### INTERACTIONS WITH APP #####
+
+  # Open app in local network
+  open-app-local-network:
+
+    tcp-syn-phone-cam:
+      protocols:
+        tcp:
+          dst-port: 8080
+        ipv4:
+          src: local
+          dst: self
+      initiator: src
+    
+    arp-request-phone-cam-broadcast:
+      protocols:
+        arp:
+          type: request
+          sha: self
+          tha: default
+          spa: self
+          tpa: local
+    
+    arp-reply-phone-cam:
+      protocols:
+        arp:
+          type: reply
+          tha: self
+          spa: local
+          tpa: self
+    
+    tcp-rest-phone-cam:
+      protocols:
+        tcp:
+          dst-port: 8080
+        ipv4:
+          src: local
+          dst: self
+      initiator: src
+      direction: both
+      stats:
+        rate: 30/second
+
+  # Stream on app in local network
+  stream-app-local-network:
+
+    dns-cam-server:
+      protocols:
+        dns:
+          qtype: A
+          domain-name: mp-eu-sas.auto.mydlink.com
+        udp:
+          dst-port: 53
+        ipv4:
+          src: self
+          dst: gateway
+      direction: both
+
+    stun-bind-cam-server:
+      protocols:
+        udp:
+          dst-port: 3478
+        ipv4:
+          src: self
+          dst: mp-eu-sas.auto.mydlink.com
+      direction: both
+    
+    # UDP stream with 130.104.228.53
+    
+    udp-stream-cam-phone:
+      protocols:
+        udp:
+        ipv4:
+          src: self
+          dst: local
+      direction: both
+      stats:
+        rate: 150/second
+        packet-size: 1500
+          
+
 ...
