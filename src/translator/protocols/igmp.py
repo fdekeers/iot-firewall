@@ -16,7 +16,8 @@ class igmp(Custom):
     # Well-known groups
     groups = {
         "mdns": "224.0.0.251",
-        "ssdp": "239.255.255.250"
+        "ssdp": "239.255.255.250",
+        "coap": "224.0.1.187"
     }
 
 

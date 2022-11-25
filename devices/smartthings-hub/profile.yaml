@@ -40,4 +40,62 @@ individual-policies:
         dst: gateway
     direction: both
 
+  # HTTPS traffic between the hub and the SmartThings cloud
+  https-hub-cloud:
+    protocols:
+      tcp:
+        dst-port: 443
+      ipv4:
+        src: self
+        dst: api.smartthings.com
+    direction: both
+    initiator: src
+
+
+interaction-policies:
+
+  # Open SmartThings app on mobile phone in local network
+  open-app-local:
+
+    igmp-join-coap:
+      protocols:
+        igmp:
+          type: membership report
+          group: coap  # 224.0.1.187
+        ipv4:
+          src: local
+          dst: igmpv3  # 224.0.0.22
+
+    # ICMPv6: Multicast Listener Report Message
+    # CoAP / IPv6: GET /oic/res?rt=x.com.samsung.provisioninginfo
+
+    coap-multicast-ipv4:
+      protocols:
+        # TODO: CoAP
+        udp:
+          dst-port: 5683
+        ipv4:
+          src: local
+          dst: coap
+    
+    igmp-join-ssdp:
+      protocols:
+        igmp:
+          type: membership report
+          group: ssdp  # 239.255.255.250
+        ipv4:
+          src: local   # Phone running app
+          dst: igmpv3  # 224.0.0.22
+    
+    ssdp-msearch:
+      protocols:
+        ssdp:
+          method: M-SEARCH
+        udp:
+          dst-port: 1900
+        ipv4:
+          src: local  # Phone running app
+          dst: ssdp   # 239.255.255.250
+    
+
 ...
