@@ -205,7 +205,6 @@ interaction-policies:
             - DCS-8000LH-B0C554435483.local
             - DCS-8000LH-5483._http._tcp.local
             - DCS-8000LH-5483._dcp._tcp.local
-            - 
         udp:
           src-port: 5353
           dst-port: 5353
@@ -322,9 +321,9 @@ interaction-policies:
           dst: mp-eu-sas.auto.mydlink.com
       direction: both
     
-    # UDP stream with 130.104.228.53
-    
-    udp-stream-cam-phone:
+    # UDP stream from camera, to phone or gateway
+    # (Gateway is used as intermediary for NAT traversal)
+    udp-stream:
       protocols:
         udp:
         ipv4:

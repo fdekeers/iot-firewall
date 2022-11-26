@@ -22,10 +22,15 @@ class dns(Custom):
         Returns:
             dict: Dictionary containing the (forward and backward) nftables and nfqueue rules for this policy.
         """
-        # Handle QR flag (DNS rules will always be queries)
-        rules = {"forward": "message.header.qr == 0"}
-        if direction == "both":
-            rules["backward"] = "message.header.qr == 1"
+        # Handle QR flag
+        if "response" in self.protocol_data and self.protocol_data["response"]:
+            rules = {"forward": "message.header.qr == 1"}
+            if direction == "both":
+                rules["backward"] = "message.header.qr == 0"
+        else:
+            rules = {"forward": "message.header.qr == 0"}
+            if direction == "both":
+                rules["backward"] = "message.header.qr == 1"
         self.rules["nfq"].append(rules)
 
         # Handle DNS query type
