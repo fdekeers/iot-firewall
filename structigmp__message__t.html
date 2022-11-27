@@ -70,28 +70,38 @@ $(function() {
 </div><!--header-->
 <div class="contents">
 
-<p>IGMP message.  
+<p>Generic IGMP message.  
  <a href="structigmp__message__t.html#details">More...</a></p>
 
 <p><code>#include &lt;<a class="el" href="igmp_8h_source.html">igmp.h</a>&gt;</code></p>
+<div class="dynheader">
+Collaboration diagram for igmp_message_t:</div>
+<div class="dyncontent">
+<div class="center"><img src="structigmp__message__t__coll__graph.png" border="0" usemap="#igmp__message__t_coll__map" alt="Collaboration graph"/></div>
+<map name="igmp__message__t_coll__map" id="igmp__message__t_coll__map">
+<area shape="rect" title="Generic IGMP message." alt="" coords="207,288,341,315"/>
+<area shape="rect" href="unionigmp__message__body__t.html" title="IGMP message body." alt="" coords="188,199,360,225"/>
+<area shape="rect" href="structigmp__v3__membership__query__t.html" title="IGMPv3 membership query." alt="" coords="5,95,172,136"/>
+<area shape="rect" href="structigmp__v2__message__t.html" title="IGMPv2 message." alt="" coords="196,102,352,129"/>
+<area shape="rect" href="structigmp__v3__membership__report__t.html" title="IGMPv3 membership report." alt="" coords="376,95,543,136"/>
+<area shape="rect" href="structigmp__v3__group__record__t.html" title="IGMPv3 Group Record." alt="" coords="368,5,551,32"/>
+</map>
+<center><span class="legend">[<a href="graph_legend.html">legend</a>]</span></center></div>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-attribs"></a>
 Public Attributes</h2></td></tr>
+<tr class="memitem:a4f6d1c54cc3372e660cf7d8851f7b87b"><td class="memItemLeft" align="right" valign="top"><a id="a4f6d1c54cc3372e660cf7d8851f7b87b"></a>
+uint8_t&#160;</td><td class="memItemRight" valign="bottom"><b>version</b></td></tr>
+<tr class="separator:a4f6d1c54cc3372e660cf7d8851f7b87b"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ac137782d14ee68d7af7717a0269a268b"><td class="memItemLeft" align="right" valign="top"><a id="ac137782d14ee68d7af7717a0269a268b"></a>
 <a class="el" href="igmp_8h.html#a1ca89dc083739f4ec72e4d3bff367f1f">igmp_message_type_t</a>&#160;</td><td class="memItemRight" valign="bottom"><b>type</b></td></tr>
 <tr class="separator:ac137782d14ee68d7af7717a0269a268b"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a8bc48babb16129ddfc198b5acf485c76"><td class="memItemLeft" align="right" valign="top"><a id="a8bc48babb16129ddfc198b5acf485c76"></a>
-uint8_t&#160;</td><td class="memItemRight" valign="bottom"><b>max_resp_time</b></td></tr>
-<tr class="separator:a8bc48babb16129ddfc198b5acf485c76"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:afb3daaf9edd4a863b2f8ed0f07b4a115"><td class="memItemLeft" align="right" valign="top"><a id="afb3daaf9edd4a863b2f8ed0f07b4a115"></a>
-uint16_t&#160;</td><td class="memItemRight" valign="bottom"><b>checksum</b></td></tr>
-<tr class="separator:afb3daaf9edd4a863b2f8ed0f07b4a115"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:afe43472408029946ac446a45dab4783e"><td class="memItemLeft" align="right" valign="top"><a id="afe43472408029946ac446a45dab4783e"></a>
-uint32_t&#160;</td><td class="memItemRight" valign="bottom"><b>group_address</b></td></tr>
-<tr class="separator:afe43472408029946ac446a45dab4783e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad13ea6e033a170bd0f2396839e842693"><td class="memItemLeft" align="right" valign="top"><a id="ad13ea6e033a170bd0f2396839e842693"></a>
+<a class="el" href="unionigmp__message__body__t.html">igmp_message_body_t</a>&#160;</td><td class="memItemRight" valign="bottom"><b>body</b></td></tr>
+<tr class="separator:ad13ea6e033a170bd0f2396839e842693"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock"><p>IGMP message. </p>
+<div class="textblock"><p>Generic IGMP message. </p>
 </div><hr/>The documentation for this struct was generated from the following file:<ul>
 <li>include/parsers/<a class="el" href="igmp_8h_source.html">igmp.h</a></li>
 </ul>

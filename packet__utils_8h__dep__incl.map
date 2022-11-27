@@ -12,6 +12,6 @@
 <area shape="rect" id="node15" href="$test_2parsers_2http_8c.html" title="Unit tests for the HTTP parser." alt="" coords="1531,80,1671,107"/>
 <area shape="rect" id="node3" href="$src_2parsers_2dns_8c.html" title="DNS message parser." alt="" coords="5,162,136,189"/>
 <area shape="rect" id="node4" href="$test_2devices_2xiaomi-cam_2nfqueue_8c.html" title="Test nfqueue for the Xiaomi camera." alt="" coords="161,155,311,196"/>
-<area shape="rect" id="node7" href="$src_2parsers_2igmp_8c.html" title=" " alt="" coords="497,162,639,189"/>
+<area shape="rect" id="node7" href="$src_2parsers_2igmp_8c.html" title="IGMP message parser." alt="" coords="497,162,639,189"/>
 <area shape="rect" id="node10" href="$src_2parsers_2ssdp_8c.html" title="SSDP message parser." alt="" coords="833,162,972,189"/>
 </map>
