@@ -32,24 +32,6 @@ typedef enum {
 } igmp_message_type_t;
 
 /**
- * @brief IGMP message body.
- */
-typedef union {
-    igmp_v2_message_t v2_message;
-    igmp_v3_membership_query_t v3_membership_query;
-    igmp_v3_membership_report_t v3_membership_report;
-} igmp_message_body_t;
-
-/**
- * @brief Generic IGMP message
- */
-typedef struct {
-    uint8_t version;
-    igmp_message_type_t type;
-    igmp_message_body_t body;
-} igmp_message_t;
-
-/**
  * @brief IGMPv2 message
  */
 typedef struct {
@@ -90,6 +72,27 @@ typedef struct {
     uint16_t num_groups;
     igmp_v3_group_record_t *groups;  // Array of group records
 } igmp_v3_membership_report_t;
+
+/**
+ * @brief IGMP message body.
+ */
+typedef union
+{
+    igmp_v2_message_t v2_message;
+    igmp_v3_membership_query_t v3_membership_query;
+    igmp_v3_membership_report_t v3_membership_report;
+} igmp_message_body_t;
+
+/**
+ * @brief Generic IGMP message
+ */
+typedef struct
+{
+    uint8_t version;
+    igmp_message_type_t type;
+    igmp_message_body_t body;
+} igmp_message_t;
+
 
 ////////// FUNCTIONS //////////
 

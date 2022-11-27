@@ -40,14 +40,14 @@ static igmp_v2_message_t igmp_v2_parse_message(uint8_t *data) {
  */
 static igmp_v3_group_record_t* igmp_v3_parse_groups(uint16_t num_groups, uint8_t *data) {
     igmp_v3_group_record_t *groups = malloc(num_groups * sizeof(igmp_v3_group_record_t));
-    for (int i = 0; i < num_groups; i++) {
+    for (uint16_t i = 0; i < num_groups; i++) {
         igmp_v3_group_record_t *group = groups + i;
         group->type = *data;
         group->aux_data_len = *(data + 1);
         group->num_sources = ntohs(*((uint16_t *)(data + 2)));
         group->group_address = *((uint32_t *)(data + 4));  // Stored in network byte order
         group->sources = malloc(group->num_sources * sizeof(uint32_t));
-        for (int j = 0; j < group->num_sources; j++) {
+        for (uint16_t j = 0; j < group->num_sources; j++) {
             *((group->sources) + j) = *((uint32_t *)(data + 8 + j * 4));  // Stored in network byte order
         }
         data += 8 + group->num_sources * 4;
@@ -119,14 +119,14 @@ static void igmp_v2_print_message(igmp_v2_message_t v2_message) {
 static void igmp_v3_print_membership_report(igmp_v3_membership_report_t v3_message) {
     printf("  Checksum: %#hx\n", v3_message.checksum);
     printf("  Number of groups: %hu\n", v3_message.num_groups);
-    for (int i = 0; i < v3_message.num_groups; i++) {
+    for (uint16_t i = 0; i < v3_message.num_groups; i++) {
         igmp_v3_group_record_t group = *(v3_message.groups + i);
         printf("  Group %d:\n", i);
         printf("    Type: %#hhx\n", group.type);
         printf("    Aux data len: %hhu\n", group.aux_data_len);
         printf("    Number of sources: %hu\n", group.num_sources);
         printf("    Group address: %s\n", ipv4_net_to_str(group.group_address));
-        for (int j = 0; j < group.num_sources; j++) {
+        for (uint16_t j = 0; j < group.num_sources; j++) {
             printf("    Source %d: %s\n", j, ipv4_net_to_str(*(group.sources + j)));
         }
     }
