@@ -3,12 +3,13 @@
  * @author François De Keersmaeker (francois.dekeersmaeker@uclouvain.be)
  * @brief IGMP message parser
  * @date 2022-10-05
- * 
+ *
  * IGMP message parser.
- * Currently only supports v1 and v2.
- * 
+ * Supports v1 and v2, and v3 Membership Report messages.
+ * TODO: support v3 Membership Query messages.
+ *
  * @copyright Copyright (c) 2022
- * 
+ *
  */
 
 #ifndef _IOTFIREWALL_IGMP_
@@ -31,15 +32,64 @@ typedef enum {
 } igmp_message_type_t;
 
 /**
- * @brief IGMP message
+ * @brief IGMP message body.
+ */
+typedef union {
+    igmp_v2_message_t v2_message;
+    igmp_v3_membership_query_t v3_membership_query;
+    igmp_v3_membership_report_t v3_membership_report;
+} igmp_message_body_t;
+
+/**
+ * @brief Generic IGMP message
  */
 typedef struct {
+    uint8_t version;
     igmp_message_type_t type;
+    igmp_message_body_t body;
+} igmp_message_t;
+
+/**
+ * @brief IGMPv2 message
+ */
+typedef struct {
     uint8_t max_resp_time;
     uint16_t checksum;
     uint32_t group_address;  // IPv4 group address, in network byte order
-} igmp_message_t;
+} igmp_v2_message_t;
 
+/**
+ * @brief IGMPv3 membership query
+ */
+typedef struct {
+    uint8_t max_resp_code;
+    uint16_t checksum;
+    uint32_t group_address;  // IPv4 group address, in network byte order
+    uint8_t flags;  // Resv, S, QRV
+    uint8_t qqic;
+    uint16_t num_sources;
+    uint32_t *sources;  // Array of IPv4 addresses, in network byte order
+} igmp_v3_membership_query_t;
+
+/**
+ * @brief IGMPv3 Group Record
+ */
+typedef struct {
+    uint8_t type;
+    uint8_t aux_data_len;
+    uint16_t num_sources;
+    uint32_t group_address;  // IPv4 group address, in network byte order
+    uint32_t *sources;  // Array of IPv4 addresses, in network byte order
+} igmp_v3_group_record_t;
+
+/**
+ * @brief IGMPv3 membership report
+ */
+typedef struct {
+    uint16_t checksum;
+    uint16_t num_groups;
+    igmp_v3_group_record_t *groups;  // Array of group records
+} igmp_v3_membership_report_t;
 
 ////////// FUNCTIONS //////////
 
