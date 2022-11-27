@@ -191,6 +191,7 @@ interaction-policies:
     igmp-join-mdns:
       protocols:
         igmp:
+          version: 3
           type: membership report
           group: mdns
         ipv4:
@@ -213,7 +214,7 @@ interaction-policies:
           dst: mdns
     
     mdns-response:
-      protcols:
+      protocols:
         mdns:
           response: true
         udp:

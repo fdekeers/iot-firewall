@@ -4,7 +4,6 @@ from pathlib import Path
 import yaml
 import jinja2
 from Policy import Policy
-import json
 
 
 def flatten_policies(single_policy_name: str, single_policy: dict, acc: dict = {}) -> None:

@@ -93,6 +93,7 @@ individual-policies:
   igmp-join-multicast:
     protocols:
       igmp:
+        version: 3
         type: membership report
         group: mdns
       ipv4:
@@ -333,6 +334,7 @@ interaction-policies:
     igmp-join-ssdp:
       protocols:
         igmp:
+          version: 3
           type: membership report
           group: ssdp  # 239.255.255.250
         ipv4:
