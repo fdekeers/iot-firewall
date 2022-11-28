@@ -145,10 +145,6 @@ interaction-policies:
           src: alexa
           dst: gateway
       direction: both
-      stats:
-        packet-count:
-          out: 1
-          in: 1
 
     https-ipv4-alexa-unagi:
       protocols:

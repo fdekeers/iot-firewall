@@ -344,7 +344,7 @@ interaction-policies:
     ssdp-search-phone:
       protocols:
         ssdp:
-          method: M_SEARCH
+          method: M-SEARCH
         udp:
           dst-port: 1900
         ipv4:

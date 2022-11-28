@@ -10,6 +10,47 @@ device-info:
   is-supported: true
 
 
+patterns:
+
+  # Stream camera
+  stream-camera: &stream-camera
+    
+    dns-cam-server:
+      protocols:
+        dns:
+          qtype: A
+          domain-name: mp-eu-sas.auto.mydlink.com
+        udp:
+          dst-port: 53
+        ipv4:
+          src: self
+          dst: gateway
+      direction: both
+
+    stun-bind-cam-server:
+      protocols:
+        udp:
+          dst-port: 3478
+        ipv4:
+          src: self
+          dst: mp-eu-sas.auto.mydlink.com
+      direction: both
+    
+    # UDP stream from camera, to phone or gateway
+    # (Gateway is used as intermediary for NAT traversal)
+    udp-stream:
+      protocols:
+        udp:
+        ipv4:
+          src: self
+          dst: local
+      direction: both
+      stats:
+        rate: 150/second
+        packet-size: 1500
+
+
+
 individual-policies:
 
   # ARP from gateway to camera
@@ -24,7 +65,7 @@ individual-policies:
     direction: both
 
   # DNS
-  dns-ipv4: &dns-ipv4
+  dns-ipv4:
     protocols:
       dns:
         qtype: A
@@ -298,14 +339,33 @@ interaction-policies:
       stats:
         rate: 30/second
 
-  # Stream on app in local network
-  stream-app-local-network:
 
-    dns-cam-server:
+  # Stream on app in local network
+  stream-app-local:
+
+    stream: *stream-camera
+
+    tcp-stop-phone-cam:
+      protocols:
+        tcp:
+          dst-port: 8080
+        ipv4:
+          src: local
+          dst: self
+      initiator: src
+      direction: both
+      stats:
+        packet-count: 4
+
+
+  # Stream on app in external network
+  stream-app-external:
+
+    dns-cam-sas-1:
       protocols:
         dns:
-          qtype: A
-          domain-name: mp-eu-sas.auto.mydlink.com
+          qtype: A  # TODO: add AAAA
+          domain-name: mp-eu-sas-1.auto.mydlink.com
         udp:
           dst-port: 53
         ipv4:
@@ -313,27 +373,33 @@ interaction-policies:
           dst: gateway
       direction: both
 
-    stun-bind-cam-server:
+    http-relay-cam-sas-1:
       protocols:
-        udp:
-          dst-port: 3478
+        http:
+          method: GET
+          uri: /relay
+        tcp:
+          dst-port: 80
         ipv4:
           src: self
-          dst: mp-eu-sas.auto.mydlink.com
-      direction: both
-    
-    # UDP stream from camera, to phone or gateway
-    # (Gateway is used as intermediary for NAT traversal)
-    udp-stream:
-      protocols:
-        udp:
-        ipv4:
-          src: self
-          dst: local
+          dst: mp-eu-sas-1.auto.mydlink.com
+      initiator: src
       direction: both
       stats:
-        rate: 150/second
-        packet-size: 1500
-          
+        packet-count: 10
+
+    stream: *stream-camera
+
+    tcp-stop-cam-server:
+      protocols:
+        tcp:
+          dst-port: 80
+        ipv4:
+          src: self
+          dst: mp-eu-sas-1.auto.mydlink.com
+      direction: both
+      stats:
+        packet-count: 3
+
 
 ...

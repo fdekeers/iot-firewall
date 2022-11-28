@@ -9,6 +9,7 @@ device-info:
   cache-validity: 100
   is-supported: true
 
+
 individual-policies:
 
   # DNS
@@ -22,6 +23,7 @@ individual-policies:
           - ntp-g7g.amazon.com
           - api.amazonalexa.com
           - device-metrics-us.amazon.com
+          - arcus-uswest.amazon.com
       udp:
         dst-port: 53
       ipv4:
@@ -29,5 +31,132 @@ individual-policies:
         dst: gateway
     direction: both
 
+  # IGMP
+  igmp-join-all:
+    protocols:
+      igmp:
+        version: 3
+        type: membership report
+        group: ssdp
+      ipv4:
+        src: self
+        dst: igmpv3
+
+  # mDNS
+  mdns-all:
+    protocols:
+      mdns:
+        qtype: PTR
+        domain-name:
+          - _viziocast._tcp.local
+          - _amzn-alexa._tcp.local
+          - _matter._tcp.local
+          - _matterc._udp.local
+          - _ipp._tcp.local
+      udp:
+        src-port: 5353
+        dst-port: 5353
+      ipv4: 
+        src: self
+        dst: mdns
+
+  # SSDP
+  ssdp-all:
+    protocols:
+      ssdp:
+        type: M-SEARCH
+      udp:
+        dst-port: 1900
+      ipv4:
+
+        src: self
+        dst: ssdp
+
+  # NTP
+  ntp-all:
+    protocols:
+      udp:
+        dst-port: 123
+      ipv4:
+        src: self
+        dst: ntp-g7g.amazon.com
+    direction: both
+
+
+  #### HTTP ####
+
+  # HTTP connection test
+  http-conn-test:
+    protocols:
+      http:
+        method: GET
+        uri: /HTTPConnTest.txt
+      tcp:
+        dst-port: 80
+      ipv4:
+        src: self
+        dst: d3p8zr0ffa9t17.cloudfront.net
+    direction: both
+    initiator: src
+    stats:
+      packet-count: 10
+
+  # HTTP generate 204
+  http-generate-204:
+    protocols:
+      http:
+        method: GET
+        uri: /generate_204
+      tcp:
+        dst-port: 80
+      ipv4:
+        src: self
+        dst: fos5echocaptiveportal.com
+    direction: both
+    initiator: src
+    stats:
+      packet-count: 7
+
+  # HTTPS traffic with cloud
+  https-echo-cloud:
+    protocols:
+      tcp:
+        dst-port: 443
+      ipv4:
+        src: self
+        # dst: 52.119.197.96
+    direction: both
+    initiator: src
+    stats:
+      rate: 50/second burst 150 packets
+        
+
+interaction-policies:
+
+  speech-recognition:
+
+    dns-echo-unagi:
+      protocols:
+        dns:
+          qtype: A
+          domain-name: unagi-na.amazon.com
+        udp:
+          dst-port: 53
+        ipv4:
+          src: self
+          dst: gateway
+      direction: both
+
+    https-echo-unagi:
+      protocols:
+        tcp:
+          dst-port: 443
+        ipv4:
+          src: self
+          dst: unagi-na.amazon.com
+      direction: both
+      initiator: src
+      stats:
+        rate: 50/second
 
 ...
