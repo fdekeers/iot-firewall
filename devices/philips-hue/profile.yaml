@@ -331,47 +331,7 @@ interaction-policies:
   # Opening SmartThings app in local network
   open-smartthings-app-local:
 
-    igmp-join-coap:
-      protocols:
-        igmp:
-          version: 3
-          type: membership report
-          group: coap  # 224.0.1.187
-        ipv4:
-          src: local
-          dst: igmpv3  # 224.0.0.22
-
-    # ICMPv6: Multicast Listener Report Message
-    # CoAP / IPv6: GET /oic/res?rt=x.com.samsung.provisioninginfo
-
-    coap-multicast-ipv4:
-      protocols:
-        # TODO: CoAP
-        udp:
-          dst-port: 5683
-        ipv4:
-          src: local
-          dst: coap
-
-    igmp-join-ssdp:
-      protocols:
-        igmp:
-          version: 3
-          type: membership report
-          group: ssdp  # 239.255.255.250
-        ipv4:
-          src: local   # Mobile phone running the app
-          dst: igmpv3  # 224.0.0.22
-
-    ssdp-search-phone:
-      protocols:
-        ssdp:
-          method: M-SEARCH
-        udp:
-          dst-port: 1900
-        ipv4:
-          src: local  # Mobile phone running the app
-          dst: ssdp   # 239.255.255.250
+    open-app: !include ../smartthings-hub/profile.yaml#interaction-policies.open-app-local 
 
     ssdp-response-hue:
       protocols:

@@ -96,9 +96,8 @@ interaction-policies:
         duration: 1
   
 
-
   # Open SmartThings app on mobile phone in local network
-  open-app-local: &open-app-local
+  open-app-local:
 
     igmp-join-coap:
       protocols:

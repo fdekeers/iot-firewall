@@ -4,6 +4,7 @@ from pathlib import Path
 import yaml
 import jinja2
 from Policy import Policy
+from IncludeLoader import IncludeLoader
 
 
 def flatten_policies(single_policy_name: str, single_policy: dict, acc: dict = {}) -> None:
@@ -25,14 +26,15 @@ def flatten_policies(single_policy_name: str, single_policy: dict, acc: dict = {
 # Program entry point
 if __name__ == "__main__":
 
-    # Get script path
-    script_path = os.path.abspath(os.path.dirname(__file__))
-
     # Commande line arguments
     description = "Translate a device YAML profile to a corresponding nfqueue C code"
     parser = argparse.ArgumentParser(description=description)
     parser.add_argument("profile", help="Path to the device YAML profile")
     args = parser.parse_args()
+
+    # Retrieve paths
+    script_path = os.path.abspath(os.path.dirname(__file__))       # This script's path
+    devices_path = os.path.abspath(os.path.dirname(args.profile))  # Device profile's path
 
     # Jinja loader
     loader = jinja2.FileSystemLoader(searchpath=f"{script_path}/templates")
@@ -40,7 +42,9 @@ if __name__ == "__main__":
 
     # Load the device profile
     with open(args.profile, "r") as f:
-        profile = yaml.safe_load(f)
+        
+        # Load YAML profile with custom loader
+        profile = yaml.load(f, IncludeLoader)
 
         # Get device info
         device = {
