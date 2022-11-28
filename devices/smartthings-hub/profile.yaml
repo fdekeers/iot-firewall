@@ -11,11 +11,23 @@ device-info:
 
 individual-policies:
 
-  ##### DNS TRAFFIC #####
+  # ARP toward local IP addresses
+  arp-local:
+    protocols:
+      arp:
+        type: request
+        sha: self
+        tha: default
+        spa: self
+        tpa: local
+
+  # DNS
   dns-ipv4:
     protocols:
       dns:
-        qtype: A
+        qtype:
+          - A
+          - AAAA
         domain-name:
           - api.smartthings.com
           - fw-update2.smartthings.com
@@ -26,36 +38,67 @@ individual-policies:
         dst: gateway
     direction: both
 
-  dns-ipv6:
+  # mDNS
+  mdns-hub-hue:
     protocols:
-      dns:
-        qtype: AAAA
+      mdns:
+        qtype: PTR
         domain-name:
-          - api.smartthings.com
-          - fw-update2.smartthings.com
+          - _hue._tcp.local
       udp:
-        dst-port: 53
-      ipv6:
+        src-port: 5353
+        dst-port: 5353
+      ipv4: 
         src: self
-        dst: gateway
-    direction: both
+        dst: mdns
 
-  # HTTPS traffic between the hub and the SmartThings cloud
-  https-hub-cloud:
+  # SSDP
+  ssdp-search-hub:
     protocols:
-      tcp:
-        dst-port: 443
+      ssdp:
+        type: M-SEARCH
+      udp:
+        dst-port: 1900
       ipv4:
         src: self
-        dst: api.smartthings.com
-    direction: both
-    initiator: src
+        dst: ssdp
 
 
 interaction-policies:
 
+  # Background traffic with SmartThings cloud
+  background-hub-cloud:
+
+    dns-hub-cloud:
+      protocols:
+        dns:
+          qtype:
+            - A
+            - AAAA
+          domain-name: api.smartthings.com
+        udp:
+          dst-port: 53
+        ipv4:
+          src: self
+          dst: gateway
+      direction: both
+    
+    https-hub-cloud:
+      protocols:
+        tcp:
+          dst-port: 443
+        ipv4:
+          src: self
+          dst: api.smartthings.com
+      initiator: src
+      direction: both
+      stats:
+        duration: 1
+  
+
+
   # Open SmartThings app on mobile phone in local network
-  open-app-local:
+  open-app-local: &open-app-local
 
     igmp-join-coap:
       protocols:
@@ -97,6 +140,5 @@ interaction-policies:
         ipv4:
           src: local  # Phone running app
           dst: ssdp   # 239.255.255.250
-    
 
 ...

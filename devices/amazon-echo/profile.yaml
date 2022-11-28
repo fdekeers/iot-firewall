@@ -16,7 +16,9 @@ individual-policies:
   dns-ipv4:
     protocols:
       dns:
-        qtype: A
+        qtype:
+          - A
+          - AAAA
         domain-name:
           - msh.amazon.com
           - fos5echocaptiveportal.com

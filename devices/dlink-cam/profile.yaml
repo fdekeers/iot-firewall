@@ -364,7 +364,9 @@ interaction-policies:
     dns-cam-sas-1:
       protocols:
         dns:
-          qtype: A  # TODO: add AAAA
+          qtype:
+            - A
+            - AAAA
           domain-name: mp-eu-sas-1.auto.mydlink.com
         udp:
           dst-port: 53
