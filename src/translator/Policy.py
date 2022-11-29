@@ -50,7 +50,7 @@ class Policy:
         """
         Check whether the policy represents a periodic pattern.
         """
-        return "stats" in self.profile_data and "rate" in self.profile_data["stats"]
+        return "stats" in self.profile_data and "rate" in self.profile_data["stats"] and ("duration" not in self.profile_data["stats"] or "packet-count" not in self.profile_data["stats"])
 
     
     def handle_stat(self, stat: str) -> None:
