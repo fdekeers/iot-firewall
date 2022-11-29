@@ -31,7 +31,7 @@ individual-policies:
         spa: self
         tpa: local
 
-  # DNS
+  # DNS over IPv4
   dns-ipv4:
     protocols:
       dns:
@@ -48,13 +48,29 @@ individual-policies:
         dst: gateway
     direction: both
 
+  # DNS over IPv6
+  dns-ipv6:
+    protocols:
+      dns:
+        qtype:
+          - A
+          - AAAA
+        domain-name:
+          - api.smartthings.com
+          - fw-update2.smartthings.com
+      udp:
+        dst-port: 53
+      ipv6:
+        src: self
+        dst: gateway
+    direction: both
+
   # mDNS
   mdns-hub-hue:
     protocols:
       mdns:
         qtype: PTR
-        domain-name:
-          - _hue._tcp.local
+        domain-name: _hue._tcp.local
       udp:
         src-port: 5353
         dst-port: 5353
@@ -73,6 +89,17 @@ individual-policies:
         src: self
         dst: ssdp
 
+  # Background HTTPS traffic with server
+  background-https-hub-server:
+    protocols:
+      tcp:
+        dst-port: 443
+      ipv4:
+        src: self
+        dst: 54.217.91.49
+    direction: both
+
+
 
 interaction-policies:
 
@@ -88,7 +115,7 @@ interaction-policies:
           domain-name: api.smartthings.com
         udp:
           dst-port: 53
-        ipv4:
+        ipv6:
           src: self
           dst: gateway
       direction: both
@@ -104,6 +131,36 @@ interaction-policies:
       direction: both
       stats:
         duration: 1
+
+  # Traffic between Hub and update server
+  traffic-hub-update-server:
+
+    dns-hub-server:
+      protocols:
+        dns:
+          qtype:
+            - A
+            - AAAA
+          domain-name: fw-update2.smartthings.com
+        udp:
+          dst-port: 53
+        ipv6:
+          src: self
+          dst: gateway
+      direction: both
+    
+    https-hub-server:
+      protocols:
+        tcp:
+          dst-port: 443
+        ipv4:
+          src: self
+          dst: fw-update2.smartthings.com
+      initiator: src
+      direction: both
+      stats:
+        duration: 3
+
   
 
   # Open SmartThings app on mobile phone in local network
