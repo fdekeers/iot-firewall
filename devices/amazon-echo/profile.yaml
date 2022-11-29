@@ -3,6 +3,7 @@ device-info:
   device-name: amazon-echo
   mac-address: 50:dc:e7:a2:d8:95
   ip-address: 192.168.1.150
+  ipv6-address: fddd:ed18:f05b:0:adef:a05d:fcbe:afc9
   mud-version: 1
   mud-url: https://amazon-echo.com/amazon-echo
   last-update: "2022-03-15T10:27:29.170+01:00"
@@ -12,25 +13,66 @@ device-info:
 
 individual-policies:
 
-  # DNS
-  dns-ipv4:
+  # ARP toward local IP addresses
+  arp-local:
+    protocols:
+      arp:
+        type: request
+        sha: self
+        tha: default
+        spa: self
+        tpa: local
+  
+  # ARP reply from self
+  arp-reply:
+    protocols:
+      arp:
+        type: reply
+        sha: self
+        spa: self
+        tpa: local
+
+  # DNS, all domain names
+  dns-all:
     protocols:
       dns:
         qtype:
           - A
           - AAAA
         domain-name:
+          - api.amazonalexa.com
           - msh.amazon.com
           - fos5echocaptiveportal.com
           - ntp-g7g.amazon.com
-          - api.amazonalexa.com
           - device-metrics-us.amazon.com
           - arcus-uswest.amazon.com
+          - d3p8zr0ffa9t17.cloudfront.net
+          - dxz5jxhrrzigf.cloudfront.net
+          - kindle-time.amazon.com
+          - det-ta-g7g.amazon.com
+          - dp-gw-na.amazon.com
+          - dcape-na.amazon.com
+          - dss-na.amazon.com
+          - wl.amazon-dss.com
+          - latinum.amazon.com
+          - softwareupdates.amazon.com
+          - device-messaging-na.amazon.com
+          - prod.amcs-tachyon.com
       udp:
         dst-port: 53
-      ipv4:
+      ipv6:
         src: self
         dst: gateway
+    direction: both
+
+  # NTP
+  ntp-ipv4:
+    protocols:
+      udp:
+        dst-port: 123  # NTP server port
+      ipv4:
+        src: self
+        dst: ntp-g7g.amazon.com
     direction: both
 
   # IGMP
@@ -84,41 +126,6 @@ individual-policies:
         dst: ntp-g7g.amazon.com
     direction: both
 
-
-  #### HTTP ####
-
-  # HTTP connection test
-  http-conn-test:
-    protocols:
-      http:
-        method: GET
-        uri: /HTTPConnTest.txt
-      tcp:
-        dst-port: 80
-      ipv4:
-        src: self
-        dst: d3p8zr0ffa9t17.cloudfront.net
-    direction: both
-    initiator: src
-    stats:
-      packet-count: 10
-
-  # HTTP generate 204
-  http-generate-204:
-    protocols:
-      http:
-        method: GET
-        uri: /generate_204
-      tcp:
-        dst-port: 80
-      ipv4:
-        src: self
-        dst: fos5echocaptiveportal.com
-    direction: both
-    initiator: src
-    stats:
-      packet-count: 7
-
   # HTTPS traffic with cloud
   https-echo-cloud:
     protocols:
@@ -126,7 +133,7 @@ individual-policies:
         dst-port: 443
       ipv4:
         src: self
-        # dst: 52.119.197.96
+        # dst: 52.119.196.28
     direction: both
     initiator: src
     stats:
@@ -135,7 +142,128 @@ individual-policies:
 
 interaction-policies:
 
-  speech-recognition:
+  # HTTP ConnTest: HTTP GET request towards d3p8zr0ffa9t17.cloudfront.net
+  http-conn-test:
+
+    dns-echo-cloudfront:
+      protocols:
+        dns:
+          qtype: A
+          domain-name: d3p8zr0ffa9t17.cloudfront.net
+        udp:
+          dst-port: 53
+        ipv6:
+          src: self
+          dst: gateway
+      direction: both
+    
+    http-get-echo-cloudfront:
+      protocols:
+        http:
+          method: GET
+          uri: /HTTPConnTest.txt
+        tcp:
+          dst-port: 80
+        ipv4:
+          src: self
+          dst: d3p8zr0ffa9t17.cloudfront.net
+      direction: both
+      initiator: src
+      stats:
+        packet-count: 10
+
+  
+  # HTTP generate 204: HTTP GET request towards fos5echocaptiveportal.com
+  http-generate-204:
+
+    dns-echo-captiveportal:
+      protocols:
+        dns:
+          qtype: A
+          domain-name: fos5echocaptiveportal.com
+        udp:
+          dst-port: 53
+        ipv6:
+          src: self
+          dst: gateway
+      direction: both
+
+    http-get-echo-captiveportal:
+      protocols:
+        http:
+          method: GET
+          uri: /generate_204
+        tcp:
+          dst-port: 80
+        ipv4:
+          src: self
+          dst: fos5echocaptiveportal.com
+      direction: both
+      initiator: src
+      stats:
+        packet-count: 7
+
+
+  # HTTPS traffic with det-ta-g7g.amazon.com
+  https-det-ta-g7g:
+
+    dns-echo-det-ta-g7g:
+      protocols:
+        dns:
+          qtype: A
+          domain-name: det-ta-g7g.amazon.com
+        udp:
+          dst-port: 53
+        ipv6:
+          src: self
+          dst: gateway
+      direction: both
+
+    https-echo-det-ta-g7g:
+      protocols:
+        tcp:
+          dst-port: 443
+        ipv4:
+          src: self
+          dst: det-ta-g7g.amazon.com
+      direction: both
+      initiator: src
+      stats:
+        rate: 100/second
+        duration: 10
+
+
+  # HTTPS traffic with arcus-uswest.amazon.com
+  https-arcus-uswest:
+
+    dns-echo-arcus-uswest:
+      protocols:
+        dns:
+          qtype: A
+          domain-name: arcus-uswest.amazon.com
+        udp:
+          dst-port: 53
+        ipv6:
+          src: self
+          dst: gateway
+      direction: both
+
+    https-echo-arcus-uswest:
+      protocols:
+        tcp:
+          dst-port: 443
+        ipv4:
+          src: self
+          dst: arcus-uswest.amazon.com
+      direction: both
+      initiator: src
+      stats:
+        rate: 25/second
+        duration: 15
+
+
+  # Triggered when a voice command is issued
+  voice-command:
 
     dns-echo-unagi:
       protocols:

@@ -20,6 +20,15 @@ individual-policies:
         tha: default
         spa: self
         tpa: local
+  
+  # ARP reply from self
+  arp-reply:
+    protocols:
+      arp:
+        type: reply
+        sha: self
+        spa: self
+        tpa: local
 
   # DNS
   dns-ipv4:

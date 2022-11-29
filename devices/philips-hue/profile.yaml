@@ -17,7 +17,9 @@ individual-policies:
   dns-ipv4:
     protocols:
       dns:
-        qtype: A
+        qtype:
+          - A
+          - AAAA
         domain-name:
           - mqtt.2030.ltsapis.goog
           - time1.google.com
@@ -41,35 +43,6 @@ individual-policies:
         src: self
         dst: gateway
     direction: both
-
-  dns-ipv6:
-    protocols:
-      dns:
-        qtype: AAAA
-        domain-name:
-          - mqtt.2030.ltsapis.goog
-          - time1.google.com
-          - time2.google.com
-          - time3.google.com
-          - time4.google.com
-          - ntp1.aliyun.com
-          - ntp2.aliyun.com
-          - ntp3.aliyun.com
-          - ntp4.aliyun.com
-          - www.philips-hue.com
-          - www.ecdinterface.philips.com
-          - ws.meethue.com
-          - time.meethue.com
-          - data.meethue.com
-          - diag.meethue.com
-          - dcp.dc1.philips.com
-      udp:
-        dst-port: 53
-      ipv6:
-        src: self
-        dst: gateway
-    direction: both
-
 
   # NTP: retrieve current time
   ntp-all-servers:
