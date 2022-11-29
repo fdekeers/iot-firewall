@@ -39,8 +39,8 @@ class arp(Protocol):
         """
         # Lambda function to explicit a self or a well-known MAC address
         func_mac = lambda mac: self.device['mac'] if mac == "self" else ( self.mac_addrs[mac] if mac in self.mac_addrs else mac )
-        # Lambda function to explicit a self or a well-known IP address
-        func_ip = lambda ip: self.device['ip'] if ip == "self" else ( self.ip_addrs[ip] if ip in self.ip_addrs else ip )
+        # Lambda function to explicit a self or a well-known IPv4 address
+        func_ip = lambda ip: self.device['ipv4'] if ip == "self" else ( self.ip_addrs[ip] if ip in self.ip_addrs else ip )
         # Handle ARP message type
         rules = {"forward": "arp operation {}", "backward": "arp operation {}"}
         # Lambda function to flip the ARP type (for the backward rule)

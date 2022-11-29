@@ -1,10 +1,9 @@
 from protocols.Protocol import Protocol
-from protocols.igmp import igmp
 
-class ipv4(Protocol):
+class ipv6(Protocol):
 
     # Class variables
-    protocol_name = "ipv4"  # Protocol name
+    protocol_name = "ipv6"  # Protocol name
     layer = 3               # Protocol OSI layer
     custom_parser = False   # Whether the protocol has a custom parser
     
@@ -16,17 +15,15 @@ class ipv4(Protocol):
 
     # Well-known addresses
     addrs = {
-        "local": "192.168.1.1/24",
-        "gateway": "192.168.1.1",
-        "broadcast": "192.168.1.255",
-        "igmpv3": "224.0.0.22",
-        **igmp.groups
+        "local": "fe80::/10",
+        "gateway": "fddd:ed18:f05b::1",
+        "mdns": "ff02::fb"
     }
 
 
     def parse(self, direction: str = "out", initiator: str = "src") -> dict:
         """
-        Parse the IPv4 protocol.
+        Parse the IPv6 protocol.
 
         Args:
             direction (str): Direction of the traffic (in, out, or both).
@@ -35,7 +32,7 @@ class ipv4(Protocol):
             dict: Dictionary containing the (forward and backward) nftables and nfqueue rules for this policy.
         """
         # Lambda function to explicit a self or a well-known IP address
-        func = lambda ip: self.device['ipv4'] if ip == "self" else ( self.addrs[ip] if ip in self.addrs else ip )
+        func = lambda ip: self.device['ipv6'] if ip == "self" else ( self.addrs[ip] if ip in self.addrs else ip )
 
         # Connection initiator is specified
         if initiator:

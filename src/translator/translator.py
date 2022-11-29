@@ -47,11 +47,7 @@ if __name__ == "__main__":
         profile = yaml.load(f, IncludeLoader)
 
         # Get device info
-        device = {
-            "name": profile["device-info"]["device-name"],
-            "mac":  profile["device-info"]["mac-address"],
-            "ip":   profile["device-info"]["ip-address"]
-        }
+        device = profile["device-info"]
 
         # Create device directory
         device_path = f"{script_path}/../../devices/{device['name']}"

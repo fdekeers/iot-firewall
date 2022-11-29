@@ -1,8 +1,8 @@
 ---
 device-info:
-  device-name: philips-hue
-  mac-address: 00:17:88:74:c2:dc
-  ip-address: 192.168.1.141
+  name: philips-hue
+  mac: 00:17:88:74:c2:dc
+  ipv4: 192.168.1.141
   mud-version: 1
   mud-url: https://philips-hue.com/philips-hue
   last-update: "2022-03-15T10:27:29.170+01:00"

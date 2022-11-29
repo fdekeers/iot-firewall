@@ -1,9 +1,9 @@
 ---
 device-info:
-  device-name: amazon-echo
-  mac-address: 50:dc:e7:a2:d8:95
-  ip-address: 192.168.1.150
-  ipv6-address: fddd:ed18:f05b:0:adef:a05d:fcbe:afc9
+  name: amazon-echo
+  mac: 50:dc:e7:a2:d8:95
+  ipv4: 192.168.1.150
+  ipv6: fddd:ed18:f05b:0:adef:a05d:fcbe:afc9
   mud-version: 1
   mud-url: https://amazon-echo.com/amazon-echo
   last-update: "2022-03-15T10:27:29.170+01:00"

@@ -1,8 +1,9 @@
 ---
 device-info:
-  device-name: smartthings-hub
-  mac-address: d0:52:a8:72:aa:27
-  ip-address: 192.168.1.147
+  name: smartthings-hub
+  mac: d0:52:a8:72:aa:27
+  ipv4: 192.168.1.147
+  ipv6: fddd:ed18:f05b:0:d8a3:adc0:f68f:e5cf
   mud-version: 1
   mud-url: https://smartthings-hub.com/smartthings-hub
   last-update: "2022-03-15T10:27:29.170+01:00"
