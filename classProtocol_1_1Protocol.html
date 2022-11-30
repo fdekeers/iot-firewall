@@ -81,6 +81,8 @@ Public Member Functions</h2></td></tr>
 <tr class="separator:afbcdfcdf2d618ed0ae797f04d8ce70e2"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ac37cd1d7bc350d716d85ed7ab06ace43"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classProtocol_1_1Protocol.html">Protocol</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classProtocol_1_1Protocol.html#ac37cd1d7bc350d716d85ed7ab06ace43">init_protocol</a> (c, str protocol_name, dict protocol_data, dict device)</td></tr>
 <tr class="separator:ac37cd1d7bc350d716d85ed7ab06ace43"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a56c6c30ca8e356b98cff0cebfef5d685"><td class="memItemLeft" align="right" valign="top">str&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classProtocol_1_1Protocol.html#a56c6c30ca8e356b98cff0cebfef5d685">format_list</a> (self, list l, func=lambda x:x)</td></tr>
+<tr class="separator:a56c6c30ca8e356b98cff0cebfef5d685"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a632eca2de8c8423dd3b36126f333b032"><td class="memItemLeft" align="right" valign="top">None&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classProtocol_1_1Protocol.html#a632eca2de8c8423dd3b36126f333b032">add_field</a> (self, str field, dict template_rules, str direction=&quot;out&quot;, func=lambda x:x, backward_func=lambda x:x)</td></tr>
 <tr class="separator:a632eca2de8c8423dd3b36126f333b032"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a69fcac6dc0ec01098716eba434d1cb57"><td class="memItemLeft" align="right" valign="top">dict&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classProtocol_1_1Protocol.html#a69fcac6dc0ec01098716eba434d1cb57">parse</a> (self, str direction=&quot;out&quot;, str initiator=&quot;src&quot;)</td></tr>
@@ -201,6 +203,47 @@ Args:
     backward_func (lambda): Function to apply to the field value in the case of a backwards rule.
            Will be applied after the forward function.
            Optional, default is the identity function.
+</pre> 
+</div>
+</div>
+<a id="a56c6c30ca8e356b98cff0cebfef5d685"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a56c6c30ca8e356b98cff0cebfef5d685">&#9670;&nbsp;</a></span>format_list()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"> str Protocol.Protocol.format_list </td>
+          <td>(</td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname"><em>self</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">list&#160;</td>
+          <td class="paramname"><em>l</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname"><em>func</em> = <code>lambda&#160;x:&#160;x</code>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<pre class="fragment">Format a list of values.
+
+Args:
+    l (list): List of values.
+    func (lambda): Function to apply to each value.
+Returns:
+    str: Formatted list.
 </pre> 
 </div>
 </div>

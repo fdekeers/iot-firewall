@@ -95,6 +95,8 @@ Collaboration diagram for ip.ip:</div>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
+<tr class="memitem:a8a25b04cd09e5ee92aed785376a76f4e"><td class="memItemLeft" align="right" valign="top">str&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classip_1_1ip.html#a8a25b04cd09e5ee92aed785376a76f4e">explicit_address</a> (self, str addr)</td></tr>
+<tr class="separator:a8a25b04cd09e5ee92aed785376a76f4e"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:abc7f4fffc019e6e8295980cccc6a3d57"><td class="memItemLeft" align="right" valign="top">dict&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classip_1_1ip.html#abc7f4fffc019e6e8295980cccc6a3d57">parse</a> (self, str direction=&quot;out&quot;, str initiator=&quot;src&quot;)</td></tr>
 <tr class="separator:abc7f4fffc019e6e8295980cccc6a3d57"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
@@ -110,6 +112,41 @@ bool&#160;</td><td class="memItemRight" valign="bottom"><b>custom_parser</b> = F
 <tr class="separator:a4aa0f6feced8d1f1f2258b394c5c85a2"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <h2 class="groupheader">Member Function Documentation</h2>
+<a id="a8a25b04cd09e5ee92aed785376a76f4e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a8a25b04cd09e5ee92aed785376a76f4e">&#9670;&nbsp;</a></span>explicit_address()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"> str ip.ip.explicit_address </td>
+          <td>(</td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname"><em>self</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">str&#160;</td>
+          <td class="paramname"><em>addr</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<pre class="fragment">Return the explicit version of an IP address alias.
+Example: "local" -&gt; "192.168.0.0/16"
+
+Args:
+    addr (str): IP address alias to explicit.
+Returns:
+    str: Explicit IP address.
+</pre> 
+</div>
+</div>
 <a id="abc7f4fffc019e6e8295980cccc6a3d57"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#abc7f4fffc019e6e8295980cccc6a3d57">&#9670;&nbsp;</a></span>parse()</h2>
 
