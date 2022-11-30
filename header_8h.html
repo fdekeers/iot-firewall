@@ -138,6 +138,8 @@ Functions</h2></td></tr>
 <tr class="separator:a92340a38e51458b30d481b7867cb4273"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ad9f5cf0d8e9b470adcc5701472178b07"><td class="memItemLeft" align="right" valign="top">size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="header_8h.html#ad9f5cf0d8e9b470adcc5701472178b07">get_tcp_header_length</a> (uint8_t *data)</td></tr>
 <tr class="separator:ad9f5cf0d8e9b470adcc5701472178b07"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a409a51b3c020961f1c68f1855f127b02"><td class="memItemLeft" align="right" valign="top">size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="header_8h.html#a409a51b3c020961f1c68f1855f127b02">get_l3_header_length</a> (uint8_t *data)</td></tr>
+<tr class="separator:a409a51b3c020961f1c68f1855f127b02"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ab8b6a2141761f749c749e3e62e0dbbd9"><td class="memItemLeft" align="right" valign="top">size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="header_8h.html#ab8b6a2141761f749c749e3e62e0dbbd9">get_headers_length</a> (uint8_t *data)</td></tr>
 <tr class="separator:ab8b6a2141761f749c749e3e62e0dbbd9"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a0f3d899403bc9e24a790cddda3003a00"><td class="memItemLeft" align="right" valign="top">uint16_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="header_8h.html#a0f3d899403bc9e24a790cddda3003a00">get_udp_payload_length</a> (uint8_t *data)</td></tr>
@@ -312,6 +314,32 @@ Functions</h2></td></tr>
   </dd>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>the size, in bytes, of the IPv6 header </dd></dl>
+
+</div>
+</div>
+<a id="a409a51b3c020961f1c68f1855f127b02"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a409a51b3c020961f1c68f1855f127b02">&#9670;&nbsp;</a></span>get_l3_header_length()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">size_t get_l3_header_length </td>
+          <td>(</td>
+          <td class="paramtype">uint8_t *&#160;</td>
+          <td class="paramname"><em>data</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Retrieve the length of a packet's layer 3 header (IPv4 or IPv6).</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">data</td><td>a pointer to the start of the packet's layer 3 header </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>the size, in bytes, of the layer 3 header </dd></dl>
 
 </div>
 </div>
