@@ -38,6 +38,24 @@ class Protocol:
         return cls(protocol_data, device)
 
     
+    def format_list(self, l: list, func = lambda x: x) -> str:
+        """
+        Format a list of values.
+
+        Args:
+            l (list): List of values.
+            func (lambda): Function to apply to each value.
+        Returns:
+            str: Formatted list.
+        """
+        value = ""
+        for i in range(len(l)):
+            if i != 0:
+                value += ", "
+            value += str(func(l[i]))
+        return value
+
+    
     def add_field(self, field: str, template_rules: dict, direction: str = "out", func = lambda x: x, backward_func = lambda x: x) -> None:
         """
         Add a new nftables rule to the nftables rules accumulator.
@@ -58,13 +76,7 @@ class Protocol:
             # If value from YAML profile is a list, add each element
             if type(value) == list:
                 # Value is a list
-                value_list = value
-                value = "{ "
-                for i in range(len(value_list)):
-                    if i != 0:
-                        value += ", "
-                    value += str(func(value_list[i]))
-                value += " }"
+                value = self.format_list(value, func)
             else:
                 # Value is a single element
                 value = func(value)

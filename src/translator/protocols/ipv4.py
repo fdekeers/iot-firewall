@@ -9,7 +9,7 @@ class ipv4(ip):
 
     # Well-known addresses
     addrs = {
-        "local": "192.168.1.1/24",
+        "local": ["192.168.0.0/16", "130.104.96.0/22"],
         "gateway": "192.168.1.1",
         "broadcast": "192.168.1.255",
         "igmpv3": "224.0.0.22",

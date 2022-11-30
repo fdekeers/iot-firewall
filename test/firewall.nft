@@ -2,20 +2,13 @@
 
 table netdev test {
 
-    counter dns_responses {
-    }
-
-    counter dns_requests {
-    }
-
     chain test {
 
         # Chain configuration
-        type filter hook ingress device enxb04f13ec4713 priority 0; policy accept;
+        type filter hook ingress device enp0s8 priority 0; policy accept;
 
         # Rules
-        udp dport 53 counter name dns_requests accept;
-        udp sport 53 counter name dns_responses accept;
+        ip saddr { 192.168.1.2, , }
 
     }
 

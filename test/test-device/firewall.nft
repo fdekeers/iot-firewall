@@ -1,0 +1,19 @@
+#!/usr/sbin/nft -f
+
+table netdev test {
+
+    # Counters
+
+    # Chains
+    chain test-policy {
+        
+        # Chain configuration
+        type filter hook ingress device enp0s8 priority 0; policy drop;
+
+        # Rules
+        ip protocol tcp tcp sport 80 tcp dport 80 ip saddr { 192.168.0.0/16, 130.104.96.0/22, 192.168.1.150 } accept
+
+    }
+    
+
+}

@@ -13,6 +13,28 @@ class ip(Protocol):
     ]
 
 
+    def explicit_address(self, addr: str) -> str:
+        """
+        Return the explicit version of an IP address alias.
+        Example: "local" -> "192.168.0.0/16"
+
+        Args:
+            addr (str): IP address alias to explicit.
+        Returns:
+            str: Explicit IP address.
+        """
+        if addr == "self":
+            return self.device[self.protocol_name]
+        elif addr in self.addrs:
+            explicit = self.addrs[addr]
+            if type(explicit) == list:
+                # List of correspondig explicit addresses
+                return self.format_list(explicit)
+            else:
+                # Single corresponding explicit address
+                return explicit
+
+
     def parse(self, direction: str = "out", initiator: str = "src") -> dict:
         """
         Parse the IP (v4 or v6) protocol.
@@ -23,34 +45,34 @@ class ip(Protocol):
         Returns:
             dict: Dictionary containing the (forward and backward) nftables and nfqueue rules for this policy.
         """
-        # Lambda function to explicit a self or a well-known IP address
-        func = lambda ip: self.device[self.protocol_name] if ip == "self" else ( self.addrs[ip] if ip in self.addrs else ip )
+        src = "saddr {{ {} }}"
+        dst = "daddr {{ {} }}"
 
         # Connection initiator is specified
         if initiator:
             # Template rules
             template_rules = {
-                "src": {"forward": f"ct original {self.nft_prefix} saddr {{}}", "backward": f"ct original {self.nft_prefix} daddr {{}}"},
-                "dst": {"forward": f"ct original {self.nft_prefix} daddr {{}}", "backward": f"ct original {self.nft_prefix} saddr {{}}"}
+                "src": {"forward": f"ct original {self.nft_prefix} {src}", "backward": f"ct original {self.nft_prefix} {dst}"},
+                "dst": {"forward": f"ct original {self.nft_prefix} {dst}", "backward": f"ct original {self.nft_prefix} {src}"}
             }
             if ((initiator == "src" and (direction == "out" or direction == "both")) or
                 (initiator == "dst" and direction == "in")):
                 # Connection initiator is the source device
-                self.add_field("src", template_rules["src"], direction, func)
-                self.add_field("dst", template_rules["dst"], direction, func)
+                self.add_field("src", template_rules["src"], direction, self.explicit_address)
+                self.add_field("dst", template_rules["dst"], direction, self.explicit_address)
             elif ((initiator == "src" and direction == "in") or
                   (initiator == "dst" and (direction == "out" or direction == "both"))):
                 # Connection initiator is the destination device
-                self.add_field("src", template_rules["dst"], direction, func)
-                self.add_field("dst", template_rules["src"], direction, func)
+                self.add_field("src", template_rules["dst"], direction, self.explicit_address)
+                self.add_field("dst", template_rules["src"], direction, self.explicit_address)
 
         # Connection initiator is not specified
         else:
             # Handle IPv4 source address
-            rules = {"forward": f"{self.nft_prefix} saddr {{}}", "backward": f"{self.nft_prefix} daddr {{}}"}
-            self.add_field("src", rules, direction, func)
+            rules = {"forward": f"{self.nft_prefix} {src}", "backward": f"{self.nft_prefix} {dst}"}
+            self.add_field("src", rules, direction, self.explicit_address)
             # Handle IPv4 destination address
-            rules = {"forward": f"{self.nft_prefix} daddr {{}}", "backward": f"{self.nft_prefix} saddr {{}}"}
-            self.add_field("dst", rules, direction, func)
+            rules = {"forward": f"{self.nft_prefix} {dst}", "backward": f"{self.nft_prefix} {src}"}
+            self.add_field("dst", rules, direction, self.explicit_address)
         
         return self.rules

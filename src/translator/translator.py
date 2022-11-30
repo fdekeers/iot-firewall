@@ -34,7 +34,7 @@ if __name__ == "__main__":
 
     # Retrieve paths
     script_path = os.path.abspath(os.path.dirname(__file__))       # This script's path
-    devices_path = os.path.abspath(os.path.dirname(args.profile))  # Device profile's path
+    device_path = os.path.abspath(os.path.dirname(args.profile))   # Device profile's path
 
     # Jinja loader
     loader = jinja2.FileSystemLoader(searchpath=f"{script_path}/templates")
@@ -50,7 +50,6 @@ if __name__ == "__main__":
         device = profile["device-info"]
 
         # Create device directory
-        device_path = f"{script_path}/../../devices/{device['name']}"
         nfqueues_path = f"{device_path}/nfqueues"
         Path(nfqueues_path).mkdir(parents=True, exist_ok=True)
 
