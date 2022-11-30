@@ -27,6 +27,7 @@ uint32_t callback_{{policy_jinja}}(int pkt_id, uint8_t *payload, void *arg) {
     {% elif policy.custom_parser == 'coap' %}
     uint16_t coap_length = get_udp_payload_length(payload + l3_header_length);
     {% endif %}
+    {% endif %}
     size_t skipped = get_headers_length(payload);
 
     // Parse message
