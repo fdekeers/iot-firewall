@@ -31,7 +31,7 @@ void test_http_request() {
     size_t length = hexstr_to_payload(hexstring, &payload);
     CU_ASSERT_EQUAL(length, strlen(hexstring) / 2);  // Verify message length
 
-    size_t skipped = get_ip_header_length(payload);
+    size_t skipped = get_ipv4_header_length(payload);
     uint16_t dst_port = get_dst_port(payload + skipped);
     skipped += get_tcp_header_length(payload + skipped);
     http_message_t actual = http_parse_message(payload + skipped, dst_port);
@@ -56,7 +56,7 @@ void test_http_response() {
     size_t length = hexstr_to_payload(hexstring, &payload);
     CU_ASSERT_EQUAL(length, strlen(hexstring) / 2); // Verify message length
 
-    size_t skipped = get_ip_header_length(payload);
+    size_t skipped = get_ipv4_header_length(payload);
     uint16_t dst_port = get_dst_port(payload + skipped);
     skipped += get_tcp_header_length(payload + skipped);
     http_message_t actual = http_parse_message(payload + skipped, dst_port);

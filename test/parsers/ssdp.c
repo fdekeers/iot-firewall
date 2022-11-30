@@ -31,8 +31,8 @@ void test_ssdp_msearch() {
     size_t length = hexstr_to_payload(hexstring, &payload);
     CU_ASSERT_EQUAL(length, strlen(hexstring) / 2);  // Verify message length
 
-    uint32_t dst_addr = get_dst_addr(payload); // IPv4 destination address, in network byte order
-    size_t skipped = get_ip_header_length(payload);
+    uint32_t dst_addr = get_ipv4_dst_addr(payload); // IPv4 destination address, in network byte order
+    size_t skipped = get_ipv4_header_length(payload);
     skipped += get_udp_header_length(payload + skipped);
     ssdp_message_t actual = ssdp_parse_message(payload + skipped, dst_addr);
     ssdp_print_message(actual);
@@ -57,8 +57,8 @@ void test_ssdp_notify() {
     size_t length = hexstr_to_payload(hexstring, &payload);
     CU_ASSERT_EQUAL(length, strlen(hexstring) / 2);  // Verify message length
 
-    uint32_t dst_addr = get_dst_addr(payload);  // IPv4 destination address, in network byte order
-    size_t skipped = get_ip_header_length(payload);
+    uint32_t dst_addr = get_ipv4_dst_addr(payload);  // IPv4 destination address, in network byte order
+    size_t skipped = get_ipv4_header_length(payload);
     skipped += get_udp_header_length(payload + skipped);
     ssdp_message_t actual = ssdp_parse_message(payload + skipped, dst_addr);
     ssdp_print_message(actual);
@@ -82,8 +82,8 @@ void test_ssdp_response() {
     size_t length = hexstr_to_payload(hexstring, &payload);
     CU_ASSERT_EQUAL(length, strlen(hexstring) / 2);  // Verify message length
 
-    uint32_t dst_addr = get_dst_addr(payload);  // IPv4 destination address, in network byte order
-    size_t skipped = get_ip_header_length(payload);
+    uint32_t dst_addr = get_ipv4_dst_addr(payload);  // IPv4 destination address, in network byte order
+    size_t skipped = get_ipv4_header_length(payload);
     skipped += get_udp_header_length(payload + skipped);
     ssdp_message_t actual = ssdp_parse_message(payload + skipped, dst_addr);
     ssdp_print_message(actual);

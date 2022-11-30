@@ -24,7 +24,8 @@
 #include <stdint.h>
 #include <arpa/inet.h>
 
-#define UDP_HEADER_LENGTH 8
+#define IPV6_HEADER_LENGTH 40
+#define UDP_HEADER_LENGTH  8
 
 
 /**
@@ -38,20 +39,28 @@ typedef enum {
 } ip_protocol_t;
 
 /**
- * Retrieve the length of a packet's IP header.
- * 
- * @param data a pointer to the start of the packet's IP (layer 3) header
- * @return the size, in bytes, of the IP header
+ * Retrieve the length of a packet's IPv4 header.
+ *
+ * @param data a pointer to the start of the packet's IPv4 header
+ * @return the size, in bytes, of the IPv4 header
  */
-size_t get_ip_header_length(uint8_t* data);
+size_t get_ipv4_header_length(uint8_t *data);
+
+/**
+ * Retrieve the length of a packet's IPv6 header.
+ *
+ * @param data a pointer to the start of the packet's IPv6 header
+ * @return the size, in bytes, of the IPv6 header
+ */
+size_t get_ipv6_header_length(uint8_t *data);
 
 /**
  * Retrieve the length of a packet's UDP header.
- * 
+ *
  * @param data a pointer to the start of the packet's UDP (layer 4) header
  * @return the size, in bytes, of the UDP header
  */
-size_t get_udp_header_length(uint8_t* data);
+size_t get_udp_header_length(uint8_t *data);
 
 /**
  * Retrieve the length of a packet's TCP header.
@@ -59,7 +68,7 @@ size_t get_udp_header_length(uint8_t* data);
  * @param data a pointer to the start of the packet's TCP (layer 4) header
  * @return the size, in bytes, of the UDP header
  */
-size_t get_tcp_header_length(uint8_t* data);
+size_t get_tcp_header_length(uint8_t *data);
 
 /**
  * Retrieve the length of a packet's layer-3 and layer-4 headers.
@@ -70,6 +79,14 @@ size_t get_tcp_header_length(uint8_t* data);
 size_t get_headers_length(uint8_t* data);
 
 /**
+ * @brief Retrieve the length of a UDP payload.
+ * 
+ * @param data pointer to the start of the UDP header
+ * @return length of the UDP payload, in bytes
+ */
+uint16_t get_udp_payload_length(uint8_t *data);
+
+/**
  * @brief Retrieve the source port from a layer 4 header.
  * 
  * @param data pointer to the start of the layer 4 header
@@ -78,11 +95,12 @@ size_t get_headers_length(uint8_t* data);
 uint16_t get_dst_port(uint8_t* data);
 
 /**
- * @brief Retrieve the destination IPv4 address from a layer 3 header.
+ * @brief Retrieve the destination address from an IPv4 header.
  *
- * @param data pointer to the start of the layer 3 header
+ * @param data pointer to the start of the IPv4 header
  * @return destination IPv4 address, in network byte order
  */
-uint32_t get_dst_addr(uint8_t *data);
+uint32_t get_ipv4_dst_addr(uint8_t *data);
+
 
 #endif /* _IOTFIREWALL_HEADER_ */

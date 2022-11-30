@@ -22,5 +22,9 @@ target_include_directories(igmp PRIVATE ${INCLUDE_DIR} ${INCLUDE_PARSERS_DIR})
 # SSDP parser
 add_library(ssdp STATIC ${INCLUDE_PARSERS_DIR}/ssdp.h ssdp.c)
 target_include_directories(ssdp PRIVATE ${INCLUDE_DIR} ${INCLUDE_PARSERS_DIR})
+# CoAP parser
+add_library(coap STATIC ${INCLUDE_PARSERS_DIR}/coap.h coap.c)
+target_include_directories(coap PRIVATE ${INCLUDE_DIR} ${INCLUDE_PARSERS_DIR})
+target_link_libraries(coap http)
 # Installation
 install(TARGETS ${PARSERS} DESTINATION ${LIB_DIR})

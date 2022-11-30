@@ -70,9 +70,9 @@ http_message_t http_parse_message(uint8_t *data, uint16_t dst_port);
 char* http_method_to_str(http_method_t method);
 
 /**
- * @brief Print the method and URI of a HTTP message.
+ * @brief Print an HTTP message.
  * 
- * @param message the message to print
+ * @param message the HTTP message to print
  */
 void http_print_message(http_message_t message);
 

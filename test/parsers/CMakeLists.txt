@@ -40,3 +40,11 @@ target_link_libraries(ssdp-test cunit)
 target_link_libraries(ssdp-test packet_utils)
 target_link_libraries(ssdp-test header ssdp)
 install(TARGETS ssdp-test DESTINATION ${TEST_BIN_DIR})
+
+# CoAP
+add_executable(coap-test coap.c)
+target_include_directories(coap-test PRIVATE ${INCLUDE_DIR})
+target_link_libraries(coap-test cunit)
+target_link_libraries(coap-test packet_utils)
+target_link_libraries(coap-test header coap)
+install(TARGETS coap-test DESTINATION ${TEST_BIN_DIR})

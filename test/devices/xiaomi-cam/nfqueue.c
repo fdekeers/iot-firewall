@@ -31,7 +31,7 @@
 uint32_t callback(int pkt_id, uint8_t *payload, void *arg) {
     printf("Received packet\n");
     // Skip layer 3 and 4 headers
-    size_t skipped = get_ip_header_length(payload);
+    size_t skipped = get_ipv4_header_length(payload);
     skipped += get_udp_header_length(payload + skipped);
 
     print_payload(100, payload);
