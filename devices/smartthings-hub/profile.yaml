@@ -162,7 +162,6 @@ interaction-policies:
         duration: 3
 
   
-
   # Open SmartThings app on mobile phone in local network
   open-app-local:
 
@@ -177,14 +176,16 @@ interaction-policies:
           dst: igmpv3  # 224.0.0.22
 
     # ICMPv6: Multicast Listener Report Message
-    # CoAP / IPv6: GET /oic/res?rt=x.com.samsung.provisioninginfo
 
     coap-multicast-ipv4:
       protocols:
-        # TODO: CoAP
+        coap:
+          type: NON
+          method: GET
+          uri: /oic/res?rt=x.com.samsung.provisioninginfo
         udp:
           dst-port: 5683
-        ipv4:
+        ipv6:
           src: local
           dst: coap
     

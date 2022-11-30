@@ -20,11 +20,14 @@ uint32_t callback_{{policy_jinja}}(int pkt_id, uint8_t *payload, void *arg) {
     {% endif %}
     {% if policy.nfq_matches %}
     // Skip layer 3 and 4 headers
-    size_t skipped = get_ipv4_header_length(payload);
+    {% if policy.custom_parser == 'http' or policy.custom_parser == 'coap' %}
+    size_t l3_header_length = get_l3_header_length(payload);
     {% if policy.custom_parser == 'http' %}
-    uint16_t dst_port = get_dst_port(payload + skipped);
+    uint16_t dst_port = get_dst_port(payload + l3_header_length);
+    {% elif policy.custom_parser == 'coap' %}
+    uint16_t coap_length = get_udp_payload_length(payload + l3_header_length);
     {% endif %}
-    skipped += get_tcp_header_length(payload + skipped);
+    size_t skipped = get_headers_length(payload);
 
     // Parse message
     {% if policy.custom_parser == "mdns" %}
@@ -36,6 +39,8 @@ uint32_t callback_{{policy_jinja}}(int pkt_id, uint8_t *payload, void *arg) {
     , dst_port
     {%- elif policy.custom_parser == 'ssdp' -%}
     , dst_addr
+    {%- elif policy.custom_parser == 'coap' -%}
+    , coap_length
     {%- endif -%}
     );
     {{policy.custom_parser}}_print_message(message);

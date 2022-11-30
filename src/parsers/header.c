@@ -72,6 +72,27 @@ size_t get_tcp_header_length(uint8_t *data) {
 }
 
 /**
+ * Retrieve the length of a packet's layer 3 header (IPv4 or IPv6).
+ *
+ * @param data a pointer to the start of the packet's layer 3 header
+ * @return the size, in bytes, of the layer 3 header
+ */
+size_t get_l3_header_length(uint8_t *data) {
+    uint8_t ip_version = (*data) >> 4;
+    switch (ip_version) {
+    case 4:
+        return get_ipv4_header_length(data);
+        break;
+    case 6:
+        return get_ipv6_header_length(data);
+        break;
+    default:
+        return 0;
+        break;
+    }
+}
+
+/**
  * Retrieve the length of a packet's layer-3 and layer-4 headers.
  * 
  * @param data a pointer to the start of the packet's layer-3 header
