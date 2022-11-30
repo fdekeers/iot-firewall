@@ -73,7 +73,7 @@ $(function() {
 </div><!--header-->
 <div class="contents">
 
-<p>Parser for layer 3 and 4 headers (currently only IP, UDP and TCP)  
+<p>Parser for layer 3 and 4 headers (currently only IPv4, IPv6, UDP and TCP)  
 <a href="#details">More...</a></p>
 <div class="textblock"><code>#include &quot;<a class="el" href="header_8h_source.html">header.h</a>&quot;</code><br />
 </div><div class="textblock"><div class="dynheader">
@@ -81,7 +81,7 @@ Include dependency graph for header.c:</div>
 <div class="dyncontent">
 <div class="center"><img src="header_8c__incl.png" border="0" usemap="#src_2parsers_2header_8c" alt=""/></div>
 <map name="src_2parsers_2header_8c" id="src_2parsers_2header_8c">
-<area shape="rect" title="Parser for layer 3 and 4 headers (currently only IP, UDP and TCP)" alt="" coords="56,5,208,32"/>
+<area shape="rect" title="Parser for layer 3 and 4 headers (currently only IPv4, IPv6, UDP and TCP)" alt="" coords="56,5,208,32"/>
 <area shape="rect" href="header_8h.html" title="Parser for layer 3 and 4 headers (currently only IP, UDP and TCP)" alt="" coords="93,80,171,107"/>
 <area shape="rect" title=" " alt="" coords="5,155,72,181"/>
 <area shape="rect" title=" " alt="" coords="97,155,167,181"/>
@@ -91,26 +91,32 @@ Include dependency graph for header.c:</div>
 </div><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="func-members"></a>
 Functions</h2></td></tr>
-<tr class="memitem:aec0858aa33957b4af310b5fd4926b1d6"><td class="memItemLeft" align="right" valign="top">size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="header_8c.html#aec0858aa33957b4af310b5fd4926b1d6">get_ip_header_length</a> (uint8_t *data)</td></tr>
-<tr class="separator:aec0858aa33957b4af310b5fd4926b1d6"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1a10fac09a279624ea7c4deb9c656ea9"><td class="memItemLeft" align="right" valign="top">size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="header_8c.html#a1a10fac09a279624ea7c4deb9c656ea9">get_ipv4_header_length</a> (uint8_t *data)</td></tr>
+<tr class="separator:a1a10fac09a279624ea7c4deb9c656ea9"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9b11093cf6d67102f555f0070f920b7c"><td class="memItemLeft" align="right" valign="top">size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="header_8c.html#a9b11093cf6d67102f555f0070f920b7c">get_ipv6_header_length</a> (uint8_t *data)</td></tr>
+<tr class="separator:a9b11093cf6d67102f555f0070f920b7c"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a92340a38e51458b30d481b7867cb4273"><td class="memItemLeft" align="right" valign="top">size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="header_8c.html#a92340a38e51458b30d481b7867cb4273">get_udp_header_length</a> (uint8_t *data)</td></tr>
 <tr class="separator:a92340a38e51458b30d481b7867cb4273"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ad9f5cf0d8e9b470adcc5701472178b07"><td class="memItemLeft" align="right" valign="top">size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="header_8c.html#ad9f5cf0d8e9b470adcc5701472178b07">get_tcp_header_length</a> (uint8_t *data)</td></tr>
 <tr class="separator:ad9f5cf0d8e9b470adcc5701472178b07"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ab8b6a2141761f749c749e3e62e0dbbd9"><td class="memItemLeft" align="right" valign="top">size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="header_8c.html#ab8b6a2141761f749c749e3e62e0dbbd9">get_headers_length</a> (uint8_t *data)</td></tr>
 <tr class="separator:ab8b6a2141761f749c749e3e62e0dbbd9"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0f3d899403bc9e24a790cddda3003a00"><td class="memItemLeft" align="right" valign="top">uint16_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="header_8c.html#a0f3d899403bc9e24a790cddda3003a00">get_udp_payload_length</a> (uint8_t *data)</td></tr>
+<tr class="memdesc:a0f3d899403bc9e24a790cddda3003a00"><td class="mdescLeft">&#160;</td><td class="mdescRight">Retrieve the length of a UDP payload.  <a href="header_8c.html#a0f3d899403bc9e24a790cddda3003a00">More...</a><br /></td></tr>
+<tr class="separator:a0f3d899403bc9e24a790cddda3003a00"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ad5de26b107cc666f5ce7fca69d8f966c"><td class="memItemLeft" align="right" valign="top">uint16_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="header_8c.html#ad5de26b107cc666f5ce7fca69d8f966c">get_dst_port</a> (uint8_t *data)</td></tr>
 <tr class="memdesc:ad5de26b107cc666f5ce7fca69d8f966c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Retrieve the source port from a layer 4 header.  <a href="header_8c.html#ad5de26b107cc666f5ce7fca69d8f966c">More...</a><br /></td></tr>
 <tr class="separator:ad5de26b107cc666f5ce7fca69d8f966c"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:abe4c2ae5319a4f5eb9b4eec414e0968f"><td class="memItemLeft" align="right" valign="top">uint32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="header_8c.html#abe4c2ae5319a4f5eb9b4eec414e0968f">get_dst_addr</a> (uint8_t *data)</td></tr>
-<tr class="memdesc:abe4c2ae5319a4f5eb9b4eec414e0968f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Retrieve the destination IPv4 address from a layer 3 header.  <a href="header_8c.html#abe4c2ae5319a4f5eb9b4eec414e0968f">More...</a><br /></td></tr>
-<tr class="separator:abe4c2ae5319a4f5eb9b4eec414e0968f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:add5f619ffec03ebafe6800b64da02650"><td class="memItemLeft" align="right" valign="top">uint32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="header_8c.html#add5f619ffec03ebafe6800b64da02650">get_ipv4_dst_addr</a> (uint8_t *data)</td></tr>
+<tr class="memdesc:add5f619ffec03ebafe6800b64da02650"><td class="mdescLeft">&#160;</td><td class="mdescRight">Retrieve the destination address from an IPv4 header.  <a href="header_8c.html#add5f619ffec03ebafe6800b64da02650">More...</a><br /></td></tr>
+<tr class="separator:add5f619ffec03ebafe6800b64da02650"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock"><p>Parser for layer 3 and 4 headers (currently only IP, UDP and TCP) </p>
+<div class="textblock"><p>Parser for layer 3 and 4 headers (currently only IPv4, IPv6, UDP and TCP) </p>
 <dl class="section author"><dt>Author</dt><dd>François De Keersmaeker (<a href="#" onclick="location.href='mai'+'lto:'+'fra'+'nc'+'ois'+'.d'+'eke'+'er'+'sma'+'ek'+'er@'+'uc'+'lou'+'va'+'in.'+'be'; return false;">franc<span style="display: none;">.nosp@m.</span>ois.<span style="display: none;">.nosp@m.</span>dekee<span style="display: none;">.nosp@m.</span>rsma<span style="display: none;">.nosp@m.</span>eker@<span style="display: none;">.nosp@m.</span>uclo<span style="display: none;">.nosp@m.</span>uvain<span style="display: none;">.nosp@m.</span>.be</a>) Parser for layer 3 and 4 headers. Currently supported protocols:<ul>
 <li>Layer 3:<ul>
-<li>IP</li>
+<li>IPv4</li>
+<li>IPv6</li>
 </ul>
 </li>
 <li>Layer 4:<ul>
@@ -123,33 +129,6 @@ Functions</h2></td></tr>
 <dl class="section date"><dt>Date</dt><dd>2022-09-09</dd></dl>
 <dl class="section copyright"><dt>Copyright</dt><dd>Copyright (c) 2022 </dd></dl>
 </div><h2 class="groupheader">Function Documentation</h2>
-<a id="abe4c2ae5319a4f5eb9b4eec414e0968f"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#abe4c2ae5319a4f5eb9b4eec414e0968f">&#9670;&nbsp;</a></span>get_dst_addr()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">uint32_t get_dst_addr </td>
-          <td>(</td>
-          <td class="paramtype">uint8_t *&#160;</td>
-          <td class="paramname"><em>data</em></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Retrieve the destination IPv4 address from a layer 3 header. </p>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">data</td><td>pointer to the start of the layer 3 header </td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="section return"><dt>Returns</dt><dd>destination IPv4 address, in network byte order </dd></dl>
-
-</div>
-</div>
 <a id="ad5de26b107cc666f5ce7fca69d8f966c"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#ad5de26b107cc666f5ce7fca69d8f966c">&#9670;&nbsp;</a></span>get_dst_port()</h2>
 
@@ -203,14 +182,14 @@ Functions</h2></td></tr>
 
 </div>
 </div>
-<a id="aec0858aa33957b4af310b5fd4926b1d6"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aec0858aa33957b4af310b5fd4926b1d6">&#9670;&nbsp;</a></span>get_ip_header_length()</h2>
+<a id="add5f619ffec03ebafe6800b64da02650"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#add5f619ffec03ebafe6800b64da02650">&#9670;&nbsp;</a></span>get_ipv4_dst_addr()</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">size_t get_ip_header_length </td>
+          <td class="memname">uint32_t get_ipv4_dst_addr </td>
           <td>(</td>
           <td class="paramtype">uint8_t *&#160;</td>
           <td class="paramname"><em>data</em></td><td>)</td>
@@ -218,14 +197,67 @@ Functions</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-<p>Retrieve the length of a packet's IP header.</p>
+
+<p>Retrieve the destination address from an IPv4 header. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">data</td><td>a pointer to the start of the packet's IP (layer 3) header </td></tr>
+    <tr><td class="paramname">data</td><td>pointer to the start of the IPv4 header </td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd>the size, in bytes, of the IP header </dd></dl>
+<dl class="section return"><dt>Returns</dt><dd>destination IPv4 address, in network byte order </dd></dl>
+
+</div>
+</div>
+<a id="a1a10fac09a279624ea7c4deb9c656ea9"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a1a10fac09a279624ea7c4deb9c656ea9">&#9670;&nbsp;</a></span>get_ipv4_header_length()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">size_t get_ipv4_header_length </td>
+          <td>(</td>
+          <td class="paramtype">uint8_t *&#160;</td>
+          <td class="paramname"><em>data</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Retrieve the length of a packet's IPv4 header.</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">data</td><td>a pointer to the start of the packet's IPv4 header </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>the size, in bytes, of the IPv4 header </dd></dl>
+
+</div>
+</div>
+<a id="a9b11093cf6d67102f555f0070f920b7c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a9b11093cf6d67102f555f0070f920b7c">&#9670;&nbsp;</a></span>get_ipv6_header_length()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">size_t get_ipv6_header_length </td>
+          <td>(</td>
+          <td class="paramtype">uint8_t *&#160;</td>
+          <td class="paramname"><em>data</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Retrieve the length of a packet's IPv6 header.</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">data</td><td>a pointer to the start of the packet's IPv6 header </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>the size, in bytes, of the IPv6 header </dd></dl>
 
 </div>
 </div>
@@ -278,6 +310,33 @@ Functions</h2></td></tr>
   </dd>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>the size, in bytes, of the UDP header </dd></dl>
+
+</div>
+</div>
+<a id="a0f3d899403bc9e24a790cddda3003a00"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a0f3d899403bc9e24a790cddda3003a00">&#9670;&nbsp;</a></span>get_udp_payload_length()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">uint16_t get_udp_payload_length </td>
+          <td>(</td>
+          <td class="paramtype">uint8_t *&#160;</td>
+          <td class="paramname"><em>data</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Retrieve the length of a UDP payload. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">data</td><td>pointer to the start of the UDP header </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>length of the UDP payload, in bytes </dd></dl>
 
 </div>
 </div>

@@ -1,10 +1,11 @@
 <map id="include/parsers/header.h" name="include/parsers/header.h">
-<area shape="rect" id="node1" title="Parser for layer 3 and 4 headers (currently only IP, UDP and TCP)" alt="" coords="504,5,685,32"/>
-<area shape="rect" id="node2" href="$header_8c.html" title="Parser for layer 3 and 4 headers (currently only IP, UDP and TCP)" alt="" coords="5,87,157,114"/>
+<area shape="rect" id="node1" title="Parser for layer 3 and 4 headers (currently only IP, UDP and TCP)" alt="" coords="591,5,772,32"/>
+<area shape="rect" id="node2" href="$header_8c.html" title="Parser for layer 3 and 4 headers (currently only IPv4, IPv6, UDP and TCP)" alt="" coords="5,87,157,114"/>
 <area shape="rect" id="node3" href="$test_2devices_2xiaomi-cam_2nfqueue_8c.html" title="Test nfqueue for the Xiaomi camera." alt="" coords="182,80,333,121"/>
-<area shape="rect" id="node4" href="$test_2parsers_2dhcp_8c.html" title="Unit tests for the DHCP parser." alt="" coords="357,87,502,114"/>
-<area shape="rect" id="node5" href="$test_2parsers_2dns_8c.html" title="Unit tests for the DNS parser." alt="" coords="526,87,663,114"/>
-<area shape="rect" id="node6" href="$test_2parsers_2http_8c.html" title="Unit tests for the HTTP parser." alt="" coords="687,87,827,114"/>
-<area shape="rect" id="node7" href="$test_2parsers_2igmp_8c.html" title="Unit tests for the IGMP parser." alt="" coords="852,87,999,114"/>
-<area shape="rect" id="node8" href="$test_2parsers_2ssdp_8c.html" title="Unit tests for the SSDP parser." alt="" coords="1023,87,1167,114"/>
+<area shape="rect" id="node4" href="$test_2parsers_2coap_8c.html" title="Unit tests for the CoAP parser." alt="" coords="357,87,502,114"/>
+<area shape="rect" id="node5" href="$test_2parsers_2dhcp_8c.html" title="Unit tests for the DHCP parser." alt="" coords="526,87,671,114"/>
+<area shape="rect" id="node6" href="$test_2parsers_2dns_8c.html" title="Unit tests for the DNS parser." alt="" coords="695,87,833,114"/>
+<area shape="rect" id="node7" href="$test_2parsers_2http_8c.html" title="Unit tests for the HTTP parser." alt="" coords="857,87,997,114"/>
+<area shape="rect" id="node8" href="$test_2parsers_2igmp_8c.html" title="Unit tests for the IGMP parser." alt="" coords="1021,87,1168,114"/>
+<area shape="rect" id="node9" href="$test_2parsers_2ssdp_8c.html" title="Unit tests for the SSDP parser." alt="" coords="1192,87,1336,114"/>
 </map>

@@ -100,9 +100,12 @@ This graph shows which files directly or indirectly include this file:</div>
 <div class="dyncontent">
 <div class="center"><img src="http_8h__dep__incl.png" border="0" usemap="#include_2parsers_2http_8hdep" alt=""/></div>
 <map name="include_2parsers_2http_8hdep" id="include_2parsers_2http_8hdep">
-<area shape="rect" title="HTTP message parser." alt="" coords="71,5,234,32"/>
-<area shape="rect" href="src_2parsers_2http_8c.html" title="HTTP message parser." alt="" coords="5,80,140,107"/>
-<area shape="rect" href="test_2parsers_2http_8c.html" title="Unit tests for the HTTP parser." alt="" coords="164,80,304,107"/>
+<area shape="rect" title="HTTP message parser." alt="" coords="252,5,415,32"/>
+<area shape="rect" href="coap_8h.html" title="CoAP message parser." alt="" coords="73,80,241,107"/>
+<area shape="rect" href="src_2parsers_2http_8c.html" title="HTTP message parser." alt="" coords="266,80,401,107"/>
+<area shape="rect" href="test_2parsers_2http_8c.html" title="Unit tests for the HTTP parser." alt="" coords="425,80,565,107"/>
+<area shape="rect" href="src_2parsers_2coap_8c.html" title="CoAP message parser." alt="" coords="5,155,144,181"/>
+<area shape="rect" href="test_2parsers_2coap_8c.html" title="Unit tests for the CoAP parser." alt="" coords="169,155,314,181"/>
 </map>
 </div>
 </div>
@@ -154,7 +157,7 @@ Functions</h2></td></tr>
 <tr class="memdesc:a4375d4f0e618f839a229a9eefe7402e5"><td class="mdescLeft">&#160;</td><td class="mdescRight">Converts a HTTP method from enum value to character string.  <a href="http_8h.html#a4375d4f0e618f839a229a9eefe7402e5">More...</a><br /></td></tr>
 <tr class="separator:a4375d4f0e618f839a229a9eefe7402e5"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ababffd4e5795f2e8961c4079547b540a"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="http_8h.html#ababffd4e5795f2e8961c4079547b540a">http_print_message</a> (<a class="el" href="http_8h.html#aa60e9ae3a4aba97f98db8ee08d49f0d5">http_message_t</a> message)</td></tr>
-<tr class="memdesc:ababffd4e5795f2e8961c4079547b540a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Print the method and URI of a HTTP message.  <a href="http_8h.html#ababffd4e5795f2e8961c4079547b540a">More...</a><br /></td></tr>
+<tr class="memdesc:ababffd4e5795f2e8961c4079547b540a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Print an HTTP message.  <a href="http_8h.html#ababffd4e5795f2e8961c4079547b540a">More...</a><br /></td></tr>
 <tr class="separator:ababffd4e5795f2e8961c4079547b540a"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
@@ -284,7 +287,14 @@ Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Print the method and URI of a HTTP message. </p>
+<p>Print an HTTP message. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">message</td><td>the HTTP message to print</td></tr>
+  </table>
+  </dd>
+</dl>
+<p>Print an HTTP message.</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">message</td><td>the message to print </td></tr>

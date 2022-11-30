@@ -1,5 +1,4 @@
 var searchData=
 [
-  ['igmp_5fmessage_5ftype_5ft_375',['igmp_message_type_t',['../igmp_8h.html#a1ca89dc083739f4ec72e4d3bff367f1f',1,'igmp.h']]],
-  ['ip_5fprotocol_5ft_376',['ip_protocol_t',['../header_8h.html#a4cadafd910a357a4e71c12d51a6ef606',1,'header.h']]]
+  ['http_5fmethod_5ft_396',['http_method_t',['../http_8h.html#a2fd930fba66817097e73ba9b75800eb2',1,'http.h']]]
 ];
