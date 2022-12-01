@@ -1,6 +1,14 @@
 # Minimum required CMake version
 cmake_minimum_required(VERSION 3.2)
 
+# Header
+add_executable(header-test header.c)
+target_include_directories(header-test PRIVATE ${INCLUDE_DIR})
+target_link_libraries(header-test cunit)
+target_link_libraries(header-test packet_utils)
+target_link_libraries(header-test header)
+install(TARGETS header-test DESTINATION ${TEST_BIN_DIR})
+
 # DNS
 add_executable(dns-test dns.c)
 target_include_directories(dns-test PRIVATE ${INCLUDE_DIR})
