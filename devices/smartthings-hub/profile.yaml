@@ -10,6 +10,24 @@ device-info:
   cache-validity: 100
   is-supported: true
 
+
+patterns:
+
+  dns-ipv6:
+    protocols:
+      dns:
+        qtype:
+          - A
+          - AAAA
+        domain-name: # Will be populated by parsing #
+      udp:
+        dst-port: 53
+      ipv6:
+        src: self
+        dst: gateway
+    direction: both
+
+
 individual-policies:
 
   # ARP toward local IP addresses
@@ -106,19 +124,7 @@ interaction-policies:
   # Background traffic with SmartThings cloud
   background-hub-cloud:
 
-    dns-hub-cloud:
-      protocols:
-        dns:
-          qtype:
-            - A
-            - AAAA
-          domain-name: api.smartthings.com
-        udp:
-          dst-port: 53
-        ipv6:
-          src: self
-          dst: gateway
-      direction: both
+    dns-hub-cloud: !include patterns.dns-ipv6 protocols.dns.domain-name:api.smartthings.com
     
     https-hub-cloud:
       protocols:
@@ -135,19 +141,7 @@ interaction-policies:
   # Traffic between Hub and update server
   traffic-hub-update-server:
 
-    dns-hub-server:
-      protocols:
-        dns:
-          qtype:
-            - A
-            - AAAA
-          domain-name: fw-update2.smartthings.com
-        udp:
-          dst-port: 53
-        ipv6:
-          src: self
-          dst: gateway
-      direction: both
+    dns-hub-server: !include patterns.dns-ipv6 protocols.dns.domain-name:fw-update2.smartthings.com
     
     https-hub-server:
       protocols:

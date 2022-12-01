@@ -17,12 +17,14 @@ patterns:
     protocols:
       dns:
         qtype: A
-        domain-name: domain-name
+        domain-name: # Will be populated by parsing #
       udp:
         dst-port: 53
       ipv6:
         src: self
-        dst: gateway
+        dst:
+          - gateway
+          - 8.8.8.8
     direction: both
 
 
@@ -172,19 +174,7 @@ interaction-policies:
   # HTTP ConnTest: HTTP GET request towards d3p8zr0ffa9t17.cloudfront.net
   http-conn-test:
 
-    #dns: !include patterns.dns-ipv6
-
-    dns-echo-cloudfront:
-      protocols:
-        dns:
-          qtype: A
-          domain-name: d3p8zr0ffa9t17.cloudfront.net
-        udp:
-          dst-port: 53
-        ipv6:
-          src: self
-          dst: gateway
-      direction: both
+    dns-echo-cloudfront: !include patterns.dns-ipv6 protocols.dns.domain-name:d3p8zr0ffa9t17.cloudfront.net
     
     http-get-echo-cloudfront:
       protocols:
@@ -205,17 +195,7 @@ interaction-policies:
   # HTTP generate 204: HTTP GET request towards fos5echocaptiveportal.com
   http-generate-204:
 
-    dns-echo-captiveportal:
-      protocols:
-        dns:
-          qtype: A
-          domain-name: fos5echocaptiveportal.com
-        udp:
-          dst-port: 53
-        ipv6:
-          src: self
-          dst: gateway
-      direction: both
+    dns-echo-captiveportal: !include patterns.dns-ipv6 protocols.dns.domain-name:fos5echocaptiveportal.com
 
     http-get-echo-captiveportal:
       protocols:
@@ -236,17 +216,7 @@ interaction-policies:
   # HTTPS traffic with det-ta-g7g.amazon.com
   https-det-ta-g7g:
 
-    dns-echo-det-ta-g7g:
-      protocols:
-        dns:
-          qtype: A
-          domain-name: det-ta-g7g.amazon.com
-        udp:
-          dst-port: 53
-        ipv6:
-          src: self
-          dst: gateway
-      direction: both
+    dns-echo-det-ta-g7g: !include patterns.dns-ipv6 protocols.dns.domain-name:det-ta-g7g.amazon.com
 
     https-echo-det-ta-g7g:
       protocols:
@@ -265,17 +235,7 @@ interaction-policies:
   # HTTPS traffic with arcus-uswest.amazon.com
   https-arcus-uswest:
 
-    dns-echo-arcus-uswest:
-      protocols:
-        dns:
-          qtype: A
-          domain-name: arcus-uswest.amazon.com
-        udp:
-          dst-port: 53
-        ipv4:
-          src: self
-          dst: gateway
-      direction: both
+    dns-echo-arcus-uswest: !include patterns.dns-ipv6 protocols.dns.domain-name:arcus-uswest.amazon.com
 
     https-echo-arcus-uswest:
       protocols:
@@ -290,20 +250,11 @@ interaction-policies:
         rate: 25/second
         duration: 15
 
+
   # HTTPS traffic with dxz5jxhrrzigf.cloudfront.net
   https-dxz5jxhrrzigf:
 
-    dns-echo-dxz5jxhrrzigf:
-      protocols:
-        dns:
-          qtype: A
-          domain-name: arcus-uswest.amazon.com
-        udp:
-          dst-port: 53
-        ipv4:
-          src: self
-          dst: gateway
-      direction: both
+    dns-echo-dxz5jxhrrzigf: !include patterns.dns-ipv6 protocols.dns.domain-name:dxz5jxhrrzigf.cloudfront.net
 
     https-echo-dxz5jxhrrzigf:
       protocols:
@@ -318,20 +269,11 @@ interaction-policies:
         rate: 20/second
         duration: 1
 
+
   # HTTPS traffic with device-metrics-us.amazon.com
   https-device-metrics:
 
-    dns-echo-device-metrics:
-      protocols:
-        dns:
-          qtype: A
-          domain-name: device-metrics-us.amazon.com
-        udp:
-          dst-port: 53
-        ipv4:
-          src: self
-          dst: gateway
-      direction: both
+    dns-echo-device-metrics: !include patterns.dns-ipv6 protocols.dns.domain-name:device-metrics-us.amazon.com
 
     https-echo-device-metrics:
       protocols:
@@ -346,20 +288,11 @@ interaction-policies:
         rate: 210/second
         duration: 20
 
+
   # HTTPS traffic with api.amazonalexa.com
   https-api-amazonalexa:
 
-    dns-echo-api:
-      protocols:
-        dns:
-          qtype: A
-          domain-name: api.amazonalexa.com
-        udp:
-          dst-port: 53
-        ipv4:
-          src: self
-          dst: gateway
-      direction: both
+    dns-echo-api: !include patterns.dns-ipv6 protocols.dns.domain-name:api.amazonalexa.com
 
     https-echo-api:
       protocols:
@@ -374,20 +307,11 @@ interaction-policies:
         rate: 30/second
         duration: 1
 
+
   # Triggered when a voice command is issued
   voice-command:
 
-    dns-echo-unagi:
-      protocols:
-        dns:
-          qtype: A
-          domain-name: unagi-na.amazon.com
-        udp:
-          dst-port: 53
-        ipv4:
-          src: self
-          dst: gateway
-      direction: both
+    dns-echo-unagi: !include patterns.dns-ipv6 protocols.dns.domain-name:unagi-na.amazon.com
 
     https-echo-unagi:
       protocols:
