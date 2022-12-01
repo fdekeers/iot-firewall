@@ -1,10 +1,11 @@
+import sys
 import os
 import argparse
 from pathlib import Path
 import yaml
 import jinja2
 from Policy import Policy
-from IncludeLoader import IncludeLoader
+from yaml_loaders.IncludeLoader import IncludeLoader
 
 
 def flatten_policies(single_policy_name: str, single_policy: dict, acc: dict = {}) -> None:
@@ -32,9 +33,9 @@ if __name__ == "__main__":
     parser.add_argument("profile", help="Path to the device YAML profile")
     args = parser.parse_args()
 
-    # Retrieve paths
-    script_path = os.path.abspath(os.path.dirname(__file__))       # This script's path
-    device_path = os.path.abspath(os.path.dirname(args.profile))   # Device profile's path
+    # Retrieve useful paths
+    script_path = os.path.abspath(os.path.dirname(__file__))      # This script's path
+    device_path = os.path.abspath(os.path.dirname(args.profile))  # Device profile's path
 
     # Jinja loader
     loader = jinja2.FileSystemLoader(searchpath=f"{script_path}/templates")

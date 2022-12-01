@@ -11,6 +11,21 @@ device-info:
   is-supported: true
 
 
+patterns:
+
+  dns-ipv6:
+    protocols:
+      dns:
+        qtype: A
+        domain-name: domain-name
+      udp:
+        dst-port: 53
+      ipv6:
+        src: self
+        dst: gateway
+    direction: both
+
+
 individual-policies:
 
   # ARP toward local IP addresses
@@ -156,6 +171,8 @@ interaction-policies:
 
   # HTTP ConnTest: HTTP GET request towards d3p8zr0ffa9t17.cloudfront.net
   http-conn-test:
+
+    #dns: !include patterns.dns-ipv6
 
     dns-echo-cloudfront:
       protocols:

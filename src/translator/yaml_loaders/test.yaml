@@ -1,0 +1,15 @@
+patterns:
+
+  test: !include
+
+  dns-ipv6:
+    protocols:
+      dns:
+        qtype: A
+        domain-name: ""
+      udp:
+        dst-port: 53
+      ipv6:
+        src: self
+        dst: gateway
+    direction: both

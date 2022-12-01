@@ -140,8 +140,6 @@ class Policy:
                 if protocol.custom_parser:
                     self.custom_parser = protocol_name
                 new_rules = protocol.parse(direction=self.direction, initiator=self.initiator)
-                if (self.name == "http-get-echo-cloudfront"):
-                    print(new_rules)
                 self.nft_matches += new_rules["nft"]
                 self.nfq_matches += new_rules["nfq"]
         

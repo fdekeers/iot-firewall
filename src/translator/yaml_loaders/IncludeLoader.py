@@ -3,8 +3,13 @@ PyYAML loader which supports inclusion of external members.
 Adapted from https://gist.github.com/joshbode/569627ced3076931b02f.
 """
 
+import sys
 import os
 import yaml
+
+# Import IgnoreLoader
+sys.path.append(os.path.abspath(os.path.dirname(__file__)))
+from IgnoreLoader import IgnoreLoader
 
 
 class IncludeLoader(yaml.SafeLoader):
@@ -22,7 +27,7 @@ def construct_include(loader: IncludeLoader, node: yaml.Node) -> dict:
 
     Args:
         loader: PyYAML IncludeLoader
-        node: YAML node, i.e. the value occurring after the key "!include"
+        node: YAML node, i.e. the value occurring after the tag
     Returns:
         dict: included pattern (from this or another YAML profile)
     """
@@ -40,7 +45,7 @@ def construct_include(loader: IncludeLoader, node: yaml.Node) -> dict:
 
     # Load member to include
     with open(path, 'r') as f:
-        data = yaml.load(f, IncludeLoader)
+        data = yaml.load(f, IgnoreLoader)
         for member in members.split('.'):
             data = data[member]
         return data
