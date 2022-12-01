@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.17"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>IoT firewall: IncludeLoader.IncludeLoader Class Reference</title>
+<title>IoT firewall: IgnoreLoader Namespace Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -60,49 +60,71 @@ $(function() {
 </iframe>
 </div>
 
-<div id="nav-path" class="navpath">
-  <ul>
-<li class="navelem"><a class="el" href="namespaceIncludeLoader.html">IncludeLoader</a></li><li class="navelem"><a class="el" href="classIncludeLoader_1_1IncludeLoader.html">IncludeLoader</a></li>  </ul>
-</div>
 </div><!-- top -->
 <div class="header">
   <div class="summary">
-<a href="#pub-methods">Public Member Functions</a> &#124;
-<a href="classIncludeLoader_1_1IncludeLoader-members.html">List of all members</a>  </div>
+<a href="#nested-classes">Classes</a> &#124;
+<a href="#func-members">Functions</a>  </div>
   <div class="headertitle">
-<div class="title">IncludeLoader.IncludeLoader Class Reference</div>  </div>
+<div class="title">IgnoreLoader Namespace Reference</div>  </div>
 </div><!--header-->
 <div class="contents">
-<div class="dynheader">
-Inheritance diagram for IncludeLoader.IncludeLoader:</div>
-<div class="dyncontent">
-<div class="center"><img src="classIncludeLoader_1_1IncludeLoader__inherit__graph.png" border="0" usemap="#IncludeLoader_8IncludeLoader_inherit__map" alt="Inheritance graph"/></div>
-<map name="IncludeLoader_8IncludeLoader_inherit__map" id="IncludeLoader_8IncludeLoader_inherit__map">
-<area shape="rect" title=" " alt="" coords="5,80,212,107"/>
-<area shape="rect" title=" " alt="" coords="41,5,177,32"/>
-</map>
-<center><span class="legend">[<a href="graph_legend.html">legend</a>]</span></center></div>
-<div class="dynheader">
-Collaboration diagram for IncludeLoader.IncludeLoader:</div>
-<div class="dyncontent">
-<div class="center"><img src="classIncludeLoader_1_1IncludeLoader__coll__graph.png" border="0" usemap="#IncludeLoader_8IncludeLoader_coll__map" alt="Collaboration graph"/></div>
-<map name="IncludeLoader_8IncludeLoader_coll__map" id="IncludeLoader_8IncludeLoader_coll__map">
-<area shape="rect" title=" " alt="" coords="5,80,212,107"/>
-<area shape="rect" title=" " alt="" coords="41,5,177,32"/>
-</map>
-<center><span class="legend">[<a href="graph_legend.html">legend</a>]</span></center></div>
 <table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
-Public Member Functions</h2></td></tr>
-<tr class="memitem:a2099854b7c578c60659e98cb3c0328e4"><td class="memItemLeft" align="right" valign="top"><a id="a2099854b7c578c60659e98cb3c0328e4"></a>
-None&#160;</td><td class="memItemRight" valign="bottom"><b>__init__</b> (self, stream)</td></tr>
-<tr class="separator:a2099854b7c578c60659e98cb3c0328e4"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="nested-classes"></a>
+Classes</h2></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classIgnoreLoader_1_1IgnoreLoader.html">IgnoreLoader</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="func-members"></a>
+Functions</h2></td></tr>
+<tr class="memitem:a1470ced3cc277b550474c03fc8c3b6c8"><td class="memItemLeft" align="right" valign="top">None&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceIgnoreLoader.html#a1470ced3cc277b550474c03fc8c3b6c8">construct_ignore</a> (<a class="el" href="classIgnoreLoader_1_1IgnoreLoader.html">IgnoreLoader</a> loader, str tag_suffix, yaml.Node node)</td></tr>
+<tr class="separator:a1470ced3cc277b550474c03fc8c3b6c8"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock"><pre class="fragment">Custom PyYAML loader, which supports inclusion of members defined in other YAML files.
-</pre> </div><hr/>The documentation for this class was generated from the following file:<ul>
-<li>src/translator/yaml_loaders/IncludeLoader.py</li>
-</ul>
+<div class="textblock"><pre class="fragment">PyYAML loader which ignores tags.
+Adapted from https://stackoverflow.com/questions/33048540/pyyaml-safe-load-how-to-ignore-local-tags.
+</pre> </div><h2 class="groupheader">Function Documentation</h2>
+<a id="a1470ced3cc277b550474c03fc8c3b6c8"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a1470ced3cc277b550474c03fc8c3b6c8">&#9670;&nbsp;</a></span>construct_ignore()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"> None IgnoreLoader.construct_ignore </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="classIgnoreLoader_1_1IgnoreLoader.html">IgnoreLoader</a>&#160;</td>
+          <td class="paramname"><em>loader</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">str&#160;</td>
+          <td class="paramname"><em>tag_suffix</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">yaml.Node&#160;</td>
+          <td class="paramname"><em>node</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<pre class="fragment">PyYAML constructor which ignores tags.
+
+Args:
+    loader: PyYAML IgnoreLoader
+    tag_suffix: YAML tag suffix
+    node: YAML node, i.e. the value occurring after the tag
+Returns: None
+</pre> 
+</div>
+</div>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>

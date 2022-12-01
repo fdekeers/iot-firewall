@@ -1,4 +1,5 @@
 var searchData=
 [
-  ['includeloader_245',['IncludeLoader',['../namespaceIncludeLoader.html',1,'']]]
+  ['ignoreloader_248',['IgnoreLoader',['../namespaceIgnoreLoader.html',1,'']]],
+  ['includeloader_249',['IncludeLoader',['../namespaceIncludeLoader.html',1,'']]]
 ];
