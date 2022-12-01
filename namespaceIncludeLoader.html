@@ -77,21 +77,21 @@ Classes</h2></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="func-members"></a>
 Functions</h2></td></tr>
-<tr class="memitem:a6d1432675f875247122786820833c808"><td class="memItemLeft" align="right" valign="top">def&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceIncludeLoader.html#a6d1432675f875247122786820833c808">construct_include</a> (<a class="el" href="classIncludeLoader_1_1IncludeLoader.html">IncludeLoader</a> loader, yaml.Node node)</td></tr>
-<tr class="separator:a6d1432675f875247122786820833c808"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af16e76f4991bd608ee84f3c906f5ee08"><td class="memItemLeft" align="right" valign="top">dict&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceIncludeLoader.html#af16e76f4991bd608ee84f3c906f5ee08">construct_include</a> (<a class="el" href="classIncludeLoader_1_1IncludeLoader.html">IncludeLoader</a> loader, yaml.Node node)</td></tr>
+<tr class="separator:af16e76f4991bd608ee84f3c906f5ee08"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><pre class="fragment">PyYAML loader which supports inclusion of external members.
 Adapted from https://gist.github.com/joshbode/569627ced3076931b02f.
 </pre> </div><h2 class="groupheader">Function Documentation</h2>
-<a id="a6d1432675f875247122786820833c808"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a6d1432675f875247122786820833c808">&#9670;&nbsp;</a></span>construct_include()</h2>
+<a id="af16e76f4991bd608ee84f3c906f5ee08"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#af16e76f4991bd608ee84f3c906f5ee08">&#9670;&nbsp;</a></span>construct_include()</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">def IncludeLoader.construct_include </td>
+          <td class="memname"> dict IncludeLoader.construct_include </td>
           <td>(</td>
           <td class="paramtype"><a class="el" href="classIncludeLoader_1_1IncludeLoader.html">IncludeLoader</a>&#160;</td>
           <td class="paramname"><em>loader</em>, </td>
@@ -110,6 +110,12 @@ Adapted from https://gist.github.com/joshbode/569627ced3076931b02f.
       </table>
 </div><div class="memdoc">
 <pre class="fragment">Include member defined in another YAML file.
+
+Args:
+    loader: PyYAML IncludeLoader
+    node: YAML node, i.e. the value occurring after the key "!include"
+Returns:
+    dict: included pattern (from this or another YAML profile)
 </pre> 
 </div>
 </div>
