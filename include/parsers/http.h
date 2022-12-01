@@ -16,8 +16,9 @@
 #include <stdint.h>
 #include <stdbool.h>
 
-#define HTTP_METHOD_MAX_LEN 7      // Maximum length of a HTTP method
-#define HTTP_URI_DEFAULT_LEN 100   // Default length of a HTTP URI
+#define HTTP_MESSAGE_MIN_LEN 16   // Minimum length of a HTTP message
+#define HTTP_METHOD_MAX_LEN  7    // Maximum length of a HTTP method
+#define HTTP_URI_DEFAULT_LEN 100  // Default length of a HTTP URI
 
 
 /**

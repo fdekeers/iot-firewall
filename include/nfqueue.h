@@ -21,9 +21,15 @@
 #include <libnetfilter_queue/libnetfilter_queue.h>
 
 /**
- * Alias for basic callback function.
+ * @brief Alias for a basic callback function.
+ *
+ * @param pkt_id packet ID for netfilter queue
+ * @param pkt_len packet length, in bytes
+ * @param payload pointer to the packet payload
+ * @param arg pointer to the argument passed to the callback function
+ * @return the verdict for the packet
  */
-typedef uint32_t basic_callback(int pkt_id, uint8_t *payload, void *arg);
+typedef uint32_t basic_callback(int pkt_id, int pkt_len, uint8_t *payload, void *arg);
 
 /**
  * Structure that stores a basic callback function and its arguments.
@@ -36,6 +42,7 @@ typedef struct callback_struct {
 /**
  * @brief Contains the necessary arguments for an nfqueue thread.
  * The arguments are:
+ * - the thread ID
  * - the queue number to bind to
  * - the basic callback function
  * - the arguments to pass to the callback function

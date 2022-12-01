@@ -31,9 +31,9 @@ void test_http_request() {
     size_t length = hexstr_to_payload(hexstring, &payload);
     CU_ASSERT_EQUAL(length, strlen(hexstring) / 2);  // Verify message length
 
-    size_t skipped = get_ipv4_header_length(payload);
-    uint16_t dst_port = get_dst_port(payload + skipped);
-    skipped += get_tcp_header_length(payload + skipped);
+    size_t l3_header_length = get_l3_header_length(payload);
+    uint16_t dst_port = get_dst_port(payload + l3_header_length);
+    size_t skipped = get_headers_length(payload);
     http_message_t actual = http_parse_message(payload + skipped, dst_port);
     http_print_message(actual);
 

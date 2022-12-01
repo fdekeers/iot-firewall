@@ -45,7 +45,7 @@ int nfqueue_callback(struct nfq_q_handle *qh, struct nfgenmsg *nfmsg, struct nfq
     uint8_t *payload;
     int length = nfq_get_payload(nfad, &payload);
     if (length >= 0) {
-		verdict = (*(((callback_struct_t *) data)->func))(pkt_id, payload, ((callback_struct_t *) data)->arg);
+		verdict = (*(((callback_struct_t *) data)->func))(pkt_id, length, payload, ((callback_struct_t *) data)->arg);
 	}
 	return nfq_set_verdict(qh, pkt_id, verdict, length, payload);
 }

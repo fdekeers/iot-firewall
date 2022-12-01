@@ -1,16 +1,18 @@
 {% macro write_callbck_function(loop_index, is_backward=False) %}
 {% set policy = policies[loop_index - 1] %}
 {% set policy_name = policy.name.replace("-", "_") %}
+{% set for_or_back = "backward" if is_backward else "forward" %}
 {% set policy_jinja = "{}_backward".format(policy_name) if is_backward else policy_name %}
 /**
  * @brief {{policy_jinja}} callback function, called when a packet enters the queue.
  * 
  * @param pkt_id packet ID for netfilter queue
+ * @param pkt_len packet length, in bytes
  * @param payload pointer to the packet payload
  * @param arg pointer to the argument passed to the callback function
  * @return the verdict for the packet
  */
-uint32_t callback_{{policy_jinja}}(int pkt_id, uint8_t *payload, void *arg) {
+uint32_t callback_{{policy_jinja}}(int pkt_id, int pkt_len, uint8_t *payload, void *arg) {
     printf("Received packet\n");
     {% if multithread and policy.counters %}
     uint8_t thread_id = *((uint8_t *) arg);
@@ -29,6 +31,9 @@ uint32_t callback_{{policy_jinja}}(int pkt_id, uint8_t *payload, void *arg) {
     {% endif %}
     {% endif %}
     size_t skipped = get_headers_length(payload);
+    {% if policy.custom_parser == 'http' %}
+    bool has_payload = pkt_len - skipped >= HTTP_MESSAGE_MIN_LEN;
+    {% endif %}
 
     // Parse message
     {% if policy.custom_parser == "mdns" %}
@@ -60,11 +65,19 @@ uint32_t callback_{{policy_jinja}}(int pkt_id, uint8_t *payload, void *arg) {
     // Custom match
     {% if policy.nfq_matches %}
     if (
+        {% if policy.custom_parser == 'http' %}
+        !has_payload || (
+        {% endif %}
         {% if policy.nfq_matches %}
-        {{policy.nfq_matches[0]["forward"]}}
+        {{policy.nfq_matches[0][for_or_back]}}
         {% for match in policy.nfq_matches[1:] %}
-        && {{match["forward"]}}
+        {% if for_or_back in match %}
+        && {{match[for_or_back]}}
+        {% endif %}
         {% endfor %}
+        {% endif %}
+        {% if policy.custom_parser == 'http' %}
+        )
         {% endif %}
     ) {
     {% endif %}
@@ -138,6 +151,9 @@ uint32_t callback_{{policy_jinja}}(int pkt_id, uint8_t *payload, void *arg) {
     {% endif %}
     // Custom match
     if (
+        {% if policy.custom_parser == 'http' %}
+        !has_payload || (
+        {% endif %}
         {% if states|length > 1 %}
         {% set previous_policy = policies[(loop_index - 2) % policies|length] %}
         {% set state_index = current_state.value - 1 if is_backward and policy.transient else current_state.value %}
@@ -148,7 +164,9 @@ uint32_t callback_{{policy_jinja}}(int pkt_id, uint8_t *payload, void *arg) {
         {% endif %}
         {% endif %}
         {% for match in policy.nfq_matches %}
-        {{match["forward"]}}
+        {% if for_or_back in match %}
+        {{match[for_or_back]}}
+        {% endif %}
         {%- if loop.index < policy.nfq_matches|length or policy.counters %} &&
         {% endif %}
         {% endfor %}
@@ -164,6 +182,9 @@ uint32_t callback_{{policy_jinja}}(int pkt_id, uint8_t *payload, void *arg) {
         counter_read_microseconds() - initial_values.microseconds <= {{policy.counters["duration"]["default"]}}
         {% elif "duration" in policy.counters and direction in policy.counters["duration"] %}
         counter_read_microseconds() - initial_values.microseconds <= {{policy.counters["duration"][direction]}}
+        {% endif %}
+        {% if policy.custom_parser == 'http' %}
+        )
         {% endif %}
     ) {
         {% if states|length > 1 %}

@@ -31,8 +31,8 @@ class Transport(Protocol):
         if initiator:
             # Template rules
             template_rules = {
-                "src-port": {"forward": f"ct original proto-src sport={{}}", "backward": f"ct original proto-dst dport={{}}"},
-                "dst-port": {"forward": f"ct original proto-dst dport={{}}", "backward": f"ct original proto-src sport={{}}"}
+                "src-port": {"forward": f"ct original proto-src {{}}", "backward": f"ct original proto-dst {{}}"},
+                "dst-port": {"forward": f"ct original proto-dst {{}}", "backward": f"ct original proto-src {{}}"}
             }
             if ((initiator == "src" and (direction == "out" or direction == "both")) or
                 (initiator == "dst" and direction == "in")):

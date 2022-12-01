@@ -1,7 +1,0 @@
-// Establish a connection.
-0   socket(..., SOCK_DGRAM, IPPROTO_UDP) = 3
-+0  setsockopt(3, SOL_SOCKET, SO_REUSEADDR, [1], 4) = 0
-+0  bind(3, ..., ...) = 0
-
-// Send data to socket
-+1 < udp 1111 > 2222 (64)
