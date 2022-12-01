@@ -106,9 +106,8 @@ This graph shows which files directly or indirectly include this file:</div>
 <div class="dyncontent">
 <div class="center"><img src="nfqueue_8h__dep__incl.png" border="0" usemap="#include_2nfqueue_8hdep" alt=""/></div>
 <map name="include_2nfqueue_8hdep" id="include_2nfqueue_8hdep">
-<area shape="rect" title="Wrapper for the netfilter_queue library." alt="" coords="68,5,207,32"/>
-<area shape="rect" href="src_2nfqueue_8c.html" title="Wrapper for the netfilter_queue library." alt="" coords="5,87,115,114"/>
-<area shape="rect" href="test_2devices_2xiaomi-cam_2nfqueue_8c.html" title="Test nfqueue for the Xiaomi camera." alt="" coords="139,80,290,121"/>
+<area shape="rect" title="Wrapper for the netfilter_queue library." alt="" coords="5,5,144,32"/>
+<area shape="rect" href="nfqueue_8c.html" title="Wrapper for the netfilter_queue library." alt="" coords="20,80,129,107"/>
 </map>
 </div>
 </div>
@@ -124,8 +123,9 @@ Classes</h2></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="typedef-members"></a>
 Typedefs</h2></td></tr>
-<tr class="memitem:a622f452f8e40578e1b5b826e8d83a87d"><td class="memItemLeft" align="right" valign="top">typedef uint32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="nfqueue_8h.html#a622f452f8e40578e1b5b826e8d83a87d">basic_callback</a>(int pkt_id, uint8_t *payload, void *arg)</td></tr>
-<tr class="separator:a622f452f8e40578e1b5b826e8d83a87d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7569209ef248ee2ebbb0ece3b35cf1b5"><td class="memItemLeft" align="right" valign="top">typedef uint32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="nfqueue_8h.html#a7569209ef248ee2ebbb0ece3b35cf1b5">basic_callback</a>(int pkt_id, int pkt_len, uint8_t *payload, void *arg)</td></tr>
+<tr class="memdesc:a7569209ef248ee2ebbb0ece3b35cf1b5"><td class="mdescLeft">&#160;</td><td class="mdescRight">Alias for a basic callback function.  <a href="nfqueue_8h.html#a7569209ef248ee2ebbb0ece3b35cf1b5">More...</a><br /></td></tr>
+<tr class="separator:a7569209ef248ee2ebbb0ece3b35cf1b5"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aeffca4208e9e48be1ff3148e9838a672"><td class="memItemLeft" align="right" valign="top">typedef struct <a class="el" href="structcallback__struct.html">callback_struct</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="nfqueue_8h.html#aeffca4208e9e48be1ff3148e9838a672">callback_struct_t</a></td></tr>
 <tr class="separator:aeffca4208e9e48be1ff3148e9838a672"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
@@ -133,7 +133,7 @@ Typedefs</h2></td></tr>
 Functions</h2></td></tr>
 <tr class="memitem:ad901cf897da5bb0c6ff0cb8e04ba02da"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="nfqueue_8h.html#ad901cf897da5bb0c6ff0cb8e04ba02da">get_pkt_id</a> (struct nfq_data *nfad)</td></tr>
 <tr class="separator:ad901cf897da5bb0c6ff0cb8e04ba02da"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a6db79cc68cea647b5331bee9e47894da"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="nfqueue_8h.html#a6db79cc68cea647b5331bee9e47894da">bind_queue</a> (uint16_t queue_num, <a class="el" href="nfqueue_8h.html#a622f452f8e40578e1b5b826e8d83a87d">basic_callback</a> *<a class="el" href="test_2devices_2xiaomi-cam_2nfqueue_8c.html#ab3f457c255b567baffcff35d5c6bba82">callback</a>, void *arg)</td></tr>
+<tr class="memitem:a6db79cc68cea647b5331bee9e47894da"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="nfqueue_8h.html#a6db79cc68cea647b5331bee9e47894da">bind_queue</a> (uint16_t queue_num, <a class="el" href="nfqueue_8h.html#a7569209ef248ee2ebbb0ece3b35cf1b5">basic_callback</a> *callback, void *arg)</td></tr>
 <tr class="separator:a6db79cc68cea647b5331bee9e47894da"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a0d2243259140a8bdcea60926b585620d"><td class="memItemLeft" align="right" valign="top">void *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="nfqueue_8h.html#a0d2243259140a8bdcea60926b585620d">nfqueue_thread</a> (void *arg)</td></tr>
 <tr class="memdesc:a0d2243259140a8bdcea60926b585620d"><td class="mdescLeft">&#160;</td><td class="mdescRight">pthread wrapper for bind_queue.  <a href="nfqueue_8h.html#a0d2243259140a8bdcea60926b585620d">More...</a><br /></td></tr>
@@ -145,18 +145,29 @@ Functions</h2></td></tr>
 <dl class="section date"><dt>Date</dt><dd>2022-09-09</dd></dl>
 <dl class="section copyright"><dt>Copyright</dt><dd>Copyright (c) 2022 </dd></dl>
 </div><h2 class="groupheader">Typedef Documentation</h2>
-<a id="a622f452f8e40578e1b5b826e8d83a87d"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a622f452f8e40578e1b5b826e8d83a87d">&#9670;&nbsp;</a></span>basic_callback</h2>
+<a id="a7569209ef248ee2ebbb0ece3b35cf1b5"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a7569209ef248ee2ebbb0ece3b35cf1b5">&#9670;&nbsp;</a></span>basic_callback</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">typedef uint32_t basic_callback(int pkt_id, uint8_t *payload, void *arg)</td>
+          <td class="memname">typedef uint32_t basic_callback(int pkt_id, int pkt_len, uint8_t *payload, void *arg)</td>
         </tr>
       </table>
 </div><div class="memdoc">
-<p>Alias for basic callback function. </p>
+
+<p>Alias for a basic callback function. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">pkt_id</td><td>packet ID for netfilter queue </td></tr>
+    <tr><td class="paramname">pkt_len</td><td>packet length, in bytes </td></tr>
+    <tr><td class="paramname">payload</td><td>pointer to the packet payload </td></tr>
+    <tr><td class="paramname">arg</td><td>pointer to the argument passed to the callback function </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>the verdict for the packet </dd></dl>
 
 </div>
 </div>
@@ -191,7 +202,7 @@ Functions</h2></td></tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype"><a class="el" href="nfqueue_8h.html#a622f452f8e40578e1b5b826e8d83a87d">basic_callback</a> *&#160;</td>
+          <td class="paramtype"><a class="el" href="nfqueue_8h.html#a7569209ef248ee2ebbb0ece3b35cf1b5">basic_callback</a> *&#160;</td>
           <td class="paramname"><em>callback</em>, </td>
         </tr>
         <tr>
@@ -220,7 +231,7 @@ Functions</h2></td></tr>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">queue_num</td><td>the number of the queue to bind to </td></tr>
-    <tr><td class="paramname">callback</td><td>the basic callback funtion, called upon packet reception The callback function must have the following signature: uint32_t <a class="el" href="test_2devices_2xiaomi-cam_2nfqueue_8c.html#ab3f457c255b567baffcff35d5c6bba82" title="Basic callback function, called when a packet enters the queue.">callback(int pkt_id, uint8_t *payload, void *arg)</a> </td></tr>
+    <tr><td class="paramname">callback</td><td>the basic callback funtion, called upon packet reception The callback function must have the following signature: uint32_t callback(int pkt_id, uint8_t *payload, void *arg) </td></tr>
     <tr><td class="paramname">arg</td><td>the argument to pass to the basic callback function </td></tr>
   </table>
   </dd>
