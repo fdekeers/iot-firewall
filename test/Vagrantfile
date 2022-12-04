@@ -33,7 +33,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   config.vm.provision "shell", inline: <<-SHELL
     sudo apt-get update
     sudo apt-get upgrade -y
-    sudo apt-get install -y build-essential cmake net-tools tshark nftables libnetfilter-queue-dev
+    sudo DEBIAN_FRONTEND=noninteractive apt-get install -y build-essential cmake net-tools tshark nftables libnetfilter-queue-dev
   SHELL
 
 end
