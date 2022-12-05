@@ -53,5 +53,7 @@ initial_values_t initial_values[MAX_THREADS];
 {% else %}
 initial_values_t initial_values;
 {% endif %}
+{% if "dns" in custom_parsers or "mdns" in custom_parsers %}
 dns_map_t *dns_map;  // Domain name to IP address mapping
+{% endif %}
 

@@ -6,8 +6,10 @@
  * @return exit code, 0 if success
  */
 int main(int argc, char const *argv[]) {
+    {% if "dns" in custom_parsers or "mdns" in custom_parsers %}
     // Initialize DNS map
     dns_map = dns_map_create();
+    {% endif %}
 
     {% if multithread %}
     // Initialize state mutex

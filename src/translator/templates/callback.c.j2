@@ -135,7 +135,7 @@ uint32_t callback_{{policy_jinja}}(int pkt_id, int pkt_len, uint8_t *payload, vo
             {% endif %}
             {% endif %}
             {% if "dns" in policy.custom_parser %}
-            dns_map_add(dns_map, )
+            //dns_map_add(dns_map, )
             {% endif %}
             verdict = NF_ACCEPT;
             printf("Accept: policy {{policy.name}}, backward = {{is_backward}}, state = {{states[state_index]}}\n");

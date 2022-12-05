@@ -107,7 +107,8 @@ if __name__ == "__main__":
                     }
                     main_dict = {
                         "multithread": max_threads > 1,
-                        "policies": [policy]
+                        "policies": [policy],
+                        "custom_parsers": set(custom_parsers.values())
                     }
 
                     # Render Jinja2 templates

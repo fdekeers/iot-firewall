@@ -18,6 +18,7 @@
 #include <string.h>
 #include <arpa/inet.h>
 #include "packet_utils.h"
+#include "dns_map.h"
 
 #define DNS_HEADER_SIZE 12
 #define DNS_MAX_DOMAIN_NAME_LENGTH 100

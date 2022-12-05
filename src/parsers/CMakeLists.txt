@@ -9,7 +9,7 @@ target_include_directories(header PRIVATE ${INCLUDE_PARSERS_DIR})
 # DNS parser
 add_library(dns STATIC ${INCLUDE_PARSERS_DIR}/dns.h dns.c)
 target_include_directories(dns PRIVATE ${INCLUDE_DIR} ${INCLUDE_PARSERS_DIR})
-target_link_libraries(dns packet_utils)
+target_link_libraries(dns packet_utils dns_map)
 # DHCP parser
 add_library(dhcp STATIC ${INCLUDE_PARSERS_DIR}/dhcp.h dhcp.c)
 target_include_directories(dhcp PRIVATE ${INCLUDE_DIR} ${INCLUDE_PARSERS_DIR})
