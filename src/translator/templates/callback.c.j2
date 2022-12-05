@@ -134,6 +134,9 @@ uint32_t callback_{{policy_jinja}}(int pkt_id, int pkt_len, uint8_t *payload, vo
             system("sudo nft add rule {{nft_table}} {{nft_chain}} {{next_rule_backward}}");
             {% endif %}
             {% endif %}
+            {% if "dns" in policy.custom_parser %}
+            dns_map_add(dns_map, )
+            {% endif %}
             verdict = NF_ACCEPT;
             printf("Accept: policy {{policy.name}}, backward = {{is_backward}}, state = {{states[state_index]}}\n");
         } else {

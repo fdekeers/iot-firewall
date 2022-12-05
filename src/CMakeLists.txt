@@ -16,11 +16,11 @@ add_library(packet_utils STATIC ${INCLUDE_DIR}/packet_utils.h packet_utils.c)
 target_include_directories(packet_utils PRIVATE ${INCLUDE_DIR})
 install(TARGETS packet_utils DESTINATION ${LIB_DIR})
 
-# map_domain_ip
-add_library(map_domain_ip STATIC ${INCLUDE_DIR}/map_domain_ip.h map_domain_ip.c)
-target_include_directories(map_domain_ip PRIVATE ${INCLUDE_DIR})
-target_link_libraries(map_domain_ip ${LIB_DIR}/libhashmap.a)
-install(TARGETS map_domain_ip DESTINATION ${LIB_DIR})
+# dns_map
+add_library(dns_map STATIC ${INCLUDE_DIR}/dns_map.h dns_map.c)
+target_include_directories(dns_map PRIVATE ${INCLUDE_DIR})
+target_link_libraries(dns_map ${LIB_DIR}/libhashmap.a)
+install(TARGETS dns_map DESTINATION ${LIB_DIR})
 
 # rule_utils
 add_library(rule_utils STATIC ${INCLUDE_DIR}/rule_utils.h rule_utils.c)

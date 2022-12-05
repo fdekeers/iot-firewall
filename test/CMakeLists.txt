@@ -6,12 +6,12 @@ set(TEST_BIN_DIR ${BIN_DIR}/test)
 set(EXECUTABLE_OUTPUT_PATH ${TEST_BIN_DIR})
 
 # Domain - IP mapping test
-add_executable(map_domain_ip-test map_domain_ip.c)
-target_include_directories(map_domain_ip-test PRIVATE ${INCLUDE_DIR})
-target_link_libraries(map_domain_ip-test cunit)
-target_link_libraries(map_domain_ip-test ${LIB_DIR}/libhashmap.a)
-target_link_libraries(map_domain_ip-test map_domain_ip)
-install(TARGETS map_domain_ip-test DESTINATION ${TEST_BIN_DIR})
+add_executable(dns_map-test dns_map.c)
+target_include_directories(dns_map-test PRIVATE ${INCLUDE_DIR})
+target_link_libraries(dns_map-test cunit)
+target_link_libraries(dns_map-test ${LIB_DIR}/libhashmap.a)
+target_link_libraries(dns_map-test dns_map)
+install(TARGETS dns_map-test DESTINATION ${TEST_BIN_DIR})
 
 # Packet utils test
 add_executable(packet_utils-test packet_utils.c)

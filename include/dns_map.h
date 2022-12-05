@@ -1,5 +1,5 @@
 /**
- * @file include/map_domain_ip.h
+ * @file include/dns_map.h
  * @author François De Keersmaeker (francois.dekeersmaeker@uclouvain.be)
  * @brief Implementation of a DNS domain name to IP addresses mapping, using Joshua J Baker's hashmap.c (https://github.com/tidwall/hashmap.c)
  * @date 2022-09-06
@@ -8,8 +8,8 @@
  * 
  */
 
-#ifndef _IOTFIREWALL_MAP_DOMAIN_IP_
-#define _IOTFIREWALL_MAP_DOMAIN_IP_
+#ifndef _IOTFIREWALL_dns_map_
+#define _IOTFIREWALL_dns_map_
 
 #include <stdlib.h>
 #include <stdint.h>
@@ -18,7 +18,7 @@
 
 // Initial size of the DNS table
 // If set to 0, the default size will be 16
-#define MAP_DOMAIN_IP_INIT_SIZE 0
+#define dns_map_INIT_SIZE 0
 
 
 ////////// TYPE DEFINITIONS //////////
@@ -36,7 +36,7 @@ typedef struct dns_entry {
 /**
  * Alias for the hashmap structure.
  */
-typedef struct hashmap map_domain_ip_t;
+typedef struct hashmap dns_map_t;
 
 
 ////////// FUNCTIONS //////////
@@ -46,14 +46,14 @@ typedef struct hashmap map_domain_ip_t;
  * 
  * @return the newly created DNS table 
  */
-map_domain_ip_t* map_domain_ip_create();
+dns_map_t* dns_map_create();
 
 /**
  * Destroy (free) a DNS table.
  * 
  * @param table the DNS table to destroy
  */
-void map_domain_ip_destroy(map_domain_ip_t *table);
+void dns_map_destroy(dns_map_t *table);
 
 /**
  * Add IP addresses corresponding to a given domain name in the DNS table.
@@ -64,7 +64,7 @@ void map_domain_ip_destroy(map_domain_ip_t *table);
  * @param ip_count the number of IP addresses to add
  * @param ip_addresses a pointer to the IP addresses corresponding to the domain name
  */
-void map_domain_ip_add(map_domain_ip_t *table, char *domain_name, uint16_t ip_count, char **ip_addresses);
+void dns_map_add(dns_map_t *table, char *domain_name, uint16_t ip_count, char **ip_addresses);
 
 /**
  * Remove a domain name (and its corresponding IP addresses) from the DNS table.
@@ -72,7 +72,7 @@ void map_domain_ip_add(map_domain_ip_t *table, char *domain_name, uint16_t ip_co
  * @param table the DNS table to remove the entry from
  * @param domain_name the domain name of the entry to remove
  */
-void map_domain_ip_remove(map_domain_ip_t *table, char *domain_name);
+void dns_map_remove(dns_map_t *table, char *domain_name);
 
 /**
  * Retrieve the IP addresses corresponding to a given domain name in the DNS table.
@@ -82,7 +82,7 @@ void map_domain_ip_remove(map_domain_ip_t *table, char *domain_name);
  * @return a pointer to a dns_entry structure containing the IP addresses corresponding to the domain name,
  *         or NULL if the domain name was not found in the DNS table
  */
-dns_entry_t* map_domain_ip_get(map_domain_ip_t *table, char *domain_name);
+dns_entry_t* dns_map_get(dns_map_t *table, char *domain_name);
 
 /**
  * Retrieve the IP addresses corresponding to a given domain name,
@@ -93,7 +93,7 @@ dns_entry_t* map_domain_ip_get(map_domain_ip_t *table, char *domain_name);
  * @return a pointer to a dns_entry structure containing the IP addresses corresponding to the domain name,
  *         or NULL if the domain name was not found in the DNS table
  */
-dns_entry_t* map_domain_ip_pop(map_domain_ip_t *table, char *domain_name);
+dns_entry_t* dns_map_pop(dns_map_t *table, char *domain_name);
 
 
-#endif /* _IOTFIREWALL_MAP_DOMAIN_IP_ */
+#endif /* _IOTFIREWALL_dns_map_ */

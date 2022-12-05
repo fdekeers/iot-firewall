@@ -10,6 +10,6 @@ for DEVICE in $SCRIPTPATH/devices/*
 do
     if [[ -d $DEVICE ]]
     then
-        sudo python3 $SCRIPTPATH/src/translator/translator.py $DEVICE/profile.yaml
+        python3 $SCRIPTPATH/src/translator/translator.py $DEVICE/profile.yaml
     fi
 done

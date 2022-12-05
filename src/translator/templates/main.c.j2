@@ -6,6 +6,9 @@
  * @return exit code, 0 if success
  */
 int main(int argc, char const *argv[]) {
+    // Initialize DNS map
+    dns_map = dns_map_create();
+
     {% if multithread %}
     // Initialize state mutex
     int ret = pthread_mutex_init(&mutex, NULL);

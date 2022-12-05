@@ -83,16 +83,6 @@ individual-policies:
         dst: gateway
     direction: both
 
-  # NTP
-  ntp-ipv4:
-    protocols:
-      udp:
-        dst-port: 123  # NTP server port
-      ipv4:
-        src: self
-        dst: ntp-g7g.amazon.com
-    direction: both
-
   # IGMP
   igmp-join-all:
     protocols:
@@ -134,15 +124,6 @@ individual-policies:
         src: self
         dst: ssdp
 
-  # NTP
-  ntp-all:
-    protocols:
-      udp:
-        dst-port: 123
-      ipv4:
-        src: self
-        dst: ntp-g7g.amazon.com
-    direction: both
 
   # HTTPS traffic with cloud
   https-echo-cloud:
@@ -170,6 +151,21 @@ individual-policies:
 
 
 interaction-policies:
+
+  # NTP traffic towards ntp-g7g.amazon.com
+  ntp-amazon:
+
+    dns-ntp-server: !include patterns.dns-ipv6 protocols.dns.domain-name:ntp-g7g.amazon.com
+
+    ntp-echo-server:
+      protocols:
+        udp:
+          dst-port: 123
+        ipv4:
+          src: self
+          dst: ntp-g7g.amazon.com
+      direction: both
+
 
   # HTTP ConnTest: HTTP GET request towards d3p8zr0ffa9t17.cloudfront.net
   http-conn-test:
