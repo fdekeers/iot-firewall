@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.17"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>IoT firewall: src/map_domain_ip.c File Reference</title>
+<title>IoT firewall: src/dns_map.c File Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -69,20 +69,20 @@ $(function() {
   <div class="summary">
 <a href="#func-members">Functions</a>  </div>
   <div class="headertitle">
-<div class="title">map_domain_ip.c File Reference</div>  </div>
+<div class="title">dns_map.c File Reference</div>  </div>
 </div><!--header-->
 <div class="contents">
 
 <p>Implementation of a DNS domain name to IP addresses mapping, using Joshua J Baker's hashmap.c (<a href="https://github.com/tidwall/hashmap.c">https://github.com/tidwall/hashmap.c</a>)  
 <a href="#details">More...</a></p>
-<div class="textblock"><code>#include &quot;<a class="el" href="map__domain__ip_8h_source.html">map_domain_ip.h</a>&quot;</code><br />
+<div class="textblock"><code>#include &quot;<a class="el" href="dns__map_8h_source.html">dns_map.h</a>&quot;</code><br />
 </div><div class="textblock"><div class="dynheader">
-Include dependency graph for map_domain_ip.c:</div>
+Include dependency graph for dns_map.c:</div>
 <div class="dyncontent">
-<div class="center"><img src="src_2map__domain__ip_8c__incl.png" border="0" usemap="#src_2map__domain__ip_8c" alt=""/></div>
-<map name="src_2map__domain__ip_8c" id="src_2map__domain__ip_8c">
-<area shape="rect" title="Implementation of a DNS domain name to IP addresses mapping, using Joshua J Baker&#39;s hashmap...." alt="" coords="70,5,230,32"/>
-<area shape="rect" href="map__domain__ip_8h.html" title="Implementation of a DNS domain name to IP addresses mapping, using Joshua J Baker&#39;s hashmap...." alt="" coords="81,80,219,107"/>
+<div class="center"><img src="src_2dns__map_8c__incl.png" border="0" usemap="#src_2dns__map_8c" alt=""/></div>
+<map name="src_2dns__map_8c" id="src_2dns__map_8c">
+<area shape="rect" title="Implementation of a DNS domain name to IP addresses mapping, using Joshua J Baker&#39;s hashmap...." alt="" coords="93,5,207,32"/>
+<area shape="rect" href="dns__map_8h.html" title="Implementation of a DNS domain name to IP addresses mapping, using Joshua J Baker&#39;s hashmap...." alt="" coords="103,80,197,107"/>
 <area shape="rect" title=" " alt="" coords="5,155,76,181"/>
 <area shape="rect" title=" " alt="" coords="117,229,188,256"/>
 <area shape="rect" title=" " alt="" coords="152,155,223,181"/>
@@ -94,18 +94,18 @@ Include dependency graph for map_domain_ip.c:</div>
 </div><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="func-members"></a>
 Functions</h2></td></tr>
-<tr class="memitem:aae3b64237e81ee28a61e490b9e8ce1b0"><td class="memItemLeft" align="right" valign="top"><a class="el" href="map__domain__ip_8h.html#a6eb4e8db406b9486ab695ca5e597e661">map_domain_ip_t</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="src_2map__domain__ip_8c.html#aae3b64237e81ee28a61e490b9e8ce1b0">map_domain_ip_create</a> ()</td></tr>
-<tr class="separator:aae3b64237e81ee28a61e490b9e8ce1b0"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a3a7d216da5f3d3b33ae772d8c22e9d20"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="src_2map__domain__ip_8c.html#a3a7d216da5f3d3b33ae772d8c22e9d20">map_domain_ip_destroy</a> (<a class="el" href="map__domain__ip_8h.html#a6eb4e8db406b9486ab695ca5e597e661">map_domain_ip_t</a> *table)</td></tr>
-<tr class="separator:a3a7d216da5f3d3b33ae772d8c22e9d20"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a2118e87a0efde7299a86f0557f54e949"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="src_2map__domain__ip_8c.html#a2118e87a0efde7299a86f0557f54e949">map_domain_ip_add</a> (<a class="el" href="map__domain__ip_8h.html#a6eb4e8db406b9486ab695ca5e597e661">map_domain_ip_t</a> *table, char *domain_name, uint16_t ip_count, char **ip_addresses)</td></tr>
-<tr class="separator:a2118e87a0efde7299a86f0557f54e949"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a36797c49dac9ab99074947d5c0bf0b28"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="src_2map__domain__ip_8c.html#a36797c49dac9ab99074947d5c0bf0b28">map_domain_ip_remove</a> (<a class="el" href="map__domain__ip_8h.html#a6eb4e8db406b9486ab695ca5e597e661">map_domain_ip_t</a> *table, char *domain_name)</td></tr>
-<tr class="separator:a36797c49dac9ab99074947d5c0bf0b28"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a4a9c302f72adaa7f4f6c3016cee11787"><td class="memItemLeft" align="right" valign="top"><a class="el" href="map__domain__ip_8h.html#af49967b51d5078edae2ca81eb7ed6315">dns_entry_t</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="src_2map__domain__ip_8c.html#a4a9c302f72adaa7f4f6c3016cee11787">map_domain_ip_get</a> (<a class="el" href="map__domain__ip_8h.html#a6eb4e8db406b9486ab695ca5e597e661">map_domain_ip_t</a> *table, char *domain_name)</td></tr>
-<tr class="separator:a4a9c302f72adaa7f4f6c3016cee11787"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ad5d429161780067a45b79ab20d584c07"><td class="memItemLeft" align="right" valign="top"><a class="el" href="map__domain__ip_8h.html#af49967b51d5078edae2ca81eb7ed6315">dns_entry_t</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="src_2map__domain__ip_8c.html#ad5d429161780067a45b79ab20d584c07">map_domain_ip_pop</a> (<a class="el" href="map__domain__ip_8h.html#a6eb4e8db406b9486ab695ca5e597e661">map_domain_ip_t</a> *table, char *domain_name)</td></tr>
-<tr class="separator:ad5d429161780067a45b79ab20d584c07"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a45cae5b73998f1a6f08368634616fe24"><td class="memItemLeft" align="right" valign="top"><a class="el" href="dns__map_8h.html#a022ce4a2dbd9bc73d81cd658e74db5dd">dns_map_t</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="src_2dns__map_8c.html#a45cae5b73998f1a6f08368634616fe24">dns_map_create</a> ()</td></tr>
+<tr class="separator:a45cae5b73998f1a6f08368634616fe24"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a092673d13f6d2506eb7774e3b73eec5b"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="src_2dns__map_8c.html#a092673d13f6d2506eb7774e3b73eec5b">dns_map_destroy</a> (<a class="el" href="dns__map_8h.html#a022ce4a2dbd9bc73d81cd658e74db5dd">dns_map_t</a> *table)</td></tr>
+<tr class="separator:a092673d13f6d2506eb7774e3b73eec5b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aaf4faf437294fb46ee1b90fa6e884842"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="src_2dns__map_8c.html#aaf4faf437294fb46ee1b90fa6e884842">dns_map_add</a> (<a class="el" href="dns__map_8h.html#a022ce4a2dbd9bc73d81cd658e74db5dd">dns_map_t</a> *table, char *domain_name, uint16_t ip_count, char **ip_addresses)</td></tr>
+<tr class="separator:aaf4faf437294fb46ee1b90fa6e884842"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4c1f444fafae9fa4b8b7761aaa7cd101"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="src_2dns__map_8c.html#a4c1f444fafae9fa4b8b7761aaa7cd101">dns_map_remove</a> (<a class="el" href="dns__map_8h.html#a022ce4a2dbd9bc73d81cd658e74db5dd">dns_map_t</a> *table, char *domain_name)</td></tr>
+<tr class="separator:a4c1f444fafae9fa4b8b7761aaa7cd101"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5ba4a5dccfa64f742be6f9b60167afec"><td class="memItemLeft" align="right" valign="top"><a class="el" href="dns__map_8h.html#af49967b51d5078edae2ca81eb7ed6315">dns_entry_t</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="src_2dns__map_8c.html#a5ba4a5dccfa64f742be6f9b60167afec">dns_map_get</a> (<a class="el" href="dns__map_8h.html#a022ce4a2dbd9bc73d81cd658e74db5dd">dns_map_t</a> *table, char *domain_name)</td></tr>
+<tr class="separator:a5ba4a5dccfa64f742be6f9b60167afec"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af866630438d1b9af81dccac6171c73b9"><td class="memItemLeft" align="right" valign="top"><a class="el" href="dns__map_8h.html#af49967b51d5078edae2ca81eb7ed6315">dns_entry_t</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="src_2dns__map_8c.html#af866630438d1b9af81dccac6171c73b9">dns_map_pop</a> (<a class="el" href="dns__map_8h.html#a022ce4a2dbd9bc73d81cd658e74db5dd">dns_map_t</a> *table, char *domain_name)</td></tr>
+<tr class="separator:af866630438d1b9af81dccac6171c73b9"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Implementation of a DNS domain name to IP addresses mapping, using Joshua J Baker's hashmap.c (<a href="https://github.com/tidwall/hashmap.c">https://github.com/tidwall/hashmap.c</a>) </p>
@@ -113,16 +113,16 @@ Functions</h2></td></tr>
 <dl class="section date"><dt>Date</dt><dd>2022-09-06</dd></dl>
 <dl class="section copyright"><dt>Copyright</dt><dd>Copyright (c) 2022 </dd></dl>
 </div><h2 class="groupheader">Function Documentation</h2>
-<a id="a2118e87a0efde7299a86f0557f54e949"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a2118e87a0efde7299a86f0557f54e949">&#9670;&nbsp;</a></span>map_domain_ip_add()</h2>
+<a id="aaf4faf437294fb46ee1b90fa6e884842"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aaf4faf437294fb46ee1b90fa6e884842">&#9670;&nbsp;</a></span>dns_map_add()</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">void map_domain_ip_add </td>
+          <td class="memname">void dns_map_add </td>
           <td>(</td>
-          <td class="paramtype"><a class="el" href="map__domain__ip_8h.html#a6eb4e8db406b9486ab695ca5e597e661">map_domain_ip_t</a> *&#160;</td>
+          <td class="paramtype"><a class="el" href="dns__map_8h.html#a022ce4a2dbd9bc73d81cd658e74db5dd">dns_map_t</a> *&#160;</td>
           <td class="paramname"><em>table</em>, </td>
         </tr>
         <tr>
@@ -163,14 +163,14 @@ Functions</h2></td></tr>
 
 </div>
 </div>
-<a id="aae3b64237e81ee28a61e490b9e8ce1b0"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aae3b64237e81ee28a61e490b9e8ce1b0">&#9670;&nbsp;</a></span>map_domain_ip_create()</h2>
+<a id="a45cae5b73998f1a6f08368634616fe24"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a45cae5b73998f1a6f08368634616fe24">&#9670;&nbsp;</a></span>dns_map_create()</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="map__domain__ip_8h.html#a6eb4e8db406b9486ab695ca5e597e661">map_domain_ip_t</a>* map_domain_ip_create </td>
+          <td class="memname"><a class="el" href="dns__map_8h.html#a022ce4a2dbd9bc73d81cd658e74db5dd">dns_map_t</a>* dns_map_create </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
           <td></td>
@@ -182,16 +182,16 @@ Functions</h2></td></tr>
 
 </div>
 </div>
-<a id="a3a7d216da5f3d3b33ae772d8c22e9d20"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a3a7d216da5f3d3b33ae772d8c22e9d20">&#9670;&nbsp;</a></span>map_domain_ip_destroy()</h2>
+<a id="a092673d13f6d2506eb7774e3b73eec5b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a092673d13f6d2506eb7774e3b73eec5b">&#9670;&nbsp;</a></span>dns_map_destroy()</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">void map_domain_ip_destroy </td>
+          <td class="memname">void dns_map_destroy </td>
           <td>(</td>
-          <td class="paramtype"><a class="el" href="map__domain__ip_8h.html#a6eb4e8db406b9486ab695ca5e597e661">map_domain_ip_t</a> *&#160;</td>
+          <td class="paramtype"><a class="el" href="dns__map_8h.html#a022ce4a2dbd9bc73d81cd658e74db5dd">dns_map_t</a> *&#160;</td>
           <td class="paramname"><em>table</em></td><td>)</td>
           <td></td>
         </tr>
@@ -207,16 +207,16 @@ Functions</h2></td></tr>
 
 </div>
 </div>
-<a id="a4a9c302f72adaa7f4f6c3016cee11787"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a4a9c302f72adaa7f4f6c3016cee11787">&#9670;&nbsp;</a></span>map_domain_ip_get()</h2>
+<a id="a5ba4a5dccfa64f742be6f9b60167afec"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a5ba4a5dccfa64f742be6f9b60167afec">&#9670;&nbsp;</a></span>dns_map_get()</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="map__domain__ip_8h.html#af49967b51d5078edae2ca81eb7ed6315">dns_entry_t</a>* map_domain_ip_get </td>
+          <td class="memname"><a class="el" href="dns__map_8h.html#af49967b51d5078edae2ca81eb7ed6315">dns_entry_t</a>* dns_map_get </td>
           <td>(</td>
-          <td class="paramtype"><a class="el" href="map__domain__ip_8h.html#a6eb4e8db406b9486ab695ca5e597e661">map_domain_ip_t</a> *&#160;</td>
+          <td class="paramtype"><a class="el" href="dns__map_8h.html#a022ce4a2dbd9bc73d81cd658e74db5dd">dns_map_t</a> *&#160;</td>
           <td class="paramname"><em>table</em>, </td>
         </tr>
         <tr>
@@ -244,16 +244,16 @@ Functions</h2></td></tr>
 
 </div>
 </div>
-<a id="ad5d429161780067a45b79ab20d584c07"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ad5d429161780067a45b79ab20d584c07">&#9670;&nbsp;</a></span>map_domain_ip_pop()</h2>
+<a id="af866630438d1b9af81dccac6171c73b9"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#af866630438d1b9af81dccac6171c73b9">&#9670;&nbsp;</a></span>dns_map_pop()</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="map__domain__ip_8h.html#af49967b51d5078edae2ca81eb7ed6315">dns_entry_t</a>* map_domain_ip_pop </td>
+          <td class="memname"><a class="el" href="dns__map_8h.html#af49967b51d5078edae2ca81eb7ed6315">dns_entry_t</a>* dns_map_pop </td>
           <td>(</td>
-          <td class="paramtype"><a class="el" href="map__domain__ip_8h.html#a6eb4e8db406b9486ab695ca5e597e661">map_domain_ip_t</a> *&#160;</td>
+          <td class="paramtype"><a class="el" href="dns__map_8h.html#a022ce4a2dbd9bc73d81cd658e74db5dd">dns_map_t</a> *&#160;</td>
           <td class="paramname"><em>table</em>, </td>
         </tr>
         <tr>
@@ -281,16 +281,16 @@ Functions</h2></td></tr>
 
 </div>
 </div>
-<a id="a36797c49dac9ab99074947d5c0bf0b28"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a36797c49dac9ab99074947d5c0bf0b28">&#9670;&nbsp;</a></span>map_domain_ip_remove()</h2>
+<a id="a4c1f444fafae9fa4b8b7761aaa7cd101"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a4c1f444fafae9fa4b8b7761aaa7cd101">&#9670;&nbsp;</a></span>dns_map_remove()</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">void map_domain_ip_remove </td>
+          <td class="memname">void dns_map_remove </td>
           <td>(</td>
-          <td class="paramtype"><a class="el" href="map__domain__ip_8h.html#a6eb4e8db406b9486ab695ca5e597e661">map_domain_ip_t</a> *&#160;</td>
+          <td class="paramtype"><a class="el" href="dns__map_8h.html#a022ce4a2dbd9bc73d81cd658e74db5dd">dns_map_t</a> *&#160;</td>
           <td class="paramname"><em>table</em>, </td>
         </tr>
         <tr>

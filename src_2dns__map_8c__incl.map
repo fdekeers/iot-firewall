@@ -1,6 +1,6 @@
-<map id="src/map_domain_ip.c" name="src/map_domain_ip.c">
-<area shape="rect" id="node1" title="Implementation of a DNS domain name to IP addresses mapping, using Joshua J Baker&#39;s hashmap...." alt="" coords="70,5,230,32"/>
-<area shape="rect" id="node2" href="$map__domain__ip_8h.html" title="Implementation of a DNS domain name to IP addresses mapping, using Joshua J Baker&#39;s hashmap...." alt="" coords="81,80,219,107"/>
+<map id="src/dns_map.c" name="src/dns_map.c">
+<area shape="rect" id="node1" title="Implementation of a DNS domain name to IP addresses mapping, using Joshua J Baker&#39;s hashmap...." alt="" coords="93,5,207,32"/>
+<area shape="rect" id="node2" href="$dns__map_8h.html" title="Implementation of a DNS domain name to IP addresses mapping, using Joshua J Baker&#39;s hashmap...." alt="" coords="103,80,197,107"/>
 <area shape="rect" id="node3" title=" " alt="" coords="5,155,76,181"/>
 <area shape="rect" id="node4" title=" " alt="" coords="117,229,188,256"/>
 <area shape="rect" id="node5" title=" " alt="" coords="152,155,223,181"/>

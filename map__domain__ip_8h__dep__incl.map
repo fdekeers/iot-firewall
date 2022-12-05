@@ -1,5 +1,0 @@
-<map id="include/map_domain_ip.h" name="include/map_domain_ip.h">
-<area shape="rect" id="node1" title="Implementation of a DNS domain name to IP addresses mapping, using Joshua J Baker&#39;s hashmap...." alt="" coords="84,5,273,32"/>
-<area shape="rect" id="node2" href="$src_2map__domain__ip_8c.html" title="Implementation of a DNS domain name to IP addresses mapping, using Joshua J Baker&#39;s hashmap...." alt="" coords="5,80,165,107"/>
-<area shape="rect" id="node3" href="$test_2map__domain__ip_8c.html" title="Unit tests for the mapping structure from DNS domain names to IP addresses." alt="" coords="190,80,357,107"/>
-</map>

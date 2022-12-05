@@ -1,6 +1,6 @@
 <map id="include/hashmap.h" name="include/hashmap.h">
-<area shape="rect" id="node1" title="Hashmap implementation in C." alt="" coords="134,5,279,32"/>
-<area shape="rect" id="node2" href="$map__domain__ip_8h.html" title="Implementation of a DNS domain name to IP addresses mapping, using Joshua J Baker&#39;s hashmap...." alt="" coords="47,80,236,107"/>
-<area shape="rect" id="node4" href="$test_2map__domain__ip_8c.html" title="Unit tests for the mapping structure from DNS domain names to IP addresses." alt="" coords="190,155,357,181"/>
-<area shape="rect" id="node3" href="$src_2map__domain__ip_8c.html" title="Implementation of a DNS domain name to IP addresses mapping, using Joshua J Baker&#39;s hashmap...." alt="" coords="5,155,165,181"/>
+<area shape="rect" id="node1" title="Hashmap implementation in C." alt="" coords="78,5,223,32"/>
+<area shape="rect" id="node2" href="$dns__map_8h.html" title="Implementation of a DNS domain name to IP addresses mapping, using Joshua J Baker&#39;s hashmap...." alt="" coords="24,80,168,107"/>
+<area shape="rect" id="node4" href="$test_2dns__map_8c.html" title="Unit tests for the mapping structure from DNS domain names to IP addresses." alt="" coords="145,155,266,181"/>
+<area shape="rect" id="node3" href="$src_2dns__map_8c.html" title="Implementation of a DNS domain name to IP addresses mapping, using Joshua J Baker&#39;s hashmap...." alt="" coords="5,155,120,181"/>
 </map>

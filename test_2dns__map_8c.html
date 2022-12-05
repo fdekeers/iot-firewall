@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.17"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>IoT firewall: test/map_domain_ip.c File Reference</title>
+<title>IoT firewall: test/dns_map.c File Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -69,7 +69,7 @@ $(function() {
   <div class="summary">
 <a href="#func-members">Functions</a>  </div>
   <div class="headertitle">
-<div class="title">map_domain_ip.c File Reference</div>  </div>
+<div class="title">dns_map.c File Reference</div>  </div>
 </div><!--header-->
 <div class="contents">
 
@@ -77,20 +77,20 @@ $(function() {
 <a href="#details">More...</a></p>
 <div class="textblock"><code>#include &lt;string.h&gt;</code><br />
 <code>#include &quot;<a class="el" href="hashmap_8h_source.html">hashmap.h</a>&quot;</code><br />
-<code>#include &quot;<a class="el" href="map__domain__ip_8h_source.html">map_domain_ip.h</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="dns__map_8h_source.html">dns_map.h</a>&quot;</code><br />
 <code>#include &lt;CUnit/CUnit.h&gt;</code><br />
 <code>#include &lt;CUnit/Basic.h&gt;</code><br />
 </div><div class="textblock"><div class="dynheader">
-Include dependency graph for map_domain_ip.c:</div>
+Include dependency graph for dns_map.c:</div>
 <div class="dyncontent">
-<div class="center"><img src="test_2map__domain__ip_8c__incl.png" border="0" usemap="#test_2map__domain__ip_8c" alt=""/></div>
-<map name="test_2map__domain__ip_8c" id="test_2map__domain__ip_8c">
-<area shape="rect" title="Unit tests for the mapping structure from DNS domain names to IP addresses." alt="" coords="146,5,313,32"/>
+<div class="center"><img src="test_2dns__map_8c__incl.png" border="0" usemap="#test_2dns__map_8c" alt=""/></div>
+<map name="test_2dns__map_8c" id="test_2dns__map_8c">
+<area shape="rect" title="Unit tests for the mapping structure from DNS domain names to IP addresses." alt="" coords="162,5,283,32"/>
 <area shape="rect" title=" " alt="" coords="11,155,82,181"/>
 <area shape="rect" href="hashmap_8h.html" title="Hashmap implementation in C." alt="" coords="106,155,201,181"/>
-<area shape="rect" href="map__domain__ip_8h.html" title="Implementation of a DNS domain name to IP addresses mapping, using Joshua J Baker&#39;s hashmap...." alt="" coords="160,80,299,107"/>
-<area shape="rect" title=" " alt="" coords="323,80,434,107"/>
-<area shape="rect" title=" " alt="" coords="459,80,568,107"/>
+<area shape="rect" href="dns__map_8h.html" title="Implementation of a DNS domain name to IP addresses mapping, using Joshua J Baker&#39;s hashmap...." alt="" coords="176,80,269,107"/>
+<area shape="rect" title=" " alt="" coords="294,80,405,107"/>
+<area shape="rect" title=" " alt="" coords="429,80,539,107"/>
 <area shape="rect" title=" " alt="" coords="104,229,187,256"/>
 <area shape="rect" title=" " alt="" coords="5,229,80,256"/>
 <area shape="rect" title=" " alt="" coords="211,229,282,256"/>
@@ -100,17 +100,17 @@ Include dependency graph for map_domain_ip.c:</div>
 </div><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="func-members"></a>
 Functions</h2></td></tr>
-<tr class="memitem:a8363257f0273eb7f1352b6743ecb4805"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="test_2map__domain__ip_8c.html#a8363257f0273eb7f1352b6743ecb4805">test_map_domain_ip_create</a> ()</td></tr>
-<tr class="separator:a8363257f0273eb7f1352b6743ecb4805"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:afc5c1c91856c2ee5df7273973dfb9a11"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="test_2map__domain__ip_8c.html#afc5c1c91856c2ee5df7273973dfb9a11">test_map_domain_ip_empty</a> ()</td></tr>
-<tr class="separator:afc5c1c91856c2ee5df7273973dfb9a11"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a8c5e18610c34c7bcd26e88b7f8d8f607"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="test_2map__domain__ip_8c.html#a8c5e18610c34c7bcd26e88b7f8d8f607">test_map_domain_ip_add_remove</a> ()</td></tr>
-<tr class="separator:a8c5e18610c34c7bcd26e88b7f8d8f607"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a99582bdb7ed8afc90feb4a8abfe2db25"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="test_2map__domain__ip_8c.html#a99582bdb7ed8afc90feb4a8abfe2db25">test_map_domain_ip_get</a> ()</td></tr>
-<tr class="separator:a99582bdb7ed8afc90feb4a8abfe2db25"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a99d18489aae476038b7f4d5cdcc04e35"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="test_2map__domain__ip_8c.html#a99d18489aae476038b7f4d5cdcc04e35">test_map_domain_ip_pop</a> ()</td></tr>
-<tr class="separator:a99d18489aae476038b7f4d5cdcc04e35"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:abf9e6b7e6f15df4b525a2e7705ba3089"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="test_2map__domain__ip_8c.html#abf9e6b7e6f15df4b525a2e7705ba3089">main</a> (int argc, char const *argv[])</td></tr>
+<tr class="memitem:afdf90cdb68a4ff6d7dbc07062fa0b0ad"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="test_2dns__map_8c.html#afdf90cdb68a4ff6d7dbc07062fa0b0ad">test_dns_map_create</a> ()</td></tr>
+<tr class="separator:afdf90cdb68a4ff6d7dbc07062fa0b0ad"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab1a8da63dab1438b1c1f467a205b4445"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="test_2dns__map_8c.html#ab1a8da63dab1438b1c1f467a205b4445">test_dns_map_empty</a> ()</td></tr>
+<tr class="separator:ab1a8da63dab1438b1c1f467a205b4445"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:adb7bc0174a0e5954f30d4798182ab4a8"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="test_2dns__map_8c.html#adb7bc0174a0e5954f30d4798182ab4a8">test_dns_map_add_remove</a> ()</td></tr>
+<tr class="separator:adb7bc0174a0e5954f30d4798182ab4a8"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6799b740e0dc3a06852dc049bfa7f0ee"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="test_2dns__map_8c.html#a6799b740e0dc3a06852dc049bfa7f0ee">test_dns_map_get</a> ()</td></tr>
+<tr class="separator:a6799b740e0dc3a06852dc049bfa7f0ee"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae13d886f8bb4e9e6080d922d9dfd9f83"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="test_2dns__map_8c.html#ae13d886f8bb4e9e6080d922d9dfd9f83">test_dns_map_pop</a> ()</td></tr>
+<tr class="separator:ae13d886f8bb4e9e6080d922d9dfd9f83"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:abf9e6b7e6f15df4b525a2e7705ba3089"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="test_2dns__map_8c.html#abf9e6b7e6f15df4b525a2e7705ba3089">main</a> (int argc, char const *argv[])</td></tr>
 <tr class="separator:abf9e6b7e6f15df4b525a2e7705ba3089"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
@@ -148,14 +148,14 @@ Functions</h2></td></tr>
 
 </div>
 </div>
-<a id="a8c5e18610c34c7bcd26e88b7f8d8f607"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a8c5e18610c34c7bcd26e88b7f8d8f607">&#9670;&nbsp;</a></span>test_map_domain_ip_add_remove()</h2>
+<a id="adb7bc0174a0e5954f30d4798182ab4a8"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#adb7bc0174a0e5954f30d4798182ab4a8">&#9670;&nbsp;</a></span>test_dns_map_add_remove()</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">void test_map_domain_ip_add_remove </td>
+          <td class="memname">void test_dns_map_add_remove </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
           <td></td>
@@ -166,14 +166,14 @@ Functions</h2></td></tr>
 
 </div>
 </div>
-<a id="a8363257f0273eb7f1352b6743ecb4805"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a8363257f0273eb7f1352b6743ecb4805">&#9670;&nbsp;</a></span>test_map_domain_ip_create()</h2>
+<a id="afdf90cdb68a4ff6d7dbc07062fa0b0ad"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#afdf90cdb68a4ff6d7dbc07062fa0b0ad">&#9670;&nbsp;</a></span>test_dns_map_create()</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">void test_map_domain_ip_create </td>
+          <td class="memname">void test_dns_map_create </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
           <td></td>
@@ -184,14 +184,14 @@ Functions</h2></td></tr>
 
 </div>
 </div>
-<a id="afc5c1c91856c2ee5df7273973dfb9a11"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#afc5c1c91856c2ee5df7273973dfb9a11">&#9670;&nbsp;</a></span>test_map_domain_ip_empty()</h2>
+<a id="ab1a8da63dab1438b1c1f467a205b4445"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ab1a8da63dab1438b1c1f467a205b4445">&#9670;&nbsp;</a></span>test_dns_map_empty()</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">void test_map_domain_ip_empty </td>
+          <td class="memname">void test_dns_map_empty </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
           <td></td>
@@ -202,14 +202,14 @@ Functions</h2></td></tr>
 
 </div>
 </div>
-<a id="a99582bdb7ed8afc90feb4a8abfe2db25"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a99582bdb7ed8afc90feb4a8abfe2db25">&#9670;&nbsp;</a></span>test_map_domain_ip_get()</h2>
+<a id="a6799b740e0dc3a06852dc049bfa7f0ee"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a6799b740e0dc3a06852dc049bfa7f0ee">&#9670;&nbsp;</a></span>test_dns_map_get()</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">void test_map_domain_ip_get </td>
+          <td class="memname">void test_dns_map_get </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
           <td></td>
@@ -220,14 +220,14 @@ Functions</h2></td></tr>
 
 </div>
 </div>
-<a id="a99d18489aae476038b7f4d5cdcc04e35"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a99d18489aae476038b7f4d5cdcc04e35">&#9670;&nbsp;</a></span>test_map_domain_ip_pop()</h2>
+<a id="ae13d886f8bb4e9e6080d922d9dfd9f83"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae13d886f8bb4e9e6080d922d9dfd9f83">&#9670;&nbsp;</a></span>test_dns_map_pop()</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">void test_map_domain_ip_pop </td>
+          <td class="memname">void test_dns_map_pop </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
           <td></td>

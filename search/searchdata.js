@@ -3,9 +3,9 @@ var indexSectionsWithContent =
   0: "_abcdefghimnprstu",
   1: "acdhimprstu",
   2: "i",
-  3: "cdhimnprs",
+  3: "cdhinprs",
   4: "_abcdefghimnprstu",
-  5: "bcdhims",
+  5: "bcdhis",
   6: "cdhis",
   7: "i"
 };
