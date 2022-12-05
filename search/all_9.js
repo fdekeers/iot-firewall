@@ -28,7 +28,6 @@ var searchData=
   ['ipv4_5fstr_5fto_5fhex_130',['ipv4_str_to_hex',['../packet__utils_8h.html#afd0359feacd077ae779461e98139e299',1,'ipv4_str_to_hex(char *ipv4_str):&#160;packet_utils.c'],['../src_2packet__utils_8c.html#afd0359feacd077ae779461e98139e299',1,'ipv4_str_to_hex(char *ipv4_str):&#160;packet_utils.c']]],
   ['ipv4_5fstr_5fto_5fnet_131',['ipv4_str_to_net',['../packet__utils_8h.html#aec0c4e58ea5ce2049aba406624fe88ba',1,'ipv4_str_to_net(char *ipv4_str):&#160;packet_utils.c'],['../src_2packet__utils_8c.html#aec0c4e58ea5ce2049aba406624fe88ba',1,'ipv4_str_to_net(char *ipv4_str):&#160;packet_utils.c']]],
   ['ipv6_132',['ipv6',['../classipv6_1_1ipv6.html',1,'ipv6']]],
-  ['is_5fip_133',['is_ip',['../classip_1_1ip.html#a2b1c051410b12744ee207641cf6f39b4',1,'ip::ip']]],
-  ['is_5fperiodic_134',['is_periodic',['../classPolicy_1_1Policy.html#a233bdef9d280087912cee7284273e86f',1,'Policy::Policy']]],
-  ['is_5ftransient_135',['is_transient',['../classPolicy_1_1Policy.html#a363c3f00fa37cef6b1741b2fad1a0324',1,'Policy::Policy']]]
+  ['is_5fperiodic_133',['is_periodic',['../classPolicy_1_1Policy.html#a233bdef9d280087912cee7284273e86f',1,'Policy::Policy']]],
+  ['is_5ftransient_134',['is_transient',['../classPolicy_1_1Policy.html#a363c3f00fa37cef6b1741b2fad1a0324',1,'Policy::Policy']]]
 ];
