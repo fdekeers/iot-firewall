@@ -60,6 +60,27 @@ def update_dict(d: dict, key: str, parent_key: str, old_val: str, new_val: str) 
     update_dict_aux(d, key, parent_key, "", old_val, new_val)
 
 
+def replace_self_addrs(d: dict, mac: str = "", ipv4: str = "", ipv6: str = "") -> None:
+    """
+    Replace all occurrences of "self" with the given addresses.
+
+    Args:
+        d: dictionary to update
+        mac (optional): MAC address to replace "self" with
+        ipv4 (optional): IPv4 address to replace "self" with
+        ipv6 (optional): IPv6 address to replace "self" with
+    """
+    if mac:
+        update_dict(d, "sha", "arp", "self", mac)
+        update_dict(d, "tha", "arp", "self", mac)
+    if ipv4:
+        update_dict(d, "src", "ipv4", "self", ipv4)
+        update_dict(d, "dst", "ipv4", "self", ipv4)
+    if ipv6:
+        update_dict(d, "src", "ipv6", "self", ipv6)
+        update_dict(d, "dst", "ipv6", "self", ipv6)
+
+
 def construct_include(loader: IncludeLoader, node: yaml.Node) -> dict:
     """
     Include member defined in another YAML file.
@@ -95,14 +116,15 @@ def construct_include(loader: IncludeLoader, node: yaml.Node) -> dict:
         members = split2[1]
 
     # Load member to include
+    addrs = {}
     data = {}
     with open(path, 'r') as f:
         data = yaml.load(f, IgnoreLoader)
-        # Replace all "self" values with the profile's addresses
-        update_dict(data, "sha", "arp", "self", data["device-info"]["mac"])
-        update_dict(data, "tha", "arp", "self", data["device-info"]["mac"])
-        update_dict(data, "src", "ipv4", "self", data["device-info"]["ipv4"])
-        update_dict(data, "src", "ipv6", "self", data["device-info"]["ipv6"])
+
+        # Populate addrs
+        addrs["mac"] = data["device-info"].get("mac", "")
+        addrs["ipv4"] = data["device-info"].get("ipv4", "")
+        addrs["ipv6"] = data["device-info"].get("ipv6", "")
 
         for member in members.split('.'):
             data = data[member]
@@ -118,6 +140,10 @@ def construct_include(loader: IncludeLoader, node: yaml.Node) -> dict:
             else:
                 data = data[sub_key]
                 i += 1
+    
+    # Replace "self" with actual addresses
+    if isinstance(data_top, collections.abc.Mapping):
+        replace_self_addrs(data_top, addrs["mac"], addrs["ipv4"], addrs["ipv6"])
     
     return data_top
 

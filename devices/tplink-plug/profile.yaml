@@ -136,7 +136,7 @@ interaction-policies:
           dst-port: 443
         ipv4:
           dst: 205.251.243.55
-          src: local
+          src: !include ../amazon-echo/profile.yaml#device-info.ipv4
       direction: both
       stats:
         duration: 1
