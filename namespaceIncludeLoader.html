@@ -77,6 +77,10 @@ Classes</h2></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="func-members"></a>
 Functions</h2></td></tr>
+<tr class="memitem:afa0858ea6f538a210c19d9871863ae5e"><td class="memItemLeft" align="right" valign="top">None&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceIncludeLoader.html#afa0858ea6f538a210c19d9871863ae5e">update_dict_aux</a> (dict d, str key, str parent_key, str current_parent_key, str old_val, str new_val)</td></tr>
+<tr class="separator:afa0858ea6f538a210c19d9871863ae5e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:afcaffcd87959e9b0219270f204d6ad1a"><td class="memItemLeft" align="right" valign="top">None&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceIncludeLoader.html#afcaffcd87959e9b0219270f204d6ad1a">update_dict</a> (dict d, str key, str parent_key, str old_val, str new_val)</td></tr>
+<tr class="separator:afcaffcd87959e9b0219270f204d6ad1a"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:af16e76f4991bd608ee84f3c906f5ee08"><td class="memItemLeft" align="right" valign="top">dict&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceIncludeLoader.html#af16e76f4991bd608ee84f3c906f5ee08">construct_include</a> (<a class="el" href="classIncludeLoader_1_1IncludeLoader.html">IncludeLoader</a> loader, yaml.Node node)</td></tr>
 <tr class="separator:af16e76f4991bd608ee84f3c906f5ee08"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
@@ -116,6 +120,123 @@ Args:
     node: YAML node, i.e. the value occurring after the tag
 Returns:
     dict: included pattern (from this or another YAML profile)
+</pre> 
+</div>
+</div>
+<a id="afcaffcd87959e9b0219270f204d6ad1a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#afcaffcd87959e9b0219270f204d6ad1a">&#9670;&nbsp;</a></span>update_dict()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"> None IncludeLoader.update_dict </td>
+          <td>(</td>
+          <td class="paramtype">dict&#160;</td>
+          <td class="paramname"><em>d</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">str&#160;</td>
+          <td class="paramname"><em>key</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">str&#160;</td>
+          <td class="paramname"><em>parent_key</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">str&#160;</td>
+          <td class="paramname"><em>old_val</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">str&#160;</td>
+          <td class="paramname"><em>new_val</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<pre class="fragment">Recursively update all occurrences of value `old_val`,
+which are nested under key `key` and parent key `parent_key`,
+with `new_val` in dictionary `d`.
+
+Args:
+    d: dictionary to update
+    key: key to update the value of
+    parent_key: parent key of `key`
+    old_val: value to replace
+    new_val: value to replace with
+</pre> 
+</div>
+</div>
+<a id="afa0858ea6f538a210c19d9871863ae5e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#afa0858ea6f538a210c19d9871863ae5e">&#9670;&nbsp;</a></span>update_dict_aux()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"> None IncludeLoader.update_dict_aux </td>
+          <td>(</td>
+          <td class="paramtype">dict&#160;</td>
+          <td class="paramname"><em>d</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">str&#160;</td>
+          <td class="paramname"><em>key</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">str&#160;</td>
+          <td class="paramname"><em>parent_key</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">str&#160;</td>
+          <td class="paramname"><em>current_parent_key</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">str&#160;</td>
+          <td class="paramname"><em>old_val</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">str&#160;</td>
+          <td class="paramname"><em>new_val</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<pre class="fragment">Helper recursive function for `update_dict`.
+
+Args:
+    d: dictionary to update
+    key: key to update the value of
+    parent_key: parent key of `key`
+    current_parent_key: current parent key
+    old_val: value to replace
+    new_val: value to replace with
 </pre> 
 </div>
 </div>
