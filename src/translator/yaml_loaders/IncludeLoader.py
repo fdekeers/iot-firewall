@@ -6,6 +6,7 @@ Adapted from https://gist.github.com/joshbode/569627ced3076931b02f.
 import sys
 import os
 import yaml
+import collections.abc
 
 # Import IgnoreLoader
 sys.path.append(os.path.abspath(os.path.dirname(__file__)))
@@ -19,6 +20,44 @@ class IncludeLoader(yaml.SafeLoader):
     def __init__(self, stream) -> None:
         # Use parent constructor
         super().__init__(stream)
+
+
+def update_dict_aux(d: dict, key: str, parent_key: str, current_parent_key: str, old_val: str, new_val: str) -> None:
+    """
+    Helper recursive function for `update_dict`.
+
+    Args:
+        d: dictionary to update
+        key: key to update the value of
+        parent_key: parent key of `key`
+        current_parent_key: current parent key
+        old_val: value to replace
+        new_val: value to replace with
+    """
+    for k, v in d.items():
+        if isinstance(v, collections.abc.Mapping):
+            # Value is a dictionary itself, recursion time
+            update_dict_aux(d.get(k, {}), key, parent_key, k, old_val, new_val)
+        else:
+            # Value is a scalar
+            if k == key and current_parent_key == parent_key and v == old_val:
+                d[k] = new_val
+
+
+def update_dict(d: dict, key: str, parent_key: str, old_val: str, new_val: str) -> None:
+    """
+    Recursively update all occurrences of value `old_val`,
+    which are nested under key `key` and parent key `parent_key`,
+    with `new_val` in dictionary `d`.
+
+    Args:
+        d: dictionary to update
+        key: key to update the value of
+        parent_key: parent key of `key`
+        old_val: value to replace
+        new_val: value to replace with
+    """
+    update_dict_aux(d, key, parent_key, "", old_val, new_val)
 
 
 def construct_include(loader: IncludeLoader, node: yaml.Node) -> dict:
@@ -59,6 +98,12 @@ def construct_include(loader: IncludeLoader, node: yaml.Node) -> dict:
     data = {}
     with open(path, 'r') as f:
         data = yaml.load(f, IgnoreLoader)
+        # Replace all "self" values with the profile's addresses
+        update_dict(data, "sha", "arp", "self", data["mac"])
+        update_dict(data, "tha", "arp", "self", data["mac"])
+        update_dict(data, "src", "ipv4", "self", data["ipv4"])
+        update_dict(data, "src", "ipv6", "self", data["ipv6"])
+
         for member in members.split('.'):
             data = data[member]
     

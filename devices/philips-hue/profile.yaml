@@ -304,7 +304,7 @@ interaction-policies:
   # Opening SmartThings app in local network
   open-smartthings-app-local:
 
-    open-app: !include ../smartthings-hub/profile.yaml#interaction-policies.open-app-local 
+    open-app: !include ../smartthings-hub/profile.yaml#interaction-policies.open-app-local
 
     ssdp-response-hue:
       protocols:
