@@ -99,10 +99,10 @@ def construct_include(loader: IncludeLoader, node: yaml.Node) -> dict:
     with open(path, 'r') as f:
         data = yaml.load(f, IgnoreLoader)
         # Replace all "self" values with the profile's addresses
-        update_dict(data, "sha", "arp", "self", data["mac"])
-        update_dict(data, "tha", "arp", "self", data["mac"])
-        update_dict(data, "src", "ipv4", "self", data["ipv4"])
-        update_dict(data, "src", "ipv6", "self", data["ipv6"])
+        update_dict(data, "sha", "arp", "self", data["device-info"]["mac"])
+        update_dict(data, "tha", "arp", "self", data["device-info"]["mac"])
+        update_dict(data, "src", "ipv4", "self", data["device-info"]["ipv4"])
+        update_dict(data, "src", "ipv6", "self", data["device-info"]["ipv6"])
 
         for member in members.split('.'):
             data = data[member]
