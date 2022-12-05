@@ -8,7 +8,6 @@ table netdev test {
         type filter hook ingress device enp0s8 priority 0; policy accept;
 
         # Rules
-        ip saddr { 192.168.1.2, , }
 
     }
 

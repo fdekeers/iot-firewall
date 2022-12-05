@@ -238,4 +238,4 @@ if __name__ == "__main__":
         }
         env.get_template("CMakeLists.txt.j2").stream(cmake_dict).dump(f"{device_path}/CMakeLists.txt")
 
-    print("Done.")
+    print(f"Done translating {args.profile}.")

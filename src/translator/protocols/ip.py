@@ -1,4 +1,3 @@
-import ipaddress
 from protocols.Protocol import Protocol
 
 class ip(Protocol):
@@ -12,23 +11,6 @@ class ip(Protocol):
         "src",
         "dst"
     ]
-
-
-    @staticmethod
-    def is_ip(addr: str) -> bool:
-        """
-        Check whether a string is an IP address.
-
-        Args:
-            addr (str): String to check.
-        Returns:
-            bool: True if the string is an IP address, False otherwise.
-        """
-        try:
-            ipaddress.ip_address(addr)
-            return True
-        except ValueError:
-            return False
 
 
     def explicit_address(self, addr: str) -> str:
@@ -53,8 +35,8 @@ class ip(Protocol):
             else:
                 # Single corresponding explicit address
                 return explicit
-        elif ip.is_ip(addr):
-            # Address is an explicit IPv4 or IPv6 address
+        else:
+            # Address is an explicit address or a domain name
             return addr
 
 

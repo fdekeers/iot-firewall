@@ -31,8 +31,8 @@ class Transport(Protocol):
         if initiator:
             # Template rules
             template_rules = {
-                "src-port": {"forward": f"ct original proto-src {{}}", "backward": f"ct original proto-dst {{}}"},
-                "dst-port": {"forward": f"ct original proto-dst {{}}", "backward": f"ct original proto-src {{}}"}
+                "src-port": {"forward": "ct original proto-src {{ {} }}", "backward": "ct original proto-dst {{ {} }}"},
+                "dst-port": {"forward": "ct original proto-dst {{ {} }}", "backward": "ct original proto-src {{ {} }}"}
             }
             if ((initiator == "src" and (direction == "out" or direction == "both")) or
                 (initiator == "dst" and direction == "in")):
@@ -48,10 +48,10 @@ class Transport(Protocol):
         # Connection initiator is not specified
         else:
             # Handle source port
-            rules = {"forward": f"{self.protocol_name} sport {{}}", "backward": f"{self.protocol_name} dport {{}}"}
+            rules = {"forward": self.protocol_name + " sport {{ {} }}", "backward": self.protocol_name + " dport {{ {} }}"}
             self.add_field("src-port", rules, direction)
             # Handle destination port
-            rules = {"forward": f"{self.protocol_name} dport {{}}", "backward": f"{self.protocol_name} sport {{}}"}
+            rules = {"forward": self.protocol_name + " dport {{ {} }}", "backward": self.protocol_name + " sport {{ {} }}"}
             self.add_field("dst-port", rules, direction)
         
         return self.rules
