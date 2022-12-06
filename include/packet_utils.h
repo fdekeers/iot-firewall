@@ -14,6 +14,7 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <stdint.h>
+#include <stdbool.h>
 #include <string.h>
 #include <arpa/inet.h>
 
@@ -90,6 +91,15 @@ char* mac_hex_to_str(uint8_t mac_hex[]);
  * @return the same MAC address in hexadecimal representation
  */
 uint8_t* mac_str_to_hex(char *mac_str);
+
+/**
+ * @brief Compare two IPv6 addresses.
+ *
+ * @param ipv6_1 first IPv6 address
+ * @param ipv6_2 second IPv6 address
+ * @return true if the two addresses are equal, false otherwise
+ */
+bool compare_ipv6(uint8_t *ipv6_1, uint8_t *ipv6_2);
 
 
 #endif /* _IOTFIREWALL_PACKET_UTILS_ */

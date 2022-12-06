@@ -151,3 +151,14 @@ uint8_t* mac_str_to_hex(char *mac_str) {
     }
     return mac_hex;
 }
+
+/**
+ * @brief Compare two IPv6 addresses.
+ *
+ * @param ipv6_1 first IPv6 address
+ * @param ipv6_2 second IPv6 address
+ * @return true if the two addresses are equal, false otherwise
+ */
+bool compare_ipv6(uint8_t *ipv6_1, uint8_t *ipv6_2) {
+    return memcmp(ipv6_1, ipv6_2, 16) == 0;
+}

@@ -35,6 +35,10 @@ void test_tcp_syn() {
     CU_ASSERT_EQUAL(l3_header_length, 20);
 
     // IPv4 destination address
+    uint32_t ipv4_src_addr = get_ipv4_src_addr(payload);
+    CU_ASSERT_STRING_EQUAL(ipv4_net_to_str(ipv4_src_addr), "192.168.1.150");
+
+    // IPv4 destination address
     uint32_t ipv4_dst_addr = get_ipv4_dst_addr(payload);
     CU_ASSERT_STRING_EQUAL(ipv4_net_to_str(ipv4_dst_addr), "108.138.225.17");
 
@@ -71,6 +75,10 @@ void test_https_data() {
     CU_ASSERT_EQUAL(l3_header_length, 20);
 
     // IPv4 destination address
+    uint32_t ipv4_src_addr = get_ipv4_src_addr(payload);
+    CU_ASSERT_STRING_EQUAL(ipv4_net_to_str(ipv4_src_addr), "192.168.1.222");
+
+    // IPv4 destination address
     uint32_t ipv4_dst_addr = get_ipv4_dst_addr(payload);
     CU_ASSERT_STRING_EQUAL(ipv4_net_to_str(ipv4_dst_addr), "192.168.1.141");
 
@@ -105,6 +113,18 @@ void test_dns_ipv6() {
     // Layer-3 header length
     uint16_t l3_header_length = get_l3_header_length(payload);
     CU_ASSERT_EQUAL(l3_header_length, IPV6_HEADER_LENGTH);
+
+    // IPv6 source address
+    uint8_t *ipv6_src_addr = get_ipv6_src_addr(payload);
+    uint8_t expected_src[IPV6_ADDR_LENGTH] = {0xfd, 0xdd, 0xed, 0x18, 0xf0, 0x5b, 0x00, 0x00, 0xd8, 0xa3, 0xad, 0xc0, 0xf6, 0x8f, 0xe5, 0xcf};
+    CU_ASSERT_TRUE(compare_ipv6(ipv6_src_addr, expected_src));
+    free(ipv6_src_addr);
+
+    // IPv6 destination address
+    uint8_t *ipv6_dst_addr = get_ipv6_dst_addr(payload);
+    uint8_t expected_dst[IPV6_ADDR_LENGTH] = {0xfd, 0xdd, 0xed, 0x18, 0xf0, 0x5b, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x01};
+    CU_ASSERT_TRUE(compare_ipv6(ipv6_dst_addr, expected_dst));
+    free(ipv6_dst_addr);
 
     // UDP header length
     uint16_t udp_header_length = get_udp_header_length(payload + l3_header_length);

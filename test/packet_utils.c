@@ -100,6 +100,19 @@ void test_mac_str_to_hex() {
 }
 
 /**
+ * @brief Unit test for the function compare_ipv6.
+ */
+void test_compare_ipv6() {
+    uint8_t ipv6_1[] = {0x20, 0x01, 0x0d, 0xb8, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x01};
+    uint8_t ipv6_2[] = {0x20, 0x01, 0x0d, 0xb8, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x01};
+    uint8_t ipv6_3[] = {0x20, 0x01, 0x0d, 0xb8, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x02};
+    CU_ASSERT_TRUE(compare_ipv6(ipv6_1, ipv6_2));
+    CU_ASSERT_TRUE(compare_ipv6(ipv6_2, ipv6_1));
+    CU_ASSERT_FALSE(compare_ipv6(ipv6_1, ipv6_3));
+    CU_ASSERT_FALSE(compare_ipv6(ipv6_3, ipv6_1));
+}
+
+/**
  * Test suite entry point.
  */
 int main(int argc, char const *argv[])
@@ -117,6 +130,7 @@ int main(int argc, char const *argv[])
     CU_add_test(suite, "ipv4_str_to_hex", test_ipv4_str_to_hex);
     CU_add_test(suite, "mac_hex_to_str", test_mac_hex_to_str);
     CU_add_test(suite, "mac_str_to_hex", test_mac_str_to_hex);
+    CU_add_test(suite, "compare_ipv6", test_compare_ipv6);
     CU_basic_run_tests();
     return 0;
 }

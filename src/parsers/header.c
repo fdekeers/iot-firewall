@@ -157,6 +157,17 @@ uint16_t get_dst_port(uint8_t *data) {
 }
 
 /**
+ * @brief Retrieve the source address from an IPv4 header.
+ *
+ * @param data pointer to the start of the IPv4 header
+ * @return source IPv4 address, in network byte order
+ */
+uint32_t get_ipv4_src_addr(uint8_t *data) {
+    // Source address is encoded in bytes 12 to 15
+    return *((uint32_t*) (data + 12));
+}
+
+/**
  * @brief Retrieve the destination address from an IPv4 header.
  * 
  * @param data pointer to the start of the IPv4 header
@@ -165,4 +176,30 @@ uint16_t get_dst_port(uint8_t *data) {
 uint32_t get_ipv4_dst_addr(uint8_t* data) {
     // Destination address is encoded in bytes 16 to 19
     return *((uint32_t*) (data + 16));
+}
+
+/**
+ * @brief Retrieve the source address from an IPv6 header.
+ *
+ * @param data pointer to the start of the IPv6 header
+ * @return source IPv6 address, as a 16-byte array
+ */
+uint8_t* get_ipv6_src_addr(uint8_t *data) {
+    // Source address is encoded in bytes 8 to 23
+    uint8_t *addr = (uint8_t *) malloc(IPV6_ADDR_LENGTH);
+    memcpy(addr, data + 8, IPV6_ADDR_LENGTH);
+    return addr;
+}
+
+/**
+ * @brief Retrieve the destination address from an IPv6 header.
+ *
+ * @param data pointer to the start of the IPv6 header
+ * @return destination IPv6 address, as a 16-byte array
+ */
+uint8_t* get_ipv6_dst_addr(uint8_t *data) {
+    // Source address is encoded in bytes 24 to 39
+    uint8_t *addr = (uint8_t *) malloc(IPV6_ADDR_LENGTH);
+    memcpy(addr, data + 24, IPV6_ADDR_LENGTH);
+    return addr;
 }

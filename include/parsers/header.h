@@ -20,10 +20,14 @@
 #ifndef _IOTFIREWALL_HEADER_
 #define _IOTFIREWALL_HEADER_
 
+#include <stdlib.h>
 #include <stdio.h>
 #include <stdint.h>
+#include <string.h>
 #include <arpa/inet.h>
 
+#define IPV4_ADDR_LENGTH   4
+#define IPV6_ADDR_LENGTH   16
 #define IPV6_HEADER_LENGTH 40
 #define UDP_HEADER_LENGTH  8
 
@@ -103,12 +107,36 @@ uint16_t get_udp_payload_length(uint8_t *data);
 uint16_t get_dst_port(uint8_t* data);
 
 /**
+ * @brief Retrieve the source address from an IPv4 header.
+ *
+ * @param data pointer to the start of the IPv4 header
+ * @return source IPv4 address, in network byte order
+ */
+uint32_t get_ipv4_src_addr(uint8_t *data);
+
+/**
  * @brief Retrieve the destination address from an IPv4 header.
  *
  * @param data pointer to the start of the IPv4 header
  * @return destination IPv4 address, in network byte order
  */
 uint32_t get_ipv4_dst_addr(uint8_t *data);
+
+/**
+ * @brief Retrieve the source address from an IPv6 header.
+ *
+ * @param data pointer to the start of the IPv6 header
+ * @return source IPv6 address, as a 16-byte array
+ */
+uint8_t* get_ipv6_src_addr(uint8_t *data);
+
+/**
+ * @brief Retrieve the destination address from an IPv6 header.
+ *
+ * @param data pointer to the start of the IPv6 header
+ * @return destination IPv6 address, as a 16-byte array
+ */
+uint8_t* get_ipv6_dst_addr(uint8_t *data);
 
 
 #endif /* _IOTFIREWALL_HEADER_ */
