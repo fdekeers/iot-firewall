@@ -1,7 +1,9 @@
 <map id="src/parsers/header.c" name="src/parsers/header.c">
-<area shape="rect" id="node1" title="Parser for layer 3 and 4 headers (currently only IPv4, IPv6, UDP and TCP)" alt="" coords="56,5,208,32"/>
-<area shape="rect" id="node2" href="$header_8h.html" title="Parser for layer 3 and 4 headers (currently only IP, UDP and TCP)" alt="" coords="93,80,171,107"/>
-<area shape="rect" id="node3" title=" " alt="" coords="5,155,72,181"/>
-<area shape="rect" id="node4" title=" " alt="" coords="97,155,167,181"/>
-<area shape="rect" id="node5" title=" " alt="" coords="191,155,283,181"/>
+<area shape="rect" id="node1" title="Parser for layer 3 and 4 headers (currently only IPv4, IPv6, UDP and TCP)" alt="" coords="151,5,303,32"/>
+<area shape="rect" id="node2" href="$header_8h.html" title="Parser for layer 3 and 4 headers (currently only IP, UDP and TCP)" alt="" coords="188,80,267,107"/>
+<area shape="rect" id="node3" title=" " alt="" coords="5,155,76,181"/>
+<area shape="rect" id="node4" title=" " alt="" coords="101,155,167,181"/>
+<area shape="rect" id="node5" title=" " alt="" coords="192,155,263,181"/>
+<area shape="rect" id="node6" title=" " alt="" coords="287,155,357,181"/>
+<area shape="rect" id="node7" title=" " alt="" coords="381,155,473,181"/>
 </map>

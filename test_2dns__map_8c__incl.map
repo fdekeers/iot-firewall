@@ -1,15 +1,15 @@
 <map id="test/dns_map.c" name="test/dns_map.c">
-<area shape="rect" id="node1" title="Unit tests for the mapping structure from DNS domain names to IP addresses." alt="" coords="365,5,486,32"/>
-<area shape="rect" id="node2" title=" " alt="" coords="363,155,434,181"/>
-<area shape="rect" id="node3" href="$hashmap_8h.html" title="Hashmap implementation in C." alt="" coords="98,155,193,181"/>
-<area shape="rect" id="node7" href="$packet__utils_8h.html" title="Utilitaries for payload manipulation and display." alt="" coords="416,80,528,107"/>
-<area shape="rect" id="node11" href="$dns__map_8h.html" title="Implementation of a DNS domain name to IP addresses mapping, using Joshua J Baker&#39;s hashmap...." alt="" coords="248,80,341,107"/>
-<area shape="rect" id="node12" title=" " alt="" coords="553,80,663,107"/>
-<area shape="rect" id="node13" title=" " alt="" coords="688,80,797,107"/>
-<area shape="rect" id="node4" title=" " alt="" coords="104,229,187,256"/>
-<area shape="rect" id="node5" title=" " alt="" coords="5,229,80,256"/>
-<area shape="rect" id="node6" title=" " alt="" coords="211,229,282,256"/>
-<area shape="rect" id="node8" title=" " alt="" coords="269,155,339,181"/>
-<area shape="rect" id="node9" title=" " alt="" coords="509,155,576,181"/>
-<area shape="rect" id="node10" title=" " alt="" coords="601,155,693,181"/>
+<area shape="rect" id="node1" title="Unit tests for the mapping structure from DNS domain names to IP addresses." alt="" coords="276,5,397,32"/>
+<area shape="rect" id="node2" title=" " alt="" coords="271,155,341,181"/>
+<area shape="rect" id="node3" href="$hashmap_8h.html" title="Hashmap implementation in C." alt="" coords="5,155,100,181"/>
+<area shape="rect" id="node7" href="$packet__utils_8h.html" title="Utilitaries for payload manipulation and display." alt="" coords="327,80,439,107"/>
+<area shape="rect" id="node11" href="$dns__map_8h.html" title="Implementation of a DNS domain name to IP addresses mapping, using Joshua J Baker&#39;s hashmap...." alt="" coords="159,80,253,107"/>
+<area shape="rect" id="node12" title=" " alt="" coords="464,80,575,107"/>
+<area shape="rect" id="node13" title=" " alt="" coords="599,80,709,107"/>
+<area shape="rect" id="node4" title=" " alt="" coords="297,229,379,256"/>
+<area shape="rect" id="node5" title=" " alt="" coords="10,229,85,256"/>
+<area shape="rect" id="node6" title=" " alt="" coords="109,229,180,256"/>
+<area shape="rect" id="node8" title=" " alt="" coords="176,155,247,181"/>
+<area shape="rect" id="node9" title=" " alt="" coords="467,155,534,181"/>
+<area shape="rect" id="node10" title=" " alt="" coords="559,155,651,181"/>
 </map>

@@ -77,29 +77,33 @@ $(function() {
 <div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;<span class="preprocessor">#include &lt;stdlib.h&gt;</span></div>
 <div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;<span class="preprocessor">#include &lt;stdio.h&gt;</span></div>
 <div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;<span class="preprocessor">#include &lt;stdint.h&gt;</span></div>
-<div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;<span class="preprocessor">#include &lt;string.h&gt;</span></div>
-<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;<span class="preprocessor">#include &lt;arpa/inet.h&gt;</span></div>
-<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160; </div>
+<div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;<span class="preprocessor">#include &lt;stdbool.h&gt;</span></div>
+<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;<span class="preprocessor">#include &lt;string.h&gt;</span></div>
+<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;<span class="preprocessor">#include &lt;arpa/inet.h&gt;</span></div>
 <div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160; </div>
-<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;<span class="keywordtype">void</span> <a class="code" href="packet__utils_8h.html#a44979aeba5fa3cf09da9824d06258026">print_payload</a>(<span class="keywordtype">int</span> length, uint8_t *data);</div>
-<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160; </div>
-<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;<span class="keywordtype">size_t</span> <a class="code" href="packet__utils_8h.html#ab0f4188fc72640915610c4bdc6c1076a">hexstr_to_payload</a>(<span class="keywordtype">char</span> *hexstring, uint8_t **payload);</div>
-<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160; </div>
-<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;<span class="keywordtype">char</span>* <a class="code" href="packet__utils_8h.html#aca3b03cddf39c462412cf8381f94d67b">ipv4_net_to_str</a>(uint32_t ipv4_net);</div>
-<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160; </div>
-<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;uint32_t <a class="code" href="packet__utils_8h.html#aec0c4e58ea5ce2049aba406624fe88ba">ipv4_str_to_net</a>(<span class="keywordtype">char</span> *ipv4_str);</div>
-<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160; </div>
-<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;<span class="keywordtype">char</span>* <a class="code" href="packet__utils_8h.html#a90d164aab89bcf655c38eabac718ab42">ipv4_hex_to_str</a>(<span class="keywordtype">char</span> *ipv4_hex);</div>
-<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160; </div>
-<div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;<span class="keywordtype">char</span>* <a class="code" href="packet__utils_8h.html#afd0359feacd077ae779461e98139e299">ipv4_str_to_hex</a>(<span class="keywordtype">char</span> *ipv4_str);</div>
-<div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160; </div>
-<div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160;<span class="keywordtype">char</span>* <a class="code" href="packet__utils_8h.html#a1bc222f582ac4d678327b51b1ae1e0cd">mac_hex_to_str</a>(uint8_t mac_hex[]);</div>
-<div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160; </div>
-<div class="line"><a name="l00092"></a><span class="lineno">   92</span>&#160;uint8_t* <a class="code" href="packet__utils_8h.html#ae5b6a442f62576acfc01ccdc17d1202e">mac_str_to_hex</a>(<span class="keywordtype">char</span> *mac_str);</div>
-<div class="line"><a name="l00093"></a><span class="lineno">   93</span>&#160; </div>
+<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160; </div>
+<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;<span class="keywordtype">void</span> <a class="code" href="packet__utils_8h.html#a44979aeba5fa3cf09da9824d06258026">print_payload</a>(<span class="keywordtype">int</span> length, uint8_t *data);</div>
+<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160; </div>
+<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;<span class="keywordtype">size_t</span> <a class="code" href="packet__utils_8h.html#ab0f4188fc72640915610c4bdc6c1076a">hexstr_to_payload</a>(<span class="keywordtype">char</span> *hexstring, uint8_t **payload);</div>
+<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160; </div>
+<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;<span class="keywordtype">char</span>* <a class="code" href="packet__utils_8h.html#aca3b03cddf39c462412cf8381f94d67b">ipv4_net_to_str</a>(uint32_t ipv4_net);</div>
+<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160; </div>
+<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;uint32_t <a class="code" href="packet__utils_8h.html#aec0c4e58ea5ce2049aba406624fe88ba">ipv4_str_to_net</a>(<span class="keywordtype">char</span> *ipv4_str);</div>
+<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160; </div>
+<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;<span class="keywordtype">char</span>* <a class="code" href="packet__utils_8h.html#a90d164aab89bcf655c38eabac718ab42">ipv4_hex_to_str</a>(<span class="keywordtype">char</span> *ipv4_hex);</div>
+<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160; </div>
+<div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;<span class="keywordtype">char</span>* <a class="code" href="packet__utils_8h.html#afd0359feacd077ae779461e98139e299">ipv4_str_to_hex</a>(<span class="keywordtype">char</span> *ipv4_str);</div>
+<div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160; </div>
+<div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160;<span class="keywordtype">char</span>* <a class="code" href="packet__utils_8h.html#a1bc222f582ac4d678327b51b1ae1e0cd">mac_hex_to_str</a>(uint8_t mac_hex[]);</div>
+<div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160; </div>
+<div class="line"><a name="l00093"></a><span class="lineno">   93</span>&#160;uint8_t* <a class="code" href="packet__utils_8h.html#ae5b6a442f62576acfc01ccdc17d1202e">mac_str_to_hex</a>(<span class="keywordtype">char</span> *mac_str);</div>
 <div class="line"><a name="l00094"></a><span class="lineno">   94</span>&#160; </div>
-<div class="line"><a name="l00095"></a><span class="lineno">   95</span>&#160;<span class="preprocessor">#endif </span><span class="comment">/* _IOTFIREWALL_PACKET_UTILS_ */</span><span class="preprocessor"></span></div>
+<div class="line"><a name="l00102"></a><span class="lineno">  102</span>&#160;<span class="keywordtype">bool</span> <a class="code" href="packet__utils_8h.html#a8bf21da358673470bd01dd67a4f55474">compare_ipv6</a>(uint8_t *ipv6_1, uint8_t *ipv6_2);</div>
+<div class="line"><a name="l00103"></a><span class="lineno">  103</span>&#160; </div>
+<div class="line"><a name="l00104"></a><span class="lineno">  104</span>&#160; </div>
+<div class="line"><a name="l00105"></a><span class="lineno">  105</span>&#160;<span class="preprocessor">#endif </span><span class="comment">/* _IOTFIREWALL_PACKET_UTILS_ */</span><span class="preprocessor"></span></div>
 </div><!-- fragment --></div><!-- contents -->
+<div class="ttc" id="apacket__utils_8h_html_a8bf21da358673470bd01dd67a4f55474"><div class="ttname"><a href="packet__utils_8h.html#a8bf21da358673470bd01dd67a4f55474">compare_ipv6</a></div><div class="ttdeci">bool compare_ipv6(uint8_t *ipv6_1, uint8_t *ipv6_2)</div><div class="ttdoc">Compare two IPv6 addresses.</div><div class="ttdef"><b>Definition:</b> packet_utils.c:162</div></div>
 <div class="ttc" id="apacket__utils_8h_html_a90d164aab89bcf655c38eabac718ab42"><div class="ttname"><a href="packet__utils_8h.html#a90d164aab89bcf655c38eabac718ab42">ipv4_hex_to_str</a></div><div class="ttdeci">char * ipv4_hex_to_str(char *ipv4_hex)</div><div class="ttdef"><b>Definition:</b> packet_utils.c:90</div></div>
 <div class="ttc" id="apacket__utils_8h_html_aca3b03cddf39c462412cf8381f94d67b"><div class="ttname"><a href="packet__utils_8h.html#aca3b03cddf39c462412cf8381f94d67b">ipv4_net_to_str</a></div><div class="ttdeci">char * ipv4_net_to_str(uint32_t ipv4_net)</div><div class="ttdef"><b>Definition:</b> packet_utils.c:65</div></div>
 <div class="ttc" id="apacket__utils_8h_html_ab0f4188fc72640915610c4bdc6c1076a"><div class="ttname"><a href="packet__utils_8h.html#ab0f4188fc72640915610c4bdc6c1076a">hexstr_to_payload</a></div><div class="ttdeci">size_t hexstr_to_payload(char *hexstring, uint8_t **payload)</div><div class="ttdef"><b>Definition:</b> packet_utils.c:45</div></div>
