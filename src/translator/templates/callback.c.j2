@@ -145,7 +145,15 @@ uint32_t callback_{{policy_jinja}}(int pkt_id, int pkt_len, uint8_t *payload, vo
             {% endif %}
             {% endif %}
             {% if "dns" in policy.custom_parser %}
-            //dns_map_add(dns_map, )
+            {% set is_response = namespace(value=False) %}
+            {% for nfq_match in nfq_matches %}
+            {% set is_response.value = "message.header.qr == " in nfq_match[for_or_back]["template"] and nfq_match[for_or_back]["match"] == 1 %}
+            {% if is_response.value and "domain_name" in nfq_match[for_or_back]["template"] %}
+            {% set domain_name = nfq_match[for_or_back]["match"] %}
+            ip_list_t ip_list = dns_get_ip_from_name(message.answers, message.header.ancount, "{{domain_name}}");
+            dns_map_add(dns_map, "{{domain_name}}", ip_list);
+            {% endif %}
+            {% endfor %}
             {% endif %}
             verdict = NF_ACCEPT;
             printf("Accept: policy {{policy.name}}, backward = {{is_backward}}, state = {{states[state_index]}}\n");
@@ -236,6 +244,17 @@ uint32_t callback_{{policy_jinja}}(int pkt_id, int pkt_len, uint8_t *payload, vo
         system("sudo nft add rule {{nft_table}} {{nft_chain}} {{next_rule_backward}}");
         {% endif %}
         {% endif %}
+        {% endif %}
+        {% if "dns" in policy.custom_parser %}
+        {% set is_response = namespace(value=False) %}
+        {% for nfq_match in nfq_matches %}
+        {% set is_response.value = "message.header.qr == " in nfq_match[for_or_back]["template"] and nfq_match[for_or_back]["match"] == 1 %}
+        {% if is_response.value and "domain_name" in nfq_match[for_or_back]["template"] %}
+        {% set domain_name = nfq_match[for_or_back]["match"] %}
+        ip_list_t ip_list = dns_get_ip_from_name(message.answers, message.header.ancount, "{{domain_name}}");
+        dns_map_add(dns_map, "{{domain_name}}", ip_list);
+        {% endif %}
+        {% endfor %}
         {% endif %}
         verdict = NF_ACCEPT;
         printf("Accept: policy {{policy.name}}, backward = {{is_backward}}, state = {{current_state.value}}\n");

@@ -8,8 +8,8 @@
  * 
  */
 
-#ifndef _IOTFIREWALL_dns_map_
-#define _IOTFIREWALL_dns_map_
+#ifndef _IOTFIREWALL_DNS_MAP_
+#define _IOTFIREWALL_DNS_MAP_
 
 #include <stdlib.h>
 #include <stdint.h>
@@ -18,19 +18,26 @@
 
 // Initial size of the DNS table
 // If set to 0, the default size will be 16
-#define dns_map_INIT_SIZE 0
+#define DNS_MAP_INIT_SIZE 0
 
 
 ////////// TYPE DEFINITIONS //////////
 
 /**
+ * List of IP addresses
+ */
+typedef struct ip_list {
+    uint8_t ip_count;        // Number of IP addresses
+    uint32_t *ip_addresses;  // List of IP addresses, as 32-bit unsigned integers in network byte order
+} ip_list_t;
+
+/**
  * DNS table entry:
- * mapping between domain name and IP address.
+ * mapping between domain name and a list of IP addresses.
  */
 typedef struct dns_entry {
-    char *domain_name;    // Domain name
-    uint16_t ip_count;    // Number of IP addresses
-    char **ip_addresses;  // List of IP addresses corresponding to the domain name
+    char *domain_name;  // Domain name
+    ip_list_t ip_list;  // List of IP addresses
 } dns_entry_t;
 
 /**
@@ -61,10 +68,9 @@ void dns_map_destroy(dns_map_t *table);
  * 
  * @param table the DNS table to add the entry to
  * @param domain_name the domain name of the entry
- * @param ip_count the number of IP addresses to add
- * @param ip_addresses a pointer to the IP addresses corresponding to the domain name
+ * @param ip_list an ip_list_t structure containing the list of IP addresses
  */
-void dns_map_add(dns_map_t *table, char *domain_name, uint16_t ip_count, char **ip_addresses);
+void dns_map_add(dns_map_t *table, char *domain_name, ip_list_t ip_list);
 
 /**
  * Remove a domain name (and its corresponding IP addresses) from the DNS table.
@@ -96,4 +102,4 @@ dns_entry_t* dns_map_get(dns_map_t *table, char *domain_name);
 dns_entry_t* dns_map_pop(dns_map_t *table, char *domain_name);
 
 
-#endif /* _IOTFIREWALL_dns_map_ */
+#endif /* _IOTFIREWALL_DNS_MAP_ */

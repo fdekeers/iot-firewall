@@ -47,7 +47,7 @@ static int dns_compare(const void *a, const void *b, void *udata) {
  * @param item the entry to free
  */
 static void dns_free(void *item) {
-    free(((dns_entry_t *) item)->ip_addresses);
+    free(((dns_entry_t *) item)->ip_list.ip_addresses);
 }
 
 /**
@@ -58,14 +58,14 @@ static void dns_free(void *item) {
  */
 dns_map_t* dns_map_create() {
     return hashmap_new(
-        sizeof(dns_entry_t),  // Size of one entry
-        dns_map_INIT_SIZE,    // Hashmap initial size
-        rand(),               // Optional seed 1
-        rand(),               // Optional seed 2
-        &dns_hash,            // Hash function
-        &dns_compare,         // Compare function
-        &dns_free,            // Element free function
-        NULL                  // User data, unused
+        sizeof(dns_entry_t), // Size of one entry
+        DNS_MAP_INIT_SIZE,   // Hashmap initial size
+        rand(),              // Optional seed 1
+        rand(),              // Optional seed 2
+        &dns_hash,           // Hash function
+        &dns_compare,        // Compare function
+        &dns_free,           // Element free function
+        NULL                 // User data, unused
     );
 }
 
@@ -81,14 +81,13 @@ void dns_map_destroy(dns_map_t *table) {
 /**
  * Add IP addresses corresponding to a given domain name in the DNS table.
  * If the domain name was already present, its IP addresses will be replaced by the new ones.
- * 
+ *
  * @param table the DNS table to add the entry to
  * @param domain_name the domain name of the entry
- * @param ip_count the number of IP addresses to add
- * @param ip_addresses a pointer to the IP addresses corresponding to the domain name
+ * @param ip_list an ip_list_t structure containing the list of IP addresses
  */
-void dns_map_add(dns_map_t *table, char *domain_name, uint16_t ip_count, char **ip_addresses) {
-    hashmap_set(table, &(dns_entry_t){ .domain_name = domain_name, .ip_count = ip_count, .ip_addresses = ip_addresses });
+void dns_map_add(dns_map_t *table, char *domain_name, ip_list_t ip_list) {
+    hashmap_set(table, &(dns_entry_t){ .domain_name = domain_name, .ip_list = ip_list });
 }
 
 /**

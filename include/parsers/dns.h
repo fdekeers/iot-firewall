@@ -54,14 +54,6 @@ typedef enum {
 } dns_rr_type_t;
 
 /**
- * List of IP addresses
- */
-typedef struct ip_list {
-    uint8_t ip_count;       // Number of IP addresses
-    uint32_t *ip_addresses;  // List of IP addresses
-} ip_list_t;
-
-/**
  * DNS Header
  */
 typedef struct dns_header {
