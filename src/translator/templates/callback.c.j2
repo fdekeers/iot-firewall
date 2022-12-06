@@ -146,8 +146,10 @@ uint32_t callback_{{policy_jinja}}(int pkt_id, int pkt_len, uint8_t *payload, vo
             {% endif %}
             {% if "dns" in policy.custom_parser %}
             {% set is_response = namespace(value=False) %}
-            {% for nfq_match in nfq_matches %}
-            {% set is_response.value = "message.header.qr == " in nfq_match[for_or_back]["template"] and nfq_match[for_or_back]["match"] == 1 %}
+            {% for nfq_match in policy.nfq_matches %}
+            {% if "message.header.qr == " in nfq_match[for_or_back]["template"] and nfq_match[for_or_back]["match"] == 1 %}
+            {% set is_response.value = True %}
+            {% endif %}
             {% if is_response.value and "domain_name" in nfq_match[for_or_back]["template"] %}
             {% set domain_name = nfq_match[for_or_back]["match"] %}
             ip_list_t ip_list = dns_get_ip_from_name(message.answers, message.header.ancount, "{{domain_name}}");

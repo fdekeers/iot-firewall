@@ -36,7 +36,7 @@ class dns(Custom):
         # Handle DNS query type
         rule = "message.questions->qtype == {}"
         # Lambda function to convert an DNS query type to its C representation (upper case)
-        func = lambda ssdp_method: ssdp_method.upper()
+        func = lambda dns_qtype: dns_qtype.upper()
         rules = {"forward": rule, "backward": rule}
         self.add_field("qtype", rules, direction, func)
 

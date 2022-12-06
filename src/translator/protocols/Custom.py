@@ -38,10 +38,9 @@ class Custom(Protocol):
                     match.append(func(value[i]))
                     if "backward" in template_rules and direction == "both":
                         match_backward.append(backward_func(func(value[i])))
-                        template_backward = f"{template_backward} || {template_rules['backward']}" if template_backward else f"( {template_rules['backward']}"
-                template += " )"
-                rules["forward"] = {"template": template, "match": match}
-                if "backward" in rules:
+                        template_backward += f" || {template_rules['backward']}" if template_backward else f"( {template_rules['backward']}"
+                rules["forward"] = {"template": f"{template} )", "match": match}
+                if template_backward:
                     rules["backward"] = {"template": f"{template_backward} )", "match": match_backward}
             else:
                 # Value is a single element

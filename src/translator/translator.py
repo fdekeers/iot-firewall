@@ -19,6 +19,19 @@ def is_list(value: any) -> bool:
     return type(value) == list
 
 
+def debug(value: any) -> str:
+    """
+    Custom filter for Jinja2, to print a value.
+
+    Args:
+        value (any): Value to print
+    Returns:
+        str: An empty string
+    """
+    print(str(value))
+    return ""
+
+
 def flatten_policies(single_policy_name: str, single_policy: dict, acc: dict = {}) -> None:
     """
     Flatten a nested single policy into a list of single policies.
@@ -52,6 +65,7 @@ if __name__ == "__main__":
     loader = jinja2.FileSystemLoader(searchpath=f"{script_path}/templates")
     env = jinja2.Environment(loader=loader, trim_blocks=True, lstrip_blocks=True)
     env.filters["is_list"] = is_list
+    env.filters["debug"] = debug
 
     # Load the device profile
     with open(args.profile, "r") as f:
