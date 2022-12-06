@@ -24,13 +24,13 @@ class dns(Custom):
         """
         # Handle QR flag
         if "response" in self.protocol_data and self.protocol_data["response"]:
-            rules = {"forward": "message.header.qr == 1"}
+            rules = {"forward": {"template": "message.header.qr == {}", "match": 1}}
             if direction == "both":
-                rules["backward"] = "message.header.qr == 0"
+                rules["backward"] = {"template": "message.header.qr == {}", "match": 0}
         else:
-            rules = {"forward": "message.header.qr == 0"}
+            rules = {"forward": {"template": "message.header.qr == {}", "match": 0}}
             if direction == "both":
-                rules["backward"] = "message.header.qr == 1"
+                rules["backward"] = {"template": "message.header.qr == {}", "match": 1}
         self.rules["nfq"].append(rules)
 
         # Handle DNS query type

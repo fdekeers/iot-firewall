@@ -7,6 +7,18 @@ from Policy import Policy
 from yaml_loaders.IncludeLoader import IncludeLoader
 
 
+def is_list(value: any) -> bool:
+    """
+    Custom filter for Jinja2, to check whether a value is a list.
+
+    Args:
+        value (any): Value to check
+    Returns:
+        bool: True if value is a list, False otherwise
+    """
+    return type(value) == list
+
+
 def flatten_policies(single_policy_name: str, single_policy: dict, acc: dict = {}) -> None:
     """
     Flatten a nested single policy into a list of single policies.
@@ -39,6 +51,7 @@ if __name__ == "__main__":
     # Jinja loader
     loader = jinja2.FileSystemLoader(searchpath=f"{script_path}/templates")
     env = jinja2.Environment(loader=loader, trim_blocks=True, lstrip_blocks=True)
+    env.filters["is_list"] = is_list
 
     # Load the device profile
     with open(args.profile, "r") as f:

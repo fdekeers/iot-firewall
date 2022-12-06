@@ -82,10 +82,10 @@ class Protocol:
                 value = func(value)
             
             # Write forward rule
-            rules = {"forward": template_rules["forward"].format(value)}
+            rules = {"forward": {"template": template_rules["forward"], "match": value}}
             # Write backward rule (if necessary)
             if "backward" in template_rules and direction == "both":
-                rules["backward"] = template_rules["backward"].format(backward_func(value))
+                rules["backward"] = {"template": template_rules["backward"], "match": backward_func(value)}
             self.rules["nft"].append(rules)
 
 

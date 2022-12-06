@@ -69,10 +69,20 @@ uint32_t callback_{{policy_jinja}}(int pkt_id, int pkt_len, uint8_t *payload, vo
         !has_payload || (
         {% endif %}
         {% if policy.nfq_matches %}
-        {{policy.nfq_matches[0][for_or_back]}}
+        {% set rule = policy.nfq_matches[0][for_or_back] %}
+        {% if rule['match'] | is_list %}
+        {{ rule['template'].format(*(rule['match'])) }}
+        {% else %}
+        {{ rule['template'].format((rule['match'])) }}
+        {% endif %}
         {% for match in policy.nfq_matches[1:] %}
         {% if for_or_back in match %}
-        && {{match[for_or_back]}}
+        {% set rule = match[for_or_back] %}
+        {% if rule['match'] | is_list %}
+        && {{ rule['template'].format(*(rule['match'])) }}
+        {% else %}
+        && {{ rule['template'].format((rule['match'])) }}
+        {% endif %}
         {% endif %}
         {% endfor %}
         {% endif %}
@@ -169,7 +179,12 @@ uint32_t callback_{{policy_jinja}}(int pkt_id, int pkt_len, uint8_t *payload, vo
         {% endif %}
         {% for match in policy.nfq_matches %}
         {% if for_or_back in match %}
-        {{match[for_or_back]}}
+        {% set rule = match[for_or_back] %}
+        {% if rule['match'] | is_list %}
+        {{ rule['template'].format(*(rule['match'])) }}
+        {% else %}
+        {{ rule['template'].format((rule['match'])) }}
+        {% endif %}
         {% endif %}
         {%- if loop.index < policy.nfq_matches|length or policy.counters %} &&
         {% endif %}

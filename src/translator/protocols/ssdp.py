@@ -22,15 +22,15 @@ class ssdp(Custom):
         Returns:
             dict: Dictionary containing the (forward and backward) nftables and nfqueue rules for this policy.
         """
-        # Request or response
+       # Request or response
         if "response" in self.protocol_data and self.protocol_data["response"]:
-            rule = {"forward": "!message.is_request"}
+            rule = {"forward": {"template": "{}message.is_request", "match": "!"}}
             if direction == "both":
-                rule["backward"] = "message.is_request"
+                rule["backward"] = {"template": "{}message.is_request", "match": ""}
         else:
-            rule = {"forward": "message.is_request"}
+            rule = {"forward": {"template": "{}message.is_request", "match": ""}}
             if direction == "both":
-                rule["backward"] = "!message.is_request"
+                rule["backward"] = {"template": "{}message.is_request", "match": "!"}
         self.rules["nfq"].append(rule)
 
         # Handle SSDP method

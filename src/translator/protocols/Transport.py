@@ -23,9 +23,12 @@ class Transport(Protocol):
             dict: Dictionary containing the (forward and backward) nftables and nfqueue rules for this policy.
         """
         # Add protocol match
-        protocol_match = f"ip protocol {self.protocol_name}"
-        rule = {"forward": protocol_match, "backward": protocol_match}
-        self.rules["nft"].append(rule)
+        rule = {
+            "template": "ip protocol {}",
+            "match": self.protocol_name
+        }
+        rules = {"forward": rule, "backward": rule}
+        self.rules["nft"].append(rules)
 
         # Connection initiator is specified
         if initiator:

@@ -17,7 +17,7 @@ class Custom(Protocol):
             func (lambda): Function to apply to the field value before writing it.
                            Optional, default is the identity function.
             backward_func (lambda): Function to apply to the field value in the case of a backwards rule.
-                           Will be applied after the forward function.
+                           Will be applied after `func`.
                            Optional, default is the identity function.
         """
         if field in self.protocol_data:
@@ -26,23 +26,28 @@ class Custom(Protocol):
 
             # If value from YAML profile is a list, produce disjunction of all elements
             if type(value) == list:
-                rules["forward"] = "( "
+                template = "( "
+                template_backward = ""
+                match = []
+                match_backward = []
                 # Value is a list
                 for i in range(len(value)):
                     if i != 0:
-                        rules["forward"] += " || "
-                    rules["forward"] += template_rules["forward"].format(func(value[i]))
+                        template += " || "
+                    template += template_rules["forward"]
+                    match.append(func(value[i]))
                     if "backward" in template_rules and direction == "both":
-                        backward_rule = template_rules["backward"].format(backward_func(func(value[i])))
-                        rules["backward"] = rules["backward"] + f" || {backward_rule}" if "backward" in rules else f"( {backward_rule}"
-                rules["forward"] += " )"
+                        match_backward.append(backward_func(func(value[i])))
+                        template_backward = f"{template_backward} || {template_rules['backward']}" if template_backward else f"( {template_rules['backward']}"
+                template += " )"
+                rules["forward"] = {"template": template, "match": match}
                 if "backward" in rules:
-                    rules["backward"] += " )"
+                    rules["backward"] = {"template": f"{template_backward} )", "match": match_backward}
             else:
                 # Value is a single element
-                rules["forward"] = template_rules["forward"].format(func(value))
+                rules["forward"] = {"template": template_rules["forward"], "match": func(value)}
                 if "backward" in template_rules and direction == "both":
-                    rules["backward"] = template_rules["backward"].format(backward_func(func(value)))
+                    rules["backward"] = {"template": template_rules["backward"], "match": backward_func(func(value))}
 
             # Write forward rule
             self.rules["nfq"].append(rules)

@@ -77,17 +77,28 @@ class Policy:
                     value_out = f"\"{self.name}-out\""
                     value_in = f"\"{self.name}-in\""
             if stat in Policy.stats_templates:
-                match_forward = Policy.stats_templates[stat].format(value_out)
-                match_backward = Policy.stats_templates[stat].format(value_in)
-                self.nft_matches.append({"forward": match_forward, "backward": match_backward})
+                rules = {
+                    "forward": {
+                        "template": Policy.stats_templates[stat],
+                        "match": value_out,
+                    },
+                    "backward": {
+                        "template": Policy.stats_templates[stat],
+                        "match": value_in,
+                    }
+                }
+                self.nft_matches.append(rules)
         else:
             # Stat is a single value, which is used for both directions
             if stat in Policy.counters:
                 self.counters[stat] = {"default": value}
                 value = f"\"{self.name}\""
             if stat in Policy.stats_templates:
-                match = Policy.stats_templates[stat].format(value)
-                self.nft_matches.append({"forward": match, "backward": match})
+                rule = {
+                    "template": Policy.stats_templates[stat],
+                    "match": value
+                }
+                self.nft_matches.append({"forward": rule, "backward": rule})
 
     
     def build_nft_rule(self, queue_num: int) -> dict:
@@ -106,12 +117,14 @@ class Policy:
         for i in range(len(self.nft_matches)):
             if i > 0:
                 nft_rule_forward += " "
-            nft_rule_forward += f"{self.nft_matches[i]['forward']}"
+            rule = self.nft_matches[i]["forward"]
+            nft_rule_forward += rule["template"].format(*(rule["match"])) if type(rule["match"]) == list else rule["template"].format(rule["match"])
             # Add backward rule (if necessary)
             if self.direction == "both" and "backward" in self.nft_matches[i]:
                 if i > 0:
                     nft_rule_backward += " "
-                nft_rule_backward += f"{self.nft_matches[i]['backward']}"
+                rule_backward = self.nft_matches[i]["backward"]
+                nft_rule_backward += rule_backward["template"].format(*(rule_backward["match"])) if type(rule_backward["match"]) == list else rule_backward["template"].format(rule_backward["match"])
 
         # Finalize rule
         suffix = f" queue num {queue_num}" if queue_num >= 0 else " accept"

@@ -25,13 +25,13 @@ class http(Custom):
         """
         # Request or response
         if "response" in self.protocol_data and self.protocol_data["response"]:
-            rule = {"forward": "!message.is_request"}
+            rule = {"forward": {"template": "{}message.is_request", "match": "!"}}
             if direction == "both":
-                rule["backward"] = "message.is_request"
+                rule["backward"] = {"template": "{}message.is_request", "match": ""}
         else:
-            rule = {"forward": "message.is_request"}
+            rule = {"forward": {"template": "{}message.is_request", "match": ""}}
             if direction == "both":
-                rule["backward"] = "!message.is_request"
+                rule["backward"] = {"template": "{}message.is_request", "match": "!"}
         self.rules["nfq"].append(rule)
 
         # Handle HTTP method
