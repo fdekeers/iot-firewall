@@ -1,9 +1,8 @@
 from typing import Union
 import ipaddress
 from protocols.Protocol import Protocol
-from protocols.Custom import Custom
 
-class ip(Custom, Protocol):
+class ip(Protocol):
 
     # Class variables
     layer = 3              # Protocol OSI layer
@@ -73,6 +72,63 @@ class ip(Custom, Protocol):
         else:
             # Address is an explicit address
             return addr
+
+    
+    def add_addr_nfqueue(self, addr_dir: str, direction: str = "out") -> None:
+        """
+        Add a new IP address match to the nfqueue accumulator.
+
+        Args:
+            addr_dir (str): Address direction to add the rule to (src or dst)
+            direction (str): Direction of the traffic (in, out, or both). Default is "out".
+            initiator (str): Optional, initiator of the connection (src or dst).
+        """
+        other_dir = "src" if addr_dir == "dst" else "dst"
+        # Template rules for a domain name
+        rules_domain_name = {
+            "forward": f"dns_entry_contains(dns_map_get(dns_map, \"{{}}\"), get_{self.protocol_name}_{addr_dir}_addr(payload))",
+            "backward": f"dns_entry_contains(dns_map_get(dns_map, \"{{}}\"), get_{self.protocol_name}_{other_dir}_addr(payload))"
+        }
+        # Template rules for an IP address
+        rules_address = {
+            "forward": f"get_{self.protocol_name}_{addr_dir}_addr(payload) == {self.protocol_name}_str_to_net(\"{{}}\")",
+            "backward": f"get_{self.protocol_name}_{other_dir}_addr(payload) == {self.protocol_name}_str_to_net(\"{{}}\")"
+        }
+
+        value = self.protocol_data[addr_dir]
+        rules = {}
+        # If value from YAML profile is a list, produce disjunction of all elements
+        if type(value) == list:
+            template = "( "
+            template_backward = ""
+            match = []
+            match_backward = []
+            # Value is a list
+            for i in range(len(value)):
+                if i != 0:
+                    template += " || "
+                is_ip = self.is_ip(value[i])
+                template_rules = rules_address if is_ip else rules_domain_name
+                func = self.explicit_address if is_ip else lambda x: x
+                template += template_rules["forward"]
+                match.append(func(value[i]))
+                if "backward" in template_rules and direction == "both":
+                    match_backward.append(func(value[i]))
+                    template_backward += f" || {template_rules['backward']}" if template_backward else f"( {template_rules['backward']}"
+            rules["forward"] = {"template": f"{template} )", "match": match}
+            if template_backward:
+                rules["backward"] = {"template": f"{template_backward} )", "match": match_backward}
+        else:
+            # Value is a single element
+            is_ip = self.is_ip(value)
+            template_rules = rules_address if is_ip else rules_domain_name
+            func = self.explicit_address if is_ip else lambda x: x
+            rules["forward"] = {"template": template_rules["forward"], "match": func(value)}
+            if "backward" in template_rules and direction == "both":
+                rules["backward"] = {"template": template_rules["backward"], "match": func(value)}
+
+        # Append rules
+        self.rules["nfq"].append(rules)
             
     
     def add_addr(self, addr_dir: str, direction: str = "out", initiator: str = "") -> None:
@@ -102,7 +158,6 @@ class ip(Custom, Protocol):
                         "forward": f"ct original {self.nft_prefix} {tpl_addr_matches[addr_dir]}",
                         "backward": f"ct original {self.nft_prefix} {tpl_addr_matches[other_dir]}"
                     }
-                    Protocol.add_field(self, addr_dir, rules, direction, self.explicit_address)
                 elif ((initiator == "src" and direction == "in") or
                   (initiator == "dst" and (direction == "out" or direction == "both"))):
                     # Connection initiator is the destination device
@@ -110,18 +165,14 @@ class ip(Custom, Protocol):
                         "forward": f"ct original {self.nft_prefix} {tpl_addr_matches[other_dir]}",
                         "backward": f"ct original {self.nft_prefix} {tpl_addr_matches[addr_dir]}"
                     }
-                    Protocol.add_field(self, addr_dir, rules, direction, self.explicit_address)
             
             else:  # Connection initiator is not specified
                 rules = {"forward": f"{self.nft_prefix} {tpl_addr_matches[addr_dir]}", "backward": f"{self.nft_prefix} {tpl_addr_matches[other_dir]}"}
-                Protocol.add_field(self, "src", rules, direction, self.explicit_address)
+            
+            self.add_field(addr_dir, rules, direction, self.explicit_address)
 
         else:  # Source address is potentially a domain name
-            rules = {
-                "forward": f"dns_entry_contains(dns_map_get(dns_map, \"{{}}\"), get_{self.protocol_name}_{addr_dir}_addr(payload))",
-                "backward": f"dns_entry_contains(dns_map_get(dns_map, \"{{}}\"), get_{self.protocol_name}_{other_dir}_addr(payload))"
-            }
-            Custom.add_field(self, addr_dir, rules, direction)
+            self.add_addr_nfqueue(addr_dir, direction)
 
 
     def parse(self, direction: str = "out", initiator: str = "") -> dict:

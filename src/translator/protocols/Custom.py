@@ -48,5 +48,5 @@ class Custom(Protocol):
                 if "backward" in template_rules and direction == "both":
                     rules["backward"] = {"template": template_rules["backward"], "match": backward_func(func(value))}
 
-            # Write forward rule
+            # Append rules
             self.rules["nfq"].append(rules)
