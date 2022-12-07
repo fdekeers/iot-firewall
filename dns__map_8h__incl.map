@@ -1,9 +1,12 @@
 <map id="include/dns_map.h" name="include/dns_map.h">
-<area shape="rect" id="node1" title="Implementation of a DNS domain name to IP addresses mapping, using Joshua J Baker&#39;s hashmap...." alt="" coords="127,5,271,32"/>
-<area shape="rect" id="node2" title=" " alt="" coords="5,80,76,107"/>
-<area shape="rect" id="node3" title=" " alt="" coords="79,155,149,181"/>
-<area shape="rect" id="node4" title=" " alt="" coords="305,155,387,181"/>
-<area shape="rect" id="node5" title=" " alt="" coords="271,80,341,107"/>
-<area shape="rect" id="node6" href="$hashmap_8h.html" title="Hashmap implementation in C." alt="" coords="152,80,247,107"/>
-<area shape="rect" id="node7" title=" " alt="" coords="174,155,249,181"/>
+<area shape="rect" id="node1" title="Implementation of a DNS domain name to IP addresses mapping, using Joshua J Baker&#39;s hashmap...." alt="" coords="229,5,373,32"/>
+<area shape="rect" id="node2" title=" " alt="" coords="307,155,378,181"/>
+<area shape="rect" id="node3" title=" " alt="" coords="105,155,175,181"/>
+<area shape="rect" id="node4" title=" " alt="" coords="200,155,283,181"/>
+<area shape="rect" id="node5" title=" " alt="" coords="610,155,681,181"/>
+<area shape="rect" id="node6" href="$hashmap_8h.html" title="Hashmap implementation in C." alt="" coords="93,80,187,107"/>
+<area shape="rect" id="node8" href="$packet__utils_8h.html" title="Utilitaries for payload manipulation and display." alt="" coords="364,80,476,107"/>
+<area shape="rect" id="node7" title=" " alt="" coords="5,155,80,181"/>
+<area shape="rect" id="node9" title=" " alt="" coords="519,155,585,181"/>
+<area shape="rect" id="node10" title=" " alt="" coords="402,155,494,181"/>
 </map>
