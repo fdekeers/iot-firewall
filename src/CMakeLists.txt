@@ -1,8 +1,6 @@
 # Minimum required CMake version
 cmake_minimum_required(VERSION 3.2)
 
-add_subdirectory(parsers)
-
 # Build libraries
 
 # nfqueue
@@ -26,3 +24,6 @@ install(TARGETS dns_map DESTINATION ${LIB_DIR})
 add_library(rule_utils STATIC ${INCLUDE_DIR}/rule_utils.h rule_utils.c)
 target_include_directories(rule_utils PRIVATE ${INCLUDE_DIR})
 install(TARGETS rule_utils DESTINATION ${LIB_DIR})
+
+# Build parsers
+add_subdirectory(parsers)

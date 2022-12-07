@@ -50,7 +50,7 @@ typedef enum {
     TXT   = 16,
     AAAA  = 28,
     OPT   = 41,  // Used to specify extensions
-    ANY   = 255  // Used to query all types
+    ANY   = 255  // Used to query any type
 } dns_rr_type_t;
 
 /**
@@ -80,7 +80,7 @@ typedef struct dns_question {
  */
 typedef union {
     char *domain_name;  // Domain name, character string
-    uint32_t ipv4;      // IPv4 address, 32-bit number in network byte order
+    ip_addr_t ip;       // IP (v4 or v6) address
     uint8_t *data;      // Generic data, series of bytes
 } rdata_t;
 

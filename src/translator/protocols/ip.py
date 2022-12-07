@@ -84,15 +84,16 @@ class ip(Protocol):
             initiator (str): Optional, initiator of the connection (src or dst).
         """
         other_dir = "src" if addr_dir == "dst" else "dst"
+        version = int(self.protocol_name[3])
         # Template rules for a domain name
         rules_domain_name = {
-            "forward": f"dns_entry_contains(dns_map_get(dns_map, \"{{}}\"), get_{self.protocol_name}_{addr_dir}_addr(payload))",
-            "backward": f"dns_entry_contains(dns_map_get(dns_map, \"{{}}\"), get_{self.protocol_name}_{other_dir}_addr(payload))"
+            "forward": "dns_entry_contains(dns_map_get(dns_map, \"{}\"), (ip_addr_t) {{.version = " + str(version) + ", .value." + self.protocol_name + " = get_" + self.protocol_name + "_" + addr_dir + "_addr(payload)}})",
+            "backward": "dns_entry_contains(dns_map_get(dns_map, \"{}\"), (ip_addr_t) {{.version = " + str(version) + ", .value." + self.protocol_name + " = get_" + self.protocol_name + "_" + other_dir + "_addr(payload)}})"
         }
         # Template rules for an IP address
         rules_address = {
-            "forward": f"get_{self.protocol_name}_{addr_dir}_addr(payload) == {self.protocol_name}_str_to_net(\"{{}}\")",
-            "backward": f"get_{self.protocol_name}_{other_dir}_addr(payload) == {self.protocol_name}_str_to_net(\"{{}}\")"
+            "forward": "compare_ip((ip_addr_t) {{.version = " + str(version) + ", .value." + self.protocol_name + " = get_" + self.protocol_name + "_" + addr_dir + "_addr(payload)}}, ip_str_to_net(\"{}\", " + str(version) + "))",
+            "backward": "compare_ip((ip_addr_t) {{.version = " + str(version) + ", .value." + self.protocol_name + " = get_" + self.protocol_name + "_" + other_dir + "_addr(payload)}}, ip_str_to_net(\"{}\", " + str(version) + "))"
         }
 
         value = self.protocol_data[addr_dir]

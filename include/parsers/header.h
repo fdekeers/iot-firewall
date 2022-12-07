@@ -25,9 +25,8 @@
 #include <stdint.h>
 #include <string.h>
 #include <arpa/inet.h>
+#include "packet_utils.h"
 
-#define IPV4_ADDR_LENGTH   4
-#define IPV6_ADDR_LENGTH   16
 #define IPV6_HEADER_LENGTH 40
 #define UDP_HEADER_LENGTH  8
 

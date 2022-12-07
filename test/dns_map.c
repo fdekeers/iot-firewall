@@ -47,17 +47,17 @@ void test_dns_map_add_remove() {
     dns_map_t *table = dns_map_create();
 
     // Add IP addresses for www.google.com
-    uint32_t *google_ips = (uint32_t *) malloc(2 * sizeof(uint32_t));
-    *google_ips = ipv4_str_to_net("192.168.1.1");
-    *(google_ips + 1) = ipv4_str_to_net("192.168.1.2");
+    ip_addr_t *google_ips = (ip_addr_t *) malloc(2 * sizeof(ip_addr_t));
+    *google_ips = (ip_addr_t) {.version = 4, .value.ipv4 = ipv4_str_to_net("192.168.1.1")};
+    *(google_ips + 1) = (ip_addr_t) {.version = 4, .value.ipv4 = ipv4_str_to_net("192.168.1.2")};
     ip_list_t ip_list_google = { .ip_count = 2, .ip_addresses = google_ips };
     dns_map_add(table, "www.google.com", ip_list_google);
     CU_ASSERT_EQUAL(hashmap_count(table), 1);
 
     // Add IP addresses for www.example.com
-    uint32_t *example_ips = (uint32_t *) malloc(2 * sizeof(uint32_t));
-    *example_ips = ipv4_str_to_net("192.168.1.3");
-    *(example_ips + 1) = ipv4_str_to_net("192.168.1.4");
+    ip_addr_t *example_ips = (ip_addr_t *)malloc(2 * sizeof(ip_addr_t));
+    *example_ips = (ip_addr_t) {.version = 4, .value.ipv4 = ipv4_str_to_net("192.168.1.3")};
+    *(example_ips + 1) = (ip_addr_t) {.version = 4, .value.ipv4 = ipv4_str_to_net("192.168.1.4")};
     ip_list_t ip_list_example = {.ip_count = 2, .ip_addresses = example_ips};
     dns_map_add(table, "www.example.com", ip_list_example);
     CU_ASSERT_EQUAL(hashmap_count(table), 2);
@@ -77,9 +77,9 @@ void test_dns_map_get() {
     dns_map_t *table = dns_map_create();
     
     // Add IP addresses for www.google.com
-    uint32_t *google_ips = (uint32_t *)malloc(2 * sizeof(uint32_t));
-    *google_ips = ipv4_str_to_net("192.168.1.1");
-    *(google_ips + 1) = ipv4_str_to_net("192.168.1.2");
+    ip_addr_t *google_ips = (ip_addr_t *)malloc(2 * sizeof(ip_addr_t));
+    *google_ips = (ip_addr_t){.version = 4, .value.ipv4 = ipv4_str_to_net("192.168.1.1")};
+    *(google_ips + 1) = (ip_addr_t){.version = 4, .value.ipv4 = ipv4_str_to_net("192.168.1.2")};
     ip_list_t ip_list_google = {.ip_count = 2, .ip_addresses = google_ips};
     dns_map_add(table, "www.google.com", ip_list_google);
 
@@ -88,13 +88,13 @@ void test_dns_map_get() {
     CU_ASSERT_PTR_NOT_NULL(actual);
     CU_ASSERT_EQUAL(actual->ip_list.ip_count, 2);
     for (int i = 0; i < actual->ip_list.ip_count; i++) {
-        CU_ASSERT_EQUAL(*(actual->ip_list.ip_addresses + i), *(google_ips + i));
+        CU_ASSERT_TRUE(compare_ip(*(actual->ip_list.ip_addresses + i), *(google_ips + i)));
     }
 
     // Add IP addresses for www.example.com
-    uint32_t *example_ips = (uint32_t *)malloc(2 * sizeof(uint32_t));
-    *example_ips = ipv4_str_to_net("192.168.1.3");
-    *(example_ips + 1) = ipv4_str_to_net("192.168.1.4");
+    ip_addr_t *example_ips = (ip_addr_t *)malloc(2 * sizeof(ip_addr_t));
+    *example_ips = (ip_addr_t){.version = 4, .value.ipv4 = ipv4_str_to_net("192.168.1.3")};
+    *(example_ips + 1) = (ip_addr_t){.version = 4, .value.ipv4 = ipv4_str_to_net("192.168.1.4")};
     ip_list_t ip_list_example = {.ip_count = 2, .ip_addresses = example_ips};
     dns_map_add(table, "www.example.com", ip_list_example);
 
@@ -103,7 +103,7 @@ void test_dns_map_get() {
     CU_ASSERT_PTR_NOT_NULL(actual);
     CU_ASSERT_EQUAL(actual->ip_list.ip_count, 2);
     for (int i = 0; i < actual->ip_list.ip_count; i++) {
-        CU_ASSERT_EQUAL(*(actual->ip_list.ip_addresses + i), *(example_ips + i));
+        CU_ASSERT_TRUE(compare_ip(*(actual->ip_list.ip_addresses + i), *(example_ips + i)));
     }
 
     dns_map_destroy(table);
@@ -116,16 +116,16 @@ void test_dns_map_pop() {
     dns_map_t *table = dns_map_create();
 
     // Add IP addresses for www.google.com
-    uint32_t *google_ips = (uint32_t *)malloc(2 * sizeof(uint32_t));
-    *google_ips = ipv4_str_to_net("192.168.1.1");
-    *(google_ips + 1) = ipv4_str_to_net("192.168.1.2");
+    ip_addr_t *google_ips = (ip_addr_t *)malloc(2 * sizeof(ip_addr_t));
+    *google_ips = (ip_addr_t){.version = 4, .value.ipv4 = ipv4_str_to_net("192.168.1.1")};
+    *(google_ips + 1) = (ip_addr_t){.version = 4, .value.ipv4 = ipv4_str_to_net("192.168.1.2")};
     ip_list_t ip_list_google = {.ip_count = 2, .ip_addresses = google_ips};
     dns_map_add(table, "www.google.com", ip_list_google);
 
     // Add IP addresses for www.example.com
-    uint32_t *example_ips = (uint32_t *)malloc(2 * sizeof(uint32_t));
-    *example_ips = ipv4_str_to_net("192.168.1.3");
-    *(example_ips + 1) = ipv4_str_to_net("192.168.1.4");
+    ip_addr_t *example_ips = (ip_addr_t *)malloc(2 * sizeof(ip_addr_t));
+    *example_ips = (ip_addr_t){.version = 4, .value.ipv4 = ipv4_str_to_net("192.168.1.3")};
+    *(example_ips + 1) = (ip_addr_t){.version = 4, .value.ipv4 = ipv4_str_to_net("192.168.1.4")};
     ip_list_t ip_list_example = {.ip_count = 2, .ip_addresses = example_ips};
     dns_map_add(table, "www.example.com", ip_list_example);
 
@@ -135,7 +135,7 @@ void test_dns_map_pop() {
     CU_ASSERT_EQUAL(actual->ip_list.ip_count, 2);
     for (int i = 0; i < actual->ip_list.ip_count; i++)
     {
-        CU_ASSERT_EQUAL(*(actual->ip_list.ip_addresses + i), *(google_ips + i));
+        CU_ASSERT_TRUE(compare_ip(*(actual->ip_list.ip_addresses + i), *(google_ips + i)));
     }
     CU_ASSERT_EQUAL(hashmap_count(table), 1);
     actual = dns_map_pop(table, "www.google.com");
@@ -147,7 +147,7 @@ void test_dns_map_pop() {
     CU_ASSERT_EQUAL(actual->ip_list.ip_count, 2);
     for (int i = 0; i < actual->ip_list.ip_count; i++)
     {
-        CU_ASSERT_EQUAL(*(actual->ip_list.ip_addresses + i), *(example_ips + i));
+        CU_ASSERT_TRUE(compare_ip(*(actual->ip_list.ip_addresses + i), *(example_ips + i)));
     }
     CU_ASSERT_EQUAL(hashmap_count(table), 0);
     actual = dns_map_pop(table, "www.example.com");

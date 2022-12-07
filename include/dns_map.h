@@ -16,6 +16,7 @@
 #include <stdbool.h>
 #include <string.h>
 #include "hashmap.h"
+#include "packet_utils.h"
 
 // Initial size of the DNS table
 // If set to 0, the default size will be 16
@@ -29,7 +30,7 @@
  */
 typedef struct ip_list {
     uint8_t ip_count;        // Number of IP addresses
-    uint32_t *ip_addresses;  // List of IP addresses, as 32-bit unsigned integers in network byte order
+    ip_addr_t *ip_addresses;  // List of IP addresses
 } ip_list_t;
 
 /**
@@ -56,7 +57,7 @@ typedef struct hashmap dns_map_t;
  * @param ip_address IP address to check the presence of
  * @return true if the IP address is present in the DNS entry, false otherwise
  */
-bool dns_entry_contains(dns_entry_t *dns_entry, uint32_t ip_address);
+bool dns_entry_contains(dns_entry_t *dns_entry, ip_addr_t ip_address);
 
 /**
  * Create a new DNS table.

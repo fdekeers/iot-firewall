@@ -18,6 +18,24 @@
 #include <string.h>
 #include <arpa/inet.h>
 
+#define IPV4_ADDR_LENGTH 4
+#define IPV6_ADDR_LENGTH 16
+
+/**
+ * @brief IP (v4 or v6) address value
+ */
+typedef union {
+    uint32_t ipv4;  // IPv4 address, as a 32-bit unsigned integer in network byte order
+    uint8_t ipv6[IPV6_ADDR_LENGTH];  // IPv6 address, as a 16-byte array
+} ip_val_t;
+
+/**
+ * @brief IP (v4 or v6) address
+ */
+typedef struct {
+    uint8_t version;  // IP version (4 or 6)
+    ip_val_t value;   // IP address value
+} ip_addr_t;
 
 /**
  * Print a packet payload.
@@ -35,6 +53,24 @@ void print_payload(int length, uint8_t *data);
  * @return the length of the payload in bytes
  */
 size_t hexstr_to_payload(char *hexstring, uint8_t **payload);
+
+/**
+ * Converts a MAC address from its hexadecimal representation
+ * to its string representation.
+ *
+ * @param mac_hex MAC address in hexadecimal representation
+ * @return the same MAC address in string representation
+ */
+char *mac_hex_to_str(uint8_t mac_hex[]);
+
+/**
+ * Converts a MAC address from its string representation
+ * to its hexadecimal representation.
+ *
+ * @param mac_str MAC address in string representation
+ * @return the same MAC address in hexadecimal representation
+ */
+uint8_t *mac_str_to_hex(char *mac_str);
 
 /**
  * Converts an IPv4 address from its network order numerical representation
@@ -75,22 +111,38 @@ char* ipv4_hex_to_str(char *ipv4_hex);
 char* ipv4_str_to_hex(char *ipv4_str);
 
 /**
- * Converts a MAC address from its hexadecimal representation
- * to its string representation.
+ * @brief Converts an IPv6 address to its string representation.
  * 
- * @param mac_hex MAC address in hexadecimal representation
- * @return the same MAC address in string representation
+ * @param ipv6 the IPv6 address
+ * @return the same IPv6 address in string representation
  */
-char* mac_hex_to_str(uint8_t mac_hex[]);
+char* ipv6_net_to_str(uint8_t ipv6[]);
 
 /**
- * Converts a MAC address from its string representation
- * to its hexadecimal representation.
- * 
- * @param mac_str MAC address in string representation
- * @return the same MAC address in hexadecimal representation
+ * Converts an IPv6 address from its string representation
+ * to its network representation (a 16-byte array).
+ *
+ * @param ipv6_str IPv6 address in string representation
+ * @return the same IPv6 address as a 16-byte array
  */
-uint8_t* mac_str_to_hex(char *mac_str);
+uint8_t* ipv6_str_to_net(char *ipv6_str);
+
+/**
+ * @brief Converts an IP (v4 or v6) address to its string representation.
+ * 
+ * @param ip_addr the IP address, as an ip_addr_t struct
+ * @return the same IP address in string representation
+ */
+char* ip_net_to_str(ip_addr_t ip_addr);
+
+/**
+ * Converts an IP (v4 or v6) address from its string representation
+ * to an ip_addr_t struct.
+ *
+ * @param ip_str IP (v4 or v6) address in string representation
+ * @return the same IP address as a ip_addr_t struct
+ */
+ip_addr_t ip_str_to_net(char *ip_str, uint8_t version);
 
 /**
  * @brief Compare two IPv6 addresses.
@@ -100,6 +152,15 @@ uint8_t* mac_str_to_hex(char *mac_str);
  * @return true if the two addresses are equal, false otherwise
  */
 bool compare_ipv6(uint8_t *ipv6_1, uint8_t *ipv6_2);
+
+/**
+ * @brief Compare two IP (v4 or v6) addresses.
+ *
+ * @param ip_1 first IP address
+ * @param ip_2 second IP address
+ * @return true if the two addresses are equal, false otherwise
+ */
+bool compare_ip(ip_addr_t ip_1, ip_addr_t ip_2);
 
 
 #endif /* _IOTFIREWALL_PACKET_UTILS_ */

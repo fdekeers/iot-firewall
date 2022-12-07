@@ -100,6 +100,41 @@ void test_mac_str_to_hex() {
 }
 
 /**
+ * @brief Unit test for the function ipv6_net_to_str.
+ */
+void test_ipv6_net_to_str() {
+    // Full textual representation
+    uint8_t ipv6_1[] = {0x11, 0x22, 0x33, 0x44, 0x55, 0x66, 0x77, 0x88, 0x99, 0xaa, 0xbb, 0xcc, 0xdd, 0xee, 0xff, 0x11};
+    char *actual = ipv6_net_to_str(ipv6_1);
+    char *expected = "1122:3344:5566:7788:99aa:bbcc:ddee:ff11";
+    CU_ASSERT_STRING_EQUAL(actual, expected);
+
+    // Compressed textual representation
+    uint8_t ipv6_2[] = {0x00, 0x01, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x01};
+    actual = ipv6_net_to_str(ipv6_2);
+    expected = "1::1";
+    CU_ASSERT_STRING_EQUAL(actual, expected);
+}
+
+/**
+ * @brief Unit test for the function ip_net_to_str.
+ */
+void test_ip_net_to_str() {
+    // IPv4
+    ip_addr_t ipv4 = {.version = 4, .value.ipv4 = 0x0101a8c0};
+    char *actual = ip_net_to_str(ipv4);
+    printf("Actual: %s\n", actual);
+    char *expected = "192.168.1.1";
+    CU_ASSERT_STRING_EQUAL(actual, expected);
+
+    // IPv6
+    ip_addr_t ipv6 = {.version = 6, .value.ipv6 = {0x11, 0x22, 0x33, 0x44, 0x55, 0x66, 0x77, 0x88, 0x99, 0xaa, 0xbb, 0xcc, 0xdd, 0xee, 0xff, 0x11}};
+    actual = ip_net_to_str(ipv6);
+    expected = "1122:3344:5566:7788:99aa:bbcc:ddee:ff11";
+    CU_ASSERT_STRING_EQUAL(actual, expected);
+}
+
+/**
  * @brief Unit test for the function compare_ipv6.
  */
 void test_compare_ipv6() {
@@ -110,6 +145,33 @@ void test_compare_ipv6() {
     CU_ASSERT_TRUE(compare_ipv6(ipv6_2, ipv6_1));
     CU_ASSERT_FALSE(compare_ipv6(ipv6_1, ipv6_3));
     CU_ASSERT_FALSE(compare_ipv6(ipv6_3, ipv6_1));
+}
+
+/**
+ * @brief Unit test for the function compare_ip.
+ */
+void test_compare_ip() {
+    // Compare IPv4
+    ip_addr_t ipv4_1 = { .version = 4, .value.ipv4 = 0xa101a8c0 };
+    ip_addr_t ipv4_2 = {.version = 4, .value.ipv4 = 0xa101a8c0};
+    ip_addr_t ipv4_3 = {.version = 4, .value.ipv4 = 0xa201a8c0};
+    CU_ASSERT_TRUE(compare_ip(ipv4_1, ipv4_2));
+    CU_ASSERT_TRUE(compare_ip(ipv4_2, ipv4_1));
+    CU_ASSERT_FALSE(compare_ip(ipv4_1, ipv4_3));
+    CU_ASSERT_FALSE(compare_ip(ipv4_3, ipv4_1));
+
+    // Compare IPv6
+    ip_addr_t ipv6_1 = {.version = 6, .value.ipv6 = {0x20, 0x01, 0x0d, 0xb8, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x01}};
+    ip_addr_t ipv6_2 = {.version = 6, .value.ipv6 = {0x20, 0x01, 0x0d, 0xb8, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x01}};
+    ip_addr_t ipv6_3 = {.version = 6, .value.ipv6 = {0x20, 0x01, 0x0d, 0xb8, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x02}};
+    CU_ASSERT_TRUE(compare_ip(ipv6_1, ipv6_2));
+    CU_ASSERT_TRUE(compare_ip(ipv6_2, ipv6_1));
+    CU_ASSERT_FALSE(compare_ip(ipv6_1, ipv6_3));
+    CU_ASSERT_FALSE(compare_ip(ipv6_3, ipv6_1));
+
+    // Compare IPv4 and IPv6
+    CU_ASSERT_FALSE(compare_ip(ipv4_1, ipv6_1));
+    CU_ASSERT_FALSE(compare_ip(ipv6_1, ipv4_1));
 }
 
 /**
@@ -130,7 +192,10 @@ int main(int argc, char const *argv[])
     CU_add_test(suite, "ipv4_str_to_hex", test_ipv4_str_to_hex);
     CU_add_test(suite, "mac_hex_to_str", test_mac_hex_to_str);
     CU_add_test(suite, "mac_str_to_hex", test_mac_str_to_hex);
+    CU_add_test(suite, "ipv6_net_to_str", test_ipv6_net_to_str);
+    CU_add_test(suite, "ip_net_to_str", test_ip_net_to_str);
     CU_add_test(suite, "compare_ipv6", test_compare_ipv6);
+    CU_add_test(suite, "compare_ip", test_compare_ip);
     CU_basic_run_tests();
     return 0;
 }

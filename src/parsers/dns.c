@@ -138,22 +138,29 @@ static rdata_t dns_parse_rdata(dns_rr_type_t rtype, uint16_t rdlength, uint8_t *
     } else {
         // RDATA field is not empty
         switch (rtype) {
-            case A:
-                // RDATA contains an IPv4 address
-                rdata.ipv4 = *((uint32_t *) (data + *offset));  // Stored in network byte order
-                *offset += rdlength;
-                break;
-            case NS:
-            case CNAME:
-            case PTR:
-                // RDATA contains is a domain name
-                rdata.domain_name = dns_parse_domain_name(data, offset);
-                break;
-            default:
-                // RDATA contains is generic data
-                rdata.data = (uint8_t *) malloc(sizeof(char) * rdlength);
-                memcpy(rdata.data, data + *offset, rdlength);
-                *offset += rdlength;
+        case A:
+            // RDATA contains an IPv4 address
+            rdata.ip.version = 4;
+            rdata.ip.value.ipv4 = *((uint32_t *) (data + *offset));  // Stored in network byte order
+            *offset += rdlength;
+            break;
+        case AAAA:
+            // RDATA contains an IPv6 address
+            rdata.ip.version = 6;
+            memcpy(rdata.ip.value.ipv6, data + *offset, rdlength);
+            *offset += rdlength;
+            break;
+        case NS:
+        case CNAME:
+        case PTR:
+            // RDATA contains is a domain name
+            rdata.domain_name = dns_parse_domain_name(data, offset);
+            break;
+        default:
+            // RDATA contains is generic data
+            rdata.data = (uint8_t *) malloc(sizeof(char) * rdlength);
+            memcpy(rdata.data, data + *offset, rdlength);
+            *offset += rdlength;
         }
     }
     return rdata;
@@ -271,15 +278,21 @@ ip_list_t dns_get_ip_from_name(dns_resource_record_t *answers, uint16_t ancount,
     char *cname = domain_name;
     for (uint16_t i = 0; i < ancount; i++) {
         if (strcmp((answers + i)->name, cname) == 0) {
-            if ((answers + i)->rtype == A) {
+            dns_rr_type_t rtype = (answers + i)->rtype;
+            if (rtype == A || rtype == AAAA)
+            {
+                // Handle IP list length
                 if (ip_list.ip_addresses == NULL) {
-                    ip_list.ip_addresses = (uint32_t*) malloc(sizeof(uint32_t));
+                    ip_list.ip_addresses = (ip_addr_t *) malloc(sizeof(ip_addr_t));
                 } else {
-                    ip_list.ip_addresses = realloc(ip_list.ip_addresses, ip_list.ip_count + 1);
+                    ip_list.ip_addresses = (ip_addr_t *) realloc(ip_list.ip_addresses, (ip_list.ip_count + 1) * sizeof(ip_addr_t));
                 }
-                *(ip_list.ip_addresses + ip_list.ip_count) = (answers + i)->rdata.ipv4;
+                // Handle IP version and value
+                *(ip_list.ip_addresses + ip_list.ip_count) = (answers + i)->rdata.ip;
                 ip_list.ip_count++;
-            } else if ((answers + i)->rtype == CNAME) {
+            }
+            else if ((answers + i)->rtype == CNAME)
+            {
                 cname = (answers + i)->rdata.domain_name;
             }
         }
@@ -346,8 +359,9 @@ char* dns_rdata_to_str(dns_rr_type_t rtype, uint16_t rdlength, rdata_t rdata) {
     }
     switch (rtype) {
         case A:
-            // RDATA is an IPv4 address
-            return ipv4_net_to_str(rdata.ipv4);
+        case AAAA:
+            // RDATA is an IP (v4 or v6) address
+            return ip_net_to_str(rdata.ip);
             break;
         case NS:
         case CNAME:

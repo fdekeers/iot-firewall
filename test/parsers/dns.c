@@ -77,7 +77,7 @@ void test_dns_xiaomi() {
 
     size_t skipped = get_headers_length(payload);
     dns_message_t message = dns_parse_message(payload + skipped);
-    dns_print_message(message);
+    //dns_print_message(message);
 
     // Test different sections of the DNS message
 
@@ -117,7 +117,8 @@ void test_dns_xiaomi() {
     (expected_answer + 1)->rclass = 1;
     (expected_answer + 1)->ttl = 147;
     (expected_answer + 1)->rdlength = 4;
-    (expected_answer + 1)->rdata.ipv4 = ipv4_str_to_net("20.47.97.231");
+    (expected_answer + 1)->rdata.ip.version = 4;
+    (expected_answer + 1)->rdata.ip.value.ipv4 = ipv4_str_to_net("20.47.97.231");
     compare_rrs(message.header.ancount, message.answers, expected_answer);
     free(expected_answer);
 
@@ -156,7 +157,7 @@ void test_dns_xiaomi() {
     ip_list_t ip_list = dns_get_ip_from_name(message.answers, message.header.ancount, domain_name);
     char *ip_address = "20.47.97.231";
     CU_ASSERT_EQUAL(ip_list.ip_count, 1);
-    CU_ASSERT_STRING_EQUAL(ipv4_net_to_str(*(ip_list.ip_addresses)), ip_address);
+    CU_ASSERT_STRING_EQUAL(ipv4_net_to_str(ip_list.ip_addresses->value.ipv4), ip_address);
     domain_name = "swag.framinem.org";
     ip_list = dns_get_ip_from_name(message.answers, message.header.ancount, domain_name);
     CU_ASSERT_EQUAL(ip_list.ip_count, 0);
@@ -244,28 +245,32 @@ void test_dns_office() {
     (expected_answer + 5)->rclass = 1;
     (expected_answer + 5)->ttl = 4;
     (expected_answer + 5)->rdlength = 4;
-    (expected_answer + 5)->rdata.ipv4 = ipv4_str_to_net("52.97.158.162");
+    (expected_answer + 5)->rdata.ip.version = 4;
+    (expected_answer + 5)->rdata.ip.value.ipv4 = ipv4_str_to_net("52.97.158.162");
     // Answer n°6
     (expected_answer + 6)->name = "AMS-efz.ms-acdc.office.com";
     (expected_answer + 6)->rtype = A;
     (expected_answer + 6)->rclass = 1;
     (expected_answer + 6)->ttl = 4;
     (expected_answer + 6)->rdlength = 4;
-    (expected_answer + 6)->rdata.ipv4 = ipv4_str_to_net("40.101.12.98");
+    (expected_answer + 6)->rdata.ip.version = 4;
+    (expected_answer + 6)->rdata.ip.value.ipv4 = ipv4_str_to_net("40.101.12.98");
     // Answer n°7
     (expected_answer + 7)->name = "AMS-efz.ms-acdc.office.com";
     (expected_answer + 7)->rtype = A;
     (expected_answer + 7)->rclass = 1;
     (expected_answer + 7)->ttl = 4;
     (expected_answer + 7)->rdlength = 4;
-    (expected_answer + 7)->rdata.ipv4 = ipv4_str_to_net("40.99.204.34");
+    (expected_answer + 7)->rdata.ip.version = 4;
+    (expected_answer + 7)->rdata.ip.value.ipv4 = ipv4_str_to_net("40.99.204.34");
     // Answer n°8
     (expected_answer + 8)->name = "AMS-efz.ms-acdc.office.com";
     (expected_answer + 8)->rtype = A;
     (expected_answer + 8)->rclass = 1;
     (expected_answer + 8)->ttl = 4;
     (expected_answer + 8)->rdlength = 4;
-    (expected_answer + 8)->rdata.ipv4 = ipv4_str_to_net("40.101.121.18");
+    (expected_answer + 8)->rdata.ip.version = 4;
+    (expected_answer + 8)->rdata.ip.value.ipv4 = ipv4_str_to_net("40.101.121.18");
     // Compare and free answer
     compare_rrs(message.header.ancount, message.answers, expected_answer);
     free(expected_answer);
@@ -319,7 +324,7 @@ void test_dns_office() {
     };
     CU_ASSERT_EQUAL(ip_list.ip_count, 4);
     for (uint8_t i = 0; i < 4; i++) {
-        CU_ASSERT_STRING_EQUAL(ipv4_net_to_str(*(ip_list.ip_addresses + i)), ip_addresses[i]);
+        CU_ASSERT_STRING_EQUAL(ipv4_net_to_str((ip_list.ip_addresses + i)->value.ipv4), ip_addresses[i]);
     }
     domain_name = "swag.framinem.org";
     ip_list = dns_get_ip_from_name(message.answers, message.header.ancount, domain_name);
