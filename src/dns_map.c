@@ -51,6 +51,30 @@ static void dns_free(void *item) {
 }
 
 /**
+ * @brief Checks if a dns_entry_t structure contains a given IP address.
+ *
+ * @param dns_entry pointer to the DNS entry to process
+ * @param ip_address IP address to check the presence of
+ * @return true if the IP address is present in the DNS entry, false otherwise
+ */
+bool dns_entry_contains(dns_entry_t *dns_entry, uint32_t ip_address) {
+    if (dns_entry == NULL || dns_entry->ip_list.ip_addresses == NULL) {
+        // DNS entry or IP address list is NULL
+        return false;
+    }
+
+    // Not NULL, search for the IP address
+    for (uint8_t i = 0; i < dns_entry->ip_list.ip_count; i++) {
+        if (*(dns_entry->ip_list.ip_addresses + i) == ip_address) {
+            // IP address found
+            return true;
+        }
+    }
+    // IP address not found
+    return false;
+}
+
+/**
  * Create a new DNS table.
  * Uses random seeds for the hash function.
  * 

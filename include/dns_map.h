@@ -13,6 +13,7 @@
 
 #include <stdlib.h>
 #include <stdint.h>
+#include <stdbool.h>
 #include <string.h>
 #include "hashmap.h"
 
@@ -47,6 +48,15 @@ typedef struct hashmap dns_map_t;
 
 
 ////////// FUNCTIONS //////////
+
+/**
+ * @brief Checks if a dns_entry_t structure contains a given IP address.
+ *
+ * @param dns_entry pointer to the DNS entry to process
+ * @param ip_address IP address to check the presence of
+ * @return true if the IP address is present in the DNS entry, false otherwise
+ */
+bool dns_entry_contains(dns_entry_t *dns_entry, uint32_t ip_address);
 
 /**
  * Create a new DNS table.

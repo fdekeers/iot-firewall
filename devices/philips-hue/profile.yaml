@@ -10,6 +10,33 @@ device-info:
   is-supported: true
 
 
+patterns:
+
+  dns-hue-server:
+    protocols:
+      dns:
+        qtype:
+          - A
+          - AAAA
+        domain-name: # Will be populated by parsing #
+        dst-port: 53
+      ipv4:
+        src: self
+        dst: gateway
+    direction: both
+    
+  https-hue-server:
+    protocols:
+      tcp:
+        dst-port: 443
+      ipv4:
+        src: self
+        dst: # Will be populated by parsing #
+    destination: both
+    stats:
+      duration: 10
+
+
 individual-policies:
 
   ##### DNS TRAFFIC #####
@@ -21,45 +48,15 @@ individual-policies:
           - A
           - AAAA
         domain-name:
-          - mqtt.2030.ltsapis.goog
-          - time1.google.com
-          - time2.google.com
-          - time3.google.com
-          - time4.google.com
-          - ntp1.aliyun.com
-          - ntp2.aliyun.com
-          - ntp3.aliyun.com
-          - ntp4.aliyun.com
           - www.philips-hue.com
           - www.ecdinterface.philips.com
           - ws.meethue.com
-          - time.meethue.com
-          - data.meethue.com
-          - diag.meethue.com
           - dcp.dc1.philips.com
       udp:
         dst-port: 53
       ipv4:
         src: self
         dst: gateway
-    direction: both
-
-  # NTP: retrieve current time
-  ntp-all-servers:
-    protocols:
-      udp:
-        dst-port: 123  # NTP
-      ipv4:
-        src: self
-        dst:
-          - time1.google.com
-          - time2.google.com
-          - time3.google.com
-          - time4.google.com
-          - ntp1.aliyun.com
-          - ntp2.aliyun.com
-          - ntp3.aliyun.com
-          - ntp4.aliyun.com
     direction: both
 
   # IGMP: join multicast group
@@ -99,22 +96,6 @@ individual-policies:
         src: self
         dst: mdns
 
-  # Background HTTPS traffic with Philips servers
-  https-philips:
-    protocols:
-      tcp:
-        dst-port: 443
-      ipv4:
-        src: self
-        dst:
-          - time.meethue.com
-          - data.meethue.com
-          - diag.meethue.com
-          - mqtt.2030.ltsapis.goog
-    destination: both
-    stats:
-      duration: 1
-
   # Local HTTPS communication between Philips Hue app and bridge
   https-app-bridge:
     protocols:
@@ -124,19 +105,6 @@ individual-policies:
         src: local  # Mobile phone running the app
         dst: self
     destination: both
-    initiator: src
-    stats:
-      rate: 10/second burst 100 packets
-
-  # Background HTTPS traffic with ws.meethue.com when app is open in an outside network
-  https-app-external:
-    protocols:
-      tcp:
-        dst-port: 443
-      ipv4:
-        src: self
-        dst: ws.meethue.com
-    direction: both
     initiator: src
     stats:
       rate: 10/second burst 100 packets
@@ -239,8 +207,25 @@ interaction-policies:
           tpa: gateway
       direction: both
 
+
   # HTTP traffic at boot
   http-boot:
+
+    dns-hue-servers:
+      protocols:
+        dns:
+          qtype:
+            - A
+            - AAAA
+          domain-name:
+            - www.ecdinterface.philips.com
+            - dcp.dc1.philips.com
+        udp:
+          dst-port: 53
+        ipv4:
+          src: self
+          dst: gateway
+      direction: both
 
     http-post-device-portal:
       protocols:
@@ -274,6 +259,83 @@ interaction-policies:
         ipv4:
           src: self
           dst: dcp.dc1.philips.com
+
+  
+  # NTP: retrieve current time
+  ntp-all-servers:
+
+    dns-hue-ntp-server:
+      protocols:
+        dns:
+          qtype:
+            - A
+            - AAAA
+          domain-name:
+            - time1.google.com
+            - time2.google.com
+            - time3.google.com
+            - time4.google.com
+            - ntp1.aliyun.com
+            - ntp2.aliyun.com
+            - ntp3.aliyun.com
+            - ntp4.aliyun.com
+        udp:
+          dst-port: 53
+        ipv4:
+          src: self
+          dst: gateway
+      direction: both
+
+    ntp-hue-ntp-server:
+      protocols:
+        udp:
+          dst-port: 123  # NTP
+        ipv4:
+          src: self
+          dst:
+            - time1.google.com
+            - time2.google.com
+            - time3.google.com
+            - time4.google.com
+            - ntp1.aliyun.com
+            - ntp2.aliyun.com
+            - ntp3.aliyun.com
+            - ntp4.aliyun.com
+      direction: both
+
+
+  ##### BACKGROUND TRAFFIC WITH SERVERS #####
+
+  background-time-meethue:
+    dns-time-meethue: !include patterns.dns-hue-server protocols.dns.domain-name:time.meethue.com
+    https-time-meethue: !include patterns.https-hue-server protocols.ipv4.dst:time.meethue.com
+
+  background-data-meethue:
+    dns-data-meethue: !include patterns.dns-hue-server protocols.dns.domain-name:data.meethue.com
+    https-data-meethue: !include patterns.https-hue-server protocols.ipv4.dst:data.meethue.com
+
+  background-diag-meethue:
+    dns-diag-meethue: !include patterns.dns-hue-server protocols.dns.domain-name:diag.meethue.com
+    https-diag-meethue: !include patterns.https-hue-server protocols.ipv4.dst:diag.meethue.com
+
+  background-mqtt:
+    dns-mqtt: !include patterns.dns-hue-server protocols.dns.domain-name:mqtt.2030.ltsapis.goog
+    https-mqtt: !include patterns.https-hue-server protocols.ipv4.dst:mqtt.2030.ltsapis.goog
+  
+  background-app-external:
+    dns-ws-meethue: !include patterns.dns-hue-server protocols.dns.domain-name:ws.meethue.com
+
+    https-hue-ws:
+      protocols:
+        tcp:
+          dst-port: 443
+        ipv4:
+          src: self
+          dst: ws.meethue.com
+      direction: both
+      initiator: src
+      stats:
+        rate: 10/second burst 100 packets
 
 
   # SSDP discovery

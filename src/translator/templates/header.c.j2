@@ -23,7 +23,7 @@
 // Parsers
 #include "parsers/header.h"
 {% for parser in custom_parsers %}
-{% if parser == "mdns" %}
+{% if "dns" in parser %}
 #include "parsers/dns.h"
 {% else %}
 #include "parsers/{{parser}}.h"

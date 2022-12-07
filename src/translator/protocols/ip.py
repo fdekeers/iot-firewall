@@ -77,7 +77,9 @@ class ip(Custom, Protocol):
     
     def add_addr(self, addr_dir: str, direction: str = "out", initiator: str = "") -> None:
         """
-        Add a new IP address match to the accumulator.
+        Add a new IP address match to the accumulator, in two possible ways:
+            - If the address is a well-known alias or an explicit IP address, add an nftables match.
+            - If the address is a domain name, add an nfqueue match.
 
         Args:
             addr_dir (str): Address direction to add the rule to (src or dst)
@@ -87,8 +89,7 @@ class ip(Custom, Protocol):
         other_dir = "src" if addr_dir == "dst" else "dst"
         addr = self.protocol_data[addr_dir]
 
-        if self.is_ip(addr):
-            # Source address is a well-known alias or an explicit IP address
+        if self.is_ip(addr):  # Source address is a well-known alias or an explicit IP address
             tpl_addr_matches = {
                 "src": "saddr {{ {} }}",
                 "dst": "daddr {{ {} }}"
@@ -115,13 +116,12 @@ class ip(Custom, Protocol):
                 rules = {"forward": f"{self.nft_prefix} {tpl_addr_matches[addr_dir]}", "backward": f"{self.nft_prefix} {tpl_addr_matches[other_dir]}"}
                 Protocol.add_field(self, "src", rules, direction, self.explicit_address)
 
-        else:
-            # Source address is potentially a domain name
-            # TODO: Add support for domain names
+        else:  # Source address is potentially a domain name
             rules = {
-                "forward": ""
+                "forward": f"dns_entry_contains(dns_map_get(dns_map, \"{{}}\"), get_{self.protocol_name}_{addr_dir}_addr(payload))",
+                "backward": f"dns_entry_contains(dns_map_get(dns_map, \"{{}}\"), get_{self.protocol_name}_{other_dir}_addr(payload))"
             }
-            #Custom.add_field(self, addr_dir, , direction)
+            Custom.add_field(self, addr_dir, rules, direction)
 
 
     def parse(self, direction: str = "out", initiator: str = "") -> dict:

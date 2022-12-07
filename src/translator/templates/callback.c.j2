@@ -20,7 +20,7 @@ uint32_t callback_{{policy_jinja}}(int pkt_id, int pkt_len, uint8_t *payload, vo
     {% if policy.custom_parser == 'ssdp' %}
     uint32_t dst_addr = get_ipv4_dst_addr(payload);  // IPv4 destination address, in network byte order
     {% endif %}
-    {% if policy.nfq_matches %}
+    {% if policy.custom_parser and policy.nfq_matches %}
     // Skip layer 3 and 4 headers
     {% if policy.custom_parser == 'http' or policy.custom_parser == 'coap' %}
     size_t l3_header_length = get_l3_header_length(payload);
@@ -35,11 +35,12 @@ uint32_t callback_{{policy_jinja}}(int pkt_id, int pkt_len, uint8_t *payload, vo
     bool has_payload = pkt_len - skipped >= HTTP_MESSAGE_MIN_LEN;
     {% endif %}
 
-    // Parse message
-    {% if policy.custom_parser == "mdns" %}
+    {% if "dns" in policy.custom_parser %}
+    // Parse DNS message
     dns_message_t message = dns_parse_message(payload + skipped);
     dns_print_message(message);
-    {% else %}
+    {% elif policy.custom_parser %}
+    // Parse message
     {{policy.custom_parser}}_message_t message = {{policy.custom_parser}}_parse_message(payload + skipped
     {%- if policy.custom_parser == 'http' -%}
     , dst_port
