@@ -155,7 +155,9 @@ bool&#160;</td><td class="memItemRight" valign="bottom"><b>custom_parser</b> = F
         </tr>
       </table>
 </div><div class="memdoc">
-<pre class="fragment">Add a new IP address match to the accumulator.
+<pre class="fragment">Add a new IP address match to the accumulator, in two possible ways:
+    - If the address is a well-known alias or an explicit IP address, add an nftables match.
+    - If the address is a domain name, add an nfqueue match.
 
 Args:
     addr_dir (str): Address direction to add the rule to (src or dst)

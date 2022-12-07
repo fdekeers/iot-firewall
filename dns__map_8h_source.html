@@ -76,56 +76,60 @@ $(function() {
 <div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160; </div>
 <div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;<span class="preprocessor">#include &lt;stdlib.h&gt;</span></div>
 <div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;<span class="preprocessor">#include &lt;stdint.h&gt;</span></div>
-<div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;<span class="preprocessor">#include &lt;string.h&gt;</span></div>
-<div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;<span class="preprocessor">#include &quot;<a class="code" href="hashmap_8h.html">hashmap.h</a>&quot;</span></div>
-<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160; </div>
-<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;<span class="comment">// Initial size of the DNS table</span></div>
-<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;<span class="comment">// If set to 0, the default size will be 16</span></div>
-<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;<span class="preprocessor">#define DNS_MAP_INIT_SIZE 0</span></div>
-<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160; </div>
+<div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;<span class="preprocessor">#include &lt;stdbool.h&gt;</span></div>
+<div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;<span class="preprocessor">#include &lt;string.h&gt;</span></div>
+<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;<span class="preprocessor">#include &quot;<a class="code" href="hashmap_8h.html">hashmap.h</a>&quot;</span></div>
+<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160; </div>
+<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;<span class="comment">// Initial size of the DNS table</span></div>
+<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;<span class="comment">// If set to 0, the default size will be 16</span></div>
+<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;<span class="preprocessor">#define DNS_MAP_INIT_SIZE 0</span></div>
 <div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160; </div>
-<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160; </div>
-<div class="line"><a name="l00029"></a><span class="lineno"><a class="line" href="structip__list.html">   29</a></span>&#160;<span class="keyword">typedef</span> <span class="keyword">struct </span><a class="code" href="structip__list.html">ip_list</a> {</div>
-<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;    uint8_t ip_count;        <span class="comment">// Number of IP addresses</span></div>
-<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;    uint32_t *ip_addresses;  <span class="comment">// List of IP addresses, as 32-bit unsigned integers in network byte order</span></div>
-<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;} <a class="code" href="dns__map_8h.html#a149decef00048bd4b13c7617715f1c7c">ip_list_t</a>;</div>
-<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160; </div>
-<div class="line"><a name="l00038"></a><span class="lineno"><a class="line" href="structdns__entry.html">   38</a></span>&#160;<span class="keyword">typedef</span> <span class="keyword">struct </span><a class="code" href="structdns__entry.html">dns_entry</a> {</div>
-<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;    <span class="keywordtype">char</span> *domain_name;  <span class="comment">// Domain name</span></div>
-<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;    <a class="code" href="structip__list.html">ip_list_t</a> <a class="code" href="structip__list.html">ip_list</a>;  <span class="comment">// List of IP addresses</span></div>
-<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;} <a class="code" href="dns__map_8h.html#af49967b51d5078edae2ca81eb7ed6315">dns_entry_t</a>;</div>
-<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160; </div>
-<div class="line"><a name="l00046"></a><span class="lineno"><a class="line" href="dns__map_8h.html#a022ce4a2dbd9bc73d81cd658e74db5dd">   46</a></span>&#160;<span class="keyword">typedef</span> <span class="keyword">struct </span>hashmap <a class="code" href="dns__map_8h.html#a022ce4a2dbd9bc73d81cd658e74db5dd">dns_map_t</a>;</div>
-<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160; </div>
+<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160; </div>
+<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160; </div>
+<div class="line"><a name="l00030"></a><span class="lineno"><a class="line" href="structip__list.html">   30</a></span>&#160;<span class="keyword">typedef</span> <span class="keyword">struct </span><a class="code" href="structip__list.html">ip_list</a> {</div>
+<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;    uint8_t ip_count;        <span class="comment">// Number of IP addresses</span></div>
+<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;    uint32_t *ip_addresses;  <span class="comment">// List of IP addresses, as 32-bit unsigned integers in network byte order</span></div>
+<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;} <a class="code" href="dns__map_8h.html#a149decef00048bd4b13c7617715f1c7c">ip_list_t</a>;</div>
+<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160; </div>
+<div class="line"><a name="l00039"></a><span class="lineno"><a class="line" href="structdns__entry.html">   39</a></span>&#160;<span class="keyword">typedef</span> <span class="keyword">struct </span><a class="code" href="structdns__entry.html">dns_entry</a> {</div>
+<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;    <span class="keywordtype">char</span> *domain_name;  <span class="comment">// Domain name</span></div>
+<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;    <a class="code" href="structip__list.html">ip_list_t</a> <a class="code" href="structip__list.html">ip_list</a>;  <span class="comment">// List of IP addresses</span></div>
+<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;} <a class="code" href="dns__map_8h.html#af49967b51d5078edae2ca81eb7ed6315">dns_entry_t</a>;</div>
+<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160; </div>
+<div class="line"><a name="l00047"></a><span class="lineno"><a class="line" href="dns__map_8h.html#a022ce4a2dbd9bc73d81cd658e74db5dd">   47</a></span>&#160;<span class="keyword">typedef</span> <span class="keyword">struct </span>hashmap <a class="code" href="dns__map_8h.html#a022ce4a2dbd9bc73d81cd658e74db5dd">dns_map_t</a>;</div>
 <div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160; </div>
-<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160; </div>
-<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;<a class="code" href="dns__map_8h.html#a022ce4a2dbd9bc73d81cd658e74db5dd">dns_map_t</a>* <a class="code" href="dns__map_8h.html#a45cae5b73998f1a6f08368634616fe24">dns_map_create</a>();</div>
-<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160; </div>
-<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;<span class="keywordtype">void</span> <a class="code" href="dns__map_8h.html#a092673d13f6d2506eb7774e3b73eec5b">dns_map_destroy</a>(<a class="code" href="dns__map_8h.html#a022ce4a2dbd9bc73d81cd658e74db5dd">dns_map_t</a> *table);</div>
-<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160; </div>
-<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;<span class="keywordtype">void</span> <a class="code" href="dns__map_8h.html#a9bd447f95884db6b4073316f37878b37">dns_map_add</a>(<a class="code" href="dns__map_8h.html#a022ce4a2dbd9bc73d81cd658e74db5dd">dns_map_t</a> *table, <span class="keywordtype">char</span> *domain_name, <a class="code" href="structip__list.html">ip_list_t</a> <a class="code" href="structip__list.html">ip_list</a>);</div>
+<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160; </div>
+<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160; </div>
+<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;<span class="keywordtype">bool</span> <a class="code" href="dns__map_8h.html#afd258bfcbfcb0794f54f6b0e7823942c">dns_entry_contains</a>(<a class="code" href="structdns__entry.html">dns_entry_t</a> *<a class="code" href="structdns__entry.html">dns_entry</a>, uint32_t ip_address);</div>
+<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160; </div>
+<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;<a class="code" href="dns__map_8h.html#a022ce4a2dbd9bc73d81cd658e74db5dd">dns_map_t</a>* <a class="code" href="dns__map_8h.html#a45cae5b73998f1a6f08368634616fe24">dns_map_create</a>();</div>
+<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160; </div>
+<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;<span class="keywordtype">void</span> <a class="code" href="dns__map_8h.html#a092673d13f6d2506eb7774e3b73eec5b">dns_map_destroy</a>(<a class="code" href="dns__map_8h.html#a022ce4a2dbd9bc73d81cd658e74db5dd">dns_map_t</a> *table);</div>
 <div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160; </div>
-<div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160;<span class="keywordtype">void</span> <a class="code" href="dns__map_8h.html#a4c1f444fafae9fa4b8b7761aaa7cd101">dns_map_remove</a>(<a class="code" href="dns__map_8h.html#a022ce4a2dbd9bc73d81cd658e74db5dd">dns_map_t</a> *table, <span class="keywordtype">char</span> *domain_name);</div>
-<div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160; </div>
-<div class="line"><a name="l00091"></a><span class="lineno">   91</span>&#160;<a class="code" href="structdns__entry.html">dns_entry_t</a>* <a class="code" href="dns__map_8h.html#a5ba4a5dccfa64f742be6f9b60167afec">dns_map_get</a>(<a class="code" href="dns__map_8h.html#a022ce4a2dbd9bc73d81cd658e74db5dd">dns_map_t</a> *table, <span class="keywordtype">char</span> *domain_name);</div>
+<div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160;<span class="keywordtype">void</span> <a class="code" href="dns__map_8h.html#a9bd447f95884db6b4073316f37878b37">dns_map_add</a>(<a class="code" href="dns__map_8h.html#a022ce4a2dbd9bc73d81cd658e74db5dd">dns_map_t</a> *table, <span class="keywordtype">char</span> *domain_name, <a class="code" href="structip__list.html">ip_list_t</a> <a class="code" href="structip__list.html">ip_list</a>);</div>
+<div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160; </div>
+<div class="line"><a name="l00091"></a><span class="lineno">   91</span>&#160;<span class="keywordtype">void</span> <a class="code" href="dns__map_8h.html#a4c1f444fafae9fa4b8b7761aaa7cd101">dns_map_remove</a>(<a class="code" href="dns__map_8h.html#a022ce4a2dbd9bc73d81cd658e74db5dd">dns_map_t</a> *table, <span class="keywordtype">char</span> *domain_name);</div>
 <div class="line"><a name="l00092"></a><span class="lineno">   92</span>&#160; </div>
-<div class="line"><a name="l00102"></a><span class="lineno">  102</span>&#160;<a class="code" href="structdns__entry.html">dns_entry_t</a>* <a class="code" href="dns__map_8h.html#af866630438d1b9af81dccac6171c73b9">dns_map_pop</a>(<a class="code" href="dns__map_8h.html#a022ce4a2dbd9bc73d81cd658e74db5dd">dns_map_t</a> *table, <span class="keywordtype">char</span> *domain_name);</div>
-<div class="line"><a name="l00103"></a><span class="lineno">  103</span>&#160; </div>
-<div class="line"><a name="l00104"></a><span class="lineno">  104</span>&#160; </div>
-<div class="line"><a name="l00105"></a><span class="lineno">  105</span>&#160;<span class="preprocessor">#endif </span><span class="comment">/* _IOTFIREWALL_DNS_MAP_ */</span><span class="preprocessor"></span></div>
+<div class="line"><a name="l00101"></a><span class="lineno">  101</span>&#160;<a class="code" href="structdns__entry.html">dns_entry_t</a>* <a class="code" href="dns__map_8h.html#a5ba4a5dccfa64f742be6f9b60167afec">dns_map_get</a>(<a class="code" href="dns__map_8h.html#a022ce4a2dbd9bc73d81cd658e74db5dd">dns_map_t</a> *table, <span class="keywordtype">char</span> *domain_name);</div>
+<div class="line"><a name="l00102"></a><span class="lineno">  102</span>&#160; </div>
+<div class="line"><a name="l00112"></a><span class="lineno">  112</span>&#160;<a class="code" href="structdns__entry.html">dns_entry_t</a>* <a class="code" href="dns__map_8h.html#af866630438d1b9af81dccac6171c73b9">dns_map_pop</a>(<a class="code" href="dns__map_8h.html#a022ce4a2dbd9bc73d81cd658e74db5dd">dns_map_t</a> *table, <span class="keywordtype">char</span> *domain_name);</div>
+<div class="line"><a name="l00113"></a><span class="lineno">  113</span>&#160; </div>
+<div class="line"><a name="l00114"></a><span class="lineno">  114</span>&#160; </div>
+<div class="line"><a name="l00115"></a><span class="lineno">  115</span>&#160;<span class="preprocessor">#endif </span><span class="comment">/* _IOTFIREWALL_DNS_MAP_ */</span><span class="preprocessor"></span></div>
 </div><!-- fragment --></div><!-- contents -->
-<div class="ttc" id="adns__map_8h_html_af866630438d1b9af81dccac6171c73b9"><div class="ttname"><a href="dns__map_8h.html#af866630438d1b9af81dccac6171c73b9">dns_map_pop</a></div><div class="ttdeci">dns_entry_t * dns_map_pop(dns_map_t *table, char *domain_name)</div><div class="ttdef"><b>Definition:</b> dns_map.c:126</div></div>
-<div class="ttc" id="adns__map_8h_html_a022ce4a2dbd9bc73d81cd658e74db5dd"><div class="ttname"><a href="dns__map_8h.html#a022ce4a2dbd9bc73d81cd658e74db5dd">dns_map_t</a></div><div class="ttdeci">struct hashmap dns_map_t</div><div class="ttdef"><b>Definition:</b> dns_map.h:46</div></div>
+<div class="ttc" id="adns__map_8h_html_af866630438d1b9af81dccac6171c73b9"><div class="ttname"><a href="dns__map_8h.html#af866630438d1b9af81dccac6171c73b9">dns_map_pop</a></div><div class="ttdeci">dns_entry_t * dns_map_pop(dns_map_t *table, char *domain_name)</div><div class="ttdef"><b>Definition:</b> dns_map.c:150</div></div>
+<div class="ttc" id="adns__map_8h_html_a022ce4a2dbd9bc73d81cd658e74db5dd"><div class="ttname"><a href="dns__map_8h.html#a022ce4a2dbd9bc73d81cd658e74db5dd">dns_map_t</a></div><div class="ttdeci">struct hashmap dns_map_t</div><div class="ttdef"><b>Definition:</b> dns_map.h:47</div></div>
 <div class="ttc" id="adns__map_8h_html_af49967b51d5078edae2ca81eb7ed6315"><div class="ttname"><a href="dns__map_8h.html#af49967b51d5078edae2ca81eb7ed6315">dns_entry_t</a></div><div class="ttdeci">struct dns_entry dns_entry_t</div></div>
-<div class="ttc" id="adns__map_8h_html_a092673d13f6d2506eb7774e3b73eec5b"><div class="ttname"><a href="dns__map_8h.html#a092673d13f6d2506eb7774e3b73eec5b">dns_map_destroy</a></div><div class="ttdeci">void dns_map_destroy(dns_map_t *table)</div><div class="ttdef"><b>Definition:</b> dns_map.c:77</div></div>
-<div class="ttc" id="adns__map_8h_html_a5ba4a5dccfa64f742be6f9b60167afec"><div class="ttname"><a href="dns__map_8h.html#a5ba4a5dccfa64f742be6f9b60167afec">dns_map_get</a></div><div class="ttdeci">dns_entry_t * dns_map_get(dns_map_t *table, char *domain_name)</div><div class="ttdef"><b>Definition:</b> dns_map.c:113</div></div>
-<div class="ttc" id="astructdns__entry_html"><div class="ttname"><a href="structdns__entry.html">dns_entry</a></div><div class="ttdef"><b>Definition:</b> dns_map.h:38</div></div>
+<div class="ttc" id="adns__map_8h_html_a092673d13f6d2506eb7774e3b73eec5b"><div class="ttname"><a href="dns__map_8h.html#a092673d13f6d2506eb7774e3b73eec5b">dns_map_destroy</a></div><div class="ttdeci">void dns_map_destroy(dns_map_t *table)</div><div class="ttdef"><b>Definition:</b> dns_map.c:101</div></div>
+<div class="ttc" id="adns__map_8h_html_a5ba4a5dccfa64f742be6f9b60167afec"><div class="ttname"><a href="dns__map_8h.html#a5ba4a5dccfa64f742be6f9b60167afec">dns_map_get</a></div><div class="ttdeci">dns_entry_t * dns_map_get(dns_map_t *table, char *domain_name)</div><div class="ttdef"><b>Definition:</b> dns_map.c:137</div></div>
+<div class="ttc" id="astructdns__entry_html"><div class="ttname"><a href="structdns__entry.html">dns_entry</a></div><div class="ttdef"><b>Definition:</b> dns_map.h:39</div></div>
+<div class="ttc" id="adns__map_8h_html_afd258bfcbfcb0794f54f6b0e7823942c"><div class="ttname"><a href="dns__map_8h.html#afd258bfcbfcb0794f54f6b0e7823942c">dns_entry_contains</a></div><div class="ttdeci">bool dns_entry_contains(dns_entry_t *dns_entry, uint32_t ip_address)</div><div class="ttdoc">Checks if a dns_entry_t structure contains a given IP address.</div><div class="ttdef"><b>Definition:</b> dns_map.c:60</div></div>
 <div class="ttc" id="ahashmap_8h_html"><div class="ttname"><a href="hashmap_8h.html">hashmap.h</a></div><div class="ttdoc">Hashmap implementation in C.</div></div>
-<div class="ttc" id="adns__map_8h_html_a9bd447f95884db6b4073316f37878b37"><div class="ttname"><a href="dns__map_8h.html#a9bd447f95884db6b4073316f37878b37">dns_map_add</a></div><div class="ttdeci">void dns_map_add(dns_map_t *table, char *domain_name, ip_list_t ip_list)</div><div class="ttdef"><b>Definition:</b> dns_map.c:89</div></div>
-<div class="ttc" id="adns__map_8h_html_a4c1f444fafae9fa4b8b7761aaa7cd101"><div class="ttname"><a href="dns__map_8h.html#a4c1f444fafae9fa4b8b7761aaa7cd101">dns_map_remove</a></div><div class="ttdeci">void dns_map_remove(dns_map_t *table, char *domain_name)</div><div class="ttdef"><b>Definition:</b> dns_map.c:99</div></div>
+<div class="ttc" id="adns__map_8h_html_a9bd447f95884db6b4073316f37878b37"><div class="ttname"><a href="dns__map_8h.html#a9bd447f95884db6b4073316f37878b37">dns_map_add</a></div><div class="ttdeci">void dns_map_add(dns_map_t *table, char *domain_name, ip_list_t ip_list)</div><div class="ttdef"><b>Definition:</b> dns_map.c:113</div></div>
+<div class="ttc" id="adns__map_8h_html_a4c1f444fafae9fa4b8b7761aaa7cd101"><div class="ttname"><a href="dns__map_8h.html#a4c1f444fafae9fa4b8b7761aaa7cd101">dns_map_remove</a></div><div class="ttdeci">void dns_map_remove(dns_map_t *table, char *domain_name)</div><div class="ttdef"><b>Definition:</b> dns_map.c:123</div></div>
 <div class="ttc" id="adns__map_8h_html_a149decef00048bd4b13c7617715f1c7c"><div class="ttname"><a href="dns__map_8h.html#a149decef00048bd4b13c7617715f1c7c">ip_list_t</a></div><div class="ttdeci">struct ip_list ip_list_t</div></div>
-<div class="ttc" id="astructip__list_html"><div class="ttname"><a href="structip__list.html">ip_list</a></div><div class="ttdef"><b>Definition:</b> dns_map.h:29</div></div>
-<div class="ttc" id="adns__map_8h_html_a45cae5b73998f1a6f08368634616fe24"><div class="ttname"><a href="dns__map_8h.html#a45cae5b73998f1a6f08368634616fe24">dns_map_create</a></div><div class="ttdeci">dns_map_t * dns_map_create()</div><div class="ttdef"><b>Definition:</b> dns_map.c:59</div></div>
+<div class="ttc" id="astructip__list_html"><div class="ttname"><a href="structip__list.html">ip_list</a></div><div class="ttdef"><b>Definition:</b> dns_map.h:30</div></div>
+<div class="ttc" id="adns__map_8h_html_a45cae5b73998f1a6f08368634616fe24"><div class="ttname"><a href="dns__map_8h.html#a45cae5b73998f1a6f08368634616fe24">dns_map_create</a></div><div class="ttdeci">dns_map_t * dns_map_create()</div><div class="ttdef"><b>Definition:</b> dns_map.c:83</div></div>
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
 Generated by &#160;<a href="http://www.doxygen.org/index.html">

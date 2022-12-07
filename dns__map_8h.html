@@ -80,6 +80,7 @@ $(function() {
 <a href="#details">More...</a></p>
 <div class="textblock"><code>#include &lt;stdlib.h&gt;</code><br />
 <code>#include &lt;stdint.h&gt;</code><br />
+<code>#include &lt;stdbool.h&gt;</code><br />
 <code>#include &lt;string.h&gt;</code><br />
 <code>#include &quot;<a class="el" href="hashmap_8h_source.html">hashmap.h</a>&quot;</code><br />
 </div><div class="textblock"><div class="dynheader">
@@ -87,13 +88,13 @@ Include dependency graph for dns_map.h:</div>
 <div class="dyncontent">
 <div class="center"><img src="dns__map_8h__incl.png" border="0" usemap="#include_2dns__map_8h" alt=""/></div>
 <map name="include_2dns__map_8h" id="include_2dns__map_8h">
-<area shape="rect" title="Implementation of a DNS domain name to IP addresses mapping, using Joshua J Baker&#39;s hashmap...." alt="" coords="78,5,222,32"/>
+<area shape="rect" title="Implementation of a DNS domain name to IP addresses mapping, using Joshua J Baker&#39;s hashmap...." alt="" coords="127,5,271,32"/>
 <area shape="rect" title=" " alt="" coords="5,80,76,107"/>
-<area shape="rect" title=" " alt="" coords="117,155,188,181"/>
-<area shape="rect" title=" " alt="" coords="152,80,223,107"/>
-<area shape="rect" href="hashmap_8h.html" title="Hashmap implementation in C." alt="" coords="247,80,341,107"/>
-<area shape="rect" title=" " alt="" coords="233,155,315,181"/>
-<area shape="rect" title=" " alt="" coords="339,155,414,181"/>
+<area shape="rect" title=" " alt="" coords="79,155,149,181"/>
+<area shape="rect" title=" " alt="" coords="305,155,387,181"/>
+<area shape="rect" title=" " alt="" coords="271,80,341,107"/>
+<area shape="rect" href="hashmap_8h.html" title="Hashmap implementation in C." alt="" coords="152,80,247,107"/>
+<area shape="rect" title=" " alt="" coords="174,155,249,181"/>
 </map>
 </div>
 </div><div class="textblock"><div class="dynheader">
@@ -136,6 +137,9 @@ Typedefs</h2></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="func-members"></a>
 Functions</h2></td></tr>
+<tr class="memitem:afd258bfcbfcb0794f54f6b0e7823942c"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="dns__map_8h.html#afd258bfcbfcb0794f54f6b0e7823942c">dns_entry_contains</a> (<a class="el" href="dns__map_8h.html#af49967b51d5078edae2ca81eb7ed6315">dns_entry_t</a> *<a class="el" href="structdns__entry.html">dns_entry</a>, uint32_t ip_address)</td></tr>
+<tr class="memdesc:afd258bfcbfcb0794f54f6b0e7823942c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Checks if a dns_entry_t structure contains a given IP address.  <a href="dns__map_8h.html#afd258bfcbfcb0794f54f6b0e7823942c">More...</a><br /></td></tr>
+<tr class="separator:afd258bfcbfcb0794f54f6b0e7823942c"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a45cae5b73998f1a6f08368634616fe24"><td class="memItemLeft" align="right" valign="top"><a class="el" href="dns__map_8h.html#a022ce4a2dbd9bc73d81cd658e74db5dd">dns_map_t</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="dns__map_8h.html#a45cae5b73998f1a6f08368634616fe24">dns_map_create</a> ()</td></tr>
 <tr class="separator:a45cae5b73998f1a6f08368634616fe24"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a092673d13f6d2506eb7774e3b73eec5b"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="dns__map_8h.html#a092673d13f6d2506eb7774e3b73eec5b">dns_map_destroy</a> (<a class="el" href="dns__map_8h.html#a022ce4a2dbd9bc73d81cd658e74db5dd">dns_map_t</a> *table)</td></tr>
@@ -201,6 +205,44 @@ Functions</h2></td></tr>
 </div>
 </div>
 <h2 class="groupheader">Function Documentation</h2>
+<a id="afd258bfcbfcb0794f54f6b0e7823942c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#afd258bfcbfcb0794f54f6b0e7823942c">&#9670;&nbsp;</a></span>dns_entry_contains()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool dns_entry_contains </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="dns__map_8h.html#af49967b51d5078edae2ca81eb7ed6315">dns_entry_t</a> *&#160;</td>
+          <td class="paramname"><em>dns_entry</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">uint32_t&#160;</td>
+          <td class="paramname"><em>ip_address</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Checks if a dns_entry_t structure contains a given IP address. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname"><a class="el" href="structdns__entry.html">dns_entry</a></td><td>pointer to the DNS entry to process </td></tr>
+    <tr><td class="paramname">ip_address</td><td>IP address to check the presence of </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>true if the IP address is present in the DNS entry, false otherwise </dd></dl>
+
+</div>
+</div>
 <a id="a9bd447f95884db6b4073316f37878b37"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a9bd447f95884db6b4073316f37878b37">&#9670;&nbsp;</a></span>dns_map_add()</h2>
 
