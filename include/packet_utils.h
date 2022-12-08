@@ -18,6 +18,8 @@
 #include <string.h>
 #include <arpa/inet.h>
 
+#define MAC_ADDR_LENGTH  6
+#define MAC_ADDR_STRLEN  18
 #define IPV4_ADDR_LENGTH 4
 #define IPV6_ADDR_LENGTH 16
 

@@ -63,10 +63,10 @@ size_t hexstr_to_payload(char *hexstring, uint8_t **payload) {
  */
 char *mac_hex_to_str(uint8_t mac_hex[])
 {
-    char *mac_str = (char *)malloc(18 * sizeof(char)); // A string representation of a MAC address is 17 characters long + null terminator
-    int ret = snprintf(mac_str, 18, "%02hhx:%02hhx:%02hhx:%02hhx:%02hhx:%02hhx", mac_hex[0], mac_hex[1], mac_hex[2], mac_hex[3], mac_hex[4], mac_hex[5]);
+    char *mac_str = (char *) malloc(MAC_ADDR_STRLEN * sizeof(char)); // A string representation of a MAC address is 17 characters long + null terminator
+    int ret = snprintf(mac_str, MAC_ADDR_STRLEN, "%02hhx:%02hhx:%02hhx:%02hhx:%02hhx:%02hhx", mac_hex[0], mac_hex[1], mac_hex[2], mac_hex[3], mac_hex[4], mac_hex[5]);
     // Error handling
-    if (ret != 17)
+    if (ret != MAC_ADDR_STRLEN - 1)
     {
         fprintf(stderr, "Error converting MAC address \\x%2x\\x%2x\\x%2x\\x%2x\\x%2x\\x%2x to string representation.\n", mac_hex[0], mac_hex[1], mac_hex[2], mac_hex[3], mac_hex[4], mac_hex[5]);
         return NULL;
@@ -83,10 +83,10 @@ char *mac_hex_to_str(uint8_t mac_hex[])
  */
 uint8_t *mac_str_to_hex(char *mac_str)
 {
-    uint8_t *mac_hex = (uint8_t *)malloc(6 * sizeof(uint8_t)); // A MAC address is 6 bytes long
+    uint8_t *mac_hex = (uint8_t *) malloc(MAC_ADDR_LENGTH * sizeof(uint8_t));  // A MAC address is 6 bytes long
     int ret = sscanf(mac_str, "%hhx:%hhx:%hhx:%hhx:%hhx:%hhx", mac_hex, mac_hex + 1, mac_hex + 2, mac_hex + 3, mac_hex + 4, mac_hex + 5);
     // Error handling
-    if (ret != 6)
+    if (ret != MAC_ADDR_LENGTH)
     {
         fprintf(stderr, "Error converting MAC address %s to hexadecimal representation.\n", mac_str);
         return NULL;
@@ -128,8 +128,8 @@ uint32_t ipv4_str_to_net(char *ipv4_str) {
  * @return the same IPv4 address in string representation
  */
 char* ipv4_hex_to_str(char *ipv4_hex) {
-    char* ipv4_str = (char *) malloc(16 * sizeof(char));  // A string representation of an IPv4 address is at most 15 characters long + null terminator
-    int ret = snprintf(ipv4_str, 15, "%hhu.%hhu.%hhu.%hhu", *ipv4_hex, *(ipv4_hex + 1), *(ipv4_hex + 2), *(ipv4_hex + 3));
+    char* ipv4_str = (char *) malloc(INET_ADDRSTRLEN * sizeof(char));  // A string representation of an IPv4 address is at most 15 characters long + null terminator
+    int ret = snprintf(ipv4_str, INET_ADDRSTRLEN, "%hhu.%hhu.%hhu.%hhu", *ipv4_hex, *(ipv4_hex + 1), *(ipv4_hex + 2), *(ipv4_hex + 3));
     // Error handling
     if (ret < 0) {
         fprintf(stderr, "Error converting IPv4 address \\x%2x\\x%2x\\x%2x\\x%2x to string representation.\n", *ipv4_hex, *(ipv4_hex + 1), *(ipv4_hex + 2), *(ipv4_hex + 3));
@@ -180,7 +180,7 @@ char* ipv6_net_to_str(uint8_t ipv6[]) {
  * @return the same IPv6 address as a 16-byte array
  */
 uint8_t *ipv6_str_to_net(char *ipv6_str) {
-    uint8_t *ipv6 = (uint8_t *) malloc(IPV6_ADDR_LENGTH * sizeof(uint8_t));
+    uint8_t *ipv6 = (uint8_t *) malloc(IPV6_ADDR_LENGTH * sizeof(uint8_t));  // An IPv6 address is 16 bytes long
     int err = inet_pton(AF_INET6, ipv6_str, ipv6);
     // Error handling
     if (err != 1) {
