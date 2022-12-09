@@ -193,6 +193,9 @@ uint8_t *ipv6_str_to_net(char *ipv6_str) {
 /**
  * @brief Converts an IP (v4 or v6) address to its string representation.
  *
+ * Converts an IP (v4 or v6) address to its string representation.
+ * If it is an IPv6 address, it must be freed after use.
+ *
  * @param ip_addr the IP address, as an ip_addr_t struct
  * @return the same IP address in string representation
  */
@@ -220,14 +223,13 @@ char* ip_net_to_str(ip_addr_t ip_addr) {
 ip_addr_t ip_str_to_net(char *ip_str, uint8_t version) {
     ip_addr_t ip_addr;
     ip_addr.version = version;
-    switch (version) {
-    case 4:
+    if (version == 4) {
         ip_addr.value.ipv4 = ipv4_str_to_net(ip_str);
-        break;
-    case 6:
-        memcpy(ip_addr.value.ipv6, ipv6_str_to_net(ip_str), IPV6_ADDR_LENGTH);
-        break;
-    default:
+    } else if (version == 6) {
+        uint8_t *ipv6_net = ipv6_str_to_net(ip_str);
+        memcpy(ip_addr.value.ipv6, ipv6_net, IPV6_ADDR_LENGTH);
+        free(ipv6_net);
+    } else {
         fprintf(stderr, "Error converting address %s to ip_addr_t.\n", ip_str);
     }
     return ip_addr;

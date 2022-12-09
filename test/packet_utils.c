@@ -142,7 +142,7 @@ void test_ipv6_str_to_net() {
     printf("Test ipv6_str_to_net\n");
     // Full textual representation
     char *ipv6_1 = "1122:3344:5566:7788:99aa:bbcc:ddee:ff11";
-    uint8_t *expected = (uint8_t *)malloc(IPV6_ADDR_LENGTH * sizeof(uint8_t));
+    uint8_t *expected = (uint8_t *) malloc(IPV6_ADDR_LENGTH * sizeof(uint8_t));
     memcpy(expected, "\x11\x22\x33\x44\x55\x66\x77\x88\x99\xaa\xbb\xcc\xdd\xee\xff\x11", IPV6_ADDR_LENGTH);
     uint8_t *actual = ipv6_str_to_net(ipv6_1);
     for (uint8_t i = 0; i < IPV6_ADDR_LENGTH; i++) {
