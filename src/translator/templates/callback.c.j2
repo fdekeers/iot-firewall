@@ -38,6 +38,7 @@ uint32_t callback_{{policy_jinja}}(int pkt_id, int pkt_len, uint8_t *payload, vo
     {% if "dns" in policy.custom_parser %}
     // Parse DNS message
     dns_message_t message = dns_parse_message(payload + skipped);
+    free(payload);
     dns_print_message(message);
     {% elif policy.custom_parser %}
     // Parse message
@@ -50,6 +51,7 @@ uint32_t callback_{{policy_jinja}}(int pkt_id, int pkt_len, uint8_t *payload, vo
     , coap_length
     {%- endif -%}
     );
+    free(payload);
     {{policy.custom_parser}}_print_message(message);
     {% endif %}
     {% endif %}
@@ -264,6 +266,13 @@ uint32_t callback_{{policy_jinja}}(int pkt_id, int pkt_len, uint8_t *payload, vo
     }
     {% endif %}
 
+    {% if policy.custom_parser %}
+    {% if "dns" in policy.custom_parser %}
+    dns_free_message(message);
+    {% elif policy.custom_parser != "ssdp" %}
+    {{policy.custom_parser}}_free_message(message);
+    {% endif %}
+    {% endif %}
     return verdict;
 }
 {% endmacro %}
