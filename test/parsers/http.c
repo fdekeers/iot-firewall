@@ -36,7 +36,7 @@ void test_http_request() {
     size_t skipped = get_headers_length(payload);
     http_message_t actual = http_parse_message(payload + skipped, dst_port);
     free(payload);
-    http_print_message(actual);
+    //http_print_message(actual);
 
     // Test if HTTP message has been correctly parsed
     http_message_t expected;
@@ -64,7 +64,7 @@ void test_http_response() {
     skipped += get_tcp_header_length(payload + skipped);
     http_message_t actual = http_parse_message(payload + skipped, dst_port);
     free(payload);
-    http_print_message(actual);
+    //http_print_message(actual);
 
     // Test if HTTP message has been correctly parsed
     http_message_t expected;
@@ -88,5 +88,6 @@ int main(int argc, char const *argv[])
     CU_add_test(suite, "http-request", test_http_request);
     CU_add_test(suite, "http-response", test_http_response);
     CU_basic_run_tests();
+    CU_cleanup_registry();
     return 0;
 }

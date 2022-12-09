@@ -37,7 +37,7 @@ void test_coap_non_get() {
     skipped += get_udp_header_length(payload + skipped);
     coap_message_t actual = coap_parse_message(payload + skipped, coap_length);
     free(payload);
-    coap_print_message(actual);
+    //coap_print_message(actual);
 
     // Expected message
     coap_message_t expected;
@@ -67,5 +67,6 @@ int main(int argc, char const *argv[])
     // Run tests
     CU_add_test(suite, "coap-non-get", test_coap_non_get);
     CU_basic_run_tests();
+    CU_cleanup_registry();
     return 0;
 }

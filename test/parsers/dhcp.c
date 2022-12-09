@@ -72,7 +72,7 @@ void test_dhcp_discover() {
     size_t skipped = get_headers_length(payload);
     dhcp_message_t message = dhcp_parse_message(payload + skipped);
     free(payload);
-    dhcp_print_message(message);
+    //dhcp_print_message(message);
 
     // Test different sections of the DHCP message
 
@@ -151,7 +151,7 @@ void test_dhcp_offer() {
     size_t skipped = get_headers_length(payload);
     dhcp_message_t message = dhcp_parse_message(payload + skipped);
     free(payload);
-    dhcp_print_message(message);
+    //dhcp_print_message(message);
 
     // Test different sections of the DHCP message
 
@@ -250,5 +250,6 @@ int main(int argc, char const *argv[])
     CU_add_test(suite, "dhcp-discover", test_dhcp_discover);
     CU_add_test(suite, "dhcp-offer", test_dhcp_offer);
     CU_basic_run_tests();
+    CU_cleanup_registry();
     return 0;
 }

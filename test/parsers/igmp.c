@@ -97,7 +97,7 @@ void test_igmp_v2_membership_report() {
     size_t skipped = get_headers_length(payload);
     igmp_message_t actual = igmp_parse_message(payload + skipped);
     free(payload);
-    igmp_print_message(actual);
+    //igmp_print_message(actual);
 
     // Expected message
     igmp_message_t expected;
@@ -126,7 +126,7 @@ void test_igmp_v2_leave_group() {
     size_t skipped = get_headers_length(payload);
     igmp_message_t actual = igmp_parse_message(payload + skipped);
     free(payload);
-    igmp_print_message(actual);
+    //igmp_print_message(actual);
 
     // Expected message
     igmp_message_t expected;
@@ -155,7 +155,7 @@ void test_igmp_v3_membership_report() {
     size_t skipped = get_headers_length(payload);
     igmp_message_t actual = igmp_parse_message(payload + skipped);
     free(payload);
-    igmp_print_message(actual);
+    //igmp_print_message(actual);
 
     // Expected message
     igmp_message_t expected;
@@ -191,5 +191,6 @@ int main(int argc, char const *argv[])
     CU_add_test(suite, "igmp-leave-group", test_igmp_v2_leave_group);
     CU_add_test(suite, "igmp-v3-membership-report", test_igmp_v3_membership_report);
     CU_basic_run_tests();
+    CU_cleanup_registry();
     return 0;
 }

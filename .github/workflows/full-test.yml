@@ -29,3 +29,6 @@ jobs:
 
       - name: Run CUnit tests
         run: $GITHUB_WORKSPACE/.ci_scripts/full-test/run_tests.sh
+
+      - name: Run Valgrind on CUnit tests
+        run: $GITHUB_WORKSPACE/.ci_scripts/full-test/run_valgrind.sh

@@ -29,7 +29,7 @@
  * List of IP addresses
  */
 typedef struct ip_list {
-    uint8_t ip_count;        // Number of IP addresses
+    uint8_t ip_count;         // Number of IP addresses
     ip_addr_t *ip_addresses;  // List of IP addresses
 } ip_list_t;
 

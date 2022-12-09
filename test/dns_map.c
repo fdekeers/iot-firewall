@@ -174,5 +174,6 @@ int main(int argc, char const *argv[])
     CU_add_test(suite, "dns_map_get", test_dns_map_get);
     CU_add_test(suite, "dns_map_pop", test_dns_map_pop);
     CU_basic_run_tests();
+    CU_cleanup_registry();
     return 0;
 }

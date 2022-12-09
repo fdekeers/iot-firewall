@@ -275,5 +275,6 @@ int main(int argc, char const *argv[])
     CU_add_test(suite, "compare_ipv6", test_compare_ipv6);
     CU_add_test(suite, "compare_ip", test_compare_ip);
     CU_basic_run_tests();
+    CU_cleanup_registry();
     return 0;
 }

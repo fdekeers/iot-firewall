@@ -78,7 +78,7 @@ void test_dns_xiaomi() {
     size_t skipped = get_headers_length(payload);
     dns_message_t message = dns_parse_message(payload + skipped);
     free(payload);
-    dns_print_message(message);
+    //dns_print_message(message);
 
     // Test different sections of the DNS message
 
@@ -159,6 +159,7 @@ void test_dns_xiaomi() {
     char *ip_address = "20.47.97.231";
     CU_ASSERT_EQUAL(ip_list.ip_count, 1);
     CU_ASSERT_STRING_EQUAL(ipv4_net_to_str(ip_list.ip_addresses->value.ipv4), ip_address);
+    free(ip_list.ip_addresses);
     domain_name = "swag.framinem.org";
     ip_list = dns_get_ip_from_name(message.answers, message.header.ancount, domain_name);
     CU_ASSERT_EQUAL(ip_list.ip_count, 0);
@@ -181,7 +182,7 @@ void test_dns_office() {
     size_t skipped = get_headers_length(payload);
     dns_message_t message = dns_parse_message(payload + skipped);
     free(payload);
-    dns_print_message(message);
+    //dns_print_message(message);
 
     // Test different sections of the DNS message
 
@@ -330,6 +331,7 @@ void test_dns_office() {
     for (uint8_t i = 0; i < 4; i++) {
         CU_ASSERT_STRING_EQUAL(ipv4_net_to_str((ip_list.ip_addresses + i)->value.ipv4), ip_addresses[i]);
     }
+    free(ip_list.ip_addresses);
     domain_name = "swag.framinem.org";
     ip_list = dns_get_ip_from_name(message.answers, message.header.ancount, domain_name);
     CU_ASSERT_EQUAL(ip_list.ip_count, 0);
@@ -352,5 +354,6 @@ int main(int argc, char const *argv[])
     CU_add_test(suite, "dns-xiaomi", test_dns_xiaomi);
     CU_add_test(suite, "dns-office", test_dns_office);
     CU_basic_run_tests();
+    CU_cleanup_registry();
     return 0;
 }

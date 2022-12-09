@@ -161,5 +161,6 @@ int main(int argc, char const *argv[])
     CU_add_test(suite, "https-data", test_https_data);
     CU_add_test(suite, "dns-ipv6", test_dns_ipv6);
     CU_basic_run_tests();
+    CU_cleanup_registry();
     return 0;
 }

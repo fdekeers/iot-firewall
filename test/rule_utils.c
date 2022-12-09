@@ -115,5 +115,6 @@ int main(int argc, char const *argv[]) {
     CU_add_test(suite, "counters_init", test_counters_init);
     CU_add_test(suite, "delete_nft_rule", test_delete_nft_rule);
     CU_basic_run_tests();
+    CU_cleanup_registry();
     return 0;
 }

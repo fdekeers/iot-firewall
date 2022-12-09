@@ -36,7 +36,7 @@ void test_ssdp_msearch() {
     skipped += get_udp_header_length(payload + skipped);
     ssdp_message_t actual = ssdp_parse_message(payload + skipped, dst_addr);
     free(payload);
-    ssdp_print_message(actual);
+    //ssdp_print_message(actual);
 
     // Test if SSDP message has been correctly parsed
     ssdp_message_t expected;
@@ -63,7 +63,7 @@ void test_ssdp_notify() {
     skipped += get_udp_header_length(payload + skipped);
     ssdp_message_t actual = ssdp_parse_message(payload + skipped, dst_addr);
     free(payload);
-    ssdp_print_message(actual);
+    //ssdp_print_message(actual);
 
     // Test if SSDP message has been correctly parsed
     ssdp_message_t expected;
@@ -89,7 +89,7 @@ void test_ssdp_response() {
     skipped += get_udp_header_length(payload + skipped);
     ssdp_message_t actual = ssdp_parse_message(payload + skipped, dst_addr);
     free(payload);
-    ssdp_print_message(actual);
+    //ssdp_print_message(actual);
 
     // Test if SSDP message has been correctly parsed
     ssdp_message_t expected;
@@ -113,5 +113,6 @@ int main(int argc, char const *argv[]) {
     CU_add_test(suite, "ssdp-notify", test_ssdp_notify);
     CU_add_test(suite, "ssdp-response", test_ssdp_response);
     CU_basic_run_tests();
+    CU_cleanup_registry();
     return 0;
 }
