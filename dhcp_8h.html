@@ -182,6 +182,9 @@ Functions</h2></td></tr>
 <tr class="memitem:ae1991b028243128ca8c935d4ab172416"><td class="memItemLeft" align="right" valign="top"><a class="el" href="dhcp_8h.html#a44863dea6839c8d44f898f28da38a972">dhcp_message_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="dhcp_8h.html#ae1991b028243128ca8c935d4ab172416">dhcp_parse_message</a> (uint8_t *data)</td></tr>
 <tr class="memdesc:ae1991b028243128ca8c935d4ab172416"><td class="mdescLeft">&#160;</td><td class="mdescRight">Parse a DHCP message.  <a href="dhcp_8h.html#ae1991b028243128ca8c935d4ab172416">More...</a><br /></td></tr>
 <tr class="separator:ae1991b028243128ca8c935d4ab172416"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad38f4c624fb2892e7b8b04880cb67db6"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="dhcp_8h.html#ad38f4c624fb2892e7b8b04880cb67db6">dhcp_destroy_message</a> (<a class="el" href="dhcp_8h.html#a44863dea6839c8d44f898f28da38a972">dhcp_message_t</a> message)</td></tr>
+<tr class="memdesc:ad38f4c624fb2892e7b8b04880cb67db6"><td class="mdescLeft">&#160;</td><td class="mdescRight">Free the memory allocated for a DHCP message.  <a href="dhcp_8h.html#ad38f4c624fb2892e7b8b04880cb67db6">More...</a><br /></td></tr>
+<tr class="separator:ad38f4c624fb2892e7b8b04880cb67db6"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ae261292e6ba91d1d2834756dbd08e82c"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="dhcp_8h.html#ae261292e6ba91d1d2834756dbd08e82c">dhcp_print_header</a> (<a class="el" href="dhcp_8h.html#a44863dea6839c8d44f898f28da38a972">dhcp_message_t</a> message)</td></tr>
 <tr class="memdesc:ae261292e6ba91d1d2834756dbd08e82c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Print the header of a DHCP message.  <a href="dhcp_8h.html#ae261292e6ba91d1d2834756dbd08e82c">More...</a><br /></td></tr>
 <tr class="separator:ae261292e6ba91d1d2834756dbd08e82c"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -290,6 +293,32 @@ Functions</h2></td></tr>
 </div>
 </div>
 <h2 class="groupheader">Function Documentation</h2>
+<a id="ad38f4c624fb2892e7b8b04880cb67db6"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ad38f4c624fb2892e7b8b04880cb67db6">&#9670;&nbsp;</a></span>dhcp_destroy_message()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void dhcp_destroy_message </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="dhcp_8h.html#a44863dea6839c8d44f898f28da38a972">dhcp_message_t</a>&#160;</td>
+          <td class="paramname"><em>message</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Free the memory allocated for a DHCP message. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">message</td><td>the DHCP message to free </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
 <a id="a9d7a341c83007bb50f4b6278ee897f1e"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a9d7a341c83007bb50f4b6278ee897f1e">&#9670;&nbsp;</a></span>dhcp_parse_header()</h2>
 
