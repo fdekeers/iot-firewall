@@ -146,8 +146,8 @@ Functions</h2></td></tr>
 <tr class="separator:aea054424d9bf0fbe8b2647481a627122"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a45cae5b73998f1a6f08368634616fe24"><td class="memItemLeft" align="right" valign="top"><a class="el" href="dns__map_8h.html#a022ce4a2dbd9bc73d81cd658e74db5dd">dns_map_t</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="dns__map_8h.html#a45cae5b73998f1a6f08368634616fe24">dns_map_create</a> ()</td></tr>
 <tr class="separator:a45cae5b73998f1a6f08368634616fe24"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a092673d13f6d2506eb7774e3b73eec5b"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="dns__map_8h.html#a092673d13f6d2506eb7774e3b73eec5b">dns_map_destroy</a> (<a class="el" href="dns__map_8h.html#a022ce4a2dbd9bc73d81cd658e74db5dd">dns_map_t</a> *table)</td></tr>
-<tr class="separator:a092673d13f6d2506eb7774e3b73eec5b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3dfcdab4ada06c1d0ff4a2aa3d290b5d"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="dns__map_8h.html#a3dfcdab4ada06c1d0ff4a2aa3d290b5d">dns_map_free</a> (<a class="el" href="dns__map_8h.html#a022ce4a2dbd9bc73d81cd658e74db5dd">dns_map_t</a> *table)</td></tr>
+<tr class="separator:a3dfcdab4ada06c1d0ff4a2aa3d290b5d"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a9bd447f95884db6b4073316f37878b37"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="dns__map_8h.html#a9bd447f95884db6b4073316f37878b37">dns_map_add</a> (<a class="el" href="dns__map_8h.html#a022ce4a2dbd9bc73d81cd658e74db5dd">dns_map_t</a> *table, char *domain_name, <a class="el" href="dns__map_8h.html#a149decef00048bd4b13c7617715f1c7c">ip_list_t</a> <a class="el" href="structip__list.html">ip_list</a>)</td></tr>
 <tr class="separator:a9bd447f95884db6b4073316f37878b37"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a4c1f444fafae9fa4b8b7761aaa7cd101"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="dns__map_8h.html#a4c1f444fafae9fa4b8b7761aaa7cd101">dns_map_remove</a> (<a class="el" href="dns__map_8h.html#a022ce4a2dbd9bc73d81cd658e74db5dd">dns_map_t</a> *table, char *domain_name)</td></tr>
@@ -311,14 +311,14 @@ Functions</h2></td></tr>
 
 </div>
 </div>
-<a id="a092673d13f6d2506eb7774e3b73eec5b"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a092673d13f6d2506eb7774e3b73eec5b">&#9670;&nbsp;</a></span>dns_map_destroy()</h2>
+<a id="a3dfcdab4ada06c1d0ff4a2aa3d290b5d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a3dfcdab4ada06c1d0ff4a2aa3d290b5d">&#9670;&nbsp;</a></span>dns_map_free()</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">void dns_map_destroy </td>
+          <td class="memname">void dns_map_free </td>
           <td>(</td>
           <td class="paramtype"><a class="el" href="dns__map_8h.html#a022ce4a2dbd9bc73d81cd658e74db5dd">dns_map_t</a> *&#160;</td>
           <td class="paramname"><em>table</em></td><td>)</td>
@@ -329,7 +329,14 @@ Functions</h2></td></tr>
 <p>Destroy (free) a DNS table.</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">table</td><td>the DNS table to destroy </td></tr>
+    <tr><td class="paramname">table</td><td>the DNS table to free</td></tr>
+  </table>
+  </dd>
+</dl>
+<p>Free the memory allocated for a DNS table.</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">table</td><td>the DNS table to free </td></tr>
   </table>
   </dd>
 </dl>

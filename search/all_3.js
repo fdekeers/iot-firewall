@@ -5,7 +5,7 @@ var searchData=
   ['coap_10',['coap',['../classcoap_1_1coap.html',1,'coap']]],
   ['coap_2ec_11',['coap.c',['../src_2parsers_2coap_8c.html',1,'(Global Namespace)'],['../test_2parsers_2coap_8c.html',1,'(Global Namespace)']]],
   ['coap_2eh_12',['coap.h',['../coap_8h.html',1,'']]],
-  ['coap_5fdestroy_5fmessage_13',['coap_destroy_message',['../coap_8h.html#a5a964b8dee8741f7e7c5c9c6b8c6e22c',1,'coap_destroy_message(coap_message_t message):&#160;coap.c'],['../src_2parsers_2coap_8c.html#a5a964b8dee8741f7e7c5c9c6b8c6e22c',1,'coap_destroy_message(coap_message_t message):&#160;coap.c']]],
+  ['coap_5ffree_5fmessage_13',['coap_free_message',['../coap_8h.html#af1d57ce290897844956f40628950790b',1,'coap_free_message(coap_message_t message):&#160;coap.c'],['../src_2parsers_2coap_8c.html#af1d57ce290897844956f40628950790b',1,'coap_free_message(coap_message_t message):&#160;coap.c']]],
   ['coap_5fmessage_14',['coap_message',['../structcoap__message.html',1,'']]],
   ['coap_5fmessage_5ft_15',['coap_message_t',['../coap_8h.html#a6291bba94c761d7f52890f928d12d2ef',1,'coap.h']]],
   ['coap_5foption_5ft_16',['coap_option_t',['../coap_8h.html#a809c9a7522aa7e4726b4a95ccdb2833b',1,'coap.h']]],

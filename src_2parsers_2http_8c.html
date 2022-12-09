@@ -95,9 +95,9 @@ Functions</h2></td></tr>
 <tr class="memitem:ad6e4181e985d64ed6cbdd58370ff68d0"><td class="memItemLeft" align="right" valign="top"><a class="el" href="http_8h.html#aa60e9ae3a4aba97f98db8ee08d49f0d5">http_message_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="src_2parsers_2http_8c.html#ad6e4181e985d64ed6cbdd58370ff68d0">http_parse_message</a> (uint8_t *data, uint16_t dst_port)</td></tr>
 <tr class="memdesc:ad6e4181e985d64ed6cbdd58370ff68d0"><td class="mdescLeft">&#160;</td><td class="mdescRight">Parse the method and URI of HTTP message.  <a href="src_2parsers_2http_8c.html#ad6e4181e985d64ed6cbdd58370ff68d0">More...</a><br /></td></tr>
 <tr class="separator:ad6e4181e985d64ed6cbdd58370ff68d0"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aff4bc779eb9a8a663f91713c4a6173dd"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="src_2parsers_2http_8c.html#aff4bc779eb9a8a663f91713c4a6173dd">http_destroy_message</a> (<a class="el" href="http_8h.html#aa60e9ae3a4aba97f98db8ee08d49f0d5">http_message_t</a> message)</td></tr>
-<tr class="memdesc:aff4bc779eb9a8a663f91713c4a6173dd"><td class="mdescLeft">&#160;</td><td class="mdescRight">Free the memory allocated for a HTTP message.  <a href="src_2parsers_2http_8c.html#aff4bc779eb9a8a663f91713c4a6173dd">More...</a><br /></td></tr>
-<tr class="separator:aff4bc779eb9a8a663f91713c4a6173dd"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5c7363066ed2bc1bdb1df5df099992aa"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="src_2parsers_2http_8c.html#a5c7363066ed2bc1bdb1df5df099992aa">http_free_message</a> (<a class="el" href="http_8h.html#aa60e9ae3a4aba97f98db8ee08d49f0d5">http_message_t</a> message)</td></tr>
+<tr class="memdesc:a5c7363066ed2bc1bdb1df5df099992aa"><td class="mdescLeft">&#160;</td><td class="mdescRight">Free the memory allocated for a HTTP message.  <a href="src_2parsers_2http_8c.html#a5c7363066ed2bc1bdb1df5df099992aa">More...</a><br /></td></tr>
+<tr class="separator:a5c7363066ed2bc1bdb1df5df099992aa"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a4375d4f0e618f839a229a9eefe7402e5"><td class="memItemLeft" align="right" valign="top">char *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="src_2parsers_2http_8c.html#a4375d4f0e618f839a229a9eefe7402e5">http_method_to_str</a> (<a class="el" href="http_8h.html#a2fd930fba66817097e73ba9b75800eb2">http_method_t</a> method)</td></tr>
 <tr class="memdesc:a4375d4f0e618f839a229a9eefe7402e5"><td class="mdescLeft">&#160;</td><td class="mdescRight">Converts a HTTP method from enum value to character string.  <a href="src_2parsers_2http_8c.html#a4375d4f0e618f839a229a9eefe7402e5">More...</a><br /></td></tr>
 <tr class="separator:a4375d4f0e618f839a229a9eefe7402e5"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -111,14 +111,14 @@ Functions</h2></td></tr>
 <dl class="section date"><dt>Date</dt><dd>2022-09-19</dd></dl>
 <dl class="section copyright"><dt>Copyright</dt><dd>Copyright (c) 2022 </dd></dl>
 </div><h2 class="groupheader">Function Documentation</h2>
-<a id="aff4bc779eb9a8a663f91713c4a6173dd"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aff4bc779eb9a8a663f91713c4a6173dd">&#9670;&nbsp;</a></span>http_destroy_message()</h2>
+<a id="a5c7363066ed2bc1bdb1df5df099992aa"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a5c7363066ed2bc1bdb1df5df099992aa">&#9670;&nbsp;</a></span>http_free_message()</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">void http_destroy_message </td>
+          <td class="memname">void http_free_message </td>
           <td>(</td>
           <td class="paramtype"><a class="el" href="http_8h.html#aa60e9ae3a4aba97f98db8ee08d49f0d5">http_message_t</a>&#160;</td>
           <td class="paramname"><em>message</em></td><td>)</td>
