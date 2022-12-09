@@ -36,6 +36,7 @@ void test_coap_non_get() {
     uint16_t coap_length = get_udp_payload_length(payload + skipped);
     skipped += get_udp_header_length(payload + skipped);
     coap_message_t actual = coap_parse_message(payload + skipped, coap_length);
+    free(payload);
     coap_print_message(actual);
 
     // Expected message

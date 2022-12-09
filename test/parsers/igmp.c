@@ -96,6 +96,7 @@ void test_igmp_v2_membership_report() {
 
     size_t skipped = get_headers_length(payload);
     igmp_message_t actual = igmp_parse_message(payload + skipped);
+    free(payload);
     igmp_print_message(actual);
 
     // Expected message
@@ -124,6 +125,7 @@ void test_igmp_v2_leave_group() {
 
     size_t skipped = get_headers_length(payload);
     igmp_message_t actual = igmp_parse_message(payload + skipped);
+    free(payload);
     igmp_print_message(actual);
 
     // Expected message
@@ -152,6 +154,7 @@ void test_igmp_v3_membership_report() {
 
     size_t skipped = get_headers_length(payload);
     igmp_message_t actual = igmp_parse_message(payload + skipped);
+    free(payload);
     igmp_print_message(actual);
 
     // Expected message

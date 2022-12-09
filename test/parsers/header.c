@@ -57,6 +57,7 @@ void test_tcp_syn() {
     // Contains payload ?
     CU_ASSERT_FALSE(length - headers_length > 0);
 
+    free(payload);
 }
 
 /**
@@ -97,6 +98,7 @@ void test_https_data() {
     // Contains payload ?
     CU_ASSERT_TRUE(length - headers_length > 0);
 
+    free(payload);
 }
 
 /**
@@ -142,6 +144,7 @@ void test_dns_ipv6() {
     uint16_t udp_payload_length = get_udp_payload_length(payload + l3_header_length);
     CU_ASSERT_EQUAL(udp_payload_length, 45 - UDP_HEADER_LENGTH);
 
+    free(payload);
 }
 
 /**

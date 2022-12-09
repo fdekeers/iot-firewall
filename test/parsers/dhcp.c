@@ -71,6 +71,7 @@ void test_dhcp_discover() {
 
     size_t skipped = get_headers_length(payload);
     dhcp_message_t message = dhcp_parse_message(payload + skipped);
+    free(payload);
     dhcp_print_message(message);
 
     // Test different sections of the DHCP message
@@ -149,6 +150,7 @@ void test_dhcp_offer() {
 
     size_t skipped = get_headers_length(payload);
     dhcp_message_t message = dhcp_parse_message(payload + skipped);
+    free(payload);
     dhcp_print_message(message);
 
     // Test different sections of the DHCP message

@@ -35,6 +35,7 @@ void test_ssdp_msearch() {
     size_t skipped = get_ipv4_header_length(payload);
     skipped += get_udp_header_length(payload + skipped);
     ssdp_message_t actual = ssdp_parse_message(payload + skipped, dst_addr);
+    free(payload);
     ssdp_print_message(actual);
 
     // Test if SSDP message has been correctly parsed
@@ -61,6 +62,7 @@ void test_ssdp_notify() {
     size_t skipped = get_ipv4_header_length(payload);
     skipped += get_udp_header_length(payload + skipped);
     ssdp_message_t actual = ssdp_parse_message(payload + skipped, dst_addr);
+    free(payload);
     ssdp_print_message(actual);
 
     // Test if SSDP message has been correctly parsed
@@ -86,6 +88,7 @@ void test_ssdp_response() {
     size_t skipped = get_ipv4_header_length(payload);
     skipped += get_udp_header_length(payload + skipped);
     ssdp_message_t actual = ssdp_parse_message(payload + skipped, dst_addr);
+    free(payload);
     ssdp_print_message(actual);
 
     // Test if SSDP message has been correctly parsed
