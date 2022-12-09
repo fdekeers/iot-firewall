@@ -46,7 +46,7 @@ void test_http_request() {
     CU_ASSERT_EQUAL(actual.method, expected.method);
     CU_ASSERT_STRING_EQUAL(actual.uri, expected.uri);
 
-    http_destroy_message(actual);
+    http_free_message(actual);
 
 }
 
@@ -69,7 +69,7 @@ void test_http_response() {
     expected.is_request = false;
     CU_ASSERT_EQUAL(actual.is_request, expected.is_request);
 
-    http_destroy_message(actual);
+    http_free_message(actual);
 
 }
 

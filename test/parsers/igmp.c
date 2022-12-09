@@ -170,8 +170,8 @@ void test_igmp_v3_membership_report() {
     compare_igmp_messages(actual, expected);
     
     // Free messages
-    igmp_destroy_message(actual);
-    igmp_destroy_message(expected);
+    igmp_free_message(actual);
+    igmp_free_message(expected);
 }
 
 /**

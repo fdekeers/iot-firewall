@@ -142,7 +142,7 @@ dhcp_message_t dhcp_parse_message(uint8_t *data) {
  *
  * @param message the DHCP message to free
  */
-void dhcp_destroy_message(dhcp_message_t message) {
+void dhcp_free_message(dhcp_message_t message) {
     if (message.options.count > 0) {
         for (uint8_t i = 0; i < message.options.count; i++) {
             dhcp_option_t option = *(message.options.options + i);

@@ -202,24 +202,26 @@ dns_message_t dns_parse_message(uint8_t *data) {
     // Init
     dns_message_t message;
     uint16_t offset = 0;
+    message.questions = NULL;
+    message.answers = NULL;
+    message.authorities = NULL;
+    message.additionals = NULL;
+
     // Parse DNS header
     message.header = dns_parse_header(data, &offset);
     // If present, parse DNS Question section
-    if (message.header.qdcount > 0) {
+    if (message.header.qdcount > 0)
         message.questions = dns_parse_questions(message.header.qdcount, data, &offset);
-    }
     // If present, parse DNS Answer section
-    if (message.header.ancount > 0) {
+    if (message.header.ancount > 0)
         message.answers = dns_parse_rrs(message.header.ancount, data, &offset);
-    }
     // If present, parse DNS Authority section
-    if (message.header.nscount > 0) {
+    if (message.header.nscount > 0)
         message.authorities = dns_parse_rrs(message.header.nscount, data, &offset);
-    }
     // If present, parse DNS Additional section
-    if (message.header.arcount > 0) {
+    if (message.header.arcount > 0)
         message.additionals = dns_parse_rrs(message.header.arcount, data, &offset);
-    }
+
     return message;
 }
 
@@ -298,6 +300,71 @@ ip_list_t dns_get_ip_from_name(dns_resource_record_t *answers, uint16_t ancount,
         }
     }
     return ip_list;
+}
+
+
+///// DESTROY /////
+
+/**
+ * @brief Free the memory allocated for a DNS RDATA field.
+ * 
+ * @param rdata the DNS RDATA field to free
+ * @param rtype the DNS Resource Record Type of the RDATA field
+ */
+static void dns_free_rdata(rdata_t rdata, dns_rr_type_t rtype) {
+    switch (rtype) {
+    case A:
+    case AAAA:
+        break;  // Nothing to free for IP addresses
+    case NS:
+    case CNAME:
+    case PTR:
+        free(rdata.domain_name);
+        break;
+    default:
+        free(rdata.data);
+    }
+}
+
+/**
+ * @brief Free the memory allocated for a list of DNS Resource Records.
+ * 
+ * @param rr the list of DNS Resource Records to free
+ * @param count the number of Resource Records in the list
+ */
+static void dns_free_rrs(dns_resource_record_t *rrs, uint16_t count) {
+    if (count > 0) {
+        for (uint16_t i = 0; i < count; i++) {
+            dns_resource_record_t rr = *(rrs + i);
+            if (rr.rdlength > 0) {
+                free(rr.name);
+                dns_free_rdata(rr.rdata, rr.rtype);
+            }
+        }
+        free(rrs);
+    }
+}
+
+/**
+ * Free the memory allocated for a DNS message.
+ *
+ * @param question the DNS message to free
+ */
+void dns_free_message(dns_message_t message) {
+    // Free DNS Questions
+    if (message.header.qdcount > 0) {
+        for (uint16_t i = 0; i < message.header.qdcount; i++) {
+            free((message.questions + i)->qname);
+        }
+        free(message.questions);
+    }
+
+    // Free DNS Answers
+    dns_free_rrs(message.answers, message.header.ancount);
+    // Free DNS Authorities
+    dns_free_rrs(message.authorities, message.header.nscount);
+    // Free DNS Additionals
+    dns_free_rrs(message.additionals, message.header.arcount);
 }
 
 

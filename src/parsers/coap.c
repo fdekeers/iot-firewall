@@ -156,7 +156,7 @@ coap_message_t coap_parse_message(uint8_t *data, uint16_t length)
  *
  * @param message the CoAP message to free
  */
-void coap_destroy_message(coap_message_t message) {
+void coap_free_message(coap_message_t message) {
     if (message.uri != NULL)
         free(message.uri);
 }

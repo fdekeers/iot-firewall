@@ -187,6 +187,16 @@ dns_question_t* dns_get_question(dns_question_t *questions, uint16_t qdcount, ch
 ip_list_t dns_get_ip_from_name(dns_resource_record_t *answers, uint16_t ancount, char *domain_name);
 
 
+///// DESTROY /////
+
+/**
+ * Free the memory allocated for a DNS message.
+ * 
+ * @param question the DNS message to free
+ */
+void dns_free_message(dns_message_t message);
+
+
 ///// PRINTING /////
 
 /**

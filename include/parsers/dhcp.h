@@ -142,7 +142,7 @@ dhcp_message_t dhcp_parse_message(uint8_t *data);
  * 
  * @param message the DHCP message to free
  */
-void dhcp_destroy_message(dhcp_message_t message);
+void dhcp_free_message(dhcp_message_t message);
 
 
 ///// PRINTING /////

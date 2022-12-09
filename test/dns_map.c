@@ -24,7 +24,7 @@ void test_dns_map_create() {
     dns_map_t *table = dns_map_create();
     CU_ASSERT_PTR_NOT_NULL(table);
     CU_ASSERT_EQUAL(hashmap_count(table), 0);
-    dns_map_destroy(table);
+    dns_map_free(table);
 }
 
 /**
@@ -37,7 +37,7 @@ void test_dns_map_empty() {
     entry = dns_map_pop(table, "www.google.com");
     CU_ASSERT_PTR_NULL(entry);
     dns_map_remove(table, "www.google.com");  // Does nothing, but should not crash
-    dns_map_destroy(table);
+    dns_map_free(table);
 }
 
 /**
@@ -67,7 +67,7 @@ void test_dns_map_add_remove() {
     CU_ASSERT_EQUAL(hashmap_count(table), 1);
     dns_map_remove(table, "www.example.com");
     CU_ASSERT_EQUAL(hashmap_count(table), 0);
-    dns_map_destroy(table);
+    dns_map_free(table);
 }
 
 /**
@@ -106,7 +106,7 @@ void test_dns_map_get() {
         CU_ASSERT_TRUE(compare_ip(*(actual->ip_list.ip_addresses + i), *(example_ips + i)));
     }
 
-    dns_map_destroy(table);
+    dns_map_free(table);
 }
 
 /**
@@ -153,7 +153,7 @@ void test_dns_map_pop() {
     actual = dns_map_pop(table, "www.example.com");
     CU_ASSERT_PTR_NULL(actual);
     
-    dns_map_destroy(table);
+    dns_map_free(table);
 }
 
 

@@ -102,7 +102,7 @@ igmp_message_t igmp_parse_message(uint8_t *data) {
  *
  * @param message the IGMP message to free
  */
-void igmp_destroy_message(igmp_message_t message) {
+void igmp_free_message(igmp_message_t message) {
     if (message.version == 3) {
         for (uint16_t i = 0; i < message.body.v3_membership_report.num_groups; i++) {
             if ((message.body.v3_membership_report.groups + i)->num_sources > 0)

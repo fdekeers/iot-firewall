@@ -69,9 +69,9 @@ dns_map_t* dns_map_create();
 /**
  * Destroy (free) a DNS table.
  * 
- * @param table the DNS table to destroy
+ * @param table the DNS table to free
  */
-void dns_map_destroy(dns_map_t *table);
+void dns_map_free(dns_map_t *table);
 
 /**
  * Add IP addresses corresponding to a given domain name in the DNS table.

@@ -140,7 +140,7 @@ http_message_t http_parse_message(uint8_t *data, uint16_t dst_port) {
  *
  * @param message the HTTP message to free
  */
-void http_destroy_message(http_message_t message) {
+void http_free_message(http_message_t message) {
     if (message.uri != NULL)
         free(message.uri);
 }

@@ -109,7 +109,7 @@ igmp_message_t igmp_parse_message(uint8_t *data);
  * 
  * @param message the IGMP message to free
  */
-void igmp_destroy_message(igmp_message_t message);
+void igmp_free_message(igmp_message_t message);
 
 /**
  * @brief Print an IGMP message.

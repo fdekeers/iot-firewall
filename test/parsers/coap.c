@@ -49,7 +49,7 @@ void test_coap_non_get() {
     CU_ASSERT_EQUAL(actual.method, expected.method);
     CU_ASSERT_STRING_EQUAL(actual.uri, expected.uri);
 
-    coap_destroy_message(actual);
+    coap_free_message(actual);
 
 }
 

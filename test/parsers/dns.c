@@ -77,7 +77,7 @@ void test_dns_xiaomi() {
 
     size_t skipped = get_headers_length(payload);
     dns_message_t message = dns_parse_message(payload + skipped);
-    //dns_print_message(message);
+    dns_print_message(message);
 
     // Test different sections of the DNS message
 
@@ -163,6 +163,8 @@ void test_dns_xiaomi() {
     CU_ASSERT_EQUAL(ip_list.ip_count, 0);
     CU_ASSERT_PTR_NULL(ip_list.ip_addresses);
 
+    // Free memory
+    dns_free_message(message);
 }
 
 /**
@@ -331,6 +333,8 @@ void test_dns_office() {
     CU_ASSERT_EQUAL(ip_list.ip_count, 0);
     CU_ASSERT_PTR_NULL(ip_list.ip_addresses);
 
+    // Free memory
+    dns_free_message(message);
 }
 
 /**

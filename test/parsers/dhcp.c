@@ -133,8 +133,8 @@ void test_dhcp_discover() {
     compare_options(message.options, expected.options);
 
     // Free messages
-    dhcp_destroy_message(message);
-    dhcp_destroy_message(expected);
+    dhcp_free_message(message);
+    dhcp_free_message(expected);
 }
 
 /**
@@ -231,8 +231,8 @@ void test_dhcp_offer() {
     compare_options(message.options, expected.options);
 
     // Free messages
-    dhcp_destroy_message(message);
-    dhcp_destroy_message(expected);
+    dhcp_free_message(message);
+    dhcp_free_message(expected);
 }
 
 /**
