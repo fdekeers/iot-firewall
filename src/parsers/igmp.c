@@ -97,6 +97,22 @@ igmp_message_t igmp_parse_message(uint8_t *data) {
     return message;
 }
 
+/**
+ * @brief Free the memory allocated for an IGMP message.
+ *
+ * @param message the IGMP message to free
+ */
+void igmp_destroy_message(igmp_message_t message) {
+    if (message.version == 3) {
+        for (uint16_t i = 0; i < message.body.v3_membership_report.num_groups; i++) {
+            if ((message.body.v3_membership_report.groups + i)->num_sources > 0)
+                free((message.body.v3_membership_report.groups + i)->sources);
+        }
+        if (message.body.v3_membership_report.num_groups > 0)
+            free(message.body.v3_membership_report.groups);
+    }
+}
+
 
 ///// PRINTING /////
 

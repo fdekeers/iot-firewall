@@ -60,6 +60,16 @@ typedef struct http_message {
 http_message_t http_parse_message(uint8_t *data, uint16_t dst_port);
 
 
+///// DESTROY /////
+
+/**
+ * @brief Free the memory allocated for a HTTP message.
+ * 
+ * @param message the HTTP message to free
+ */
+void http_destroy_message(http_message_t message);
+
+
 ///// PRINTING /////
 
 /**

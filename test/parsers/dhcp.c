@@ -131,10 +131,10 @@ void test_dhcp_discover() {
     (expected.options.options + 6)->value = NULL;
     // Compare and free options
     compare_options(message.options, expected.options);
-    for (uint8_t i = 0; i < expected.options.count; i++) {
-        free((expected.options.options + i)->value);
-    }
-    free(expected.options.options);
+
+    // Free messages
+    dhcp_destroy_message(message);
+    dhcp_destroy_message(expected);
 }
 
 /**
@@ -229,10 +229,10 @@ void test_dhcp_offer() {
     (expected.options.options + 10)->value = NULL;
     // Compare and free options
     compare_options(message.options, expected.options);
-    for (uint8_t i = 0; i < expected.options.count; i++) {
-        free((expected.options.options + i)->value);
-    }
-    free(expected.options.options);
+
+    // Free messages
+    dhcp_destroy_message(message);
+    dhcp_destroy_message(expected);
 }
 
 /**

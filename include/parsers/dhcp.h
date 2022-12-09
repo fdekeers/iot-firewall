@@ -135,6 +135,16 @@ dhcp_options_t dhcp_parse_options(uint8_t *data);
 dhcp_message_t dhcp_parse_message(uint8_t *data);
 
 
+///// DESTROY //////
+
+/**
+ * @brief Free the memory allocated for a DHCP message.
+ * 
+ * @param message the DHCP message to free
+ */
+void dhcp_destroy_message(dhcp_message_t message);
+
+
 ///// PRINTING /////
 
 /**

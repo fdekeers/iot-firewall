@@ -63,6 +63,16 @@ typedef struct coap_message
 coap_message_t coap_parse_message(uint8_t *data, uint16_t length);
 
 
+///// DESTROY /////
+
+/**
+ * @brief Free the memory allocated for a CoAP message.
+ *
+ * @param message the CoAP message to free
+ */
+void coap_destroy_message(coap_message_t message);
+
+
 ///// PRINTING /////
 
 /**

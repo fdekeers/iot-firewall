@@ -63,7 +63,13 @@ void compare_igmp_v3_messages(igmp_v3_membership_report_t actual, igmp_v3_member
 void compare_igmp_messages(igmp_message_t actual, igmp_message_t expected)
 {
     CU_ASSERT_EQUAL(actual.version, expected.version);
+    if (actual.version != expected.version)
+        return;
+    
     CU_ASSERT_EQUAL(actual.type, expected.type);
+    if (actual.type != expected.type)
+        return;
+
     switch (actual.version)
     {
     case 2:
@@ -162,8 +168,10 @@ void test_igmp_v3_membership_report() {
 
     // Compare messages
     compare_igmp_messages(actual, expected);
-    free(expected.body.v3_membership_report.groups);
-
+    
+    // Free messages
+    igmp_destroy_message(actual);
+    igmp_destroy_message(expected);
 }
 
 /**

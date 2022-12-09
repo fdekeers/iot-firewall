@@ -96,8 +96,6 @@ typedef struct
 
 ////////// FUNCTIONS //////////
 
-///// PARSING /////
-
 /**
  * @brief Parse an IGMP message.
  * 
@@ -106,8 +104,12 @@ typedef struct
  */
 igmp_message_t igmp_parse_message(uint8_t *data);
 
-
-///// PRINTING /////
+/**
+ * @brief Free the memory allocated for an IGMP message.
+ * 
+ * @param message the IGMP message to free
+ */
+void igmp_destroy_message(igmp_message_t message);
 
 /**
  * @brief Print an IGMP message.

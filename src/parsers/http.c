@@ -125,8 +125,24 @@ http_message_t http_parse_message(uint8_t *data, uint16_t dst_port) {
     message.is_request = dst_port == 80;
     uint16_t offset = 0;
     message.method = http_parse_method(data, &offset);
-    message.uri = http_parse_uri(data, &offset);
+    if (message.is_request)
+        message.uri = http_parse_uri(data, &offset);
+    else
+        message.uri = NULL;
     return message;
+}
+
+
+///// DESTROY /////
+
+/**
+ * @brief Free the memory allocated for a HTTP message.
+ *
+ * @param message the HTTP message to free
+ */
+void http_destroy_message(http_message_t message) {
+    if (message.uri != NULL)
+        free(message.uri);
 }
 
 

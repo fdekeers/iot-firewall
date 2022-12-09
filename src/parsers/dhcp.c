@@ -70,7 +70,8 @@ dhcp_option_t dhcp_parse_option(uint8_t *data, uint16_t *offset) {
         *offset += 1;
     } else {
         option.length = *(data + *offset + 1);
-        option.value = data  + *offset + 2;
+        option.value = (uint8_t *) malloc(sizeof(uint8_t) * option.length);
+        memcpy(option.value, data + *offset + 2, option.length * sizeof(uint8_t));
         *offset += 2 + option.length;
     }
     return option;
@@ -131,6 +132,26 @@ dhcp_message_t dhcp_parse_message(uint8_t *data) {
     message.options = dhcp_parse_options(data + DHCP_HEADER_LEN);
     // Return
     return message;
+}
+
+
+///// DESTROY //////
+
+/**
+ * @brief Free the memory allocated for a DHCP message.
+ *
+ * @param message the DHCP message to free
+ */
+void dhcp_destroy_message(dhcp_message_t message) {
+    if (message.options.count > 0) {
+        for (uint8_t i = 0; i < message.options.count; i++) {
+            dhcp_option_t option = *(message.options.options + i);
+            if (option.length > 0) {
+                free(option.value);
+            }
+        }
+        free(message.options.options);
+    }
 }
 
 
