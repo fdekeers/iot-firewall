@@ -70,7 +70,8 @@ static void coap_parse_uri_option(coap_message_t *message, coap_option_t option_
 static void coap_parse_options(coap_message_t *message, uint8_t *data, uint16_t msg_length) {
     uint16_t option_num = 0;
     uint16_t bytes_read = 0;
-    while (*data != 0b11111111 && bytes_read < msg_length) {
+    while (bytes_read < msg_length && *data != 0b11111111)
+    {
         // Parse option delta
         uint16_t delta = (*data) >> 4;
         uint8_t delta_len = 0;  // Length of the extended delta field
@@ -91,8 +92,6 @@ static void coap_parse_options(coap_message_t *message, uint8_t *data, uint16_t 
         }
         // Compute option number
         option_num += delta;
-        printf("Delta: %hu\n", delta);
-        printf("Option number: %hu\n", option_num);
 
         // Parse option length
         uint16_t option_length = (*data) & 0b00001111;
@@ -113,7 +112,6 @@ static void coap_parse_options(coap_message_t *message, uint8_t *data, uint16_t 
         default:
             break;
         }
-        printf("Length: %hu\n", option_length);
 
         // Parse option value
         data += 1 + delta_len + length_len;
