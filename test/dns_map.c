@@ -137,6 +137,7 @@ void test_dns_map_pop() {
     {
         CU_ASSERT_TRUE(compare_ip(*(actual->ip_list.ip_addresses + i), *(google_ips + i)));
     }
+    free(actual->ip_list.ip_addresses);
     CU_ASSERT_EQUAL(hashmap_count(table), 1);
     actual = dns_map_pop(table, "www.google.com");
     CU_ASSERT_PTR_NULL(actual);
@@ -149,6 +150,7 @@ void test_dns_map_pop() {
     {
         CU_ASSERT_TRUE(compare_ip(*(actual->ip_list.ip_addresses + i), *(example_ips + i)));
     }
+    free(actual->ip_list.ip_addresses);
     CU_ASSERT_EQUAL(hashmap_count(table), 0);
     actual = dns_map_pop(table, "www.example.com");
     CU_ASSERT_PTR_NULL(actual);

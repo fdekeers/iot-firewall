@@ -39,6 +39,11 @@ static igmp_v2_message_t igmp_v2_parse_message(uint8_t *data) {
  * @return pointer to the array of parsed group records
  */
 static igmp_v3_group_record_t* igmp_v3_parse_groups(uint16_t num_groups, uint8_t *data) {
+    // If num_groups is 0, group list is NULL
+    if (num_groups == 0)
+        return NULL;
+
+    // num_groups is greater than 0
     igmp_v3_group_record_t *groups = malloc(num_groups * sizeof(igmp_v3_group_record_t));
     for (uint16_t i = 0; i < num_groups; i++) {
         igmp_v3_group_record_t *group = groups + i;
@@ -46,9 +51,13 @@ static igmp_v3_group_record_t* igmp_v3_parse_groups(uint16_t num_groups, uint8_t
         group->aux_data_len = *(data + 1);
         group->num_sources = ntohs(*((uint16_t *)(data + 2)));
         group->group_address = *((uint32_t *)(data + 4));  // Stored in network byte order
-        group->sources = malloc(group->num_sources * sizeof(uint32_t));
-        for (uint16_t j = 0; j < group->num_sources; j++) {
-            *((group->sources) + j) = *((uint32_t *)(data + 8 + j * 4));  // Stored in network byte order
+        if (group->num_sources > 0) {
+            group->sources = malloc(group->num_sources * sizeof(uint32_t));
+            for (uint16_t j = 0; j < group->num_sources; j++) {
+                *((group->sources) + j) = *((uint32_t *)(data + 8 + j * 4));  // Stored in network byte order
+            }
+        } else {
+            group->sources = NULL;
         }
         data += 8 + group->num_sources * 4;
     }
@@ -103,13 +112,14 @@ igmp_message_t igmp_parse_message(uint8_t *data) {
  * @param message the IGMP message to free
  */
 void igmp_free_message(igmp_message_t message) {
-    if (message.version == 3) {
-        for (uint16_t i = 0; i < message.body.v3_membership_report.num_groups; i++) {
-            if ((message.body.v3_membership_report.groups + i)->num_sources > 0)
-                free((message.body.v3_membership_report.groups + i)->sources);
+    if (message.version == 3 && message.body.v3_membership_report.num_groups > 0) {
+        for (uint16_t i = 0; i < message.body.v3_membership_report.num_groups; i++)
+        {
+            igmp_v3_group_record_t group = *(message.body.v3_membership_report.groups + i);
+            if (group.num_sources > 0)
+                free(group.sources);
         }
-        if (message.body.v3_membership_report.num_groups > 0)
-            free(message.body.v3_membership_report.groups);
+        free(message.body.v3_membership_report.groups);
     }
 }
 
