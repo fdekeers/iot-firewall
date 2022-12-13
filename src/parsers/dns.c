@@ -73,7 +73,15 @@ static char* dns_parse_domain_name(uint8_t *data, uint16_t *offset) {
                 if (current_length == max_length) {
                     // Realloc buffer
                     max_length *= 2;
-                    domain_name = (char *) realloc(domain_name, sizeof(char) * max_length);
+                    void *realloc_ptr = realloc(domain_name, sizeof(char) * max_length);
+                    if (realloc_ptr == NULL) {
+                        // Handle realloc error
+                        fprintf(stderr, "Error reallocating memory for domain name %s\n", domain_name);
+                        free(domain_name);
+                        return NULL;
+                    } else {
+                        domain_name = (char*) realloc_ptr;
+                    }
                 }
                 char c = *(data + domain_name_offset + i);
                 *(domain_name + (current_length++)) = c;
@@ -90,7 +98,12 @@ static char* dns_parse_domain_name(uint8_t *data, uint16_t *offset) {
     *(domain_name + (--current_length)) = '\0';
     // Shrink allocated memory to fit domain name, if needed
     if (current_length + 1 < max_length) {
-        domain_name = (char *) realloc(domain_name, sizeof(char) * (current_length + 1));
+        void* realloc_ptr = realloc(domain_name, sizeof(char) * (current_length + 1));
+        if (realloc_ptr == NULL) {
+            fprintf(stderr, "Error shrinking memory for domain name %s\n", domain_name);
+        } else {
+            domain_name = (char*) realloc_ptr;
+        } 
     }
     // Advance offset after NULL terminator, if domain name compression was not used
     if (!compression) {
@@ -287,7 +300,17 @@ ip_list_t dns_get_ip_from_name(dns_resource_record_t *answers, uint16_t ancount,
                 if (ip_list.ip_addresses == NULL) {
                     ip_list.ip_addresses = (ip_addr_t *) malloc(sizeof(ip_addr_t));
                 } else {
-                    ip_list.ip_addresses = (ip_addr_t *) realloc(ip_list.ip_addresses, (ip_list.ip_count + 1) * sizeof(ip_addr_t));
+                    void *realloc_ptr = realloc(ip_list.ip_addresses, (ip_list.ip_count + 1) * sizeof(ip_addr_t));
+                    if (realloc_ptr == NULL) {
+                        // Handle realloc error
+                        free(ip_list.ip_addresses);
+                        fprintf(stderr, "Error reallocating memory for IP list.\n");
+                        ip_list.ip_count = 0;
+                        ip_list.ip_addresses = NULL;
+                        return ip_list;
+                    } else {
+                        ip_list.ip_addresses = (ip_addr_t*) realloc_ptr;
+                    }
                 }
                 // Handle IP version and value
                 *(ip_list.ip_addresses + ip_list.ip_count) = (answers + i)->rdata.ip;

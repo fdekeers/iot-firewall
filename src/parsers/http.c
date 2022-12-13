@@ -99,14 +99,27 @@ static char* http_parse_uri(uint8_t *data, uint16_t *offset) {
         if (length == max_length) {
             // URI is too long, increase buffer size
             max_length *= 2;
-            uri = (char *) realloc(uri, sizeof(char) * max_length);
+            void* realloc_ptr = realloc(uri, sizeof(char) * max_length);
+            if (realloc_ptr == NULL) {
+                // Handle realloc error
+                fprintf(stderr, "Error reallocating memory for URI %s\n", uri);
+                free(uri);
+                return NULL;
+            } else {
+                uri = (char*) realloc_ptr;
+            }
         }
         *(uri + (length - 1)) = *(data + (*offset)++);
         length++;
     }
     if (length < max_length) {
         // URI is shorter than allocated buffer, shrink buffer
-        uri = (char *) realloc(uri, sizeof(char) * length);
+        void *realloc_ptr = realloc(uri, sizeof(char) * length);
+        if (realloc_ptr == NULL) {
+            fprintf(stderr, "Error shrinking memory for URI %s\n", uri);
+        } else {
+            uri = (char*) realloc_ptr;
+        }
     }
     // Add NULL terminating character
     *(uri + length - 1) = '\0';

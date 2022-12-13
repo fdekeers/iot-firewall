@@ -8,6 +8,7 @@ do
     else
         "$file"
     fi
+    # If the exit code is not 0, set EXITCODE to 1
     if [[ $? -ne 0 ]]
     then
         EXITCODE=1

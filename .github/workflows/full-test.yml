@@ -32,3 +32,6 @@ jobs:
 
       - name: Run Valgrind on CUnit tests
         run: $GITHUB_WORKSPACE/.ci_scripts/full-test/run_tests.sh valgrind
+
+      - name: Run cppcheck on source files
+        run: $GITHUB_WORKSPACE/.ci_scripts/full-test/run_cppcheck.sh

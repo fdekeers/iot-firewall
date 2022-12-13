@@ -68,6 +68,7 @@ char *mac_hex_to_str(uint8_t mac_hex[])
     // Error handling
     if (ret != MAC_ADDR_STRLEN - 1)
     {
+        free(mac_str);
         fprintf(stderr, "Error converting MAC address \\x%2x\\x%2x\\x%2x\\x%2x\\x%2x\\x%2x to string representation.\n", mac_hex[0], mac_hex[1], mac_hex[2], mac_hex[3], mac_hex[4], mac_hex[5]);
         return NULL;
     }
@@ -88,6 +89,7 @@ uint8_t *mac_str_to_hex(char *mac_str)
     // Error handling
     if (ret != MAC_ADDR_LENGTH)
     {
+        free(mac_hex);
         fprintf(stderr, "Error converting MAC address %s to hexadecimal representation.\n", mac_str);
         return NULL;
     }
@@ -132,6 +134,7 @@ char* ipv4_hex_to_str(char *ipv4_hex) {
     int ret = snprintf(ipv4_str, INET_ADDRSTRLEN, "%hhu.%hhu.%hhu.%hhu", *ipv4_hex, *(ipv4_hex + 1), *(ipv4_hex + 2), *(ipv4_hex + 3));
     // Error handling
     if (ret < 0) {
+        free(ipv4_str);
         fprintf(stderr, "Error converting IPv4 address \\x%2x\\x%2x\\x%2x\\x%2x to string representation.\n", *ipv4_hex, *(ipv4_hex + 1), *(ipv4_hex + 2), *(ipv4_hex + 3));
         return NULL;
     }
@@ -150,6 +153,7 @@ char* ipv4_str_to_hex(char *ipv4_str) {
     int ret = sscanf(ipv4_str, "%hhu.%hhu.%hhu.%hhu", ipv4_hex, ipv4_hex + 1, ipv4_hex + 2, ipv4_hex + 3);
     // Error handling
     if (ret != 4) {
+        free(ipv4_hex);
         fprintf(stderr, "Error converting IPv4 address %s to hexadecimal representation.\n", ipv4_str);
         return NULL;
     }
