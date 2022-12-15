@@ -12,7 +12,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   # https://vagrantcloud.com/ubuntu
   config.vm.box = "ubuntu/jammy64"  # Ubuntu 22.04
   config.vm.hostname = "firewall-test"
-
+  config.disksize.size = '20GB'
   config.vm.network "private_network", type: "dhcp", name: "vboxnet0"
 
   config.vm.provider "virtualbox" do |vb|
