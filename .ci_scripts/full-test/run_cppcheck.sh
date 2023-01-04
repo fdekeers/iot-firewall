@@ -1,7 +1,7 @@
 EXITCODE=0
 
 # Pattern matching on all source files
-for file in $(find $GITHUB_WORKSPACE -name *.c)
+for file in $(find $GITHUB_WORKSPACE/src $GITHUB_WORKSPACE/devices $GITHUB_WORKSPACE/test -name *.c)
 do
     # Run cppcheck on each file
     cppcheck --error-exitcode=1 "$file"
