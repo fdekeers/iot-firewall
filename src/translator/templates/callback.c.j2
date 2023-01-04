@@ -3,6 +3,7 @@
 {% set policy_name = policy.name.replace("-", "_") %}
 {% set for_or_back = "backward" if is_backward else "forward" %}
 {% set policy_jinja = "{}_backward".format(policy_name) if is_backward else policy_name %}
+{% set nft_table = nft_tables["arp"] if policy.is_arp else nft_tables["inet"] %}
 /**
  * @brief {{policy_jinja}} callback function, called when a packet enters the queue.
  * 
@@ -128,23 +129,25 @@ uint32_t callback_{{policy_jinja}}(int pkt_id, int pkt_len, uint8_t *payload, vo
             pthread_mutex_unlock(&mutex);
             {% set previous_policy = policies[(loop_index - 2) % policies|length] %}
             {% if previous_policy.periodic %}
+            {% set previous_table = nft_tables["arp"] if previous_policy.is_arp else nft_tables["inet"] %}
             {% set previous_rules = previous_policy.build_nft_rule(-1) %}
             {% set previous_rule_forward = previous_rules['forward'].replace("\"", "\'") %}
-            delete_nft_rule("{{nft_table}}", "{{nft_chain}}", "{{previous_rule_forward}}");
+            delete_nft_rule("{{previous_table}}", "{{nft_chain}}", "{{previous_rule_forward}}");
             {% if 'backward' in previous_rules %}
             {% set previous_rule_backward = previous_rules['backward'].replace("\"", "\'") %}
-            delete_nft_rule("{{nft_table}}", "{{nft_chain}}", "{{previous_rule_backward}}");
+            delete_nft_rule("{{previous_table}}", "{{nft_chain}}", "{{previous_rule_backward}}");
             {% endif %}
             {% endif %}
             {% set next_policy = policies[loop_index % policies|length] %}
             {% if next_policy.periodic and (policy.transient != is_backward) %}
+            {% set next_table = nft_tables["arp"] if next_policy.is_arp else nft_tables["inet"] %}
             {% set next_rules = next_policy.build_nft_rule(-1) %}
             // Add nftables rule for next match
             {% set next_rule_forward = next_rules['forward'].replace("\"", "\'") %}
-            system("sudo nft add rule {{nft_table}} {{nft_chain}} {{next_rule_forward}}");
+            system("sudo nft add rule {{next_table}} {{nft_chain}} {{next_rule_forward}}");
             {% if 'backward' in next_rules %}
             {% set next_rule_backward = next_rules['backward'].replace("\"", "\'") %}
-            system("sudo nft add rule {{nft_table}} {{nft_chain}} {{next_rule_backward}}");
+            system("sudo nft add rule {{next_table}} {{nft_chain}} {{next_rule_backward}}");
             {% endif %}
             {% endif %}
             {% if "dns" in policy.custom_parser %}
@@ -231,22 +234,24 @@ uint32_t callback_{{policy_jinja}}(int pkt_id, int pkt_len, uint8_t *payload, vo
         {% if policies|length > 1 %}
         {% set previous_policy = policies[(loop_index - 2) % policies|length] %}
         {% if previous_policy.periodic %}
+        {% set previous_table = nft_tables["arp"] if previous_policy.is_arp else nft_tables["inet"] %}
         {% set previous_rules = previous_policy.build_nft_rule(-1) %}
         {% set previous_rule_forward = previous_rules['forward'].replace("\"", "\'") %}
-        delete_nft_rule("{{nft_table}}", "{{nft_chain}}", "{{previous_rule_forward}}");
+        delete_nft_rule("{{previous_table}}", "{{nft_chain}}", "{{previous_rule_forward}}");
         {% if 'backward' in previous_rules %}
         {% set previous_rule_backward = previous_rules['backward'].replace("\"", "\'") %}
-        delete_nft_rule("{{nft_table}}", "{{nft_chain}}", "{{previous_rule_backward}}");
+        delete_nft_rule("{{previous_table}}", "{{nft_chain}}", "{{previous_rule_backward}}");
         {% endif %}
         {% endif %}
         {% set next_policy = policies[loop_index % policies|length] %}
         {% if next_policy.periodic and (policy.transient != is_backward) %}
+        {% set next_table = nft_tables["arp"] if next_policy.is_arp else nft_tables["inet"] %}
         {% set next_rules = next_policy.build_nft_rule(-1) %}
         {% set next_rule_forward = next_rules['forward'].replace("\"", "\'") %}
-        system("sudo nft add rule {{nft_table}} {{nft_chain}} {{next_rule_forward}}");
+        system("sudo nft add rule {{next_table}} {{nft_chain}} {{next_rule_forward}}");
         {% if 'backward' in next_rules %}
         {% set next_rule_backward = next_rules['backward'].replace("\"", "\'") %}
-        system("sudo nft add rule {{nft_table}} {{nft_chain}} {{next_rule_backward}}");
+        system("sudo nft add rule {{next_table}} {{nft_chain}} {{next_rule_backward}}");
         {% endif %}
         {% endif %}
         {% endif %}

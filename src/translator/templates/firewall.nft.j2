@@ -1,10 +1,13 @@
 #!/usr/sbin/nft -f
 
-table netdev {{device}} {
+{% macro write_nft_table(data, is_arp=False) %}
+{% set family = "arp" if is_arp else "inet" %}
+{% if data["chains"]|length > 0 %}
+table {{family}} {{device}} {
 
     # Counters
-    {% for policy in counters %}
-    {% if "out" in counters[policy] and "in" in counters[policy] %}
+    {% for policy in data["counters"] %}
+    {% if "out" in data["counters"][policy] and "in" in data["counters"][policy] %}
     counter {{policy}}-out {}
     counter {{policy}}-in {}
     {% else %}
@@ -13,14 +16,15 @@ table netdev {{device}} {
     {% endfor %}
 
     # Chains
-    {% for chain in nft_chains %}
+    {% for chain in data["chains"] %}
     chain {{chain}} {
         
         # Chain configuration
-        type filter hook ingress device enp0s8 priority 0; policy drop;
+        {% set hook = "input" if is_arp else "ingress device enp0s8" %}
+        type filter hook {{hook}} priority 0; policy drop;
 
         # Rules
-        {% for rule in nft_chains[chain] %}
+        {% for rule in data["chains"][chain] %}
         {{rule["forward"]}}
         {% if "backward" in rule %}
         {{rule["backward"]}}
@@ -32,3 +36,8 @@ table netdev {{device}} {
     {% endfor %}
 
 }
+{% endif %}
+{% endmacro %}
+
+{{ write_nft_table(nft_inet, is_arp=False) }}
+{{ write_nft_table(nft_arp, is_arp=True) }}

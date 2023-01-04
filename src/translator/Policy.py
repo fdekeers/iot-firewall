@@ -27,6 +27,7 @@ class Policy:
             profile_data (dict): Dictionary containing the policy data from the YAML profile.
         """
         self.name = name                            # Policy name
+        self.is_arp = False                         # Whether the policy is an ARP policy
         self.profile_data = profile_data            # Policy data from the YAML profile
         self.direction = profile_data["direction"] if "direction" in profile_data else "out"
         self.initiator = profile_data["initiator"] if "initiator" in profile_data else ""
@@ -143,6 +144,9 @@ class Policy:
         """
         # Parse protocols
         for protocol_name in self.profile_data["protocols"]:
+            if protocol_name == "arp":
+                # Policy is an ARP policy
+                self.is_arp = True
             try:
                 protocol = Protocol.init_protocol(protocol_name, self.profile_data["protocols"][protocol_name], self.device)
             except ModuleNotFoundError:

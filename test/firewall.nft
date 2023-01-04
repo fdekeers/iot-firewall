@@ -1,13 +1,14 @@
 #!/usr/sbin/nft -f
 
-table netdev test {
+table inet test {
 
     chain test {
 
         # Chain configuration
-        type filter hook ingress device enp0s8 priority 0; policy accept;
+        type filter hook ingress device enp0s8 priority 0; policy drop;
 
         # Rules
+        meta l4proto tcp ct original proto-dst { 443 } accept
 
     }
 

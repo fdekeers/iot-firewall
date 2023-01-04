@@ -22,9 +22,7 @@ patterns:
         dst-port: 53
       ipv6:
         src: self
-        dst:
-          - gateway
-          - 8.8.8.8
+        dst: gateway
     direction: both
 
 

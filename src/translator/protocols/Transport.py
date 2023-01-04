@@ -24,7 +24,7 @@ class Transport(Protocol):
         """
         # Add protocol match
         rule = {
-            "template": "ip protocol {}",
+            "template": "meta l4proto {}",
             "match": self.protocol_name
         }
         rules = {"forward": rule, "backward": rule}
