@@ -1,7 +1,7 @@
 #!/usr/sbin/nft -f
 
 {% macro write_nft_table(data, is_arp=False) %}
-{% set family = "arp" if is_arp else "inet" %}
+{% set family = "netdev" if is_arp else "inet" %}
 {% if data["chains"]|length > 0 %}
 table {{family}} {{device}} {
 
@@ -20,8 +20,7 @@ table {{family}} {{device}} {
     chain {{chain}} {
         
         # Chain configuration
-        {% set hook = "input" if is_arp else "ingress device enp0s8" %}
-        type filter hook {{hook}} priority 0; policy drop;
+        type filter hook ingress device enp0s8 priority 0; policy drop;
 
         # Rules
         {% for rule in data["chains"][chain] %}

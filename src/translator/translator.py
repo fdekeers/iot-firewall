@@ -108,7 +108,7 @@ if __name__ == "__main__":
                 callback_dict = {
                     "nft_tables": {
                         "inet": f"inet {device['name']}",
-                        "arp": f"arp {device['name']}"
+                        "arp": f"netdev {device['name']}"
                     },
                     "nft_chain": policy_name
                 }
@@ -181,7 +181,7 @@ if __name__ == "__main__":
                     "nfq_id_base": nfq_id_base,
                     "nft_tables": {
                         "inet": f"inet {device['name']}",
-                        "arp": f"arp {device['name']}"
+                        "arp": f"netdev {device['name']}"
                     },
                     "nft_chain": interaction_policy_name
                 }
