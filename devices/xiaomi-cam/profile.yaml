@@ -40,16 +40,6 @@ individual-policies:
 
   ##### IDLE TRAFFIC #####
 
-  arp-request-from-gateway:
-    protocols:
-      arp:
-        type: request
-        sha: gateway
-        tha: default
-        spa: gateway
-        tpa: self
-    direction: both
-
   udp-xiaomi-cloud:
     protocols:
       udp:
@@ -92,6 +82,55 @@ individual-policies:
 interaction-policies:
 
   ######### LOCAL NETWORK ##########
+
+  ##### ARP #####
+  
+  # Camera discovers gateway
+  discover-gateway:
+
+    arp-request:
+      protocols:
+        arp:
+          type: request
+          sha: self
+          tha: default
+          spa: self
+          tpa: gateway
+      direction: out
+  
+    arp-reply:
+      protocols:
+        arp:
+          type: reply
+          sha: gateway
+          tha: self
+          spa: gateway
+          tpa: self
+      direction: in
+  
+  # Gateway discovers camera
+  gateway-discover-camera:
+
+    arp-request-from-gateway:
+      protocols:
+        arp:
+          type: request
+          sha: gateway
+          tha: default
+          spa: gateway
+          tpa: self
+      direction: in
+    
+    arp-reply-from-camera:
+      protocols:
+        arp:
+          type: reply
+          sha: self
+          tha: gateway
+          spa: self
+          tpa: gateway
+      direction: out
+
 
   ##### GET IP ADDRESS AT BOOT #####
   get-ip-address:
@@ -146,30 +185,6 @@ interaction-policies:
         ipv4:
           src: gateway
           dst: self
-      direction: in
-
-
-  ##### DISCOVER GATEWAY AT BOOT #####
-  discover-gateway:
-
-    arp-request:
-      protocols:
-        arp:
-          type: request
-          sha: self
-          tha: default
-          spa: self
-          tpa: gateway
-      direction: out
-  
-    arp-reply:
-      protocols:
-        arp:
-          type: reply
-          sha: gateway
-          tha: self
-          spa: gateway
-          tpa: self
       direction: in
 
 
