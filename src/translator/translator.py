@@ -84,17 +84,9 @@ if __name__ == "__main__":
         header_tpl = env.get_template("header.c.j2")
         header_dict = {"device": device["name"]}
 
-        nfq_id_base = 0   # Base nfqueue id, will be incremented by 10 for each high-level policy
-        # nftables chains and counters of the inet family
-        nft_inet = {
-            "chains": {},
-            "counters": {}
-        }
-        # nftables chains and counters of the arp family
-        nft_arp = {
-            "chains": {},
-            "counters": {}
-        }
+        nfq_id_base = 0  # Base nfqueue id, will be incremented by 10 for each high-level policy
+        nft_chains = {}
+        nft_counters = {}
         nfqueues = []
     
         # Loop over the device's individual policies
@@ -106,10 +98,7 @@ if __name__ == "__main__":
                 header_dict["policy"] = policy_name
                 header_dict["nfq_id_base"] = nfq_id_base
                 callback_dict = {
-                    "nft_tables": {
-                        "inet": f"inet {device['name']}",
-                        "arp": f"netdev {device['name']}"
-                    },
+                    "nft_table": f"netdev {device['name']}",
                     "nft_chain": policy_name
                 }
 
@@ -123,14 +112,9 @@ if __name__ == "__main__":
 
                 # Add nftables rules
                 nfq_id = nfq_id_base if (policy.direction == "both" or policy.nfq_matches or policy.counters) else -1
-                if policy.is_arp:
-                    nft_arp["chains"][policy_name] = [policy.build_nft_rule(nfq_id)]
-                    if policy.counters and "packet-count" in policy.counters:
-                        nft_arp["counters"][policy_name] = policy.counters["packet-count"]
-                else:
-                    nft_inet["chains"][policy_name] = [policy.build_nft_rule(nfq_id)]
-                    if policy.counters and "packet-count" in policy.counters:
-                        nft_inet["counters"][policy_name] = policy.counters["packet-count"]
+                nft_chains[policy_name] = [policy.build_nft_rule(nfq_id)]
+                if policy.counters and "packet-count" in policy.counters:
+                    nft_counters[policy_name] = policy.counters["packet-count"]
 
                 # If need for user-space matching, create nfqueue C file
                 if policy.direction == "both" or policy.nfq_matches or policy.counters:
@@ -178,11 +162,7 @@ if __name__ == "__main__":
                 states = ["STATE_0"]
                 header_dict["nfq_id_base"] = nfq_id_base
                 callback_dict = {
-                    "nfq_id_base": nfq_id_base,
-                    "nft_tables": {
-                        "inet": f"inet {device['name']}",
-                        "arp": f"netdev {device['name']}"
-                    },
+                    "nft_table": f"netdev {device['name']}",
                     "nft_chain": interaction_policy_name
                 }
 
@@ -193,6 +173,7 @@ if __name__ == "__main__":
                 max_threads = 0
                 custom_parsers = {}
                 policies = []
+                nft_chains[interaction_policy_name] = []
                 single_policies = {}
 
                 # First pass, to flatten nested policies
@@ -226,18 +207,13 @@ if __name__ == "__main__":
                     if single_policy.custom_parser:
                         custom_parsers[single_policy_name] = single_policy.custom_parser
 
+                    # Add nftables counter (if any)
+                    if single_policy.counters and "packet-count" in single_policy.counters:
+                        nft_counters[single_policy_name] = single_policy.counters["packet-count"]
+
                     # Add nftables rules
                     if not single_policy.periodic:
-                        if single_policy.is_arp:
-                            nft_arp["chains"][interaction_policy_name] = nft_arp["chains"].get(interaction_policy_name, []) + [single_policy.build_nft_rule(nfq_id_base + nfq_id_offset)]
-                            # Add nftables counter (if any)
-                            if single_policy.counters and "packet-count" in single_policy.counters:
-                                nft_arp["counters"][single_policy_name] = single_policy.counters["packet-count"]
-                        else:
-                            nft_inet["chains"][interaction_policy_name] = nft_inet["chains"].get(interaction_policy_name, []) + [single_policy.build_nft_rule(nfq_id_base + nfq_id_offset)]
-                            # Add nftables counter (if any)
-                            if single_policy.counters and "packet-count" in single_policy.counters:
-                                nft_inet["counters"][single_policy_name] = single_policy.counters["packet-count"]
+                        nft_chains[interaction_policy_name].append(single_policy.build_nft_rule(nfq_id_base + nfq_id_offset))
                         nfq_id_offset += 1
                         if single_policy.direction == "both":
                             nfq_id_offset += 1
@@ -277,8 +253,8 @@ if __name__ == "__main__":
         # Create nftables script
         nft_dict = {
             "device": device["name"],
-            "nft_inet": nft_inet,
-            "nft_arp": nft_arp
+            "nft_chains": nft_chains,
+            "counters": nft_counters
         }
         env.get_template("firewall.nft.j2").stream(nft_dict).dump(f"{device_path}/firewall.nft")
 

@@ -22,7 +22,7 @@
 // Constants
 #define MAX_THREADS 2
 #define NUM_STATES 2
-#define NFQ_ID_BASE 10
+#define NFQ_ID_BASE 0
 
 typedef enum
 {
@@ -47,6 +47,9 @@ initial_values_t initial_values[MAX_THREADS];
 uint32_t callback_arp_request_from_gateway(int pkt_id, int pkt_len, uint8_t *payload, void *arg)
 {
     printf("Received packet\n");
+    size_t l3_header_length = get_l3_header_length(payload);
+    uint16_t dst_port = get_dst_port(payload + l3_header_length);
+    printf("Destination port: %u\n", dst_port);
     uint32_t verdict = NF_ACCEPT;
 
     // Custom match
@@ -56,7 +59,7 @@ uint32_t callback_arp_request_from_gateway(int pkt_id, int pkt_len, uint8_t *pay
         state = STATE_1;
         pthread_mutex_unlock(&mutex);
         verdict = NF_ACCEPT;
-        printf("Accept: policy arp-request-from-gateway, backward = False, state = STATE_0\n");
+        //printf("Accept: policy arp-request-from-gateway, backward = False, state = STATE_0\n");
     }
     else
     {
@@ -78,6 +81,9 @@ uint32_t callback_arp_request_from_gateway(int pkt_id, int pkt_len, uint8_t *pay
 uint32_t callback_arp_reply_from_camera(int pkt_id, int pkt_len, uint8_t *payload, void *arg)
 {
     printf("Received packet\n");
+    size_t l3_header_length = get_l3_header_length(payload);
+    uint16_t dst_port = get_dst_port(payload + l3_header_length);
+    printf("Destination port: %u\n", dst_port);
     uint32_t verdict = NF_ACCEPT;
 
     // Custom match
@@ -87,7 +93,7 @@ uint32_t callback_arp_reply_from_camera(int pkt_id, int pkt_len, uint8_t *payloa
         state = STATE_0;
         pthread_mutex_unlock(&mutex);
         verdict = NF_ACCEPT;
-        printf("Accept: policy arp-reply-from-camera, backward = False, state = STATE_1\n");
+        //printf("Accept: policy arp-reply-from-camera, backward = False, state = STATE_1\n");
     }
     else
     {

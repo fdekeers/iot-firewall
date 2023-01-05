@@ -43,7 +43,6 @@ patterns:
           dst: use1-api.tplinkra.com
       stats:
         duration: 1
-      initiator: src
       direction: both
 
 
@@ -57,7 +56,6 @@ individual-policies:
         src: self
         dst: 52.123.214.138
     direction: both
-    initiator: src
 
 
 interaction-policies:
@@ -98,7 +96,6 @@ interaction-policies:
           src: local
           dst: self
       direction: both
-      initiator: src
     
     update-to-cloud: *pattern-update-to-cloud
 

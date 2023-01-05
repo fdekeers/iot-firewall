@@ -133,7 +133,6 @@ interaction-policies:
         ipv4:
           src: self
           dst: api.smartthings.com
-      initiator: src
       direction: both
       stats:
         duration: 1
@@ -150,7 +149,6 @@ interaction-policies:
         ipv4:
           src: self
           dst: fw-update2.smartthings.com
-      initiator: src
       direction: both
       stats:
         duration: 3

@@ -1,20 +1,17 @@
 #!/usr/sbin/nft -f
 
-table netdev test {
 
-    # Counters
+table inet test {
 
     # Chains
-    chain test-policy {
+    chain http-xiaomi-cloud {
         
         # Chain configuration
-        type filter hook ingress device enp0s8 priority 0; policy drop;
+        type filter hook ingress device enp0s8 priority 0; policy accept;
 
         # Rules
-        arp operation request arp saddr ether 64:66:b3:f6:68:52 arp daddr ether 00:00:00:00:00:00 arp saddr ip 192.168.1.1 arp daddr ip 192.168.1.161 queue num 10
-        arp operation reply arp saddr ether 78:8b:2a:b2:20:ea arp daddr ether 64:66:b3:f6:68:52 arp saddr ip 192.168.1.161 arp daddr ip 192.168.1.1 queue num 11
+        meta l4proto tcp queue num 0
 
     }
-    
 
 }

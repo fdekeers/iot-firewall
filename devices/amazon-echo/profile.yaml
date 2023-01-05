@@ -132,7 +132,6 @@ individual-policies:
         src: self
         dst: 52.119.196.28
     direction: both
-    initiator: src
     stats:
       rate: 50/second burst 150 packets
     
@@ -181,7 +180,6 @@ interaction-policies:
           src: self
           dst: d3p8zr0ffa9t17.cloudfront.net
       direction: both
-      initiator: src
       stats:
         packet-count: 10
 
@@ -202,7 +200,6 @@ interaction-policies:
           src: self
           dst: fos5echocaptiveportal.com
       direction: both
-      initiator: src
       stats:
         packet-count: 7
 
@@ -220,7 +217,6 @@ interaction-policies:
           src: self
           dst: det-ta-g7g.amazon.com
       direction: both
-      initiator: src
       stats:
         rate: 100/second
         duration: 10
@@ -239,7 +235,6 @@ interaction-policies:
           src: self
           dst: arcus-uswest.amazon.com
       direction: both
-      initiator: src
       stats:
         rate: 25/second
         duration: 15
@@ -258,7 +253,6 @@ interaction-policies:
           src: self
           dst: dxz5jxhrrzigf.cloudfront.net
       direction: both
-      initiator: src
       stats:
         rate: 20/second
         duration: 1
@@ -277,7 +271,6 @@ interaction-policies:
           src: self
           dst: device-metrics-us.amazon.com
       direction: both
-      initiator: src
       stats:
         rate: 210/second
         duration: 20
@@ -296,7 +289,6 @@ interaction-policies:
           src: self
           dst: api.amazonalexa.com
       direction: both
-      initiator: src
       stats:
         rate: 30/second
         duration: 1
@@ -315,7 +307,6 @@ interaction-policies:
           src: self
           dst: unagi-na.amazon.com
       direction: both
-      initiator: src
       stats:
         rate: 100/second
 

@@ -24,8 +24,9 @@ individual-policies:
       ipv4:
         src: self
         dst: 110.43.0.83
-    initiator: src
     direction: both
+    stats:
+      packet-count: 10
 
   https-xiaomi-cloud:
     protocols:
@@ -34,7 +35,6 @@ individual-policies:
       ipv4:
         src: self
         dst: 120.92.133.153
-    initiator: src
     direction: both
 
 
@@ -210,7 +210,6 @@ interaction-policies:
         ipv4:
           src: self
           dst: business.smartcamera.api.io.mi.com
-      initiator: src
       direction: both
       stats:
         rate: 50/second

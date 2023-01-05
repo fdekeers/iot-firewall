@@ -105,7 +105,6 @@ individual-policies:
         src: local  # Mobile phone running the app
         dst: self
     destination: both
-    initiator: src
     stats:
       rate: 10/second burst 100 packets
 
@@ -121,7 +120,6 @@ individual-policies:
         src: local
         dst: self
     direction: both
-    initiator: src
     stats:
       packet-count: 20
 
@@ -333,7 +331,6 @@ interaction-policies:
           src: self
           dst: ws.meethue.com
       direction: both
-      initiator: src
       stats:
         rate: 10/second burst 100 packets
 
@@ -393,7 +390,6 @@ interaction-policies:
           src: local  # Mobile phone running the app
           dst: self
       destination: both
-      initiator: src
       stats:
         packet-count: 11
 
