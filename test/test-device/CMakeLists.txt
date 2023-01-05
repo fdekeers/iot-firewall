@@ -6,6 +6,8 @@ set(EXECUTABLE_OUTPUT_PATH ${TEST_BIN_DIR})
 
 # Queue test-queue
 add_executable(test-queue nfqueues/test-queue.c)
-target_link_libraries(test-queue nfqueue)
+target_link_libraries(test-queue pthread)
+target_link_libraries(test-queue nfqueue packet_utils rule_utils)
+target_link_libraries(test-queue ${PARSERS})
 target_include_directories(test-queue PRIVATE ${INCLUDE_DIR})
 install(TARGETS test-queue DESTINATION ${EXECUTABLE_OUTPUT_PATH})

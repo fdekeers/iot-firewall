@@ -20,7 +20,7 @@ table {{family}} {{device}} {
     chain {{chain}} {
         
         # Chain configuration
-        type filter hook ingress device enp0s8 priority 0; policy drop;
+        type filter hook ingress device enp0s8 priority 0; policy accept;
 
         # Rules
         {% for rule in data["chains"][chain] %}
@@ -33,6 +33,11 @@ table {{family}} {{device}} {
     }
     
     {% endfor %}
+
+    # Last chain, drops any packet that was not matched
+    chain final {
+        type filter hook ingress device enp0s8 priority 1; policy drop;
+    }
 
 }
 {% endif %}
