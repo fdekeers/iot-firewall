@@ -33,6 +33,9 @@
 // Constants
 {% if max_threads > 1 %}
 #define MAX_THREADS {{max_threads}}
+{% if max_counters > 0 %}
+#define MAX_COUNTERS {{max_counters}}
+{% endif %}
 {% endif %}
 #define NUM_STATES  {{states|length}}
 #define NFQ_ID_BASE {{nfq_id_base}}
@@ -49,7 +52,9 @@ state_t state = {{states[0]}};
 {% if max_threads > 1 %}
 uint8_t num_threads = 0;
 pthread_mutex_t mutex;
-initial_values_t initial_values[MAX_THREADS];
+{% if max_counters > 0 %}
+initial_values_t initial_values[MAX_COUNTERS];
+{% endif %}
 {% else %}
 initial_values_t initial_values;
 {% endif %}

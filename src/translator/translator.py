@@ -48,6 +48,22 @@ def flatten_policies(single_policy_name: str, single_policy: dict, acc: dict = {
             flatten_policies(subpolicy, single_policy[subpolicy], acc)
 
 
+def get_number_of_counters(counters: dict) -> int:
+    """
+    Get the number of counters in a dictionary of counters,
+    of the form {"counter_a": {"default": value}, "counter_b":  {"out": value, "in": value}}
+
+    Args:
+        counters (dict): Dictionary of counters
+    Returns:
+        int: Number of counters
+    """
+    if not counters:
+        return 0
+    else:
+        return sum(len(c) for c in counters.values())
+
+
 # Program entry point
 if __name__ == "__main__":
 
@@ -61,9 +77,10 @@ if __name__ == "__main__":
     script_path = os.path.abspath(os.path.dirname(__file__))      # This script's path
     device_path = os.path.abspath(os.path.dirname(args.profile))  # Device profile's path
 
-    # Jinja loader
+    # Jinja2 loader
     loader = jinja2.FileSystemLoader(searchpath=f"{script_path}/templates")
     env = jinja2.Environment(loader=loader, trim_blocks=True, lstrip_blocks=True)
+    # Add custom Jinja2 filters
     env.filters["is_list"] = is_list
     env.filters["debug"] = debug
 
@@ -111,18 +128,20 @@ if __name__ == "__main__":
                     states.append("STATE_1")
 
                 # Add nftables rules
-                nfq_id = nfq_id_base if (policy.direction == "both" or policy.nfq_matches or policy.counters) else -1
+                nfq_id = nfq_id_base if ((policy.direction == "both" and not policy.periodic) or policy.nfq_matches or policy.counters) else -1
                 nft_policies[policy_name] = [policy.build_nft_rule(nfq_id)]
                 if policy.counters and "packet-count" in policy.counters:
                     nft_counters[policy_name] = policy.counters["packet-count"]
 
                 # If need for user-space matching, create nfqueue C file
-                if policy.direction == "both" or policy.nfq_matches or policy.counters:
+                if (policy.direction == "both" and not policy.periodic) or policy.nfq_matches or policy.counters:
                     # Retrieve Jinja2 template directories
+                    max_counters = get_number_of_counters(policy.counters)
                     custom_parsers = {policy_name: policy.custom_parser} if policy.custom_parser else {}
                     header_dict = {
                         **header_dict,
                         "max_threads": max_threads,
+                        "max_counters": max_counters,
                         "states": states,
                         "custom_parsers": set(custom_parsers.values())
                     }
@@ -134,6 +153,7 @@ if __name__ == "__main__":
                     }
                     main_dict = {
                         "multithread": max_threads > 1,
+                        "max_counters": max_counters,
                         "policies": [policy],
                         "custom_parsers": set(custom_parsers.values())
                     }
@@ -171,6 +191,7 @@ if __name__ == "__main__":
                 nfq_id_offset = 0
                 current_state = 0
                 max_threads = 0
+                max_counters = 0
                 custom_parsers = {}
                 policies = []
                 nft_policies[interaction_policy_name] = []
@@ -203,6 +224,9 @@ if __name__ == "__main__":
                         if single_policy.direction == "both":
                             max_threads += 1
 
+                    # Add counters (if any)
+                    max_counters += get_number_of_counters(single_policy.counters)
+
                     # Add custom parser (if any)
                     if single_policy.custom_parser:
                         custom_parsers[single_policy_name] = single_policy.custom_parser
@@ -224,6 +248,7 @@ if __name__ == "__main__":
                 header_dict = {
                     **header_dict,
                     "max_threads": max_threads,
+                    "max_counters": max_counters,
                     "custom_parsers": set(custom_parsers.values()),
                     "states": states
                 }
@@ -237,6 +262,7 @@ if __name__ == "__main__":
                 callback = env.get_template("callback.c.j2").render(callback_dict)
                 main_dict = {
                     "multithread": max_threads > 1,
+                    "max_counters": max_counters,
                     "policies": policies
                 }
                 main = env.get_template("main.c.j2").render(main_dict)

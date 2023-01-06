@@ -10,7 +10,7 @@ table inet test {
         type filter hook ingress device enp0s8 priority 0; policy accept;
 
         # Rules
-        meta l4proto tcp queue num 0
+        meta l4proto tcp tcp dport { 80 } ip saddr { 192.168.1.161 } ip daddr { 110.43.0.83 } queue num 0
 
     }
 

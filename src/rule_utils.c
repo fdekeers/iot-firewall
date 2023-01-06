@@ -16,14 +16,14 @@
  *
  * @param table_name name of the nftables table containing the counter
  * @param counter_name name of the nftables counter to read
- * @param num number of the value to read (1 for packets, 2 for bytes)
+ * @param counter_type type of the counter to read
  * @return value read from the counter
  */
-static uint32_t counter_read_nft(char *table_name, char *counter_name, uint8_t num) {
+static uint32_t counter_read_nft(char *table_name, char *counter_name, counter_type_t counter_type) {
     // Build command
     uint16_t length = 58 + strlen(table_name) + strlen(counter_name);
     char cmd[length];
-    int ret = snprintf(cmd, length, "sudo nft list counter %s %s | grep packets | awk '{print $%hhu}'", table_name, counter_name, num * 2);
+    int ret = snprintf(cmd, length, "sudo nft list counter %s %s | grep packets | awk '{print $%hhu}'", table_name, counter_name, counter_type * 2);
     if (ret != length - 1) {
         fprintf(stderr, "Error while building command to read counter %s\n", counter_name);
         exit(EXIT_FAILURE);
@@ -53,7 +53,7 @@ static uint32_t counter_read_nft(char *table_name, char *counter_name, uint8_t n
  * @return packet count value of the counter
  */
 uint32_t counter_read_packets(char *table_name, char *counter_name) {
-    return counter_read_nft(table_name, counter_name, 1);
+    return counter_read_nft(table_name, counter_name, PACKETS);
 }
 
 /**
@@ -64,7 +64,7 @@ uint32_t counter_read_packets(char *table_name, char *counter_name) {
  * @return bytes value of the counter
  */
 uint32_t counter_read_bytes(char *table_name, char *counter_name) {
-    return counter_read_nft(table_name, counter_name, 2);
+    return counter_read_nft(table_name, counter_name, BYTES);
 }
 
 /**
@@ -87,29 +87,36 @@ uint64_t counter_read_microseconds() {
  *
  * @param nft_table_name name of the nftables table containing the associated nftables counter
  * @param nft_counter_name name of the associated nftables counter
+ * @param direction direction of the rule
  * @return initial_values_t struct containing the initial values
  */
-initial_values_t counters_init(char *nft_table_name, char *nft_counter_name) {
+initial_values_t counters_init(char *nft_table_name, char *nft_counter_name, direction_t direction) {
     initial_values_t initial_values;
     initial_values.is_initialized = true;
+
     // Initial packet count value
-    uint16_t length = strlen(nft_counter_name) + 5;
-    char counter_out[length];
-    int ret = snprintf(counter_out, length, "%s-out", nft_counter_name);
-    if (ret != length - 1) {
-        fprintf(stderr, "Error while building counter name '%s-out'\n", nft_counter_name);
-        exit(EXIT_FAILURE);
+    if (direction == BOTH) {
+        initial_values.packets_both = counter_read_packets(nft_table_name, nft_counter_name);
+    } else {
+        // direction == IN or direction == OUT
+        char* dir_str = direction == OUT ? "out" : "in";
+        uint16_t dir_len = direction == OUT ? 3 : 2;
+        uint16_t length = strlen(nft_counter_name) + dir_len + 1;
+        char counter[length];
+        int ret = snprintf(counter, length, "%s-%s", nft_counter_name, dir_str);
+        if (ret != length - 1)
+        {
+            fprintf(stderr, "Error while building counter name '%s-%s'\n", nft_counter_name, dir_str);
+            exit(EXIT_FAILURE);
+        }
+        if (direction == OUT) {
+            initial_values.packets_out = counter_read_packets(nft_table_name, counter);
+        } else {
+            // direction == IN
+            initial_values.packets_in = counter_read_packets(nft_table_name, counter);
+        }
     }
-    initial_values.packets_out = counter_read_packets(nft_table_name, counter_out);
-    length -= 1;
-    char counter_in[length];
-    ret = snprintf(counter_in, length, "%s-in", nft_counter_name);
-    if (ret != length - 1) {
-        fprintf(stderr, "Error while building counter name '%s-in'\n", nft_counter_name);
-        exit(EXIT_FAILURE);
-    }
-    initial_values.packets_in = counter_read_packets(nft_table_name, counter_in);
-    initial_values.packets_both = counter_read_packets(nft_table_name, nft_counter_name);
+
     // Initial time value
     initial_values.microseconds = counter_read_microseconds();
     return initial_values;

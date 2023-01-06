@@ -55,20 +55,6 @@ individual-policies:
           - 120.92.162.194
     direction: both
 
-  # TODO: maybe remove it from here
-  udp-xiaomi-phone:
-    protocols:
-      udp:
-        src-port: 12257
-        dst-port: 23207
-      ipv4:
-        src: self
-        dst: local
-    direction: both
-    stats:
-      rate: 10/second
-      packet-size: 46-200
-
   ping-quad8:
     protocols:
       icmp:
@@ -307,7 +293,6 @@ interaction-policies:
           src: local
           dst: self
       direction: both
-      local-network: true
       stats:
         packet-count: 6
 
@@ -332,7 +317,6 @@ interaction-policies:
           src: self
           dst: local
       direction: both
-      local-network: true
       stats:
         rate: 300/second
         packet-size:

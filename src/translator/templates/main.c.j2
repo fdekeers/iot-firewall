@@ -16,24 +16,32 @@ int main(int argc, char const *argv[]) {
     int ret = pthread_mutex_init(&mutex, NULL);
     assert(ret == 0);
 
+    {% if max_counters > 0 %}
     // Initialize initial_values structures
-    for (uint8_t i = 0; i < MAX_THREADS; i++) {
+    for (uint8_t i = 0; i < MAX_COUNTERS; i++) {
         initial_values[i].is_initialized = false;
     }
+    {% endif %}
 
     // Create threads
     uint8_t i = 0;
+    uint8_t current_counter_id = 0;
     pthread_t threads[MAX_THREADS];
 
+    {% set first_counter = namespace(value=True) %}
     {% for policy in policies %}
     {% if not policy.periodic %}
     {% set policy_jinja = policy.name.replace('-', '_') %}
     // {{policy_jinja}}
-    uint8_t thread_id_{{policy_jinja}} = i;
+    {% if not first_counter.value and policy.counters %}
+    current_counter_id++;
+    {% set first_counter.value = False %}
+    {% endif %}
+    uint8_t counter_id_{{policy_jinja}} = current_counter_id;
     thread_arg_t thread_arg_{{policy_jinja}} = {
         .queue_id = NFQ_ID_BASE + i,
         .func = &callback_{{policy_jinja}},
-        .arg = &thread_id_{{policy_jinja}}
+        .arg = &counter_id_{{policy_jinja}}
     };
     ret = pthread_create(&threads[i++], NULL, nfqueue_thread, (void *) &thread_arg_{{policy_jinja}});
     assert(ret == 0);
@@ -41,11 +49,20 @@ int main(int argc, char const *argv[]) {
     {% if policy.direction == "both" %}
     {% set policy_jinja = "{}_backward".format(policy.name.replace('-', '_')) %}
     // {{policy_jinja}}
-    uint8_t thread_id_{{policy_jinja}} = i;
+    {% set unidirectional_counter = namespace(value=False) %}
+    {% for counter in policy.counters %}
+    {% if "default" not in policy.counters[counter] %}
+    {% set unidirectional_counter.value = True %}
+    {% endif %}
+    {% endfor %}
+    {% if unidirectional_counter.value %}
+    current_counter_id++;
+    {% endif %}
+    uint8_t counter_id_{{policy_jinja}} = current_counter_id;
     thread_arg_t thread_arg_{{policy_jinja}} = {
         .queue_id = NFQ_ID_BASE + i,
         .func = &callback_{{policy_jinja}},
-        .arg = &thread_id_{{policy_jinja}}
+        .arg = &counter_id_{{policy_jinja}}
     };
     ret = pthread_create(&threads[i++], NULL, nfqueue_thread, (void *) &thread_arg_{{policy_jinja}});
     assert(ret == 0);
