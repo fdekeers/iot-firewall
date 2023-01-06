@@ -101,7 +101,7 @@ initial_values_t counters_init(char *nft_table_name, char *nft_counter_name, dir
         // direction == IN or direction == OUT
         char* dir_str = direction == OUT ? "out" : "in";
         uint16_t dir_len = direction == OUT ? 3 : 2;
-        uint16_t length = strlen(nft_counter_name) + dir_len + 1;
+        uint16_t length = strlen(nft_counter_name) + dir_len + 2;
         char counter[length];
         int ret = snprintf(counter, length, "%s-%s", nft_counter_name, dir_str);
         if (ret != length - 1)
