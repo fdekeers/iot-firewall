@@ -103,9 +103,9 @@ Functions</h2></td></tr>
 <tr class="memitem:a3953e83d5493317822ab6b190f972b5c"><td class="memItemLeft" align="right" valign="top">uint64_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="src_2rule__utils_8c.html#a3953e83d5493317822ab6b190f972b5c">counter_read_microseconds</a> ()</td></tr>
 <tr class="memdesc:a3953e83d5493317822ab6b190f972b5c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Read the current microseconds value.  <a href="src_2rule__utils_8c.html#a3953e83d5493317822ab6b190f972b5c">More...</a><br /></td></tr>
 <tr class="separator:a3953e83d5493317822ab6b190f972b5c"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a2df81f3700ec32c9b4d3d88c5149fa91"><td class="memItemLeft" align="right" valign="top"><a class="el" href="structinitial__values__t.html">initial_values_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="src_2rule__utils_8c.html#a2df81f3700ec32c9b4d3d88c5149fa91">counters_init</a> (char *nft_table_name, char *nft_counter_name)</td></tr>
-<tr class="memdesc:a2df81f3700ec32c9b4d3d88c5149fa91"><td class="mdescLeft">&#160;</td><td class="mdescRight">Initialize counters values.  <a href="src_2rule__utils_8c.html#a2df81f3700ec32c9b4d3d88c5149fa91">More...</a><br /></td></tr>
-<tr class="separator:a2df81f3700ec32c9b4d3d88c5149fa91"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0e5f89ec7e4aa90447082abd04b0aa28"><td class="memItemLeft" align="right" valign="top"><a class="el" href="structinitial__values__t.html">initial_values_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="src_2rule__utils_8c.html#a0e5f89ec7e4aa90447082abd04b0aa28">counters_init</a> (char *nft_table_name, char *nft_counter_name, direction_t direction)</td></tr>
+<tr class="memdesc:a0e5f89ec7e4aa90447082abd04b0aa28"><td class="mdescLeft">&#160;</td><td class="mdescRight">Initialize counters values.  <a href="src_2rule__utils_8c.html#a0e5f89ec7e4aa90447082abd04b0aa28">More...</a><br /></td></tr>
+<tr class="separator:a0e5f89ec7e4aa90447082abd04b0aa28"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ab7d2701b903f7064dbc7a3e016f6ea14"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="src_2rule__utils_8c.html#ab7d2701b903f7064dbc7a3e016f6ea14">delete_nft_rule</a> (char *nft_table, char *nft_chain, char *nft_rule)</td></tr>
 <tr class="memdesc:ab7d2701b903f7064dbc7a3e016f6ea14"><td class="mdescLeft">&#160;</td><td class="mdescRight">Delete an nftables rule.  <a href="src_2rule__utils_8c.html#ab7d2701b903f7064dbc7a3e016f6ea14">More...</a><br /></td></tr>
 <tr class="separator:ab7d2701b903f7064dbc7a3e016f6ea14"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -212,8 +212,8 @@ Functions</h2></td></tr>
 
 </div>
 </div>
-<a id="a2df81f3700ec32c9b4d3d88c5149fa91"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a2df81f3700ec32c9b4d3d88c5149fa91">&#9670;&nbsp;</a></span>counters_init()</h2>
+<a id="a0e5f89ec7e4aa90447082abd04b0aa28"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a0e5f89ec7e4aa90447082abd04b0aa28">&#9670;&nbsp;</a></span>counters_init()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -228,7 +228,13 @@ Functions</h2></td></tr>
           <td class="paramkey"></td>
           <td></td>
           <td class="paramtype">char *&#160;</td>
-          <td class="paramname"><em>nft_counter_name</em>&#160;</td>
+          <td class="paramname"><em>nft_counter_name</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">direction_t&#160;</td>
+          <td class="paramname"><em>direction</em>&#160;</td>
         </tr>
         <tr>
           <td></td>
@@ -243,6 +249,7 @@ Functions</h2></td></tr>
   <table class="params">
     <tr><td class="paramname">nft_table_name</td><td>name of the nftables table containing the associated nftables counter </td></tr>
     <tr><td class="paramname">nft_counter_name</td><td>name of the associated nftables counter </td></tr>
+    <tr><td class="paramname">direction</td><td>direction of the rule </td></tr>
   </table>
   </dd>
 </dl>
