@@ -50,18 +50,22 @@ def flatten_policies(single_policy_name: str, single_policy: dict, acc: dict = {
 
 def get_number_of_counters(counters: dict) -> int:
     """
-    Get the number of counters in a dictionary of counters,
+    Get the number of different counters in a dictionary of counters,
     of the form {"counter_a": {"default": value}, "counter_b":  {"out": value, "in": value}}
 
     Args:
         counters (dict): Dictionary of counters
     Returns:
-        int: Number of counters
+        int: Number of different counters
     """
     if not counters:
         return 0
     else:
-        return sum(len(c) for c in counters.values())
+        d = {}
+        for counter in counters:
+            for direction in counters[counter]:
+                d[direction] = True
+        return len(d)
 
 
 # Program entry point
