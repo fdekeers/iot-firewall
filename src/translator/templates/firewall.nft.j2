@@ -12,23 +12,28 @@ table netdev {{device}} {
     {% endif %}
     {% endfor %}
 
-    # Chains
-    {% for chain in nft_chains %}
-    chain {{chain}} {
+
+    # Chain INGRESS, contains all the rules
+    chain ingress {
         
         # Chain configuration
         type filter hook ingress device enp0s8 priority 0; policy drop;
 
-        # Rules
-        {% for rule in nft_chains[chain] %}
+
+        ### POLICIES ###
+
+        {% for policy in nft_policies %}
+        # Policy {{policy}}
+        {% for rule in nft_policies[policy] %}
         {{rule["forward"]}}
         {% if "backward" in rule %}
         {{rule["backward"]}}
         {% endif %}
         {% endfor %}
 
+
+        {% endfor %}
+
     }
-    
-    {% endfor %}
 
 }

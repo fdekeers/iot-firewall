@@ -85,7 +85,7 @@ if __name__ == "__main__":
         header_dict = {"device": device["name"]}
 
         nfq_id_base = 0  # Base nfqueue id, will be incremented by 10 for each high-level policy
-        nft_chains = {}
+        nft_policies = {}
         nft_counters = {}
         nfqueues = []
     
@@ -99,7 +99,7 @@ if __name__ == "__main__":
                 header_dict["nfq_id_base"] = nfq_id_base
                 callback_dict = {
                     "nft_table": f"netdev {device['name']}",
-                    "nft_chain": policy_name
+                    "nft_policy": policy_name
                 }
 
                 # Create policy and parse it
@@ -112,7 +112,7 @@ if __name__ == "__main__":
 
                 # Add nftables rules
                 nfq_id = nfq_id_base if (policy.direction == "both" or policy.nfq_matches or policy.counters) else -1
-                nft_chains[policy_name] = [policy.build_nft_rule(nfq_id)]
+                nft_policies[policy_name] = [policy.build_nft_rule(nfq_id)]
                 if policy.counters and "packet-count" in policy.counters:
                     nft_counters[policy_name] = policy.counters["packet-count"]
 
@@ -163,7 +163,7 @@ if __name__ == "__main__":
                 header_dict["nfq_id_base"] = nfq_id_base
                 callback_dict = {
                     "nft_table": f"netdev {device['name']}",
-                    "nft_chain": interaction_policy_name
+                    "nft_policy": interaction_policy_name
                 }
 
                 # Iterate on single policies
@@ -173,7 +173,7 @@ if __name__ == "__main__":
                 max_threads = 0
                 custom_parsers = {}
                 policies = []
-                nft_chains[interaction_policy_name] = []
+                nft_policies[interaction_policy_name] = []
                 single_policies = {}
 
                 # First pass, to flatten nested policies
@@ -213,7 +213,7 @@ if __name__ == "__main__":
 
                     # Add nftables rules
                     if not single_policy.periodic:
-                        nft_chains[interaction_policy_name].append(single_policy.build_nft_rule(nfq_id_base + nfq_id_offset))
+                        nft_policies[interaction_policy_name].append(single_policy.build_nft_rule(nfq_id_base + nfq_id_offset))
                         nfq_id_offset += 1
                         if single_policy.direction == "both":
                             nfq_id_offset += 1
@@ -253,7 +253,7 @@ if __name__ == "__main__":
         # Create nftables script
         nft_dict = {
             "device": device["name"],
-            "nft_chains": nft_chains,
+            "nft_policies": nft_policies,
             "counters": nft_counters
         }
         env.get_template("firewall.nft.j2").stream(nft_dict).dump(f"{device_path}/firewall.nft")

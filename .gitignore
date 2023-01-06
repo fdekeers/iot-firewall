@@ -10,4 +10,4 @@ cmake_install.cmake
 Makefile
 notes.txt
 __pycache__
-*.pcap
+*.log
