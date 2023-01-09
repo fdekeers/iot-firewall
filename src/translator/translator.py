@@ -125,11 +125,18 @@ if __name__ == "__main__":
 
                 # Create policy and parse it
                 max_threads = 1
+                max_counters = {}
                 policy = Policy(policy_name, profile_data, device)
                 policy.parse()
                 if policy.direction == "both":
                     max_threads += 1
                     states.append("STATE_1")
+
+                # Add counters (if any)
+                for counter_name in Policy.counters:
+                    if counter_name in policy.counters:
+                        counter = policy.counters[counter_name]
+                        max_counters[counter_name] = len(counter)
 
                 # Add nftables rules
                 nfq_id = nfq_id_base if ((policy.direction == "both" and not policy.periodic) or policy.nfq_matches or policy.counters) else -1
@@ -140,7 +147,6 @@ if __name__ == "__main__":
                 # If need for user-space matching, create nfqueue C file
                 if (policy.direction == "both" and not policy.periodic) or policy.nfq_matches or policy.counters:
                     # Retrieve Jinja2 template directories
-                    max_counters = get_number_of_counters(policy.counters)
                     custom_parsers = {policy_name: policy.custom_parser} if policy.custom_parser else {}
                     header_dict = {
                         **header_dict,
@@ -195,7 +201,7 @@ if __name__ == "__main__":
                 nfq_id_offset = 0
                 current_state = 0
                 max_threads = 0
-                max_counters = 0
+                max_counters = {}
                 custom_parsers = {}
                 policies = []
                 nft_policies[interaction_policy_name] = []
@@ -229,7 +235,10 @@ if __name__ == "__main__":
                             max_threads += 1
 
                     # Add counters (if any)
-                    max_counters += get_number_of_counters(single_policy.counters)
+                    for counter_name in Policy.counters:
+                        if counter_name in single_policy.counters:
+                            counter = single_policy.counters[counter_name]
+                            max_counters[counter_name] = max_counters.get(counter_name, 0) + len(counter)
 
                     # Add custom parser (if any)
                     if single_policy.custom_parser:

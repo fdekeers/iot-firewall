@@ -15,7 +15,14 @@
 uint32_t callback_{{policy_jinja}}(int pkt_id, int pkt_len, uint8_t *payload, void *arg) {
     printf("Received packet\n");
     {% if multithread and policy.counters %}
-    uint8_t counter_id = *((uint8_t *) arg);
+    // Get counters ID from thread argument
+    counters_id_t *counters_id = (counters_id_t *) arg;
+    {% if "packet-count" in policy.counters %}
+    uint8_t packet_counter_id = counters_id->packet_counter_id;
+    {% endif %}
+    {% if "duration" in policy.counters %}
+    uint8_t duration_counter_id = counters_id->duration_counter_id;
+    {% endif %}
     {% endif %}
     {% if policy.custom_parser == 'ssdp' %}
     uint32_t dst_addr = get_ipv4_dst_addr(payload);  // IPv4 destination address, in network byte order
@@ -58,13 +65,19 @@ uint32_t callback_{{policy_jinja}}(int pkt_id, int pkt_len, uint8_t *payload, vo
     {% if multithread %}
     {% set direction = "in" if is_backward else "out" %}
     {% if policy.transient and "packet-count" in policy.counters and ( ( "default" in policy.counters["packet-count"] and not is_backward ) or direction in policy.counters["packet-count"] ) %}
-    // Initialize counters if not initialized yet
-    if (!initial_values[counter_id].is_initialized) {
+    // Initialize packet count initial values if not initialized yet
+    if (!packet_count_init[packet_counter_id].is_initialized) {
         {% if "default" in policy.counters["packet-count"] and not is_backward %}
-        initial_values[counter_id] = counters_init("{{nft_table}}", "{{policy.name}}", BOTH);
+        packet_count_init[packet_counter_id] = counter_packets_init("{{nft_table}}", "{{policy.name}}", BOTH);
         {% elif direction in policy.counters["packet-count"] %}
-        initial_values[counter_id] = counters_init("{{nft_table}}", "{{policy.name}}-{{direction}}", {{direction|upper}});
+        packet_count_init[packet_counter_id] = counter_packets_init("{{nft_table}}", "{{policy.name}}-{{direction}}", {{direction|upper}});
         {% endif %}
+    }
+    {% endif %}
+    {% if policy.transient and "duration" in policy.counters and ( ( "default" in policy.counters["duration"] and not is_backward ) or direction in policy.counters["duration"] ) %}
+    // Initialize duration initial value if not initialized yet
+    if (!duration_init[duration_counter_id].is_initialized) {
+        duration_init[duration_counter_id] = counter_duration_init();
     }
     {% endif %}
 
@@ -111,21 +124,26 @@ uint32_t callback_{{policy_jinja}}(int pkt_id, int pkt_len, uint8_t *payload, vo
             if (
                 {% set direction = "in" if is_backward else "out" %}
                 {% if "packet-count" in policy.counters and "default" in policy.counters["packet-count"] %}
-                counter_read_packets("{{nft_table}}", "{{policy.name}}") - initial_values[counter_id].packets_both <= {{policy.counters["packet-count"]["default"]}}
+                counter_read_packets("{{nft_table}}", "{{policy.name}}") - packet_count_init[packet_counter_id].packets_both <= {{policy.counters["packet-count"]["default"]}}
                 {% elif "packet-count" in policy.counters and direction in policy.counters["packet-count"] %}
-                counter_read_packets("{{nft_table}}", "{{policy.name}}-{{direction}}") - initial_values[counter_id].packets_{{direction}} <= {{policy.counters["packet-count"][direction]}}
+                counter_read_packets("{{nft_table}}", "{{policy.name}}-{{direction}}") - packet_count_init[packet_counter_id].packets_{{direction}} <= {{policy.counters["packet-count"][direction]}}
                 {% endif %}
                 {% if policy.counters|length > 1 %}
                 && {% endif -%}
                 {%- if "duration" in policy.counters and "default" in policy.counters["duration"] -%}
-                counter_read_microseconds() - initial_values[counter_id].microseconds <= {{policy.counters["duration"]["default"]}}
+                counter_read_microseconds() - duration_init[duration_counter_id].microseconds <= {{policy.counters["duration"]["default"]}}
                 {% elif "duration" in policy.counters and direction in policy.counters["duration"] %}
-                counter_read_microseconds() - initial_values[counter_id].microseconds <= {{policy.counters["duration"][direction]}}
+                counter_read_microseconds() - duration_init[duration_counter_id].microseconds <= {{policy.counters["duration"][direction]}}
                 {% endif %}
             ) {
                 {% set current_state.value = current_state.value if is_backward and policy.transient else (current_state.value + 1) % states|length %}
                 state = {{states[current_state.value]}};
-                initial_values[counter_id].is_initialized = false;
+                {% if "packet-count" in policy.counters %}
+                packet_count_init[packet_counter_id].is_initialized = false;
+                {% endif %}
+                {% if "duration" in policy.counters %}
+                duration_init[duration_counter_id].is_initialized = false;
+                {% endif %}
             }
             {% endif %}
             pthread_mutex_unlock(&mutex);
@@ -172,18 +190,24 @@ uint32_t callback_{{policy_jinja}}(int pkt_id, int pkt_len, uint8_t *payload, vo
     }
     {% endif %}
     {% else %}
-    {% if policy.transient %}
-    // Initialize counters if not initialized yet
-    if (!initial_values.is_initialized) {
-        {% set direction = "in" if is_backward else "out" %}
-        {% if "packet-count" in policy.counters and "default" in policy.counters["packet-count"] %}
-        initial_values = counters_init("{{nft_table}}", "{{policy.name}}", BOTH);
-        {% elif "packet-count" in policy.counters and direction in policy.counters["packet-count"] %}
-        initial_values = counters_init("{{nft_table}}", "{{policy.name}}-{{direction}}", {{direction|upper}});
+    {% set direction = "in" if is_backward else "out" %}
+    {% if policy.transient and "packet-count" in policy.counters and ( ( "default" in policy.counters["packet-count"] and not is_backward ) or direction in policy.counters["packet-count"] ) %}
+    // Initialize packet count initial values if not initialized yet
+    if (!packet_count_init.is_initialized) {
+        {% if "default" in policy.counters["packet-count"] and not is_backward %}
+        packet_count_init = counter_packets_init("{{nft_table}}", "{{policy.name}}", BOTH);
+        {% elif direction in policy.counters["packet-count"] %}
+        packet_count_init = counter_packets_init("{{nft_table}}", "{{policy.name}}-{{direction}}", {{direction|upper}});
         {% endif %}
     }
-
     {% endif %}
+    {% if policy.transient and "duration" in policy.counters and ( ( "default" in policy.counters["duration"] and not is_backward ) or direction in policy.counters["duration"] ) %}
+    // Initialize duration initial value if not initialized yet
+    if (!duration_init.is_initialized) {
+        duration_init = counter_duration_init();
+    }
+    {% endif %}
+
     // Custom match
     if (
         {% if policy.custom_parser == 'http' %}
@@ -212,16 +236,16 @@ uint32_t callback_{{policy_jinja}}(int pkt_id, int pkt_len, uint8_t *payload, vo
         {% endfor %}
         {% set direction = "in" if is_backward else "out" %}
         {% if "packet-count" in policy.counters and "default" in policy.counters["packet-count"] %}
-        counter_read_packets("{{nft_table}}", "{{policy.name}}") - initial_values.packets_both <= {{policy.counters["packet-count"]["default"]}}
+        counter_read_packets("{{nft_table}}", "{{policy.name}}") - packet_count_init.packets_both <= {{policy.counters["packet-count"]["default"]}}
         {%- if "duration" in policy.counters %} &&
         {% endif %}
         {% elif "packet-count" in policy.counters and direction in policy.counters["packet-count"] -%}
-        counter_read_packets("{{nft_table}}", "{{policy.name}}") - initial_values.packets_{{direction}} <= {{policy.counters["packet-count"][direction]}}
+        counter_read_packets("{{nft_table}}", "{{policy.name}}") - packet_count.packets_{{direction}} <= {{policy.counters["packet-count"][direction]}}
         {% endif %}
         {% if "duration" in policy.counters and "default" in policy.counters["duration"] %}
-        counter_read_microseconds() - initial_values.microseconds <= {{policy.counters["duration"]["default"]}}
+        counter_read_microseconds() - duration_init.microseconds <= {{policy.counters["duration"]["default"]}}
         {% elif "duration" in policy.counters and direction in policy.counters["duration"] %}
-        counter_read_microseconds() - initial_values.microseconds <= {{policy.counters["duration"][direction]}}
+        counter_read_microseconds() - duration_init.microseconds <= {{policy.counters["duration"][direction]}}
         {% endif %}
         {% if policy.custom_parser == 'http' %}
         )
@@ -232,7 +256,12 @@ uint32_t callback_{{policy_jinja}}(int pkt_id, int pkt_len, uint8_t *payload, vo
         {% if not policy.periodic and not policy.transient %}
         state = {{states[current_state.value]}};
         {% if policy.transient %}
-        initial_values.is_initialized = false;
+        {% if "packet-count" in policy.counters %}
+        packet_count_init.is_initialized = false;
+        {% endif %}
+        {% if "duration" in policy.counters %}
+        duration_init.is_initialized = false;
+        {% endif %}
         {% endif %}
         {% endif %}
         {% endif %}

@@ -83,20 +83,21 @@ uint64_t counter_read_microseconds() {
 }
 
 /**
- * @brief Initialize counters values.
+ * @brief Initialize the values of a packet_count_t structure.
  *
  * @param nft_table_name name of the nftables table containing the associated nftables counter
  * @param nft_counter_name name of the associated nftables counter
- * @param direction direction of the rule
- * @return initial_values_t struct containing the initial values
+ * @param direction_idx index of the direction of the rule (0 for both, 1 for out, 2 for in)
+ * @return packet_count_t struct containing the initial packet count values
  */
-initial_values_t counters_init(char *nft_table_name, char *nft_counter_name, direction_t direction) {
-    initial_values_t initial_values;
-    initial_values.is_initialized = true;
+packet_count_t counter_packets_init(char *nft_table_name, char *nft_counter_name, direction_t direction)
+{
+    packet_count_t packet_count;
+    packet_count.is_initialized = true;
 
     // Initial packet count value
     if (direction == BOTH) {
-        initial_values.packets_both = counter_read_packets(nft_table_name, nft_counter_name);
+        packet_count.packets_both = counter_read_packets(nft_table_name, nft_counter_name);
     } else {
         // direction == IN or direction == OUT
         char* dir_str = direction == OUT ? "out" : "in";
@@ -110,16 +111,28 @@ initial_values_t counters_init(char *nft_table_name, char *nft_counter_name, dir
             exit(EXIT_FAILURE);
         }
         if (direction == OUT) {
-            initial_values.packets_out = counter_read_packets(nft_table_name, counter);
+            packet_count.packets_out = counter_read_packets(nft_table_name, counter);
         } else {
             // direction == IN
-            initial_values.packets_in = counter_read_packets(nft_table_name, counter);
+            packet_count.packets_in = counter_read_packets(nft_table_name, counter);
         }
     }
 
-    // Initial time value
-    initial_values.microseconds = counter_read_microseconds();
-    return initial_values;
+    return packet_count;
+}
+
+/**
+ * @brief Initialize the values of a duration_t structure.
+ *
+ * @param nft_table_name name of the nftables table containing the associated nftables counter
+ * @param nft_counter_name name of the associated nftables counter
+ * @return duration_t struct containing the initial duration value
+ */
+duration_t counter_duration_init() {
+    duration_t duration;
+    duration.is_initialized = true;
+    duration.microseconds = counter_read_microseconds();
+    return duration;
 }
 
 /**

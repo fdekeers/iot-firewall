@@ -41,6 +41,20 @@ typedef struct {
     uint64_t microseconds;
 } initial_values_t;
 
+// Initial values for packet count
+typedef struct {
+    bool is_initialized;
+    uint16_t packets_both;
+    uint16_t packets_out;
+    uint16_t packets_in;
+} packet_count_t;
+
+// Initial value for duration counter
+typedef struct {
+    bool is_initialized;
+    uint64_t microseconds;
+} duration_t;
+
 
 /**
  * @brief Read the packet count value of an nftables counter.
@@ -68,14 +82,23 @@ uint32_t counter_read_bytes(char* table_name, char *counter_name);
 uint64_t counter_read_microseconds();
 
 /**
- * @brief Initialize counters values.
+ * @brief Initialize the values of a packet_count_t structure.
  *
  * @param nft_table_name name of the nftables table containing the associated nftables counter
  * @param nft_counter_name name of the associated nftables counter
  * @param direction_idx index of the direction of the rule (0 for both, 1 for out, 2 for in)
- * @return initial_values_t struct containing the initial values
+ * @return packet_count_t struct containing the initial packet count values
  */
-initial_values_t counters_init(char *nft_table_name, char *nft_counter_name, direction_t direction);
+packet_count_t counter_packets_init(char *nft_table_name, char *nft_counter_name, direction_t direction);
+
+/**
+ * @brief Initialize the values of a duration_t structure.
+ *
+ * @param nft_table_name name of the nftables table containing the associated nftables counter
+ * @param nft_counter_name name of the associated nftables counter
+ * @return duration_t struct containing the initial duration value
+ */
+duration_t counter_duration_init();
 
 /**
  * @brief Delete an nftables rule.

@@ -21,6 +21,17 @@
 #include <libnetfilter_queue/libnetfilter_queue.h>
 
 /**
+ * @brief Packet and duration counters ids.
+ * 
+ * Identifiers for the packet and duration counters.
+ * Used as argument for the nfqueue threads.
+ */
+typedef struct {
+    uint8_t packet_counter_id;
+    uint8_t duration_counter_id;
+} counters_id_t;
+
+/**
  * @brief Alias for a basic callback function.
  *
  * @param pkt_id packet ID for netfilter queue
@@ -36,7 +47,7 @@ typedef uint32_t basic_callback(int pkt_id, int pkt_len, uint8_t *payload, void 
  */
 typedef struct callback_struct {
     basic_callback *func;  // Basic callback function
-    void *arg;             // Arguments to pass to the callback function
+    void *arg;             // Arguments to pass to the callback function (the packet and duration counters ids)
 } callback_struct_t;
 
 /**
@@ -48,10 +59,9 @@ typedef struct callback_struct {
  * - the arguments to pass to the callback function
  */
 typedef struct {
-    uint8_t thread_id;     // Thread id
     uint16_t queue_id;     // Queue number to bind to
     basic_callback *func;  // Basic callback function
-    void *arg;             // Arguments to pass to the callback function
+    void *arg;             // Arguments to pass to the callback function (the packet and duration counters ids)
 } thread_arg_t;
 
 /**

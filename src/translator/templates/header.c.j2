@@ -33,8 +33,11 @@
 // Constants
 {% if max_threads > 1 %}
 #define MAX_THREADS {{max_threads}}
-{% if max_counters > 0 %}
-#define MAX_COUNTERS {{max_counters}}
+{% if "packet-count" in max_counters and max_counters["packet-count"] > 0 %}
+#define MAX_PACKET_COUNTERS {{max_counters["packet-count"]}}
+{% endif %}
+{% if "duration" in max_counters and max_counters["duration"] > 0 %}
+#define MAX_DURATION_COUNTERS {{max_counters["duration"]}}
 {% endif %}
 {% endif %}
 #define NUM_STATES  {{states|length}}
@@ -52,11 +55,19 @@ state_t state = {{states[0]}};
 {% if max_threads > 1 %}
 uint8_t num_threads = 0;
 pthread_mutex_t mutex;
-{% if max_counters > 0 %}
-initial_values_t initial_values[MAX_COUNTERS];
+{% if "packet-count" in max_counters and max_counters["packet-count"] > 0 %}
+packet_count_t packet_count_init[MAX_PACKET_COUNTERS];
+{% endif %}
+{% if "duration" in max_counters and max_counters["duration"] > 0 %}
+duration_t duration_init[MAX_DURATION_COUNTERS];
 {% endif %}
 {% else %}
-initial_values_t initial_values;
+{% if "packet-count" in max_counters and max_counters["packet-count"] > 0 %}
+packet_count_t packet_count_init;
+{% endif %}
+{% if "duration" in max_counters and max_counters["duration"] > 0 %}
+duration_t duration_init;
+{% endif %}
 {% endif %}
 {% if "dns" in custom_parsers or "mdns" in custom_parsers %}
 dns_map_t *dns_map;  // Domain name to IP address mapping
