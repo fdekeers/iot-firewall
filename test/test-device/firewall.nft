@@ -1,7 +1,7 @@
 #!/usr/sbin/nft -f
 
 
-table inet test {
+table netdev test {
 
     # Chains
     chain http-xiaomi-cloud {
@@ -10,7 +10,8 @@ table inet test {
         type filter hook ingress device enp0s8 priority 0; policy accept;
 
         # Rules
-        meta l4proto tcp tcp dport { 80 } ip saddr { 192.168.1.161 } ip daddr { 110.43.0.83 } queue num 0
+        # Policy get-ip-address
+        meta l4proto udp udp sport { 68 } udp dport { 67 } ip saddr 0.0.0.0 log prefix "DHCP DISCOVER " group 2 accept
 
     }
 

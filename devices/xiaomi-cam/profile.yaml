@@ -36,6 +36,8 @@ individual-policies:
         src: self
         dst: 120.92.133.153
     direction: both
+    stats:
+      rate: 10/second
 
 
   ##### IDLE TRAFFIC #####
@@ -54,6 +56,8 @@ individual-policies:
           - 120.92.133.153
           - 120.92.162.194
     direction: both
+    stats:
+      rate: 10/second
 
   ping-quad8:
     protocols:
@@ -236,7 +240,7 @@ interaction-policies:
             - 32108
         ipv4:
           src: local
-          dst: broadcast
+          dst: udp-broadcast
       direction: out
 
     arp-xiaomi-phone-request:
