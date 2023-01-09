@@ -103,9 +103,12 @@ Functions</h2></td></tr>
 <tr class="memitem:a3953e83d5493317822ab6b190f972b5c"><td class="memItemLeft" align="right" valign="top">uint64_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="src_2rule__utils_8c.html#a3953e83d5493317822ab6b190f972b5c">counter_read_microseconds</a> ()</td></tr>
 <tr class="memdesc:a3953e83d5493317822ab6b190f972b5c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Read the current microseconds value.  <a href="src_2rule__utils_8c.html#a3953e83d5493317822ab6b190f972b5c">More...</a><br /></td></tr>
 <tr class="separator:a3953e83d5493317822ab6b190f972b5c"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a0e5f89ec7e4aa90447082abd04b0aa28"><td class="memItemLeft" align="right" valign="top"><a class="el" href="structinitial__values__t.html">initial_values_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="src_2rule__utils_8c.html#a0e5f89ec7e4aa90447082abd04b0aa28">counters_init</a> (char *nft_table_name, char *nft_counter_name, direction_t direction)</td></tr>
-<tr class="memdesc:a0e5f89ec7e4aa90447082abd04b0aa28"><td class="mdescLeft">&#160;</td><td class="mdescRight">Initialize counters values.  <a href="src_2rule__utils_8c.html#a0e5f89ec7e4aa90447082abd04b0aa28">More...</a><br /></td></tr>
-<tr class="separator:a0e5f89ec7e4aa90447082abd04b0aa28"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7e49af10bbacd1b6ddbdbcd77c49a7bf"><td class="memItemLeft" align="right" valign="top"><a class="el" href="structpacket__count__t.html">packet_count_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="src_2rule__utils_8c.html#a7e49af10bbacd1b6ddbdbcd77c49a7bf">counter_packets_init</a> (char *nft_table_name, char *nft_counter_name, direction_t direction)</td></tr>
+<tr class="memdesc:a7e49af10bbacd1b6ddbdbcd77c49a7bf"><td class="mdescLeft">&#160;</td><td class="mdescRight">Initialize the values of a <a class="el" href="structpacket__count__t.html">packet_count_t</a> structure.  <a href="src_2rule__utils_8c.html#a7e49af10bbacd1b6ddbdbcd77c49a7bf">More...</a><br /></td></tr>
+<tr class="separator:a7e49af10bbacd1b6ddbdbcd77c49a7bf"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0783b9cd0e3de8306a7698db13ffdb74"><td class="memItemLeft" align="right" valign="top"><a class="el" href="structduration__t.html">duration_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="src_2rule__utils_8c.html#a0783b9cd0e3de8306a7698db13ffdb74">counter_duration_init</a> ()</td></tr>
+<tr class="memdesc:a0783b9cd0e3de8306a7698db13ffdb74"><td class="mdescLeft">&#160;</td><td class="mdescRight">Initialize the values of a <a class="el" href="structduration__t.html">duration_t</a> structure.  <a href="src_2rule__utils_8c.html#a0783b9cd0e3de8306a7698db13ffdb74">More...</a><br /></td></tr>
+<tr class="separator:a0783b9cd0e3de8306a7698db13ffdb74"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ab7d2701b903f7064dbc7a3e016f6ea14"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="src_2rule__utils_8c.html#ab7d2701b903f7064dbc7a3e016f6ea14">delete_nft_rule</a> (char *nft_table, char *nft_chain, char *nft_rule)</td></tr>
 <tr class="memdesc:ab7d2701b903f7064dbc7a3e016f6ea14"><td class="mdescLeft">&#160;</td><td class="mdescRight">Delete an nftables rule.  <a href="src_2rule__utils_8c.html#ab7d2701b903f7064dbc7a3e016f6ea14">More...</a><br /></td></tr>
 <tr class="separator:ab7d2701b903f7064dbc7a3e016f6ea14"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -116,6 +119,78 @@ Functions</h2></td></tr>
 <dl class="section date"><dt>Date</dt><dd>2022-11-02</dd></dl>
 <dl class="section copyright"><dt>Copyright</dt><dd>Copyright (c) 2022 </dd></dl>
 </div><h2 class="groupheader">Function Documentation</h2>
+<a id="a0783b9cd0e3de8306a7698db13ffdb74"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a0783b9cd0e3de8306a7698db13ffdb74">&#9670;&nbsp;</a></span>counter_duration_init()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="structduration__t.html">duration_t</a> counter_duration_init </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Initialize the values of a <a class="el" href="structduration__t.html">duration_t</a> structure. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">nft_table_name</td><td>name of the nftables table containing the associated nftables counter </td></tr>
+    <tr><td class="paramname">nft_counter_name</td><td>name of the associated nftables counter </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd><a class="el" href="structduration__t.html">duration_t</a> struct containing the initial duration value </dd></dl>
+
+</div>
+</div>
+<a id="a7e49af10bbacd1b6ddbdbcd77c49a7bf"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a7e49af10bbacd1b6ddbdbcd77c49a7bf">&#9670;&nbsp;</a></span>counter_packets_init()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="structpacket__count__t.html">packet_count_t</a> counter_packets_init </td>
+          <td>(</td>
+          <td class="paramtype">char *&#160;</td>
+          <td class="paramname"><em>nft_table_name</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">char *&#160;</td>
+          <td class="paramname"><em>nft_counter_name</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">direction_t&#160;</td>
+          <td class="paramname"><em>direction</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Initialize the values of a <a class="el" href="structpacket__count__t.html">packet_count_t</a> structure. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">nft_table_name</td><td>name of the nftables table containing the associated nftables counter </td></tr>
+    <tr><td class="paramname">nft_counter_name</td><td>name of the associated nftables counter </td></tr>
+    <tr><td class="paramname">direction_idx</td><td>index of the direction of the rule (0 for both, 1 for out, 2 for in) </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd><a class="el" href="structpacket__count__t.html">packet_count_t</a> struct containing the initial packet count values </dd></dl>
+
+</div>
+</div>
 <a id="a6fdb1478a673e248041d605f5b19282f"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a6fdb1478a673e248041d605f5b19282f">&#9670;&nbsp;</a></span>counter_read_bytes()</h2>
 
@@ -209,51 +284,6 @@ Functions</h2></td></tr>
   </dd>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>packet count value of the counter </dd></dl>
-
-</div>
-</div>
-<a id="a0e5f89ec7e4aa90447082abd04b0aa28"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a0e5f89ec7e4aa90447082abd04b0aa28">&#9670;&nbsp;</a></span>counters_init()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname"><a class="el" href="structinitial__values__t.html">initial_values_t</a> counters_init </td>
-          <td>(</td>
-          <td class="paramtype">char *&#160;</td>
-          <td class="paramname"><em>nft_table_name</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">char *&#160;</td>
-          <td class="paramname"><em>nft_counter_name</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">direction_t&#160;</td>
-          <td class="paramname"><em>direction</em>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Initialize counters values. </p>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">nft_table_name</td><td>name of the nftables table containing the associated nftables counter </td></tr>
-    <tr><td class="paramname">nft_counter_name</td><td>name of the associated nftables counter </td></tr>
-    <tr><td class="paramname">direction</td><td>direction of the rule </td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="section return"><dt>Returns</dt><dd><a class="el" href="structinitial__values__t.html">initial_values_t</a> struct containing the initial values </dd></dl>
 
 </div>
 </div>
