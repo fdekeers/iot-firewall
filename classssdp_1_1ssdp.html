@@ -95,8 +95,8 @@ Collaboration diagram for ssdp.ssdp:</div>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:aa0a6014c330a29426ac0de5f4e4006f1"><td class="memItemLeft" align="right" valign="top">dict&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classssdp_1_1ssdp.html#aa0a6014c330a29426ac0de5f4e4006f1">parse</a> (self, str direction=&quot;out&quot;, str initiator=&quot;src&quot;)</td></tr>
-<tr class="separator:aa0a6014c330a29426ac0de5f4e4006f1"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a91f15b0291204c7aeffc9fec5613d7dc"><td class="memItemLeft" align="right" valign="top">dict&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classssdp_1_1ssdp.html#a91f15b0291204c7aeffc9fec5613d7dc">parse</a> (self, bool is_backward=False, str initiator=&quot;src&quot;)</td></tr>
+<tr class="separator:a91f15b0291204c7aeffc9fec5613d7dc"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-static-attribs"></a>
 Static Public Attributes</h2></td></tr>
@@ -110,8 +110,8 @@ string&#160;</td><td class="memItemRight" valign="bottom"><b>protocol_name</b> =
 <tr class="separator:a4789f3fefb67c7fb91831b2407795171"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <h2 class="groupheader">Member Function Documentation</h2>
-<a id="aa0a6014c330a29426ac0de5f4e4006f1"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aa0a6014c330a29426ac0de5f4e4006f1">&#9670;&nbsp;</a></span>parse()</h2>
+<a id="a91f15b0291204c7aeffc9fec5613d7dc"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a91f15b0291204c7aeffc9fec5613d7dc">&#9670;&nbsp;</a></span>parse()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -125,8 +125,8 @@ string&#160;</td><td class="memItemRight" valign="bottom"><b>protocol_name</b> =
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">str &#160;</td>
-          <td class="paramname"><em>direction</em> = <code>&quot;out&quot;</code>, </td>
+          <td class="paramtype">bool &#160;</td>
+          <td class="paramname"><em>is_backward</em> = <code>False</code>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
@@ -144,8 +144,10 @@ string&#160;</td><td class="memItemRight" valign="bottom"><b>protocol_name</b> =
 <pre class="fragment">Parse the SSDP protocol.
 
 Args:
-    direction (str): Direction of the traffic (in, out, or both).
-    initiator (str): Initiator of the connection (src or dst).
+    is_backward (bool): Whether the protocol must be parsed for a backward rule.
+                Optional, default is `False`.
+    initiator (str): Connection initiator (src or dst).
+             Optional, default is "src".
 Returns:
     dict: Dictionary containing the (forward and backward) nftables and nfqueue rules for this policy.
 </pre> 

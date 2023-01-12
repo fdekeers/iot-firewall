@@ -95,8 +95,8 @@ Collaboration diagram for igmp.igmp:</div>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:adf523b17fa44a9e0f859b7ef7e8ccdbb"><td class="memItemLeft" align="right" valign="top">dict&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classigmp_1_1igmp.html#adf523b17fa44a9e0f859b7ef7e8ccdbb">parse</a> (self, str direction=&quot;out&quot;, str initiator=&quot;src&quot;)</td></tr>
-<tr class="separator:adf523b17fa44a9e0f859b7ef7e8ccdbb"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac16138c4e647074ebc4af2a4fbee7dd3"><td class="memItemLeft" align="right" valign="top">dict&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classigmp_1_1igmp.html#ac16138c4e647074ebc4af2a4fbee7dd3">parse</a> (self, bool is_backward=False, str initiator=&quot;src&quot;)</td></tr>
+<tr class="separator:ac16138c4e647074ebc4af2a4fbee7dd3"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-static-attribs"></a>
 Static Public Attributes</h2></td></tr>
@@ -112,8 +112,8 @@ string&#160;</td><td class="memItemRight" valign="bottom"><b>protocol_name</b> =
 <tr class="separator:a8123ecf8eb026ccc9b4f8df3b1393f21"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <h2 class="groupheader">Member Function Documentation</h2>
-<a id="adf523b17fa44a9e0f859b7ef7e8ccdbb"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#adf523b17fa44a9e0f859b7ef7e8ccdbb">&#9670;&nbsp;</a></span>parse()</h2>
+<a id="ac16138c4e647074ebc4af2a4fbee7dd3"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ac16138c4e647074ebc4af2a4fbee7dd3">&#9670;&nbsp;</a></span>parse()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -127,8 +127,8 @@ string&#160;</td><td class="memItemRight" valign="bottom"><b>protocol_name</b> =
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">str &#160;</td>
-          <td class="paramname"><em>direction</em> = <code>&quot;out&quot;</code>, </td>
+          <td class="paramtype">bool &#160;</td>
+          <td class="paramname"><em>is_backward</em> = <code>False</code>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
@@ -146,8 +146,10 @@ string&#160;</td><td class="memItemRight" valign="bottom"><b>protocol_name</b> =
 <pre class="fragment">Parse the IGMP protocol.
 
 Args:
-    direction (str): Direction of the traffic (in, out, or both).
-    initiator (str): Initiator of the connection (src or dst).
+    is_backward (bool): Whether the protocol must be parsed for a backward rule.
+                Optional, default is `False`.
+    initiator (str): Connection initiator (src or dst).
+             Optional, default is "src".
 Returns:
     dict: Dictionary containing the (forward and backward) nftables and nfqueue rules for this policy.
 </pre> 

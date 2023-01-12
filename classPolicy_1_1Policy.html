@@ -78,16 +78,18 @@ $(function() {
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:a026e21343dccafea4ca39cd877c40da2"><td class="memItemLeft" align="right" valign="top">None&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classPolicy_1_1Policy.html#a026e21343dccafea4ca39cd877c40da2">__init__</a> (self, str name, dict profile_data, dict device)</td></tr>
-<tr class="separator:a026e21343dccafea4ca39cd877c40da2"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9a0612da5dbc3ef9b90ae3a62959d0ee"><td class="memItemLeft" align="right" valign="top">None&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classPolicy_1_1Policy.html#a9a0612da5dbc3ef9b90ae3a62959d0ee">__init__</a> (self, str policy_name, dict profile_data, dict device, is_backward=False)</td></tr>
+<tr class="separator:a9a0612da5dbc3ef9b90ae3a62959d0ee"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a363c3f00fa37cef6b1741b2fad1a0324"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classPolicy_1_1Policy.html#a363c3f00fa37cef6b1741b2fad1a0324">is_transient</a> (self)</td></tr>
 <tr class="separator:a363c3f00fa37cef6b1741b2fad1a0324"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a233bdef9d280087912cee7284273e86f"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classPolicy_1_1Policy.html#a233bdef9d280087912cee7284273e86f">is_periodic</a> (self)</td></tr>
 <tr class="separator:a233bdef9d280087912cee7284273e86f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a771bb9a41352c0059130da62d98ecca9"><td class="memItemLeft" align="right" valign="top">None&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classPolicy_1_1Policy.html#a771bb9a41352c0059130da62d98ecca9">handle_stat</a> (self, str stat)</td></tr>
 <tr class="separator:a771bb9a41352c0059130da62d98ecca9"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a1394aeb49fdc0bf4583423c163157f2c"><td class="memItemLeft" align="right" valign="top">dict&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classPolicy_1_1Policy.html#a1394aeb49fdc0bf4583423c163157f2c">build_nft_rule</a> (self, int queue_num)</td></tr>
-<tr class="separator:a1394aeb49fdc0bf4583423c163157f2c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4d502b6306ecbddc79199be90c157669"><td class="memItemLeft" align="right" valign="top">str&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classPolicy_1_1Policy.html#a4d502b6306ecbddc79199be90c157669">build_nft_rule</a> (self, int queue_num)</td></tr>
+<tr class="separator:a4d502b6306ecbddc79199be90c157669"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af9809d4341d9b576734a45a76f09e240"><td class="memItemLeft" align="right" valign="top">str&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classPolicy_1_1Policy.html#af9809d4341d9b576734a45a76f09e240">get_nft_rule</a> (self)</td></tr>
+<tr class="separator:af9809d4341d9b576734a45a76f09e240"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ad79b5e644c2ca97d220435b3eb1e4b31"><td class="memItemLeft" align="right" valign="top">None&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classPolicy_1_1Policy.html#ad79b5e644c2ca97d220435b3eb1e4b31">parse</a> (self)</td></tr>
 <tr class="separator:ad79b5e644c2ca97d220435b3eb1e4b31"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
@@ -99,9 +101,9 @@ Public Attributes</h2></td></tr>
 <tr class="memitem:aa3eca12cd1b8f865fa93b2c0bca39b37"><td class="memItemLeft" align="right" valign="top"><a id="aa3eca12cd1b8f865fa93b2c0bca39b37"></a>
 &#160;</td><td class="memItemRight" valign="bottom"><b>profile_data</b></td></tr>
 <tr class="separator:aa3eca12cd1b8f865fa93b2c0bca39b37"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a216a3c1bc02eb9d28a2972c65f8186c3"><td class="memItemLeft" align="right" valign="top"><a id="a216a3c1bc02eb9d28a2972c65f8186c3"></a>
-&#160;</td><td class="memItemRight" valign="bottom"><b>direction</b></td></tr>
-<tr class="separator:a216a3c1bc02eb9d28a2972c65f8186c3"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa8b4e6d4d394f83f727a1f5914b6110f"><td class="memItemLeft" align="right" valign="top"><a id="aa8b4e6d4d394f83f727a1f5914b6110f"></a>
+&#160;</td><td class="memItemRight" valign="bottom"><b>is_backward</b></td></tr>
+<tr class="separator:aa8b4e6d4d394f83f727a1f5914b6110f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a05b6d0b73b8bd421ba11ae16fe9f5ede"><td class="memItemLeft" align="right" valign="top"><a id="a05b6d0b73b8bd421ba11ae16fe9f5ede"></a>
 &#160;</td><td class="memItemRight" valign="bottom"><b>initiator</b></td></tr>
 <tr class="separator:a05b6d0b73b8bd421ba11ae16fe9f5ede"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -114,6 +116,12 @@ Public Attributes</h2></td></tr>
 <tr class="memitem:a2680147476b48eec74a031d049f90a10"><td class="memItemLeft" align="right" valign="top"><a id="a2680147476b48eec74a031d049f90a10"></a>
 &#160;</td><td class="memItemRight" valign="bottom"><b>nft_matches</b></td></tr>
 <tr class="separator:a2680147476b48eec74a031d049f90a10"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab7b60f728ad54f591bb96da09d9e58dc"><td class="memItemLeft" align="right" valign="top"><a id="ab7b60f728ad54f591bb96da09d9e58dc"></a>
+&#160;</td><td class="memItemRight" valign="bottom"><b>nft_match</b></td></tr>
+<tr class="separator:ab7b60f728ad54f591bb96da09d9e58dc"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa8b7115c003aef9d94ab891717ebf514"><td class="memItemLeft" align="right" valign="top"><a id="aa8b7115c003aef9d94ab891717ebf514"></a>
+&#160;</td><td class="memItemRight" valign="bottom"><b>nft_action</b></td></tr>
+<tr class="separator:aa8b7115c003aef9d94ab891717ebf514"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ac8fb6bc782cda7357023fb200b6f1cf4"><td class="memItemLeft" align="right" valign="top"><a id="ac8fb6bc782cda7357023fb200b6f1cf4"></a>
 &#160;</td><td class="memItemRight" valign="bottom"><b>nfq_matches</b></td></tr>
 <tr class="separator:ac8fb6bc782cda7357023fb200b6f1cf4"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -126,6 +134,9 @@ Public Attributes</h2></td></tr>
 <tr class="memitem:a53f91542c6fdc4ece7ef7a9d2b5caa87"><td class="memItemLeft" align="right" valign="top"><a id="a53f91542c6fdc4ece7ef7a9d2b5caa87"></a>
 &#160;</td><td class="memItemRight" valign="bottom"><b>counters</b></td></tr>
 <tr class="separator:a53f91542c6fdc4ece7ef7a9d2b5caa87"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2df4a0857627f2d93cf51e9b055fe2cf"><td class="memItemLeft" align="right" valign="top"><a id="a2df4a0857627f2d93cf51e9b055fe2cf"></a>
+&#160;</td><td class="memItemRight" valign="bottom"><b>action</b></td></tr>
+<tr class="separator:a2df4a0857627f2d93cf51e9b055fe2cf"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-static-attribs"></a>
 Static Public Attributes</h2></td></tr>
@@ -137,8 +148,8 @@ Static Public Attributes</h2></td></tr>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><pre class="fragment">Class which represents a single access control policy.
 </pre> </div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
-<a id="a026e21343dccafea4ca39cd877c40da2"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a026e21343dccafea4ca39cd877c40da2">&#9670;&nbsp;</a></span>__init__()</h2>
+<a id="a9a0612da5dbc3ef9b90ae3a62959d0ee"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a9a0612da5dbc3ef9b90ae3a62959d0ee">&#9670;&nbsp;</a></span>__init__()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -153,7 +164,7 @@ Static Public Attributes</h2></td></tr>
           <td class="paramkey"></td>
           <td></td>
           <td class="paramtype">str&#160;</td>
-          <td class="paramname"><em>name</em>, </td>
+          <td class="paramname"><em>policy_name</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
@@ -165,7 +176,13 @@ Static Public Attributes</h2></td></tr>
           <td class="paramkey"></td>
           <td></td>
           <td class="paramtype">dict&#160;</td>
-          <td class="paramname"><em>device</em>&#160;</td>
+          <td class="paramname"><em>device</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname"><em>is_backward</em> = <code>False</code>&#160;</td>
         </tr>
         <tr>
           <td></td>
@@ -179,18 +196,20 @@ Static Public Attributes</h2></td></tr>
 Args:
     name (str): Name of the policy.
     profile_data (dict): Dictionary containing the policy data from the YAML profile.
+    device (dict): Dictionary containing the device metadata from the YAML profile.
+    is_backward (bool): Whether the policy is backwards (i.e. the source and destination are reversed).
 </pre> 
 </div>
 </div>
 <h2 class="groupheader">Member Function Documentation</h2>
-<a id="a1394aeb49fdc0bf4583423c163157f2c"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a1394aeb49fdc0bf4583423c163157f2c">&#9670;&nbsp;</a></span>build_nft_rule()</h2>
+<a id="a4d502b6306ecbddc79199be90c157669"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a4d502b6306ecbddc79199be90c157669">&#9670;&nbsp;</a></span>build_nft_rule()</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname"> dict Policy.Policy.build_nft_rule </td>
+          <td class="memname"> str Policy.Policy.build_nft_rule </td>
           <td>(</td>
           <td class="paramtype">&#160;</td>
           <td class="paramname"><em>self</em>, </td>
@@ -208,13 +227,36 @@ Args:
         </tr>
       </table>
 </div><div class="memdoc">
-<pre class="fragment">Build the nftables rules (forward and backward) for this policy.
+<pre class="fragment">Build and store the nftables match and action, as strings, for this policy.
 
 Args:
     queue_num (int): Number of the nfqueue queue corresponding to this policy,
-             or a negative number if the policy does not need an nfqueue.
+             or a negative number if the policy is simply `accept`
 Returns:
-    dict: Dictionary containing the forward and backward nftables rules
+    str: complete nftables rule for this policy
+</pre> 
+</div>
+</div>
+<a id="af9809d4341d9b576734a45a76f09e240"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#af9809d4341d9b576734a45a76f09e240">&#9670;&nbsp;</a></span>get_nft_rule()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"> str Policy.Policy.get_nft_rule </td>
+          <td>(</td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname"><em>self</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<pre class="fragment">Retrieve the complete nftables rule, composed of the complete nftables match
+and the action, for this policy.
+
+Returns:
+    str: complete nftables rule for this policy
 </pre> 
 </div>
 </div>
@@ -304,7 +346,7 @@ Args:
         </tr>
       </table>
 </div><div class="memdoc">
-<pre class="fragment">Parse the policy and populate the related instance variables
+<pre class="fragment">Parse the policy and populate the related instance variables.
 </pre> 
 </div>
 </div>
