@@ -25,7 +25,9 @@ table netdev {{device}} {
         {% for top_policy in nft_policies %}
         # Policy {{top_policy}}
         {% for single_policy in nft_policies[top_policy] %}
-        {{nft_policies[top_policy][single_policy]}}
+        {% if not single_policy.periodic %}
+        {{single_policy.get_nft_rule()}}
+        {% endif %}
         {% endfor %}
 
 

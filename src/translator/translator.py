@@ -107,11 +107,7 @@ def parse_policy(policy_data: dict, acc: dict, policies_count: int, parent_polic
         acc["custom_parsers"].add(policy.custom_parser)
 
     # Add nftables rules
-    try:
-        acc["map_policy_to_rules"][parent_policy][policy_name] = nft_rule
-    except KeyError:
-        # Parent policy has not been added yet
-        acc["map_policy_to_rules"][parent_policy] = {policy_name: nft_rule}
+    acc["top_policies"][parent_policy] = acc["top_policies"].get(parent_policy, []) + [policy]
     acc["map_rule_to_policies"][policy.nft_match] = acc["map_rule_to_policies"].get(policy.nft_match, []) + [policy]
 
     # Add nftables counters (if any)
@@ -163,7 +159,7 @@ if __name__ == "__main__":
         nfq_id_base = 0  # Base nfqueue id, will be incremented by 100 for each high-level policy
         # Accumulators
         acc = {
-            "map_policy_to_rules": {},
+            "top_policies": {},
             "map_rule_to_policies": {},
             "map_policy_to_counters": {},
         }
@@ -333,7 +329,7 @@ if __name__ == "__main__":
         # Create nftables script
         nft_dict = {
             "device": device["name"],
-            "nft_policies": acc["map_policy_to_rules"],
+            "nft_policies": acc["top_policies"],
             "counters": acc["map_policy_to_counters"]
         }
         env.get_template("firewall.nft.j2").stream(nft_dict).dump(f"{device_path}/firewall.nft")
