@@ -118,7 +118,7 @@ class Policy:
             self.nft_match += template.format(*(data)) if type(data) == list else template.format(data)
 
         # nftables action
-        self.action = f"queue num {queue_num}" if queue_num >= 0 else "accept"
+        self.nft_action = f"queue num {queue_num}" if queue_num >= 0 else "accept"
 
         return self.get_nft_rule()
 
