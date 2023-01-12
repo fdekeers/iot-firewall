@@ -97,10 +97,11 @@ def parse_policy(policy_data: dict, acc: dict, policies_count: int, parent_polic
         acc["states"].append(f"STATE_{acc['current_state']}")
 
     # Add counters (if any)
-    for counter_name in Policy.counters:
-        if counter_name in policy.counters:
-            counter = policy.counters[counter_name]
-            acc["max_counters"][counter_name] = acc["max_counters"].get(counter_name, 0) + len(counter)
+    for stat in Policy.stats_metadata:
+        stat_metadata = Policy.stats_metadata[stat]
+        if "counter" in stat_metadata and stat_metadata["counter"] and stat in policy.counters:
+            counter = policy.counters[stat]
+            acc["max_counters"][stat] = acc["max_counters"].get(stat, 0) + len(counter)
     
     # Add custom parser (if any)
     if policy.custom_parser:

@@ -1,3 +1,4 @@
+from typing import Dict
 from protocols.Protocol import Protocol
 
 class Policy:
@@ -5,17 +6,16 @@ class Policy:
     Class which represents a single access control policy.
     """
 
-    # Statistics that require a counter
-    counters = [
-        "packet-count",
-        "duration"
-    ]
+    # Enum values
+    MATCH = 0
+    ACTION = 1
 
-    # Template nftables matches for statistics
-    stats_templates = {
-        "rate": "limit rate {}",
-        "packet-size": "meta length {}",
-        "packet-count": "counter name {}"
+    # Metadata for supported nftables statistics
+    stats_metadata = {
+        "rate": {"type": MATCH, "counter": False, "template": "limit rate {}"},
+        "packet-size": {"type": MATCH, "counter": False, "template": "meta length {}"},
+        "packet-count": {"type": ACTION, "counter": True, "template": "counter name {}"},
+        "duration": {"counter": True}
     }
 
     def __init__(self, policy_name: str, profile_data: dict, device: dict, is_backward = False) -> None:
@@ -35,8 +35,9 @@ class Policy:
         self.device = device                        # Name of the device this policy is linked to
         self.custom_parser = ""                     # Name of the custom parser (if any)
         self.nft_matches = []                       # List of nftables matches (will be populated by parsing)
-        self.nft_match = ""   # Complete nftables match
-        self.nft_action = ""  # nftables action associated to this policy
+        self.nft_stats = {}                         # Dict of nftables statistics (will be populated by parsing)
+        self.nft_match = ""   # Complete nftables match (including rate and packet size)
+        self.nft_action = ""  # nftables action associated to this policy (including counters)
         self.nfq_matches = []                       # List of nfqueue matches (will be populated by parsing)
         self.transient = self.is_transient()        # Whether the policy represents a transient pattern
         self.periodic = self.is_periodic()          # Whether the policy represents a periodic pattern
@@ -57,20 +58,23 @@ class Policy:
         return "stats" in self.profile_data and "rate" in self.profile_data["stats"] and ("duration" not in self.profile_data["stats"] or "packet-count" not in self.profile_data["stats"])
 
     
-    def handle_stat(self, stat: str) -> None:
+    def parse_stat(self, stat: str) -> Dict[str, str]:
         """
-        Handle a single statistic.
+        Parse a single statistic.
         Add the corresponding counters and nftables matches.
 
         Args:
             stat (str): Statistic to handle
+        Returns:
+            dict: parsed stat, with the form {"template": ..., "match": ...}
         """
+        parsed_stat = None
         value = self.profile_data["stats"][stat]
         if type(value) == dict:
             # Stat is a dictionary, and contains data for directions "out" and "in"
             value_out = value["out"]
             value_in = value["in"]
-            if stat in Policy.counters:
+            if Policy.stats_metadata[stat]["counter"]:
                 # Add counters for "out" and "in" directions
                 self.counters[stat] = {
                     "out": value_out,
@@ -80,23 +84,23 @@ class Policy:
                 if stat == "packet-count":
                     value_out = f"\"{self.name}-out\""
                     value_in = f"\"{self.name}-in\""
-            if stat in Policy.stats_templates:
-                rule = {
-                    "template": Policy.stats_templates[stat],
+            if stat in Policy.stats_metadata and "template" in Policy.stats_metadata[stat]:
+                parsed_stat = {
+                    "template": Policy.stats_metadata[stat]["template"],
                     "match": value_in if self.is_backward else value_out,
                 }
-                self.nft_matches.append(rule)
         else:
             # Stat is a single value, which is used for both directions
-            if stat in Policy.counters:
+            if Policy.stats_metadata[stat]["counter"]:
                 self.counters[stat] = {"default": value}
                 value = f"\"{self.name}\""
-            if stat in Policy.stats_templates:
-                rule = {
-                    "template": Policy.stats_templates[stat],
+            if stat in Policy.stats_metadata and "template" in Policy.stats_metadata[stat]:
+                parsed_stat = {
+                    "template": Policy.stats_metadata[stat]["template"],
                     "match": value
                 }
-                self.nft_matches.append(rule)
+        
+        return parsed_stat
 
     
     def build_nft_rule(self, queue_num: int) -> str:
@@ -116,6 +120,15 @@ class Policy:
             template = self.nft_matches[i]["template"]
             data = self.nft_matches[i]["match"]
             self.nft_match += template.format(*(data)) if type(data) == list else template.format(data)
+
+        # nftables stats
+        for stat in self.nft_stats:
+            template = self.nft_stats[stat]["template"]
+            data = self.nft_stats[stat]["match"]
+            if "type" in Policy.stats_metadata[stat] and Policy.stats_metadata[stat]["type"] == Policy.MATCH:
+                self.nft_match += " " + template.format(*(data)) if type(data) == list else template.format(data)
+            elif "type" in Policy.stats_metadata[stat] and Policy.stats_metadata[stat]["type"] == Policy.ACTION:
+                self.nft_action += template.format(*(data)) if type(data) == list else template.format(data) + " "
 
         # nftables action
         self.nft_action = f"queue num {queue_num}" if queue_num >= 0 else "accept"
@@ -155,14 +168,8 @@ class Policy:
         
         # Parse statistics
         if "stats" in self.profile_data:
-            packet_count_idx = -1  # Index of the packet-count rule (-1 if not present)
             for stat in self.profile_data["stats"]:
-                if stat in Policy.stats_templates or stat in Policy.counters:
-                    self.handle_stat(stat)
-                    if stat == "packet-count":
-                        packet_count_idx = len(self.nft_matches) - 1
-            if packet_count_idx >= 0:
-                # Rules contain packet-count stat
-                # Move packet-count match to the end of the list
-                packet_count_match = self.nft_matches.pop(packet_count_idx)
-                self.nft_matches.append(packet_count_match)
+                if stat in Policy.stats_metadata:
+                    parsed_stat = self.parse_stat(stat)
+                    if parsed_stat is not None:
+                        self.nft_stats[stat] = parsed_stat
