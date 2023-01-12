@@ -23,7 +23,7 @@ patterns:
       ipv4:
         src: self
         dst: gateway
-    direction: both
+    backward: true
     
   https-hue-server:
     protocols:
@@ -57,7 +57,7 @@ individual-policies:
       ipv4:
         src: self
         dst: gateway
-    direction: both
+    backward: true
 
   # IGMP: join multicast group
   igmp-join-multicast:
@@ -79,7 +79,7 @@ individual-policies:
           tha: self
           spa: gateway
           tpa: self
-    direction: both
+    backward: true
 
   # MDNS
   mdns-query:
@@ -119,7 +119,7 @@ individual-policies:
       ipv4:
         src: local
         dst: self
-    direction: both
+    backward: true
     stats:
       packet-count: 20
 
@@ -203,7 +203,7 @@ interaction-policies:
           tha: default
           spa: self
           tpa: gateway
-      direction: both
+      backward: true
 
 
   # HTTP traffic at boot
@@ -223,7 +223,7 @@ interaction-policies:
         ipv4:
           src: self
           dst: gateway
-      direction: both
+      backward: true
 
     http-post-device-portal:
       protocols:
@@ -282,7 +282,7 @@ interaction-policies:
         ipv4:
           src: self
           dst: gateway
-      direction: both
+      backward: true
 
     ntp-hue-ntp-server:
       protocols:
@@ -299,7 +299,7 @@ interaction-policies:
             - ntp2.aliyun.com
             - ntp3.aliyun.com
             - ntp4.aliyun.com
-      direction: both
+      backward: true
 
 
   ##### BACKGROUND TRAFFIC WITH SERVERS #####
@@ -330,7 +330,7 @@ interaction-policies:
         ipv4:
           src: self
           dst: ws.meethue.com
-      direction: both
+      backward: true
       stats:
         rate: 10/second burst 100 packets
 

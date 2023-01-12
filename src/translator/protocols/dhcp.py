@@ -12,13 +12,15 @@ class dhcp(Custom):
         "client-mac"
     ]
 
-    def parse(self, direction: str = "out", initiator: str = "src") -> dict:
+    def parse(self, is_backward: bool = False, initiator: str = "src") -> dict:
         """
         Parse the DHCP protocol.
 
         Args:
-            direction (str): Direction of the traffic (in, out, or both).
-            initiator (str): Initiator of the connection (src or dst).
+            is_backward (bool): Whether the protocol must be parsed for a backward rule.
+                                Optional, default is `False`.
+            initiator (str): Connection initiator (src or dst).
+                             Optional, default is "src".
         Returns:
             dict: Dictionary containing the (forward and backward) nftables and nfqueue rules for this policy.
         """
@@ -26,10 +28,10 @@ class dhcp(Custom):
         rules = {"forward": "message.options.message_type == {}"}
         # Lambda function to convert an IGMP type to its C representation (upper case)
         func = lambda dhcp_type: dhcp_type.upper()
-        self.add_field("type", rules, direction, func)
+        self.add_field("type", rules, is_backward, func)
         # Handle DHCP client MAC address
         rules = {"forward": "strcmp(mac_hex_to_str(message.chaddr), \"{}\") == 0"}
         # Lambda function to explicit a self MAC address
         func = lambda mac: self.device['mac'] if mac == "self" else mac
-        self.add_field("client-mac", rules, direction, func)
+        self.add_field("client-mac", rules, is_backward, func)
         return self.rules

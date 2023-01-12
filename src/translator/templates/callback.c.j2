@@ -1,10 +1,8 @@
-{% macro write_callbck_function(loop_index, is_backward=False) %}
+{% macro write_callback_function(loop_index, is_backward=False) %}
 {% set policy = policies[loop_index - 1] %}
 {% set policy_name = policy.name.replace("-", "_") %}
-{% set for_or_back = "backward" if is_backward else "forward" %}
-{% set policy_jinja = "{}_backward".format(policy_name) if is_backward else policy_name %}
 /**
- * @brief {{policy_jinja}} callback function, called when a packet enters the queue.
+ * @brief {{policy_name}} callback function, called when a packet enters the queue.
  * 
  * @param pkt_id packet ID for netfilter queue
  * @param pkt_len packet length, in bytes
@@ -12,7 +10,7 @@
  * @param arg pointer to the argument passed to the callback function
  * @return the verdict for the packet
  */
-uint32_t callback_{{policy_jinja}}(int pkt_id, int pkt_len, uint8_t *payload, void *arg) {
+uint32_t callback_{{policy_name}}(int pkt_id, int pkt_len, uint8_t *payload, void *arg) {
     printf("Received packet\n");
     {% if multithread and policy.counters %}
     // Get counters ID from thread argument
@@ -88,20 +86,17 @@ uint32_t callback_{{policy_jinja}}(int pkt_id, int pkt_len, uint8_t *payload, vo
         !has_payload || (
         {% endif %}
         {% if policy.nfq_matches %}
-        {% set rule = policy.nfq_matches[0][for_or_back] %}
+        {% set rule = policy.nfq_matches[0] %}
         {% if rule['match'] | is_list %}
         {{ rule['template'].format(*(rule['match'])) }}
         {% else %}
         {{ rule['template'].format((rule['match'])) }}
         {% endif %}
-        {% for match in policy.nfq_matches[1:] %}
-        {% if for_or_back in match %}
-        {% set rule = match[for_or_back] %}
+        {% for rule in policy.nfq_matches[1:] %}
         {% if rule['match'] | is_list %}
         && {{ rule['template'].format(*(rule['match'])) }}
         {% else %}
         && {{ rule['template'].format((rule['match'])) }}
-        {% endif %}
         {% endif %}
         {% endfor %}
         {% endif %}
@@ -149,33 +144,34 @@ uint32_t callback_{{policy_jinja}}(int pkt_id, int pkt_len, uint8_t *payload, vo
             pthread_mutex_unlock(&mutex);
             {% set previous_policy = policies[(loop_index - 2) % policies|length] %}
             {% if previous_policy.periodic %}
-            {% set previous_rules = previous_policy.build_nft_rule(-1) %}
-            {% set previous_rule_forward = previous_rules['forward'].replace("\"", "\'") %}
-            delete_nft_rule("{{nft_table}}", "{{nft_chain}}", "{{previous_rule_forward}}");
-            {% if 'backward' in previous_rules %}
-            {% set previous_rule_backward = previous_rules['backward'].replace("\"", "\'") %}
-            delete_nft_rule("{{nft_table}}", "{{nft_chain}}", "{{previous_rule_backward}}");
+            {% set previous_rule = previous_policy.get_nft_rule().replace("\"", "\'") %}
+            // Delete previous periodic policy
+            delete_nft_rule("{{nft_table}}", "{{nft_chain}}", "{{previous_rule}}");
+            {% if previous_policy.is_backward %}
+            {% set previous_policy = policies[(loop_index - 3) % policies|length] %}
+            {% set previous_rule = previous_policy.get_nft_rule().replace("\"", "\'") %}
+            delete_nft_rule("{{nft_table}}", "{{nft_chain}}", "{{previous_rule}}");
             {% endif %}
             {% endif %}
             {% set next_policy = policies[loop_index % policies|length] %}
-            {% if next_policy.periodic and (policy.transient != is_backward) %}
-            {% set next_rules = next_policy.build_nft_rule(-1) %}
+            {% if next_policy.periodic %}
+            {% set next_rule = next_policy.get_nft_rule().replace("\"", "\'") %}
             // Add nftables rule for next match
-            {% set next_rule_forward = next_rules['forward'].replace("\"", "\'") %}
-            system("sudo nft add rule {{nft_table}} {{nft_chain}} {{next_rule_forward}}");
-            {% if 'backward' in next_rules %}
-            {% set next_rule_backward = next_rules['backward'].replace("\"", "\'") %}
-            system("sudo nft add rule {{nft_table}} {{nft_chain}} {{next_rule_backward}}");
+            system("sudo nft add rule {{nft_table}} {{nft_chain}} {{next_rule}}");
+            {% if "backward" in next_policy.profile_data and next_policy.profile_data["backward"] %}
+            {% set next_policy = policies[(loop_index + 1) % policies|length] %}
+            {% set next_rule = next_policy.get_nft_rule().replace("\"", "\'") %}
+            system("sudo nft add rule {{nft_table}} {{nft_chain}} {{next_rule}}");
             {% endif %}
             {% endif %}
             {% if "dns" in policy.custom_parser %}
             {% set is_response = namespace(value=False) %}
             {% for nfq_match in policy.nfq_matches %}
-            {% if "message.header.qr == " in nfq_match[for_or_back]["template"] and nfq_match[for_or_back]["match"] == 1 %}
+            {% if "message.header.qr == " in nfq_match["template"] and nfq_match["match"] == 1 %}
             {% set is_response.value = True %}
             {% endif %}
-            {% if is_response.value and "domain_name" in nfq_match[for_or_back]["template"] %}
-            {% set domain_name = nfq_match[for_or_back]["match"] %}
+            {% if is_response.value and "domain_name" in nfq_match["template"] %}
+            {% set domain_name = nfq_match["match"] %}
             ip_list_t ip_list = dns_get_ip_from_name(message.answers, message.header.ancount, "{{domain_name}}");
             dns_map_add(dns_map, "{{domain_name}}", ip_list);
             {% endif %}
@@ -222,14 +218,11 @@ uint32_t callback_{{policy_jinja}}(int pkt_id, int pkt_len, uint8_t *payload, vo
         {% if previous_policy.transient %} || state == {{states[state_index - 1]}} )
         {% endif %}
         {% endif %}
-        {% for match in policy.nfq_matches %}
-        {% if for_or_back in match %}
-        {% set rule = match[for_or_back] %}
+        {% for rule in policy.nfq_matches %}
         {% if rule['match'] | is_list %}
         {{ rule['template'].format(*(rule['match'])) }}
         {% else %}
         {{ rule['template'].format((rule['match'])) }}
-        {% endif %}
         {% endif %}
         {%- if loop.index < policy.nfq_matches|length or policy.counters %} &&
         {% endif %}
@@ -268,38 +261,40 @@ uint32_t callback_{{policy_jinja}}(int pkt_id, int pkt_len, uint8_t *payload, vo
         {% if policies|length > 1 %}
         {% set previous_policy = policies[(loop_index - 2) % policies|length] %}
         {% if previous_policy.periodic %}
-        {% set previous_rules = previous_policy.build_nft_rule(-1) %}
-        {% set previous_rule_forward = previous_rules['forward'].replace("\"", "\'") %}
-        delete_nft_rule("{{nft_table}}", "{{nft_chain}}", "{{previous_rule_forward}}");
-        {% if 'backward' in previous_rules %}
-        {% set previous_rule_backward = previous_rules['backward'].replace("\"", "\'") %}
-        delete_nft_rule("{{nft_table}}", "{{nft_chain}}", "{{previous_rule_backward}}");
+        {% set previous_rule = previous_policy.get_nft_rule().replace("\"", "\'") %}
+        // Delete previous periodic policy
+        delete_nft_rule("{{nft_table}}", "{{nft_chain}}", "{{previous_rule}}");
+        {% if previous_policy.is_backward %}
+        {% set previous_policy = policies[(loop_index - 3) % policies|length] %}
+        {% set previous_rule = previous_policy.get_nft_rule().replace("\"", "\'") %}
+        delete_nft_rule("{{nft_table}}", "{{nft_chain}}", "{{previous_rule}}");
         {% endif %}
         {% endif %}
         {% set next_policy = policies[loop_index % policies|length] %}
-        {% if next_policy.periodic and (policy.transient != is_backward) %}
-        {% set next_rules = next_policy.build_nft_rule(-1) %}
-        {% set next_rule_forward = next_rules['forward'].replace("\"", "\'") %}
-        system("sudo nft add rule {{nft_table}} {{nft_chain}} {{next_rule_forward}}");
-        {% if 'backward' in next_rules %}
-        {% set next_rule_backward = next_rules['backward'].replace("\"", "\'") %}
-        system("sudo nft add rule {{nft_table}} {{nft_chain}} {{next_rule_backward}}");
+        {% if next_policy.periodic %}
+        {% set next_rule = next_policy.get_nft_rule().replace("\"", "\'") %}
+        // Add nftables rule for next match
+        system("sudo nft add rule {{nft_table}} {{nft_chain}} {{next_rule}}");
+        {% if "backward" in next_policy.profile_data and next_policy.profile_data["backward"] %}
+        {% set next_policy = policies[(loop_index + 1) % policies|length] %}
+        {% set next_rule = next_policy.get_nft_rule().replace("\"", "\'") %}
+        system("sudo nft add rule {{nft_table}} {{nft_chain}} {{next_rule}}");
         {% endif %}
         {% endif %}
         {% endif %}
         {% if "dns" in policy.custom_parser %}
         {% set is_response = namespace(value=False) %}
         {% for nfq_match in nfq_matches %}
-        {% set is_response.value = "message.header.qr == " in nfq_match[for_or_back]["template"] and nfq_match[for_or_back]["match"] == 1 %}
-        {% if is_response.value and "domain_name" in nfq_match[for_or_back]["template"] %}
-        {% set domain_name = nfq_match[for_or_back]["match"] %}
+        {% set is_response.value = "message.header.qr == " in nfq_match["template"] and nfq_match["match"] == 1 %}
+        {% if is_response.value and "domain_name" in nfq_match["template"] %}
+        {% set domain_name = nfq_match["match"] %}
         ip_list_t ip_list = dns_get_ip_from_name(message.answers, message.header.ancount, "{{domain_name}}");
         dns_map_add(dns_map, "{{domain_name}}", ip_list);
         {% endif %}
         {% endfor %}
         {% endif %}
         verdict = NF_ACCEPT;
-        printf("Accept: policy {{policy.name}}, backward = {{is_backward}}, state = {{current_state.value}}\n");
+        printf("Accept: policy {{policy.name}}, state = {{current_state.value}}\n");
     }
     {% endif %}
 
@@ -318,11 +313,7 @@ uint32_t callback_{{policy_jinja}}(int pkt_id, int pkt_len, uint8_t *payload, vo
 {% for policy in policies %}
 {% if not policy.periodic %}
 
-{{ write_callbck_function(loop.index) }}
-
-{% if policy.direction == "both" %}
-{{ write_callbck_function(loop.index, True) }}
-{% endif %}
+{{ write_callback_function(loop.index, policy.is_backward) }}
 
 {% endif %}
 {% endfor %}

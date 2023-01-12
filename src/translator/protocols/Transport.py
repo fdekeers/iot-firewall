@@ -12,23 +12,24 @@ class Transport(Protocol):
         "dst-port"
     ]
 
-    def parse(self, direction: str = "out", initiator: str = "") -> dict:
+    def parse(self, is_backward: bool = False, initiator: str = "") -> dict:
         """
         Parse a layer 4 protocol.
 
         Args:
-            direction (str): Direction of the traffic (in, out, or both).
-            initiator (str): Initiator of the connection (src or dst).
+            is_backward (bool): Whether the protocol must be parsed for a backward rule.
+                                Optional, default is `False`.
+            initiator (str): Connection initiator (src or dst).
+                             Optional, default is "src".
         Returns:
             dict: Dictionary containing the (forward and backward) nftables and nfqueue rules for this policy.
         """
         # Add protocol match
-        rule = {
+        protocol_match = {
             "template": "meta l4proto {}",
             "match": self.protocol_name
         }
-        rules = {"forward": rule, "backward": rule}
-        self.rules["nft"].append(rules)
+        self.rules["nft"].append(protocol_match)
 
         # Connection initiator is specified
         if initiator:
@@ -37,24 +38,22 @@ class Transport(Protocol):
                 "src-port": {"forward": "ct original proto-src {{ {} }}", "backward": "ct original proto-dst {{ {} }}"},
                 "dst-port": {"forward": "ct original proto-dst {{ {} }}", "backward": "ct original proto-src {{ {} }}"}
             }
-            if ((initiator == "src" and (direction == "out" or direction == "both")) or
-                (initiator == "dst" and direction == "in")):
+            if (initiator == "src" and not is_backward) or (initiator == "dst" and is_backward):
                 # Connection initiator is the source device
-                self.add_field("src-port", template_rules["src-port"], direction)
-                self.add_field("dst-port", template_rules["dst-port"], direction)
-            elif ((initiator == "src" and direction == "in") or
-                  (initiator == "dst" and (direction == "out" or direction == "both"))):
+                self.add_field("src-port", template_rules["src-port"], is_backward)
+                self.add_field("dst-port", template_rules["dst-port"], is_backward)
+            elif (initiator == "src" and is_backward) or (initiator == "dst" and not is_backward):
                 # Connection initiator is the destination device
-                self.add_field("src-port", template_rules["dst-port"], direction)
-                self.add_field("dst-port", template_rules["src-port"], direction)
+                self.add_field("src-port", template_rules["dst-port"], is_backward)
+                self.add_field("dst-port", template_rules["src-port"], is_backward)
         
         # Connection initiator is not specified
         else:
             # Handle source port
             rules = {"forward": self.protocol_name + " sport {{ {} }}", "backward": self.protocol_name + " dport {{ {} }}"}
-            self.add_field("src-port", rules, direction)
+            self.add_field("src-port", rules, is_backward)
             # Handle destination port
             rules = {"forward": self.protocol_name + " dport {{ {} }}", "backward": self.protocol_name + " sport {{ {} }}"}
-            self.add_field("dst-port", rules, direction)
+            self.add_field("dst-port", rules, is_backward)
         
         return self.rules

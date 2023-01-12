@@ -25,7 +25,7 @@ patterns:
         ipv4:
           src: self
           dst: gateway
-      direction: both
+      backward: true
 
     stun-bind-cam-server:
       protocols:
@@ -34,7 +34,7 @@ patterns:
         ipv4:
           src: self
           dst: mp-eu-sas.auto.mydlink.com
-      direction: both
+      backward: true
     
     # UDP stream from camera, to phone or gateway
     # (Gateway is used as intermediary for NAT traversal)
@@ -44,7 +44,7 @@ patterns:
         ipv4:
           src: self
           dst: local
-      direction: both
+      backward: true
       stats:
         rate: 150/second
         packet-size: 1500
@@ -62,7 +62,7 @@ individual-policies:
         tha: default
         spa: gateway
         tpa: self
-    direction: both
+    backward: true
 
   # DNS
   dns-ipv4:
@@ -81,7 +81,7 @@ individual-policies:
       ipv4:
         src: self
         dst: gateway
-    direction: both
+    backward: true
 
   # mDNS
   mdns-local:
@@ -104,7 +104,7 @@ individual-policies:
       ipv4:
         src: local
         dst: self
-    direction: both
+    backward: true
     stats:
       rate: 30/second
 
@@ -179,7 +179,7 @@ interaction-policies:
         ipv4:
           src: self
           dst: gateway
-      direction: both
+      backward: true
     
     http-head-cam-cloud:
       protocols:
@@ -191,7 +191,7 @@ interaction-policies:
         ipv4:
           src: self
           dst: ca-mgr.auto.mydlink.com
-      direction: both
+      backward: true
       stats:
         packet-count: 10
 
@@ -209,7 +209,7 @@ interaction-policies:
         ipv4:
           src: self
           dst: gateway
-      direction: both
+      backward: true
     
     https-cam-fwd:
       protocols:
@@ -218,7 +218,7 @@ interaction-policies:
         ipv4:
           src: self
           dst: mp-eu-fwd.auto.mydlink.com
-      direction: both
+      backward: true
       stats:
         packet-count: 30
 
@@ -278,7 +278,7 @@ interaction-policies:
         ipv4:
           src: self
           dst: gateway
-      direction: both
+      backward: true
 
     https-cam-server:
       protocols:
@@ -287,7 +287,7 @@ interaction-policies:
         ipv4:
           src: self
           dst: mp-eu-dcdda.auto.mydlink.com
-      direction: both
+      backward: true
       stats:
         rate: 20/second
 
@@ -329,7 +329,7 @@ interaction-policies:
         ipv4:
           src: local
           dst: self
-      direction: both
+      backward: true
       stats:
         rate: 30/second
 
@@ -346,7 +346,7 @@ interaction-policies:
         ipv4:
           src: local
           dst: self
-      direction: both
+      backward: true
       stats:
         packet-count: 4
 
@@ -366,7 +366,7 @@ interaction-policies:
         ipv4:
           src: self
           dst: gateway
-      direction: both
+      backward: true
 
     http-relay-cam-sas-1:
       protocols:
@@ -378,7 +378,7 @@ interaction-policies:
         ipv4:
           src: self
           dst: mp-eu-sas-1.auto.mydlink.com
-      direction: both
+      backward: true
       stats:
         packet-count: 10
 
@@ -391,7 +391,7 @@ interaction-policies:
         ipv4:
           src: self
           dst: mp-eu-sas-1.auto.mydlink.com
-      direction: both
+      backward: true
       stats:
         packet-count: 3
 

@@ -24,7 +24,7 @@ individual-policies:
       ipv4:
         src: self
         dst: 110.43.0.83
-    direction: both
+    backward: true
     stats:
       packet-count: 10
 
@@ -35,7 +35,7 @@ individual-policies:
       ipv4:
         src: self
         dst: 120.92.133.153
-    direction: both
+    backward: true
     stats:
       rate: 10/second
 
@@ -55,7 +55,7 @@ individual-policies:
           - 110.43.68.58
           - 120.92.133.153
           - 120.92.162.194
-    direction: both
+    backward: true
     stats:
       rate: 10/second
 
@@ -66,7 +66,7 @@ individual-policies:
       ipv4:
         src: self
         dst: 8.8.8.8
-    direction: both
+    backward: true
 
 
 interaction-policies:
@@ -86,7 +86,6 @@ interaction-policies:
           tha: default
           spa: self
           tpa: gateway
-      direction: out
   
     arp-reply:
       protocols:
@@ -96,7 +95,6 @@ interaction-policies:
           tha: self
           spa: gateway
           tpa: self
-      direction: in
   
   # Gateway discovers camera
   gateway-discover-camera:
@@ -109,7 +107,6 @@ interaction-policies:
           tha: default
           spa: gateway
           tpa: self
-      direction: in
     
     arp-reply-from-camera:
       protocols:
@@ -119,7 +116,6 @@ interaction-policies:
           tha: gateway
           spa: self
           tpa: gateway
-      direction: out
 
 
   ##### GET IP ADDRESS AT BOOT #####
@@ -136,7 +132,6 @@ interaction-policies:
         ipv4:
           src: 0.0.0.0
           dst: broadcast
-      direction: out
 
     dhcp-offer:
       protocols:
@@ -149,7 +144,6 @@ interaction-policies:
         ipv4:
           src: gateway
           dst: self
-      direction: in
 
     dhcp-request:
       protocols:
@@ -162,7 +156,6 @@ interaction-policies:
         ipv4:
           src: 0.0.0.0
           dst: broadcast
-      direction: out
 
     dhcp-ack:
       protocols:
@@ -175,7 +168,6 @@ interaction-policies:
         ipv4:
           src: gateway
           dst: self
-      direction: in
 
 
   # Background communication with cloud
@@ -191,7 +183,7 @@ interaction-policies:
         ipv4:
           src: self
           dst: gateway
-      direction: both
+      backward: true
 
     https-xiaomi-api:
       protocols:
@@ -200,7 +192,7 @@ interaction-policies:
         ipv4:
           src: self
           dst: business.smartcamera.api.io.mi.com
-      direction: both
+      backward: true
       stats:
         rate: 50/second
     
@@ -216,7 +208,6 @@ interaction-policies:
         ipv4:
           src: local
           dst: mdns
-      direction: out
 
     mdns-phone:
       protocols:
@@ -230,7 +221,6 @@ interaction-policies:
           dst-port: 5353
         ipv4:
           src: local
-      direction: out
 
     udp-phone-broadcast:
       protocols:
@@ -241,7 +231,6 @@ interaction-policies:
         ipv4:
           src: local
           dst: udp-broadcast
-      direction: out
 
     arp-xiaomi-phone-request:
       protocols:
@@ -251,7 +240,6 @@ interaction-policies:
           tha: default
           spa: self
           tpa: local
-      direction: out
 
     arp-xiaomi-phone-reply:
       protocols:
@@ -260,7 +248,6 @@ interaction-policies:
           tha: self
           spa: local
           tpa: self
-      direction: in
 
     udp-xiaomi-phone-burst-open:
       protocols:
@@ -268,7 +255,7 @@ interaction-policies:
         ipv4:
           src: self
           dst: local
-      direction: both
+      backward: true
       stats:
         duration: 1
         packet-count: 20
@@ -280,7 +267,7 @@ interaction-policies:
         ipv4:
           src: self
           dst: local
-      direction: both
+      backward: true
       stats:
         rate: 10/second
         packet-size: 4-150
@@ -296,7 +283,7 @@ interaction-policies:
         ipv4:
           src: local
           dst: self
-      direction: both
+      backward: true
       stats:
         packet-count: 6
 
@@ -308,7 +295,7 @@ interaction-policies:
         ipv4:
           src: self
           dst: 120.92.133.153
-      direction: both
+      backward: true
       stats:
         packet-count: 3
   
@@ -320,7 +307,7 @@ interaction-policies:
         ipv4:
           src: self
           dst: local
-      direction: both
+      backward: true
       stats:
         rate: 300/second
         packet-size:
@@ -335,7 +322,7 @@ interaction-policies:
         ipv4:
           src: self
           dst: 120.92.133.153
-      direction: both
+      backward: true
       stats:
         packet-count: 10
 
@@ -354,7 +341,7 @@ interaction-policies:
         ipv4:
           src: self
           dst: 130.104.94.185
-      direction: both
+      backward: true
       stats:
         duration: 1
         packet-count: 40
@@ -368,7 +355,7 @@ interaction-policies:
         ipv4:
           src: self
           dst: 130.104.94.185
-      direction: both
+      backward: true
       stats:
         rate: 5/second
         packet-size: 46
@@ -385,7 +372,7 @@ interaction-policies:
         ipv4:
           src: 120.92.133.153
           dst: self
-      direction: both
+      backward: true
       stats:
         packet-count: 10
 
@@ -397,7 +384,7 @@ interaction-policies:
         ipv4:
           src: self
           dst: 130.104.94.185
-      direction: both
+      backward: true
       stats:
         rate: 300/second
         packet-size:
@@ -412,7 +399,7 @@ interaction-policies:
         ipv4:
           src: 120.92.133.153
           dst: self
-      direction: both
+      backward: true
       stats:
         packet-count: 10
 ...

@@ -18,21 +18,25 @@ class Policy:
         "packet-count": "counter name {}"
     }
 
-    def __init__(self, name: str, profile_data: dict, device: dict) -> None:
+    def __init__(self, policy_name: str, profile_data: dict, device: dict, is_backward = False) -> None:
         """
         Initialize a new Policy object.
 
         Args:
             name (str): Name of the policy.
             profile_data (dict): Dictionary containing the policy data from the YAML profile.
+            device (dict): Dictionary containing the device metadata from the YAML profile.
+            is_backward (bool): Whether the policy is backwards (i.e. the source and destination are reversed).
         """
-        self.name = name                            # Policy name
+        self.name = policy_name                     # Policy name
         self.profile_data = profile_data            # Policy data from the YAML profile
-        self.direction = profile_data["direction"] if "direction" in profile_data else "out"
+        self.is_backward = is_backward              # Whether the policy is backwards (i.e. the source and destination are reversed)
         self.initiator = profile_data["initiator"] if "initiator" in profile_data else ""
         self.device = device                        # Name of the device this policy is linked to
         self.custom_parser = ""                     # Name of the custom parser (if any)
         self.nft_matches = []                       # List of nftables matches (will be populated by parsing)
+        self.nft_match = ""   # Complete nftables match
+        self.nft_action = ""  # nftables action associated to this policy
         self.nfq_matches = []                       # List of nfqueue matches (will be populated by parsing)
         self.transient = self.is_transient()        # Whether the policy represents a transient pattern
         self.periodic = self.is_periodic()          # Whether the policy represents a periodic pattern
@@ -77,17 +81,11 @@ class Policy:
                     value_out = f"\"{self.name}-out\""
                     value_in = f"\"{self.name}-in\""
             if stat in Policy.stats_templates:
-                rules = {
-                    "forward": {
-                        "template": Policy.stats_templates[stat],
-                        "match": value_out,
-                    },
-                    "backward": {
-                        "template": Policy.stats_templates[stat],
-                        "match": value_in,
-                    }
+                rule = {
+                    "template": Policy.stats_templates[stat],
+                    "match": value_in if self.is_backward else value_out,
                 }
-                self.nft_matches.append(rules)
+                self.nft_matches.append(rule)
         else:
             # Stat is a single value, which is used for both directions
             if stat in Policy.counters:
@@ -98,48 +96,47 @@ class Policy:
                     "template": Policy.stats_templates[stat],
                     "match": value
                 }
-                self.nft_matches.append({"forward": rule, "backward": rule})
+                self.nft_matches.append(rule)
 
     
-    def build_nft_rule(self, queue_num: int) -> dict:
+    def build_nft_rule(self, queue_num: int) -> str:
         """
-        Build the nftables rules (forward and backward) for this policy.
+        Build and store the nftables match and action, as strings, for this policy.
 
         Args:
             queue_num (int): Number of the nfqueue queue corresponding to this policy,
-                             or a negative number if the policy does not need an nfqueue.
+                             or a negative number if the policy is simply `accept`
         Returns:
-            dict: Dictionary containing the forward and backward nftables rules
+            str: complete nftables rule for this policy
         """
-        # Packet header matching
-        nft_rule_forward = ""
-        nft_rule_backward = ""
+        # nftables match
         for i in range(len(self.nft_matches)):
             if i > 0:
-                nft_rule_forward += " "
-            rule = self.nft_matches[i]["forward"]
-            nft_rule_forward += rule["template"].format(*(rule["match"])) if type(rule["match"]) == list else rule["template"].format(rule["match"])
-            # Add backward rule (if necessary)
-            if self.direction == "both" and "backward" in self.nft_matches[i]:
-                if i > 0:
-                    nft_rule_backward += " "
-                rule_backward = self.nft_matches[i]["backward"]
-                nft_rule_backward += rule_backward["template"].format(*(rule_backward["match"])) if type(rule_backward["match"]) == list else rule_backward["template"].format(rule_backward["match"])
+                self.nft_match += " "
+            template = self.nft_matches[i]["template"]
+            data = self.nft_matches[i]["match"]
+            self.nft_match += template.format(*(data)) if type(data) == list else template.format(data)
 
-        # Finalize rule
-        suffix = f" queue num {queue_num}" if queue_num >= 0 else " accept"
-        nft_rule_forward += suffix
-        rule = {"forward": nft_rule_forward}
-        if self.direction == "both" and nft_rule_backward:
-            suffix_backward = suffix.replace(str(queue_num), str(queue_num + 1))
-            nft_rule_backward += suffix_backward
-            rule["backward"] = nft_rule_backward
-        return rule
+        # nftables action
+        self.action = f"queue num {queue_num}" if queue_num >= 0 else "accept"
+
+        return self.get_nft_rule()
+
+    
+    def get_nft_rule(self) -> str:
+        """
+        Retrieve the complete nftables rule, composed of the complete nftables match
+        and the action, for this policy.
+
+        Returns:
+            str: complete nftables rule for this policy
+        """
+        return f"{self.nft_match} {self.nft_action}"
 
     
     def parse(self) -> None:
         """
-        Parse the policy and populate the related instance variables
+        Parse the policy and populate the related instance variables.
         """
         # Parse protocols
         for protocol_name in self.profile_data["protocols"]:
@@ -152,7 +149,7 @@ class Policy:
                 # Supported protocol, parse it
                 if protocol.custom_parser:
                     self.custom_parser = protocol_name
-                new_rules = protocol.parse(direction=self.direction, initiator=self.initiator)
+                new_rules = protocol.parse(is_backward=self.is_backward, initiator=self.initiator)
                 self.nft_matches += new_rules["nft"]
                 self.nfq_matches += new_rules["nfq"]
         

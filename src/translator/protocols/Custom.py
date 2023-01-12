@@ -5,7 +5,7 @@ class Custom(Protocol):
     # Class variables
     custom_parser = True  # Whether the protocol has a custom parser
 
-    def add_field(self, field: str, template_rules: dict, direction: str = "out", func = lambda x: x, backward_func = lambda x: x) -> None:
+    def add_field(self, field: str, template_rules: dict, is_backward: bool = False, func = lambda x: x, backward_func = lambda x: x) -> None:
         """
         Add a new nfqueue match to the accumulator.
         Overrides the nftables version.
@@ -27,26 +27,25 @@ class Custom(Protocol):
             # If value from YAML profile is a list, produce disjunction of all elements
             if type(value) == list:
                 template = "( "
-                template_backward = ""
                 match = []
-                match_backward = []
                 # Value is a list
                 for i in range(len(value)):
                     if i != 0:
                         template += " || "
-                    template += template_rules["forward"]
-                    match.append(func(value[i]))
-                    if "backward" in template_rules and direction == "both":
-                        match_backward.append(backward_func(func(value[i])))
-                        template_backward += f" || {template_rules['backward']}" if template_backward else f"( {template_rules['backward']}"
-                rules["forward"] = {"template": f"{template} )", "match": match}
-                if template_backward:
-                    rules["backward"] = {"template": f"{template_backward} )", "match": match_backward}
+                    if not is_backward:
+                        template += template_rules["forward"]
+                        match.append(func(value[i]))
+                    elif is_backward and "backward" in template_rules:
+                        template += template_rules["backward"]
+                        match.append(backward_func(func(value[i])))
+                rules = {"template": f"{template} )", "match": match}
             else:
                 # Value is a single element
-                rules["forward"] = {"template": template_rules["forward"], "match": func(value)}
-                if "backward" in template_rules and direction == "both":
-                    rules["backward"] = {"template": template_rules["backward"], "match": backward_func(func(value))}
+                if not is_backward:
+                    rules = {"template": template_rules["forward"], "match": func(value)}
+                elif is_backward and "backward" in template_rules:
+                    rules = {"template": template_rules["backward"], "match": backward_func(func(value))}
 
             # Append rules
-            self.rules["nfq"].append(rules)
+            if rules:
+                self.rules["nfq"].append(rules)

@@ -13,35 +13,40 @@ class http(Custom):
         "response"
     ]
 
-    def parse(self, direction: str = "out", initiator: str = "src") -> dict:
+    def parse(self, is_backward: bool = False, initiator: str = "src") -> dict:
         """
         Parse the HTTP protocol.
 
         Args:
-            direction (str): Direction of the traffic (in, out, or both).
-            initiator (str): Initiator of the connection (src or dst).
+            is_backward (bool): Whether the protocol must be parsed for a backward rule.
+                                Optional, default is `False`.
+            initiator (str): Connection initiator (src or dst).
+                             Optional, default is "src".
         Returns:
             dict: Dictionary containing the (forward and backward) nftables and nfqueue rules for this policy.
         """
         # Request or response
+        http_type_rule = {}
         if "response" in self.protocol_data and self.protocol_data["response"]:
-            rule = {"forward": {"template": "{}message.is_request", "match": "!"}}
-            if direction == "both":
-                rule["backward"] = {"template": "{}message.is_request", "match": ""}
+            if is_backward:
+                http_type_rule = {"template": "{}message.is_request", "match": ""}
+            else:
+                http_type_rule = {"template": "{}message.is_request", "match": "!"}
         else:
-            rule = {"forward": {"template": "{}message.is_request", "match": ""}}
-            if direction == "both":
-                rule["backward"] = {"template": "{}message.is_request", "match": "!"}
-        self.rules["nfq"].append(rule)
+            if is_backward:
+                http_type_rule = {"template": "{}message.is_request", "match": "!"}
+            else:
+                http_type_rule = {"template": "{}message.is_request", "match": ""}
+        self.rules["nfq"].append(http_type_rule)
 
         # Handle HTTP method
         rule = {"forward": "message.method == {}"}
         # Lambda function to convert an HTTP method to its C representation (upper case)
         func = lambda http_method: http_method.upper()
-        self.add_field("method", rule, direction, func)
+        self.add_field("method", rule, is_backward, func)
 
         # Handle HTTP URI
         rule = {"forward": "strcmp(message.uri, \"{}\") == 0"}
-        self.add_field("uri", rule, direction)
+        self.add_field("uri", rule, is_backward)
         
         return self.rules

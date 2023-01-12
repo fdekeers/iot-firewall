@@ -13,13 +13,15 @@ class coap(Custom):
         "uri"
     ]
 
-    def parse(self, direction: str = "out", initiator: str = "src") -> dict:
+    def parse(self, is_backward: bool = False, initiator: str = "src") -> dict:
         """
         Parse the CoAP protocol.
 
         Args:
-            direction (str): Direction of the traffic (in, out, or both).
-            initiator (str): Initiator of the connection (src or dst).
+            is_backward (bool): Whether the protocol must be parsed for a backward rule.
+                                Optional, default is `False`.
+            initiator (str): Connection initiator (src or dst).
+                             Optional, default is "src".
         Returns:
             dict: Dictionary containing the (forward and backward) nftables and nfqueue rules for this policy.
         """
@@ -28,14 +30,14 @@ class coap(Custom):
 
         # Handle CoAP message type
         rule = {"forward": "message.type == {}"}
-        self.add_field("type", rule, direction, func)
+        self.add_field("type", rule, is_backward, func)
 
         # Handle CoAP method
         rule = {"forward": "message.method == {}"}
-        self.add_field("method", rule, direction, func)
+        self.add_field("method", rule, is_backward, func)
 
         # Handle CoAP URI
         rule = {"forward": "strcmp(message.uri, \"{}\") == 0"}
-        self.add_field("uri", rule, direction)
+        self.add_field("uri", rule, is_backward)
         
         return self.rules

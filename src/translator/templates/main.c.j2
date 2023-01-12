@@ -65,28 +65,6 @@ int main(int argc, char const *argv[]) {
     };
     ret = pthread_create(&threads[i++], NULL, nfqueue_thread, (void *) &thread_arg_{{policy_jinja}});
     assert(ret == 0);
-
-    {% if policy.direction == "both" %}
-    {% set policy_jinja = "{}_backward".format(policy.name.replace('-', '_')) %}
-    // {{policy_jinja}}
-    {% if "packet-count" in policy.counters and "in" in policy.counters["packet-count"] %}
-    current_packet_counter_id++;
-    {% endif %}
-    {% if "duration" in policy.counters and "in" in policy.counters["duration"] %}
-    current_duration_counter_id++;
-    {% endif %}
-    counters_id_t counters_id_{{policy_jinja}} = {
-        .packet_counter_id = current_packet_counter_id,
-        .duration_counter_id = current_duration_counter_id
-    };
-    thread_arg_t thread_arg_{{policy_jinja}} = {
-        .queue_id = NFQ_ID_BASE + i,
-        .func = &callback_{{policy_jinja}},
-        .arg = &counters_id_{{policy_jinja}}
-    };
-    ret = pthread_create(&threads[i++], NULL, nfqueue_thread, (void *) &thread_arg_{{policy_jinja}});
-    assert(ret == 0);
-    {% endif %}
     
     {% endif %}
     {% endfor %}

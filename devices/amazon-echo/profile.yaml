@@ -23,7 +23,7 @@ patterns:
       ipv6:
         src: self
         dst: gateway
-    direction: both
+    backward: true
 
 
 individual-policies:
@@ -79,7 +79,7 @@ individual-policies:
       ipv6:
         src: self
         dst: gateway
-    direction: both
+    backward: true
 
   # IGMP
   igmp-join-all:
@@ -131,7 +131,7 @@ individual-policies:
       ipv4:
         src: self
         dst: 52.119.196.28
-    direction: both
+    backward: true
     stats:
       rate: 50/second burst 150 packets
     
@@ -142,7 +142,7 @@ individual-policies:
       ipv4:
         src: self
         dst: 52.46.158.181
-    direction: both
+    backward: true
     stats:
       rate: 20/second
 
@@ -161,7 +161,7 @@ interaction-policies:
         ipv4:
           src: self
           dst: ntp-g7g.amazon.com
-      direction: both
+      backward: true
 
 
   # HTTP ConnTest: HTTP GET request towards d3p8zr0ffa9t17.cloudfront.net
@@ -179,7 +179,7 @@ interaction-policies:
         ipv4:
           src: self
           dst: d3p8zr0ffa9t17.cloudfront.net
-      direction: both
+      backward: true
       stats:
         packet-count: 10
 
@@ -199,7 +199,7 @@ interaction-policies:
         ipv4:
           src: self
           dst: fos5echocaptiveportal.com
-      direction: both
+      backward: true
       stats:
         packet-count: 7
 
@@ -216,7 +216,7 @@ interaction-policies:
         ipv4:
           src: self
           dst: det-ta-g7g.amazon.com
-      direction: both
+      backward: true
       stats:
         rate: 100/second
         duration: 10
@@ -234,7 +234,7 @@ interaction-policies:
         ipv4:
           src: self
           dst: arcus-uswest.amazon.com
-      direction: both
+      backward: true
       stats:
         rate: 25/second
         duration: 15
@@ -252,7 +252,7 @@ interaction-policies:
         ipv4:
           src: self
           dst: dxz5jxhrrzigf.cloudfront.net
-      direction: both
+      backward: true
       stats:
         rate: 20/second
         duration: 1
@@ -270,7 +270,7 @@ interaction-policies:
         ipv4:
           src: self
           dst: device-metrics-us.amazon.com
-      direction: both
+      backward: true
       stats:
         rate: 210/second
         duration: 20
@@ -288,7 +288,7 @@ interaction-policies:
         ipv4:
           src: self
           dst: api.amazonalexa.com
-      direction: both
+      backward: true
       stats:
         rate: 30/second
         duration: 1
@@ -306,7 +306,7 @@ interaction-policies:
         ipv4:
           src: self
           dst: unagi-na.amazon.com
-      direction: both
+      backward: true
       stats:
         rate: 100/second
 

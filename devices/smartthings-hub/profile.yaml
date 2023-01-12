@@ -25,7 +25,7 @@ patterns:
       ipv6:
         src: self
         dst: gateway
-    direction: both
+    backward: true
 
 
 individual-policies:
@@ -64,7 +64,7 @@ individual-policies:
       ipv4:
         src: self
         dst: gateway
-    direction: both
+    backward: true
 
   # DNS over IPv6
   dns-ipv6:
@@ -81,7 +81,7 @@ individual-policies:
       ipv6:
         src: self
         dst: gateway
-    direction: both
+    backward: true
 
   # mDNS
   mdns-hub-hue:
@@ -115,7 +115,7 @@ individual-policies:
       ipv4:
         src: self
         dst: 54.217.91.49
-    direction: both
+    backward: true
 
 
 
@@ -133,7 +133,7 @@ interaction-policies:
         ipv4:
           src: self
           dst: api.smartthings.com
-      direction: both
+      backward: true
       stats:
         duration: 1
 
@@ -149,7 +149,7 @@ interaction-policies:
         ipv4:
           src: self
           dst: fw-update2.smartthings.com
-      direction: both
+      backward: true
       stats:
         duration: 3
 

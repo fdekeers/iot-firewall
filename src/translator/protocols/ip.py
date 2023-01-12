@@ -74,7 +74,7 @@ class ip(Protocol):
             return addr
 
     
-    def add_addr_nfqueue(self, addr_dir: str, direction: str = "out") -> None:
+    def add_addr_nfqueue(self, addr_dir: str, is_backward: bool = False) -> None:
         """
         Add a new IP address match to the nfqueue accumulator.
 
@@ -101,9 +101,7 @@ class ip(Protocol):
         # If value from YAML profile is a list, produce disjunction of all elements
         if type(value) == list:
             template = "( "
-            template_backward = ""
             match = []
-            match_backward = []
             # Value is a list
             for i in range(len(value)):
                 if i != 0:
@@ -111,28 +109,28 @@ class ip(Protocol):
                 is_ip = self.is_ip(value[i])
                 template_rules = rules_address if is_ip else rules_domain_name
                 func = self.explicit_address if is_ip else lambda x: x
-                template += template_rules["forward"]
                 match.append(func(value[i]))
-                if "backward" in template_rules and direction == "both":
-                    match_backward.append(func(value[i]))
-                    template_backward += f" || {template_rules['backward']}" if template_backward else f"( {template_rules['backward']}"
-            rules["forward"] = {"template": f"{template} )", "match": match}
-            if template_backward:
-                rules["backward"] = {"template": f"{template_backward} )", "match": match_backward}
+                if not is_backward:
+                    template += template_rules["forward"]
+                elif is_backward and "backward" in template_rules:
+                    template += template_rules["backward"]
+            rules = {"template": f"{template} )", "match": match}
         else:
             # Value is a single element
             is_ip = self.is_ip(value)
             template_rules = rules_address if is_ip else rules_domain_name
             func = self.explicit_address if is_ip else lambda x: x
-            rules["forward"] = {"template": template_rules["forward"], "match": func(value)}
-            if "backward" in template_rules and direction == "both":
-                rules["backward"] = {"template": template_rules["backward"], "match": func(value)}
+            if not is_backward:
+                rules = {"template": template_rules["forward"], "match": func(value)}
+            elif is_backward and "backward" in template_rules:
+                rules = {"template": template_rules["backward"], "match": func(value)}
 
         # Append rules
-        self.rules["nfq"].append(rules)
+        if rules:
+            self.rules["nfq"].append(rules)
             
     
-    def add_addr(self, addr_dir: str, direction: str = "out", initiator: str = "") -> None:
+    def add_addr(self, addr_dir: str, is_backward: bool = False, initiator: str = "") -> None:
         """
         Add a new IP address match to the accumulator, in two possible ways:
             - If the address is a well-known alias or an explicit IP address, add an nftables match.
@@ -152,15 +150,13 @@ class ip(Protocol):
                 "dst": "daddr {{ {} }}"
             }
             if initiator:  # Connection initiator is specified
-                if ((initiator == "src" and (direction == "out" or direction == "both")) or
-                (initiator == "dst" and direction == "in")):
+                if (initiator == "src" and not is_backward) or (initiator == "dst" and is_backward):
                     # Connection initiator is the source device
                     rules = {
                         "forward": f"ct original {self.nft_prefix} {tpl_addr_matches[addr_dir]}",
                         "backward": f"ct original {self.nft_prefix} {tpl_addr_matches[other_dir]}"
                     }
-                elif ((initiator == "src" and direction == "in") or
-                  (initiator == "dst" and (direction == "out" or direction == "both"))):
+                elif (initiator == "src" and is_backward) or (initiator == "dst" and not is_backward):
                     # Connection initiator is the destination device
                     rules = {
                         "forward": f"ct original {self.nft_prefix} {tpl_addr_matches[other_dir]}",
@@ -170,26 +166,28 @@ class ip(Protocol):
             else:  # Connection initiator is not specified
                 rules = {"forward": f"{self.nft_prefix} {tpl_addr_matches[addr_dir]}", "backward": f"{self.nft_prefix} {tpl_addr_matches[other_dir]}"}
             
-            self.add_field(addr_dir, rules, direction, self.explicit_address)
+            self.add_field(addr_dir, rules, is_backward, self.explicit_address)
 
         else:  # Source address is potentially a domain name
-            self.add_addr_nfqueue(addr_dir, direction)
+            self.add_addr_nfqueue(addr_dir, is_backward)
 
 
-    def parse(self, direction: str = "out", initiator: str = "") -> dict:
+    def parse(self, is_backward: bool = False, initiator: str = "") -> dict:
         """
         Parse the IP (v4 or v6) protocol.
 
         Args:
-            direction (str): Direction of the traffic (in, out, or both).
-            initiator (str): Optional, initiator of the connection (src or dst).
+            is_backward (bool): Whether the protocol must be parsed for a backward rule.
+                                Optional, default is `False`.
+            initiator (str): Connection initiator (src or dst).
+                             Optional, default is "src".
         Returns:
             dict: Dictionary containing the (forward and backward) nftables and nfqueue rules for this policy.
         """
         if "src" in self.protocol_data:
             # Source address is specified
-            self.add_addr("src", direction, initiator)
+            self.add_addr("src", is_backward, initiator)
         if "dst" in self.protocol_data:
             # Destination address is specified
-            self.add_addr("dst", direction, initiator)
+            self.add_addr("dst", is_backward, initiator)
         return self.rules

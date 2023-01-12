@@ -56,14 +56,15 @@ class Protocol:
         return value
 
     
-    def add_field(self, field: str, template_rules: dict, direction: str = "out", func = lambda x: x, backward_func = lambda x: x) -> None:
+    def add_field(self, field: str, template_rules: dict, is_backward: bool = False, func = lambda x: x, backward_func = lambda x: x) -> None:
         """
         Add a new nftables rule to the nftables rules accumulator.
 
         Args:
             field (str): Field to add the rule for.
             rules (dict): Dictionary containing the protocol-specific rules to add.
-            direction (str): Direction of the traffic (in, out, or both). Default is "in".
+            is_backward (bool): Whether the field to add is for a backward rule.
+                                Optional, default is `False`.
             func (lambda): Function to apply to the field value before writing it.
                            Optional, default is the identity function.
             backward_func (lambda): Function to apply to the field value in the case of a backwards rule.
@@ -81,22 +82,26 @@ class Protocol:
                 # Value is a single element
                 value = func(value)
             
-            # Write forward rule
-            rules = {"forward": {"template": template_rules["forward"], "match": value}}
-            # Write backward rule (if necessary)
-            if "backward" in template_rules and direction == "both":
-                rules["backward"] = {"template": template_rules["backward"], "match": backward_func(value)}
-            self.rules["nft"].append(rules)
+            rule = {}
+            if not is_backward:
+                rule = {"template": template_rules["forward"], "match": value}
+            elif is_backward and "backward" in template_rules:
+                rule = {"template": template_rules["backward"], "match": backward_func(value)}
+
+            if rule:
+                self.rules["nft"].append(rule)
 
 
-    def parse(self, direction: str = "out", initiator: str = "src") -> dict:
+    def parse(self, is_backward: bool = False, initiator: str = "src") -> dict:
         """
         Default parsing method.
         Must be updated in the children class.
 
         Args:
-            direction (str): Direction of the traffic (in, out, or both). Default is "in".
-            initiator (str): Connection initiator (src or dst). Default is "src".
+            is_backward (bool): Whether the protocol must be parsed for a backward rule.
+                                Optional, default is `False`.
+            initiator (str): Connection initiator (src or dst).
+                             Optional, default is "src".
         Returns:
             dict: Dictionary containing the (forward and backward) nftables and nfqueue rules for this policy.
         """
