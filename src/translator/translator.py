@@ -68,7 +68,7 @@ def parse_policy(policy_data: dict, acc: dict, policies_count: int, parent_polic
     policy.parse()
     # Build policy nftables rule
     nfq_id = acc["nfq_id"] if ((policy_data["is_backward"] and not policy.periodic) or policy.nfq_matches or policy.counters) else -1
-    nft_rule = policy.build_nft_rule(nfq_id)
+    policy.build_nft_rule(nfq_id)
 
     # Derive policy names
     policy_name = policy_data["policy_name"]
