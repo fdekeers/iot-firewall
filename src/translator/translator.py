@@ -107,13 +107,18 @@ def parse_policy(policy_data: dict, acc: dict, policies_count: int, parent_polic
     if policy.custom_parser:
         acc["custom_parsers"].add(policy.custom_parser)
 
+    # Check if this policy's nftables match is already present
+    if policy.nft_match in acc["map_rule_to_policies"]:
+        # TODO: add counter and nfqueue matches
+        pass
+
     # Add nftables rules
     acc["top_policies"][parent_policy] = acc["top_policies"].get(parent_policy, []) + [policy]
     acc["map_rule_to_policies"][policy.nft_match] = acc["map_rule_to_policies"].get(policy.nft_match, []) + [policy]
 
     # Add nftables counters (if any)
     if policy.counters and "packet-count" in policy.counters:
-        acc["map_policy_to_counters"][full_policy_name] = acc["map_policy_to_counters"].get(full_policy_name, []) + [policy.counters["packet-count"]]
+        acc["map_policy_to_counters"][full_policy_name] = policy.counters["packet-count"]
 
     acc["index"] += 1
     acc["nfq_id"] += 1

@@ -28,20 +28,21 @@ class Policy:
             device (dict): Dictionary containing the device metadata from the YAML profile.
             is_backward (bool): Whether the policy is backwards (i.e. the source and destination are reversed).
         """
-        self.name = policy_name                     # Policy name
-        self.profile_data = profile_data            # Policy data from the YAML profile
-        self.is_backward = is_backward              # Whether the policy is backwards (i.e. the source and destination are reversed)
+        self.name = policy_name               # Policy name
+        self.profile_data = profile_data      # Policy data from the YAML profile
+        self.is_backward = is_backward        # Whether the policy is backwards (i.e. the source and destination are reversed)
+        self.device = device                  # Name of the device this policy is linked to
+        self.custom_parser = ""               # Name of the custom parser (if any)
+        self.nft_matches = []                 # List of nftables matches (will be populated by parsing)
+        self.nft_stats = {}                   # Dict of nftables statistics (will be populated by parsing)
+        self.nft_match = ""                   # Complete nftables match (including rate and packet size)
+        self.nft_action = ""                  # nftables action associated to this policy (including counters)
+        self.nfq_matches = []                 # List of nfqueue matches (will be populated by parsing)
+        self.counters = {}                    # Counters associated to this policy (will be populated by parsing)
+
+        self.transient = self.is_transient()  # Whether the policy represents a transient pattern
+        self.periodic = self.is_periodic()    # Whether the policy represents a periodic pattern
         self.initiator = profile_data["initiator"] if "initiator" in profile_data else ""
-        self.device = device                        # Name of the device this policy is linked to
-        self.custom_parser = ""                     # Name of the custom parser (if any)
-        self.nft_matches = []                       # List of nftables matches (will be populated by parsing)
-        self.nft_stats = {}                         # Dict of nftables statistics (will be populated by parsing)
-        self.nft_match = ""   # Complete nftables match (including rate and packet size)
-        self.nft_action = ""  # nftables action associated to this policy (including counters)
-        self.nfq_matches = []                       # List of nfqueue matches (will be populated by parsing)
-        self.transient = self.is_transient()        # Whether the policy represents a transient pattern
-        self.periodic = self.is_periodic()          # Whether the policy represents a periodic pattern
-        self.counters = {}                          # Counters associated to this policy (will be populated by parsing)
 
     
     def is_transient(self) -> bool:
@@ -69,6 +70,7 @@ class Policy:
             dict: parsed stat, with the form {"template": ..., "match": ...}
         """
         parsed_stat = None
+        counter_name = self.name[:-len("-backward")] if self.is_backward else self.name
         value = self.profile_data["stats"][stat]
         if type(value) == dict:
             # Stat is a dictionary, and contains data for directions "out" and "in"
@@ -82,8 +84,8 @@ class Policy:
                 }
                 # If stat is packet count, update values with counter names (to be used as nftables match)
                 if stat == "packet-count":
-                    value_out = f"\"{self.name}-out\""
-                    value_in = f"\"{self.name}-in\""
+                    value_out = f"\"{counter_name}-out\""
+                    value_in = f"\"{counter_name}-in\""
             if stat in Policy.stats_metadata and "template" in Policy.stats_metadata[stat]:
                 parsed_stat = {
                     "template": Policy.stats_metadata[stat]["template"],
@@ -93,7 +95,7 @@ class Policy:
             # Stat is a single value, which is used for both directions
             if Policy.stats_metadata[stat]["counter"]:
                 self.counters[stat] = {"default": value}
-                value = f"\"{self.name}\""
+                value = f"\"{counter_name}\""
             if stat in Policy.stats_metadata and "template" in Policy.stats_metadata[stat]:
                 parsed_stat = {
                     "template": Policy.stats_metadata[stat]["template"],
@@ -126,12 +128,12 @@ class Policy:
             template = self.nft_stats[stat]["template"]
             data = self.nft_stats[stat]["match"]
             if "type" in Policy.stats_metadata[stat] and Policy.stats_metadata[stat]["type"] == Policy.MATCH:
-                self.nft_match += " " + template.format(*(data)) if type(data) == list else template.format(data)
+                self.nft_match += " " + (template.format(*(data)) if type(data) == list else template.format(data))
             elif "type" in Policy.stats_metadata[stat] and Policy.stats_metadata[stat]["type"] == Policy.ACTION:
-                self.nft_action += template.format(*(data)) if type(data) == list else template.format(data) + " "
+                self.nft_action += (template.format(*(data)) if type(data) == list else template.format(data)) + " "
 
         # nftables action
-        self.nft_action = f"queue num {queue_num}" if queue_num >= 0 else "accept"
+        self.nft_action += f"queue num {queue_num}" if queue_num >= 0 else "accept"
 
         return self.get_nft_rule()
 

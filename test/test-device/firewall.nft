@@ -3,6 +3,10 @@
 
 table netdev test {
 
+    # Counters
+    counter test1 {}
+    counter test2 {}
+
     # Chains
     chain http-xiaomi-cloud {
         
@@ -11,7 +15,7 @@ table netdev test {
 
         # Rules
         # Policy get-ip-address
-        meta l4proto udp udp sport { 68 } udp dport { 67 } ip saddr 0.0.0.0 log prefix "DHCP DISCOVER " group 2 accept
+        meta l4proto udp udp sport { 68 } udp dport { 67 } counter test1 counter test2 accept
 
     }
 
